@@ -1,17 +1,17 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SubscriptionDetailScreen = ({ route, navigation }: any) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>
+    <SafeAreaView className="flex-1 bg-gray-50">
+      <View className="p-4">
+        <Text className="text-2xl font-bold text-gray-800 mb-6">
           Subscription Details
         </Text>
         
-        <View style={styles.card}>
-          <Text style={styles.placeholderText}>
+        <View className="bg-white rounded-lg p-4 shadow-sm">
+          <Text className="text-gray-500 text-center py-8 text-base">
             No subscription selected
           </Text>
         </View>
@@ -19,67 +19,5 @@ const SubscriptionDetailScreen = ({ route, navigation }: any) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f9fafb',
-  },
-  content: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 24,
-  },
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  placeholderText: {
-    color: '#6b7280',
-    textAlign: 'center',
-    paddingVertical: 32,
-    fontSize: 16,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 24,
-  },
-  editButton: {
-    backgroundColor: '#3b82f6',
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    flex: 1,
-    marginRight: 8,
-  },
-  deleteButton: {
-    backgroundColor: '#ef4444',
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    flex: 1,
-    marginLeft: 8,
-  },
-  placeholderText: {
-    color: '#6b7280',
-    textAlign: 'center',
-    paddingVertical: 32,
-    fontSize: 16,
-  },
-});
 
 export default SubscriptionDetailScreen;

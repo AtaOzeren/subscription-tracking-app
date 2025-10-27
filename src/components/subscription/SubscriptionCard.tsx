@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Subscription } from '../../types/subscription';
 
 interface SubscriptionCardProps {
@@ -38,110 +38,44 @@ const SubscriptionCard = ({
 
   return (
     <TouchableOpacity
-      style={styles.card}
+      className="bg-white rounded-lg p-4 mb-3 shadow-sm"
       onPress={() => onPress(subscription)}
       activeOpacity={0.7}
     >
-      <View style={styles.cardHeader}>
-        <View style={styles.cardContent}>
-          <Text style={styles.subscriptionName}>
+      <View className="flex-row justify-between items-start">
+        <View className="flex-1">
+          <Text className="text-lg font-semibold text-gray-800 mb-1">
             {subscription.name}
           </Text>
-          <Text style={styles.subscriptionCategory}>
+          <Text className="text-sm text-gray-500 mb-2">
             {subscription.category}
           </Text>
-          <Text style={styles.subscriptionPrice}>
+          <Text className="text-xl font-bold text-blue-600">
             {formatPrice(subscription.price, subscription.currency)}
-            <Text style={styles.billingCycle}>
+            <Text className="text-sm font-normal text-gray-500">
               {getBillingCycleText(subscription.billingCycle)}
             </Text>
           </Text>
         </View>
         
-        <View style={styles.statusContainer}>
-          <View style={[
-            styles.statusDot,
-            { backgroundColor: subscription.isActive ? '#10B981' : '#EF4444' }
-          ]} />
-          <Text style={styles.statusText}>
+        <View className="items-end">
+          <View 
+            className="w-3 h-3 rounded-full mb-2"
+            style={{ backgroundColor: subscription.isActive ? '#10B981' : '#EF4444' }}
+          />
+          <Text className="text-xs text-gray-500">
             {subscription.isActive ? 'Active' : 'Inactive'}
           </Text>
         </View>
       </View>
       
-      <View style={styles.cardFooter}>
-        <Text style={styles.nextBillingText}>
+      <View className="mt-3 pt-3 border-t border-gray-100">
+        <Text className="text-xs text-gray-500">
           Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString()}
         </Text>
       </View>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-  },
-  cardContent: {
-    flex: 1,
-  },
-  subscriptionName: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1F2937',
-    marginBottom: 4,
-  },
-  subscriptionCategory: {
-    fontSize: 14,
-    color: '#6B7280',
-    marginBottom: 8,
-  },
-  subscriptionPrice: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#2563EB',
-  },
-  billingCycle: {
-    fontSize: 14,
-    fontWeight: 'normal',
-    color: '#6B7280',
-  },
-  statusContainer: {
-    alignItems: 'flex-end',
-  },
-  statusDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginBottom: 8,
-  },
-  statusText: {
-    fontSize: 12,
-    color: '#6B7280',
-  },
-  cardFooter: {
-    marginTop: 12,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#F3F4F6',
-  },
-  nextBillingText: {
-    fontSize: 12,
-    color: '#6B7280',
-  },
-});
 
 export default SubscriptionCard;
