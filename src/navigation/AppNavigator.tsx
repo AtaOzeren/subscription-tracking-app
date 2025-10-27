@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,13 +14,13 @@ const Stack = createStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen 
-        name="HomeMain" 
-        component={HomeScreen} 
+      <Stack.Screen
+        name="HomeMain"
+        component={HomeScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen 
-        name="SubscriptionDetail" 
+      <Stack.Screen
+        name="SubscriptionDetail"
         component={SubscriptionDetailScreen}
         options={{ title: 'Subscription Details' }}
       />
@@ -37,28 +38,28 @@ const AppNavigator = () => {
           headerShown: false,
         }}
       >
-        <Tab.Screen 
-          name="Home" 
+        <Tab.Screen
+          name="Home"
           component={HomeStack}
-          options={{ 
+          options={{
             tabBarLabel: 'Home',
-            tabBarIcon: () => '🏠'
+            tabBarIcon: () => <Text>🏠</Text>
           }}
         />
-        <Tab.Screen 
-          name="Add" 
+        <Tab.Screen
+          name="Add"
           component={AddSubscriptionScreen}
-          options={{ 
+          options={{
             tabBarLabel: 'Add',
-            tabBarIcon: () => '➕'
+            tabBarIcon: () => <Text>➕</Text>
           }}
         />
-        <Tab.Screen 
-          name="Settings" 
+        <Tab.Screen
+          name="Settings"
           component={SettingsScreen}
-          options={{ 
+          options={{
             tabBarLabel: 'Settings',
-            tabBarIcon: () => '⚙️'
+            tabBarIcon: () => <Text>⚙️</Text>
           }}
         />
       </Tab.Navigator>
