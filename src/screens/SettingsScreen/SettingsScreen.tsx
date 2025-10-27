@@ -12,63 +12,10 @@ const SettingsScreen = () => {
         
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           <View style={styles.card}>
-            {/* Currency Setting */}
-            <TouchableOpacity style={styles.settingItem}>
-              <View style={styles.settingRow}>
-                <Text style={styles.settingLabel}>Currency</Text>
-                <Text style={styles.settingValue}>USD ($)</Text>
-              </View>
-            </TouchableOpacity>
-
-            {/* Notifications Setting */}
-            <TouchableOpacity style={styles.settingItem}>
-              <View style={styles.settingRow}>
-                <Text style={styles.settingLabel}>Notifications</Text>
-                <Text style={styles.settingValue}>Enabled</Text>
-              </View>
-            </TouchableOpacity>
-
-            {/* Theme Setting */}
-            <TouchableOpacity style={styles.settingItem}>
-              <View style={styles.settingRow}>
-                <Text style={styles.settingLabel}>Theme</Text>
-                <Text style={styles.settingValue}>Light</Text>
-              </View>
-            </TouchableOpacity>
-
-            {/* Backup Setting */}
-            <TouchableOpacity style={styles.settingItem}>
-              <View style={styles.settingRow}>
-                <Text style={styles.settingLabel}>Backup Data</Text>
-                <Text style={styles.settingValue}>Never</Text>
-              </View>
-            </TouchableOpacity>
-
-            {/* About */}
-            <TouchableOpacity style={[styles.settingItem, styles.noBorder]}>
-              <View style={styles.settingRow}>
-                <Text style={styles.settingLabel}>About</Text>
-                <Text style={styles.settingValue}>v1.0.0</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-
-          {/* Export/Import Section */}
-          <View style={styles.card}>
-            <TouchableOpacity style={styles.settingItem}>
-              <Text style={styles.settingLabel}>Export Data</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.settingItem, styles.noBorder]}>
-              <Text style={styles.settingLabel}>Import Data</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Reset Button */}
-          <TouchableOpacity style={styles.resetButton}>
-            <Text style={styles.resetButtonText}>
-              Reset All Data
+            <Text style={styles.placeholderText}>
+              Settings options will be available here
             </Text>
-          </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -137,6 +84,12 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     textAlign: 'center',
     fontWeight: '600',
+    fontSize: 16,
+  },
+  placeholderText: {
+    color: '#6b7280',
+    textAlign: 'center',
+    paddingVertical: 32,
     fontSize: 16,
   },
 });

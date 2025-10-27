@@ -10,55 +10,9 @@ const AddSubscriptionScreen = () => {
         
         <ScrollView style={styles.scrollView}>
           <View style={styles.form}>
-            {/* Name Input */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Name</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="e.g., Netflix"
-                placeholderTextColor="#9CA3AF"
-              />
-            </View>
-
-            {/* Category Input */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Category</Text>
-              <TouchableOpacity style={styles.selectButton}>
-                <Text style={styles.selectText}>Select category</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Price Input */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Price</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="0.00"
-                placeholderTextColor="#9CA3AF"
-                keyboardType="numeric"
-              />
-            </View>
-
-            {/* Billing Cycle */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Billing Cycle</Text>
-              <TouchableOpacity style={styles.selectButton}>
-                <Text style={styles.selectText}>Select cycle</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Next Billing Date */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.label}>Next Billing Date</Text>
-              <TouchableOpacity style={styles.selectButton}>
-                <Text style={styles.selectText}>Select date</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Save Button */}
-            <TouchableOpacity style={styles.saveButton}>
-              <Text style={styles.saveButtonText}>Save Subscription</Text>
-            </TouchableOpacity>
+            <Text style={styles.placeholderText}>
+              Add subscription form will be available here
+            </Text>
           </View>
         </ScrollView>
       </View>
@@ -130,6 +84,12 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
     fontWeight: '600',
+  },
+  placeholderText: {
+    color: '#6B7280',
+    textAlign: 'center',
+    paddingVertical: 32,
+    fontSize: 16,
   },
 });
 

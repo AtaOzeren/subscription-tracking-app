@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, ViewStyle, TextStyle } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 
 interface ButtonProps {
   title: string;
@@ -7,8 +7,7 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'danger';
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
-  style?: ViewStyle;
-  textStyle?: TextStyle;
+  className?: string;
 }
 
 const Button = ({
@@ -17,70 +16,36 @@ const Button = ({
   variant = 'primary',
   size = 'medium',
   disabled = false,
-  style,
-  textStyle,
+  className = '',
 }: ButtonProps) => {
-  const getButtonStyle = (): ViewStyle => {
-    const baseStyle: ViewStyle = {
-      borderRadius: 8,
-      alignItems: 'center',
-      justifyContent: 'center',
-    };
-
-    const sizeStyles: Record<string, ViewStyle> = {
-      small: { paddingHorizontal: 12, paddingVertical: 8 },
-      medium: { paddingHorizontal: 16, paddingVertical: 12 },
-      large: { paddingHorizontal: 20, paddingVertical: 16 },
-    };
-
-    const variantStyles: Record<string, ViewStyle> = {
-      primary: { backgroundColor: '#3B82F6' },
-      secondary: { backgroundColor: '#6B7280', borderWidth: 1, borderColor: '#D1D5DB' },
-      danger: { backgroundColor: '#EF4444' },
-    };
-
-    return {
-      ...baseStyle,
-      ...sizeStyles[size],
-      ...variantStyles[variant],
-      opacity: disabled ? 0.5 : 1,
-      ...style,
-    };
+  const sizeClasses = {
+    small: 'px-3 py-2',
+    medium: 'px-4 py-3',
+    large: 'px-5 py-4',
   };
 
-  const getTextStyle = (): TextStyle => {
-    const baseStyle: TextStyle = {
-      fontWeight: '600',
-    };
+  const variantClasses = {
+    primary: 'bg-blue-500',
+    secondary: 'bg-gray-500 border border-gray-300',
+    danger: 'bg-red-500',
+  };
 
-    const sizeStyles: Record<string, TextStyle> = {
-      small: { fontSize: 14 },
-      medium: { fontSize: 16 },
-      large: { fontSize: 18 },
-    };
-
-    const variantStyles: Record<string, TextStyle> = {
-      primary: { color: '#FFFFFF' },
-      secondary: { color: '#FFFFFF' },
-      danger: { color: '#FFFFFF' },
-    };
-
-    return {
-      ...baseStyle,
-      ...sizeStyles[size],
-      ...variantStyles[variant],
-      ...textStyle,
-    };
+  const textSizeClasses = {
+    small: 'text-sm',
+    medium: 'text-base',
+    large: 'text-lg',
   };
 
   return (
     <TouchableOpacity
-      style={getButtonStyle()}
+      className={`rounded-lg items-center justify-center ${sizeClasses[size]} ${variantClasses[variant]} ${disabled ? 'opacity-50' : ''} ${className}`}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.8}
     >
-      <Text style={getTextStyle()}>{title}</Text>
+      <Text className={`font-semibold text-white ${textSizeClasses[size]}`}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };

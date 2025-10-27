@@ -1,24 +1,8 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSubscriptions } from '../../hooks/useSubscriptions';
-import SubscriptionCard from '../../components/subscription/SubscriptionCard';
 
 const HomeScreen = ({ navigation }: any) => {
-  const { subscriptions, loading, getStats } = useSubscriptions();
-  const stats = getStats();
-
-  const handleSubscriptionPress = (subscription: any) => {
-    navigation.navigate('SubscriptionDetail', { subscription });
-  };
-
-  if (loading) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.loadingText}>Loading...</Text>
-      </SafeAreaView>
-    );
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,43 +14,25 @@ const HomeScreen = ({ navigation }: any) => {
         <View style={styles.statsContainer}>
           <View style={styles.statCard}>
             <Text style={styles.statLabel}>Monthly</Text>
-            <Text style={styles.statValue}>
-              ${stats.totalMonthly.toFixed(2)}
-            </Text>
+            <Text style={styles.statValue}>$0.00</Text>
           </View>
           <View style={[styles.statCard, styles.statCardRight]}>
             <Text style={styles.statLabel}>Yearly</Text>
-            <Text style={styles.statValue}>
-              ${stats.totalYearly.toFixed(2)}
-            </Text>
+            <Text style={styles.statValue}>$0.00</Text>
           </View>
         </View>
 
         {/* Subscriptions List */}
         <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>
-            Active Subscriptions ({stats.activeSubscriptions})
-          </Text>
+          <Text style={styles.listTitle}>Active Subscriptions (0)</Text>
         </View>
         
         <ScrollView style={styles.scrollView}>
-          {subscriptions.length === 0 ? (
-            <View style={styles.emptyState}>
-              <Text style={styles.emptyText}>
-                No subscriptions yet. Tap "Add" to create your first subscription.
-              </Text>
-            </View>
-          ) : (
-            subscriptions
-              .filter(sub => sub.isActive)
-              .map(subscription => (
-                <SubscriptionCard
-                  key={subscription.id}
-                  subscription={subscription}
-                  onPress={handleSubscriptionPress}
-                />
-              ))
-          )}
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyText}>
+              No subscriptions yet. Tap "Add" to create your first subscription.
+            </Text>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>

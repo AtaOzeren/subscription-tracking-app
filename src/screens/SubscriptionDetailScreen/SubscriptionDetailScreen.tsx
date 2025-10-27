@@ -12,17 +12,8 @@ const SubscriptionDetailScreen = ({ route, navigation }: any) => {
         
         <View style={styles.card}>
           <Text style={styles.placeholderText}>
-            Subscription details will appear here
+            No subscription selected
           </Text>
-          
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.editButton}>
-              <Text style={styles.buttonText}>Edit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.deleteButton}>
-              <Text style={styles.buttonText}>Delete</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -60,6 +51,7 @@ const styles = StyleSheet.create({
     color: '#6b7280',
     textAlign: 'center',
     paddingVertical: 32,
+    fontSize: 16,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -82,10 +74,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
   },
-  buttonText: {
-    color: '#ffffff',
+  placeholderText: {
+    color: '#6b7280',
     textAlign: 'center',
-    fontWeight: '500',
+    paddingVertical: 32,
+    fontSize: 16,
   },
 });
 
