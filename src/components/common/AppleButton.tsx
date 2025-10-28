@@ -60,7 +60,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
 
     const variantStyles = {
       primary: {
-        backgroundColor: disabled ? '#C6C6C8' : '#007AFF',
+        backgroundColor: disabled ? '#C6C6C8' : '#000000',
       },
       secondary: {
         backgroundColor: disabled ? '#F2F2F7' : '#8E8E93',
@@ -68,7 +68,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
       outline: {
         backgroundColor: 'transparent',
         borderWidth: 1,
-        borderColor: disabled ? '#C6C6C8' : '#007AFF',
+        borderColor: disabled ? '#C6C6C8' : '#000000',
       },
     };
 
@@ -95,7 +95,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
     const variantStyles = {
       primary: { color: '#FFFFFF' },
       secondary: { color: '#FFFFFF' },
-      outline: { color: disabled ? '#C6C6C8' : '#007AFF' },
+      outline: { color: disabled ? '#C6C6C8' : '#000000' },
     };
 
     return {
@@ -118,7 +118,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
       >
         {loading ? (
           <ActivityIndicator 
-            color={variant === 'outline' ? '#007AFF' : '#FFFFFF'} 
+            color={variant === 'outline' ? '#000000' : '#FFFFFF'} 
             size="small" 
           />
         ) : (

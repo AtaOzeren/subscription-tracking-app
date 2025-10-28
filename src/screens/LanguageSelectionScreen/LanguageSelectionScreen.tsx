@@ -12,14 +12,70 @@ const LanguageSelectionScreen: React.FC = () => {
   const { t } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = React.useState<'en' | 'de' | 'tr' | 'it' | 'fr' | 'ru'>(currentLanguage.code);
 
-  // Flag colors for each language
+  // Flag colors for each language - Using black for all
   const languageColors = {
-    en: { bg: '#012169', text: '#FFFFFF' },      // UK Blue
-    de: { bg: '#000000', text: '#FFCE00' },      // Germany Black & Gold
-    tr: { bg: '#E30A17', text: '#FFFFFF' },      // Turkey Red
-    it: { bg: '#009246', text: '#FFFFFF' },      // Italy Green
-    fr: { bg: '#0055A4', text: '#FFFFFF' },      // France Blue
-    ru: { bg: '#0039A6', text: '#FFFFFF' },      // Russia Blue
+    en: { border: '#000000', text: '#FFFFFF' },      // Black
+    de: { border: '#000000', text: '#FFCE00' },      // Black
+    tr: { border: '#000000', text: '#FFFFFF' },      // Black
+    it: { border: '#000000', text: '#FFFFFF' },      // Black
+    fr: { border: '#000000', text: '#FFFFFF' },      // Black
+    ru: { border: '#000000', text: '#FFFFFF' },      // Black
+  };
+
+  // Render flag badge with country colors
+  const renderFlagBadge = (code: 'en' | 'de' | 'tr' | 'it' | 'fr' | 'ru') => {
+    switch (code) {
+      case 'en': // UK Flag - Simple Red, White, Blue design
+        return (
+          <View className="w-8 h-8 rounded-full overflow-hidden mr-3">
+            <View className="flex-1" style={{ backgroundColor: '#C8102E' }} />
+            <View className="flex-1" style={{ backgroundColor: '#FFFFFF' }} />
+            <View className="flex-1" style={{ backgroundColor: '#012169' }} />
+          </View>
+        );
+      case 'de': // Germany Flag (Black, Red, Gold)
+        return (
+          <View className="w-8 h-8 rounded-full overflow-hidden mr-3">
+            <View className="flex-1" style={{ backgroundColor: '#000000' }} />
+            <View className="flex-1" style={{ backgroundColor: '#DD0000' }} />
+            <View className="flex-1" style={{ backgroundColor: '#FFCE00' }} />
+          </View>
+        );
+      case 'tr': // Turkey Flag (Red with white crescent)
+        return (
+          <View className="w-8 h-8 rounded-full overflow-hidden items-center justify-center mr-3" style={{ backgroundColor: '#E30A17' }}>
+            <Text className="font-bold text-[10px]" style={{ color: '#FFFFFF', fontFamily: 'SF Pro Display' }}>
+              {code.toUpperCase()}
+            </Text>
+          </View>
+        );
+      case 'it': // Italy Flag (Green, White, Red)
+        return (
+          <View className="w-8 h-8 rounded-full overflow-hidden flex-row mr-3">
+            <View className="flex-1" style={{ backgroundColor: '#009246' }} />
+            <View className="flex-1" style={{ backgroundColor: '#FFFFFF' }} />
+            <View className="flex-1" style={{ backgroundColor: '#CE2B37' }} />
+          </View>
+        );
+      case 'fr': // France Flag (Blue, White, Red)
+        return (
+          <View className="w-8 h-8 rounded-full overflow-hidden flex-row mr-3">
+            <View className="flex-1" style={{ backgroundColor: '#0055A4' }} />
+            <View className="flex-1" style={{ backgroundColor: '#FFFFFF' }} />
+            <View className="flex-1" style={{ backgroundColor: '#EF4135' }} />
+          </View>
+        );
+      case 'ru': // Russia Flag (White, Blue, Red)
+        return (
+          <View className="w-8 h-8 rounded-full overflow-hidden mr-3">
+            <View className="flex-1" style={{ backgroundColor: '#FFFFFF' }} />
+            <View className="flex-1" style={{ backgroundColor: '#0039A6' }} />
+            <View className="flex-1" style={{ backgroundColor: '#D52B1E' }} />
+          </View>
+        );
+      default:
+        return null;
+    }
   };
 
   const handleLanguageSelect = (languageCode: 'en' | 'de' | 'tr' | 'it' | 'fr' | 'ru') => {
@@ -94,11 +150,9 @@ const LanguageSelectionScreen: React.FC = () => {
                   onPress={() => handleLanguageSelect(language.code)}
                   disabled={isLoading}
                   className={`w-full p-3 rounded-xl border-2 ${
-                    selectedLanguage === language.code
-                      ? 'bg-ios-blue/5 border-ios-blue'
-                      : isLoading 
-                        ? 'bg-gray-100 border-gray-200' 
-                        : 'bg-white border-gray-200'
+                    isLoading 
+                      ? 'bg-gray-100 border-gray-200' 
+                      : 'bg-white border-gray-200'
                   }`}
                   style={{ 
                     shadowColor: '#000',
@@ -106,25 +160,41 @@ const LanguageSelectionScreen: React.FC = () => {
                     shadowOpacity: 0.05,
                     shadowRadius: 2,
                     elevation: 1,
+                    borderColor: selectedLanguage === language.code ? languageColors[language.code].border : '#E5E5EA',
+                    borderWidth: 2,
                   }}
                 >
                   <View className="flex-row items-center justify-between">
                     <View className="flex-row items-center">
-                      <View className={`w-8 h-8 rounded-full ${selectedLanguage === language.code ? 'bg-ios-blue/20' : 'bg-ios-blue/10'} items-center justify-center mr-3`}>
-                        <Text className="text-ios-blue font-bold text-sm">
-                          {language.code.toUpperCase()}
-                        </Text>
-                      </View>
+                      {renderFlagBadge(language.code)}
                       <View>
-                        <Text className={`${selectedLanguage === language.code ? 'text-ios-blue' : 'text-gray-800'} font-semibold text-base`} style={{ fontFamily: 'SF Pro Display' }}>
+                        <Text 
+                          className="font-semibold text-base" 
+                          style={{ 
+                            fontFamily: 'SF Pro Display',
+                            color: selectedLanguage === language.code ? languageColors[language.code].border : '#1C1C1E'
+                          }}
+                        >
                           {language.nativeName}
                         </Text>
-                        <Text className={`${selectedLanguage === language.code ? 'text-ios-blue/70' : 'text-gray-500'} text-sm`} style={{ fontFamily: 'SF Pro Text' }}>
+                        <Text 
+                          className="text-sm" 
+                          style={{ 
+                            fontFamily: 'SF Pro Text',
+                            color: selectedLanguage === language.code ? languageColors[language.code].border + 'B3' : '#8E8E93'
+                          }}
+                        >
                           {language.name}
                         </Text>
                       </View>
                     </View>
-                    <View className={`w-6 h-6 rounded-full border-2 ${selectedLanguage === language.code ? 'border-ios-blue bg-ios-blue' : 'border-gray-300'} items-center justify-center`}>
+                    <View 
+                      className="w-6 h-6 rounded-full border-2 items-center justify-center"
+                      style={{
+                        borderColor: selectedLanguage === language.code ? languageColors[language.code].border : '#C7C7CC',
+                        backgroundColor: selectedLanguage === language.code ? languageColors[language.code].border : 'transparent',
+                      }}
+                    >
                       {selectedLanguage === language.code && (
                         <View className="w-3 h-3 rounded-full bg-white" />
                       )}
@@ -143,7 +213,7 @@ const LanguageSelectionScreen: React.FC = () => {
             type="fadeInUp"
             asView={true}
           >
-            <View className="w-full mt-12">
+            <View className="w-full mt-8">
               <AppleButton
                 title={t('common.next')}
                 onPress={handleContinue}

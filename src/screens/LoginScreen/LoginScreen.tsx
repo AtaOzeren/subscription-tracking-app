@@ -184,9 +184,9 @@ const LoginScreen: React.FC = () => {
                  onPress={() => navigation.navigate('Register' as never)}
                  activeOpacity={0.6}
                >
-                 <Text className="text-ios-blue text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
-                   {t('common.signUp')}
-                 </Text>
+                <Text className="text-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
+                  {t('common.signUp')}
+                </Text>
                </TouchableOpacity>
              </View>
           </AnimatedText>
