@@ -132,7 +132,7 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50" style={{ paddingBottom: 0 }}>
-      <View className="p-4" style={{ paddingBottom: tabBarHeight + insets.bottom }}>
+      <View className="p-4" style={{ paddingBottom: tabBarHeight + insets.bottom + 20 }}>
         <View className="flex-row justify-between items-center mb-2">
           <View>
             <Text className="text-2xl font-bold text-gray-800">

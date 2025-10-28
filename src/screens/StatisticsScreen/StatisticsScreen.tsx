@@ -12,7 +12,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="p-4 pb-24">
+      <View className="p-4" style={{ paddingBottom: 120 }}>
         <Text className="text-2xl font-bold text-gray-800 mb-2">
           {t('navigation.statistics')}
         </Text>
