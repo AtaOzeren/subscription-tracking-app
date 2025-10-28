@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert, Modal, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { authService } from '../../services/authService';
 import { referenceService } from '../../services/referenceService';
 import { storageService } from '../../services/storageService';
 import { Country, Currency } from '../../types/reference';
-
-type ProfileSetupScreenNavigationProp = StackNavigationProp<any, 'ProfileSetup'>;
+import Logo from '../../components/common/Logo';
+import AnimatedText from '../../components/common/AnimatedText';
+import AppleButton from '../../components/common/AppleButton';
 
 const ProfileSetupScreen = () => {
-  const navigation = useNavigation<ProfileSetupScreenNavigationProp>();
   const { checkAuth } = useAuth();
-  const { t } = useTranslation();
   
   const [countries, setCountries] = useState<Country[]>([]);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
@@ -33,39 +29,58 @@ const ProfileSetupScreen = () => {
   }, []);
 
   useEffect(() => {
-    setFilteredCountries(
-      countries.filter(country => 
-        country.name.toLowerCase().includes(searchText.toLowerCase())
-      )
-    );
+    if (searchText === '') {
+      setFilteredCountries(countries);
+    } else {
+      setFilteredCountries(
+        countries.filter(country => 
+          country.name.toLowerCase().includes(searchText.toLowerCase())
+        )
+      );
+    }
+    console.log('🔍 Filtered countries:', searchText === '' ? countries.length : filteredCountries.length);
   }, [searchText, countries]);
 
   useEffect(() => {
-    setFilteredCurrencies(
-      currencies.filter(currency => 
-        currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        currency.code.toLowerCase().includes(searchText.toLowerCase())
-      )
-    );
+    if (searchText === '') {
+      setFilteredCurrencies(currencies);
+    } else {
+      setFilteredCurrencies(
+        currencies.filter(currency => 
+          currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
+          currency.code.toLowerCase().includes(searchText.toLowerCase())
+        )
+      );
+    }
+    console.log('🔍 Filtered currencies:', searchText === '' ? currencies.length : filteredCurrencies.length);
   }, [searchText, currencies]);
 
   const loadData = async () => {
     try {
       setLoading(true);
+      console.log('🔄 ProfileSetup: Loading countries and currencies...');
+      
       const [countriesData, currenciesData] = await Promise.all([
         referenceService.getCountries(),
         referenceService.getCurrencies()
       ]);
       
+      console.log('✅ ProfileSetup: Countries loaded:', countriesData.length);
+      console.log('📦 Countries data:', JSON.stringify(countriesData, null, 2));
+      console.log('✅ ProfileSetup: Currencies loaded:', currenciesData.length);
+      console.log('📦 Currencies data:', JSON.stringify(currenciesData, null, 2));
+      
       setCountries(countriesData);
       setCurrencies(currenciesData);
       setFilteredCountries(countriesData);
       setFilteredCurrencies(currenciesData);
+      
+      console.log('✅ ProfileSetup: Data set to state successfully');
     } catch (error) {
-      console.error('Error loading reference data:', error);
+      console.error('❌ ProfileSetup: Error loading reference data:', error);
       Alert.alert(
-        t('common.error', { defaultValue: 'Error' }),
-        t('profileSetup.loadError', { defaultValue: 'Failed to load data. Please try again.' })
+        'Error',
+        error instanceof Error ? error.message : 'Failed to load data. Please try again.'
       );
     } finally {
       setLoading(false);
@@ -75,8 +90,8 @@ const ProfileSetupScreen = () => {
   const handleSave = async () => {
     if (!selectedCountry || !selectedCurrency) {
       Alert.alert(
-        t('common.error', { defaultValue: 'Error' }),
-        t('profileSetup.selectBoth', { defaultValue: 'Please select both country and currency.' })
+        'Error',
+        'Please select both country and currency.'
       );
       return;
     }
@@ -103,126 +118,284 @@ const ProfileSetupScreen = () => {
     } catch (error) {
       console.error('❌ Error saving profile:', error);
       Alert.alert(
-        t('common.error', { defaultValue: 'Error' }),
-        error instanceof Error ? error.message : t('profileSetup.saveError', { defaultValue: 'Failed to save profile. Please try again.' })
+        'Error',
+        error instanceof Error ? error.message : 'Failed to save profile. Please try again.'
       );
     } finally {
       setLoading(false);
     }
   };
 
-  const renderCountryItem = (item: Country) => (
-    <TouchableOpacity
-      key={item.code}
-      onPress={() => {
-        setSelectedCountry(item);
-        setShowCountryModal(false);
-        setSearchText('');
-      }}
-      className="p-4 border-b border-gray-200"
-    >
-      <Text className="text-base text-gray-800">{item.name}</Text>
-      <Text className="text-sm text-gray-500">{item.region}</Text>
-    </TouchableOpacity>
-  );
+  const renderCountryItem = (item: Country) => {
+    console.log('🎨 Rendering country item:', item.name);
+    return (
+      <TouchableOpacity
+        key={item.code}
+        onPress={() => {
+          console.log('👆 Country selected:', item.name);
+          setSelectedCountry(item);
+          setShowCountryModal(false);
+          setSearchText('');
+        }}
+        style={{
+          padding: 16,
+          borderBottomWidth: 1,
+          borderBottomColor: '#E5E5EA',
+          backgroundColor: '#FFFFFF',
+        }}
+      >
+        <Text 
+          style={{ 
+            fontFamily: 'SF Pro Display',
+            fontSize: 16,
+            fontWeight: '600',
+            color: '#1C1C1E',
+            marginBottom: 4
+          }}
+        >
+          {item.name}
+        </Text>
+        <Text 
+          style={{ 
+            fontFamily: 'SF Pro Text',
+            fontSize: 14,
+            color: '#8E8E93'
+          }}
+        >
+          {item.region}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   const renderCurrencyItem = (item: Currency) => (
     <TouchableOpacity
       key={item.code}
       onPress={() => {
+        console.log('👆 Currency selected:', item.name);
         setSelectedCurrency(item);
         setShowCurrencyModal(false);
         setSearchText('');
       }}
-      className="p-4 border-b border-gray-200"
+      style={{
+        padding: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: '#E5E5EA',
+        backgroundColor: '#FFFFFF',
+      }}
     >
-      <Text className="text-base text-gray-800">{item.name}</Text>
-      <Text className="text-sm text-gray-500">{item.code} {item.symbol}</Text>
+      <Text 
+        style={{ 
+          fontFamily: 'SF Pro Display',
+          fontSize: 16,
+          fontWeight: '600',
+          color: '#1C1C1E',
+          marginBottom: 4
+        }}
+      >
+        {item.name}
+      </Text>
+      <Text 
+        style={{ 
+          fontFamily: 'SF Pro Text',
+          fontSize: 14,
+          color: '#8E8E93'
+        }}
+      >
+        {item.code} {item.symbol}
+      </Text>
     </TouchableOpacity>
   );
 
   if (loading && countries.length === 0) {
     return (
-      <SafeAreaView className="flex-1 bg-white justify-center items-center">
-        <Text className="text-gray-600">{t('common.loading', { defaultValue: 'Loading...' })}</Text>
+      <SafeAreaView className="flex-1 bg-ios-background justify-center items-center">
+        <Text 
+          className="text-gray-600"
+          style={{ 
+            fontFamily: 'SF Pro Text',
+            fontSize: 16,
+            color: '#8E8E93'
+          }}
+        >
+          Loading...
+        </Text>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 px-6 pt-8">
-        {/* Header */}
-        <View className="mb-8">
-          <Text className="text-3xl font-bold text-gray-800 mb-2">
-            {t('profileSetup.title', { defaultValue: 'Complete Your Profile' })}
-          </Text>
-          <Text className="text-base text-gray-600">
-            {t('profileSetup.subtitle', { defaultValue: 'Select your country and currency to get started' })}
-          </Text>
+    <KeyboardAvoidingView 
+      className="flex-1 bg-ios-background"
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView 
+        className="flex-1"
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View className="flex-1 justify-center px-6 py-8">
+          {/* Logo Section */}
+          <View className="items-center mb-12">
+            <Logo size="medium" animated={true} />
+            <View className="mt-8 items-center">
+              <AnimatedText
+                style={{ 
+                  fontFamily: 'SF Pro Display',
+                  fontSize: 32,
+                  fontWeight: 'bold',
+                  color: '#000000',
+                  marginBottom: 8,
+                  letterSpacing: -0.5,
+                }}
+                delay={600}
+                duration={1000}
+                type="fadeInUp"
+              >
+                Complete Your Profile
+              </AnimatedText>
+              <AnimatedText
+                style={{ 
+                  fontFamily: 'SF Pro Text',
+                  fontSize: 15,
+                  color: '#8E8E93',
+                  textAlign: 'center',
+                  letterSpacing: 0.2,
+                }}
+                delay={800}
+                duration={1000}
+                type="fadeInUp"
+              >
+                Select your country and currency
+              </AnimatedText>
+            </View>
+          </View>
+
+          {/* Form Fields */}
+          <View className="w-full mb-8">
+            {/* Country Selection */}
+            <AnimatedText
+              className="w-full mb-6"
+              style={{ opacity: 0, width: '100%' }}
+              delay={1000}
+              duration={800}
+              type="fadeInUp"
+              asView={true}
+            >
+              <Text 
+                className="text-sm font-semibold mb-2"
+                style={{ 
+                  fontFamily: 'SF Pro Display',
+                  fontSize: 13,
+                  color: '#000000',
+                  letterSpacing: -0.08,
+                }}
+              >
+                COUNTRY
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('🔘 Opening country modal, countries:', countries.length);
+                  setSearchText('');
+                  setFilteredCountries(countries);
+                  setShowCountryModal(true);
+                }}
+                className="bg-white p-4 rounded-xl border border-gray-200"
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.05,
+                  shadowRadius: 2,
+                  elevation: 1,
+                  borderColor: '#E5E5EA',
+                }}
+              >
+                <Text 
+                  className="text-base"
+                  style={{ 
+                    fontFamily: 'SF Pro Text',
+                    fontSize: 16,
+                    color: selectedCountry ? '#1C1C1E' : '#8E8E93'
+                  }}
+                >
+                  {selectedCountry ? selectedCountry.name : 'Select your country'}
+                </Text>
+              </TouchableOpacity>
+            </AnimatedText>
+
+            {/* Currency Selection */}
+            <AnimatedText
+              className="w-full mb-6"
+              style={{ opacity: 0, width: '100%' }}
+              delay={1100}
+              duration={800}
+              type="fadeInUp"
+              asView={true}
+            >
+              <Text 
+                className="text-sm font-semibold mb-2"
+                style={{ 
+                  fontFamily: 'SF Pro Display',
+                  fontSize: 13,
+                  color: '#000000',
+                  letterSpacing: -0.08,
+                }}
+              >
+                CURRENCY
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('🔘 Opening currency modal, currencies:', currencies.length);
+                  setSearchText('');
+                  setFilteredCurrencies(currencies);
+                  setShowCurrencyModal(true);
+                }}
+                className="bg-white p-4 rounded-xl border border-gray-200"
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.05,
+                  shadowRadius: 2,
+                  elevation: 1,
+                  borderColor: '#E5E5EA',
+                }}
+              >
+                <Text 
+                  className="text-base"
+                  style={{ 
+                    fontFamily: 'SF Pro Text',
+                    fontSize: 16,
+                    color: selectedCurrency ? '#1C1C1E' : '#8E8E93'
+                  }}
+                >
+                  {selectedCurrency ? `${selectedCurrency.name} (${selectedCurrency.code})` : 'Select your currency'}
+                </Text>
+              </TouchableOpacity>
+            </AnimatedText>
+          </View>
+
+          {/* Save Button */}
+          <AnimatedText
+            style={{ opacity: 0, width: '100%' }}
+            delay={1200}
+            duration={800}
+            type="fadeInUp"
+            asView={true}
+          >
+            <View className="w-full">
+              <AppleButton
+                title="Complete Setup"
+                onPress={handleSave}
+                loading={loading}
+                disabled={loading || !selectedCountry || !selectedCurrency}
+                variant="primary"
+                size="large"
+                style={{ width: '100%' }}
+              />
+            </View>
+          </AnimatedText>
         </View>
-
-        {/* Form */}
-        <ScrollView className="flex-1">
-          {/* Country Selection */}
-          <View className="mb-6">
-            <Text className="text-lg font-semibold text-gray-800 mb-3">
-              {t('profileSetup.country', { defaultValue: 'Country' })}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowCountryModal(true);
-                setSearchText('');
-              }}
-              className="bg-gray-50 p-4 rounded-lg border border-gray-300"
-            >
-              <Text className="text-base text-gray-800">
-                {selectedCountry ? selectedCountry.name : t('profileSetup.selectCountry', { defaultValue: 'Select your country' })}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Currency Selection */}
-          <View className="mb-8">
-            <Text className="text-lg font-semibold text-gray-800 mb-3">
-              {t('profileSetup.currency', { defaultValue: 'Currency' })}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowCurrencyModal(true);
-                setSearchText('');
-              }}
-              className="bg-gray-50 p-4 rounded-lg border border-gray-300"
-            >
-              <Text className="text-base text-gray-800">
-                {selectedCurrency ? `${selectedCurrency.name} (${selectedCurrency.code})` : t('profileSetup.selectCurrency', { defaultValue: 'Select your currency' })}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        {/* Save Button */}
-        <TouchableOpacity
-          onPress={handleSave}
-          disabled={loading || !selectedCountry || !selectedCurrency}
-          className={`py-4 rounded-lg items-center mb-8 ${
-            loading || !selectedCountry || !selectedCurrency
-              ? 'bg-gray-300'
-              : 'bg-black'
-          }`}
-        >
-          <Text className={`font-semibold text-lg ${
-            loading || !selectedCountry || !selectedCurrency
-              ? 'text-gray-500'
-              : 'text-white'
-          }`}>
-            {loading 
-              ? t('common.loading', { defaultValue: 'Loading...' })
-              : t('common.save', { defaultValue: 'Save' })
-            }
-          </Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
 
       {/* Country Modal */}
       <Modal
@@ -231,28 +404,91 @@ const ProfileSetupScreen = () => {
         transparent={true}
         onRequestClose={() => setShowCountryModal(false)}
       >
-        <View className="flex-1 justify-end bg-black bg-opacity-50">
-          <View className="bg-white rounded-t-3xl max-h-[80%]">
-            <View className="p-4 border-b border-gray-200">
-              <View className="flex-row items-center justify-between">
+        <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <View style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 20, borderTopRightRadius: 20, height: '80%' }}>
+            {/* Modal Header */}
+            <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <TouchableOpacity onPress={() => setShowCountryModal(false)}>
-                  <Text className="text-gray-600 text-base">{t('common.cancel', { defaultValue: 'Cancel' })}</Text>
+                  <Text 
+                    style={{ 
+                      fontFamily: 'SF Pro Text',
+                      fontSize: 16,
+                      color: '#8E8E93'
+                    }}
+                  >
+                    Cancel
+                  </Text>
                 </TouchableOpacity>
-                <Text className="text-lg font-bold">{t('profileSetup.selectCountry', { defaultValue: 'Select Country' })}</Text>
-                <View className="w-16" />
+                <Text 
+                  style={{ 
+                    fontFamily: 'SF Pro Display',
+                    fontSize: 17,
+                    fontWeight: '600',
+                    color: '#1C1C1E'
+                  }}
+                >
+                  Select Country
+                </Text>
+                <View style={{ width: 60 }} />
               </View>
             </View>
             
             {/* Search Input */}
-            <View className="p-4 border-b border-gray-200">
-              <View className="bg-gray-100 p-3 rounded-lg flex-row items-center">
-                <Text className="text-gray-600 mr-2">🔍</Text>
-                <Text className="text-gray-600">{t('profileSetup.searchCountry', { defaultValue: 'Search country...' })}</Text>
+            <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
+              <View 
+                style={{ 
+                  backgroundColor: '#F2F2F7',
+                  padding: 12,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}
+              >
+                <Text style={{ marginRight: 8 }}>🔍</Text>
+                <TextInput
+                  value={searchText}
+                  onChangeText={setSearchText}
+                  placeholder="Search countries..."
+                  placeholderTextColor="#8E8E93"
+                  style={{ 
+                    fontFamily: 'SF Pro Text',
+                    fontSize: 16,
+                    color: '#1C1C1E',
+                    flex: 1
+                  }}
+                />
               </View>
             </View>
 
-            <ScrollView className="flex-1">
-              {filteredCountries.map(renderCountryItem)}
+            <ScrollView 
+              style={{ flex: 1 }}
+              contentContainerStyle={{ flexGrow: 1 }}
+            >
+              {(() => {
+                console.log('📋 Rendering countries list, count:', filteredCountries.length);
+                console.log('📋 First country:', filteredCountries[0] ? JSON.stringify(filteredCountries[0]) : 'undefined');
+                return filteredCountries.length > 0 ? (
+                  <>
+                    {filteredCountries.map((country, index) => {
+                      console.log(`🏳️ Rendering country ${index}:`, country.name);
+                      return renderCountryItem(country);
+                    })}
+                  </>
+                ) : (
+                  <View className="p-8 items-center">
+                    <Text 
+                      style={{ 
+                        fontFamily: 'SF Pro Text',
+                        fontSize: 16,
+                        color: '#8E8E93'
+                      }}
+                    >
+                      No countries found
+                    </Text>
+                  </View>
+                );
+              })()}
             </ScrollView>
           </View>
         </View>
@@ -265,33 +501,90 @@ const ProfileSetupScreen = () => {
         transparent={true}
         onRequestClose={() => setShowCurrencyModal(false)}
       >
-        <View className="flex-1 justify-end bg-black bg-opacity-50">
-          <View className="bg-white rounded-t-3xl max-h-[80%]">
-            <View className="p-4 border-b border-gray-200">
-              <View className="flex-row items-center justify-between">
+        <View style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <View style={{ backgroundColor: '#FFFFFF', borderTopLeftRadius: 20, borderTopRightRadius: 20, height: '80%' }}>
+            {/* Modal Header */}
+            <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <TouchableOpacity onPress={() => setShowCurrencyModal(false)}>
-                  <Text className="text-gray-600 text-base">{t('common.cancel', { defaultValue: 'Cancel' })}</Text>
+                  <Text 
+                    style={{ 
+                      fontFamily: 'SF Pro Text',
+                      fontSize: 16,
+                      color: '#8E8E93'
+                    }}
+                  >
+                    Cancel
+                  </Text>
                 </TouchableOpacity>
-                <Text className="text-lg font-bold">{t('profileSetup.selectCurrency', { defaultValue: 'Select Currency' })}</Text>
-                <View className="w-16" />
+                <Text 
+                  style={{ 
+                    fontFamily: 'SF Pro Display',
+                    fontSize: 17,
+                    fontWeight: '600',
+                    color: '#1C1C1E'
+                  }}
+                >
+                  Select Currency
+                </Text>
+                <View style={{ width: 60 }} />
               </View>
             </View>
             
             {/* Search Input */}
-            <View className="p-4 border-b border-gray-200">
-              <View className="bg-gray-100 p-3 rounded-lg flex-row items-center">
-                <Text className="text-gray-600 mr-2">🔍</Text>
-                <Text className="text-gray-600">{t('profileSetup.searchCurrency', { defaultValue: 'Search currency...' })}</Text>
+            <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
+              <View 
+                style={{ 
+                  backgroundColor: '#F2F2F7',
+                  padding: 12,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center'
+                }}
+              >
+                <Text style={{ marginRight: 8 }}>🔍</Text>
+                <TextInput
+                  value={searchText}
+                  onChangeText={setSearchText}
+                  placeholder="Search currencies..."
+                  placeholderTextColor="#8E8E93"
+                  style={{ 
+                    fontFamily: 'SF Pro Text',
+                    fontSize: 16,
+                    color: '#1C1C1E',
+                    flex: 1
+                  }}
+                />
               </View>
             </View>
 
-            <ScrollView className="flex-1">
-              {filteredCurrencies.map(renderCurrencyItem)}
+            <ScrollView 
+              style={{ flex: 1 }}
+              contentContainerStyle={{ flexGrow: 1 }}
+            >
+              {(() => {
+                console.log('📋 Rendering currencies list, count:', filteredCurrencies.length);
+                return filteredCurrencies.length > 0 ? (
+                  filteredCurrencies.map(renderCurrencyItem)
+                ) : (
+                  <View className="p-8 items-center">
+                    <Text 
+                      style={{ 
+                        fontFamily: 'SF Pro Text',
+                        fontSize: 16,
+                        color: '#8E8E93'
+                      }}
+                    >
+                      No currencies found
+                    </Text>
+                  </View>
+                );
+              })()}
             </ScrollView>
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

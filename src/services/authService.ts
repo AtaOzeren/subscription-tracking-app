@@ -324,18 +324,28 @@ class AuthService {
         throw new Error((errorData as any).message || `HTTP ${response.status}: ${response.statusText}`);
       }
       
-      const apiResponse: ApiResponse<User> = await response.json();
-      console.log('🔍 Parsed profile update response:', apiResponse);
+      const profileData = await response.json();
+      console.log('🔍 Parsed profile update response:', profileData);
       
-      if (!apiResponse || !apiResponse.success || !apiResponse.data) {
-        throw new Error('Invalid profile update response from server');
+      // API returns partial user data (name, region, currency)
+      // We need to merge with existing user data
+      const existingUser = await storageService.getUser();
+      if (!existingUser) {
+        throw new Error('No existing user data found');
       }
       
-      const user: User = apiResponse.data;
-      console.log('✅ Profile updated successfully:', user.email);
+      // Merge updated fields with existing user
+      const updatedUser: User = {
+        ...existingUser,
+        name: profileData.name || existingUser.name,
+        region: profileData.region || existingUser.region,
+        currency: profileData.currency || existingUser.currency,
+      };
       
-      await storageService.setUser(user);
-      return user;
+      console.log('✅ Profile updated successfully:', updatedUser.email);
+      
+      await storageService.setUser(updatedUser);
+      return updatedUser;
     } catch (error) {
       console.error('❌ Profile update error:', error);
       
