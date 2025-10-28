@@ -25,6 +25,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, setState] = useState<AuthState>(initialState);
+  const [isFirstTimeUser, setIsFirstTimeUser] = useState(true);
 
   const setLoading = (loading: boolean) => {
     setState(prev => ({ ...prev, isLoading: loading }));
@@ -118,8 +119,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const checkFirstTimeUser = async () => {
+    try {
+      const isFirstTime = await authService.isFirstTimeUser();
+      console.log('🔍 First time user check:', isFirstTime);
+      setIsFirstTimeUser(isFirstTime);
+    } catch (error) {
+      console.error('❌ First time user check error:', error);
+      setIsFirstTimeUser(true);
+    }
+  };
+
   useEffect(() => {
     checkAuth();
+    checkFirstTimeUser();
   }, []);
 
   const value: AuthContextType = {
@@ -128,6 +141,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     register,
     logout,
     checkAuth,
+    isFirstTimeUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -7,6 +7,8 @@ const TOKEN_KEY = 'auth_token';
 const USER_KEY = 'auth_user';
 const LANGUAGE_KEY = 'app_language';
 const LANGUAGE_SCREEN_KEY = 'has_seen_language_screen';
+const ONBOARDING_COMPLETE_KEY = 'onboarding_complete';
+const PROFILE_SETUP_KEY = 'profile_setup_complete';
 
 export const storageService = {
   // Get all subscriptions
@@ -175,6 +177,56 @@ export const storageService = {
       await AsyncStorage.setItem(LANGUAGE_SCREEN_KEY, hasSeen.toString());
     } catch (error) {
       console.error('Error setting language screen status:', error);
+      throw error;
+    }
+  },
+
+  // Onboarding tracking
+  getOnboardingComplete: async (): Promise<boolean> => {
+    try {
+      const value = await AsyncStorage.getItem(ONBOARDING_COMPLETE_KEY);
+      return value === 'true';
+    } catch (error) {
+      console.error('Error getting onboarding status:', error);
+      return false;
+    }
+  },
+
+  setOnboardingComplete: async (complete: boolean): Promise<void> => {
+    try {
+      await AsyncStorage.setItem(ONBOARDING_COMPLETE_KEY, complete.toString());
+    } catch (error) {
+      console.error('Error setting onboarding status:', error);
+      throw error;
+    }
+  },
+
+  // Profile setup tracking
+  getProfileSetup: async (): Promise<boolean> => {
+    try {
+      const value = await AsyncStorage.getItem(PROFILE_SETUP_KEY);
+      return value === 'true';
+    } catch (error) {
+      console.error('Error getting profile setup status:', error);
+      return false;
+    }
+  },
+
+  setProfileSetup: async (setup: boolean): Promise<void> => {
+    try {
+      await AsyncStorage.setItem(PROFILE_SETUP_KEY, setup.toString());
+    } catch (error) {
+      console.error('Error setting profile setup status:', error);
+      throw error;
+    }
+  },
+
+  // Clear all data (for debug purposes)
+  clearAll: async (): Promise<void> => {
+    try {
+      await AsyncStorage.clear();
+    } catch (error) {
+      console.error('Error clearing all data:', error);
       throw error;
     }
   },

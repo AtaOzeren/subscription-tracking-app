@@ -72,5 +72,21 @@
     "searchSubscriptions": "Abonelikleri ara...",
     "startTypingToSearch": "Aboneliklerinizi aramak için yazmaya başlayın",
     "noResultsFound": "Aramanız için sonuç bulunamadı"
+  },
+  "onboarding": {
+    "welcomeToApp": "Abonelik Takip'e Hoş Geldiniz",
+    "trackYourSubscriptions": "Tüm aboneliklerinizi tek bir yerde takip edin ve bir ödemeyi kaçırmayın",
+    "getStarted": "Başla",
+    "setupProfile": "Profilinizi Ayarlayın",
+    "selectCountry": "Ülke Seçin",
+    "selectCurrency": "Para Birimi Seçin",
+    "countryPlaceholder": "Ülkenizi seçin",
+    "currencyPlaceholder": "Para biriminizi seçin",
+    "searchCountry": "Ülkeleri ara...",
+    "searchCurrency": "Para birimlerini ara...",
+    "noCountriesFound": "Ülke bulunamadı",
+    "noCurrenciesFound": "Para birimi bulunamadı",
+    "completeSetup": "Kurulumu Tamamla",
+    "profileSetupRequired": "Devam etmek için lütfen ülkenizi ve para biriminizi seçin"
   }
 }

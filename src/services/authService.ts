@@ -1,6 +1,7 @@
 import { Api } from './tracking/tracking-api';
 import { storageService } from './storageService';
 import { AuthResponse, User, ApiResponse, LoginResponseData } from '../types/auth';
+import { ProfileUpdateData } from '../types/reference';
 
 class AuthService {
   private api: Api<string>;
@@ -293,6 +294,80 @@ class AuthService {
       
       await this.logout();
       return null;
+    }
+  }
+
+  async updateProfile(data: ProfileUpdateData): Promise<User> {
+    try {
+      const token = await storageService.getToken();
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      console.log('🔧 Updating user profile...', data);
+      this.api.setSecurityData(token);
+
+      const response = await this.fetchWithTimeout(`${this.baseUrl}/api/auth/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }, 10000);
+      
+      console.log('📡 Profile update response status:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('❌ Profile update HTTP Error:', errorData);
+        throw new Error((errorData as any).message || `HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const apiResponse: ApiResponse<User> = await response.json();
+      console.log('🔍 Parsed profile update response:', apiResponse);
+      
+      if (!apiResponse || !apiResponse.success || !apiResponse.data) {
+        throw new Error('Invalid profile update response from server');
+      }
+      
+      const user: User = apiResponse.data;
+      console.log('✅ Profile updated successfully:', user.email);
+      
+      await storageService.setUser(user);
+      return user;
+    } catch (error) {
+      console.error('❌ Profile update error:', error);
+      
+      if (error instanceof Error) {
+        const errorMessage = error.message.toLowerCase();
+        
+        if (errorMessage.includes('fetch') || errorMessage.includes('network')) {
+          throw new Error('Network error. Please check your connection and try again.');
+        } else if (errorMessage.includes('401') || errorMessage.includes('unauthorized')) {
+          throw new Error('Session expired. Please login again.');
+        } else if (errorMessage.includes('400') || errorMessage.includes('bad request')) {
+          throw new Error('Invalid request. Please check your input and try again.');
+        } else if (errorMessage.includes('500') || errorMessage.includes('server error')) {
+          throw new Error('Server error. Please try again later.');
+        }
+      }
+      
+      throw new Error('Failed to update profile. Please try again.');
+    }
+  }
+
+  async isFirstTimeUser(): Promise<boolean> {
+    try {
+      const onboardingComplete = await storageService.getOnboardingComplete();
+      const profileSetup = await storageService.getProfileSetup();
+      
+      console.log('🔍 First time user check:', { onboardingComplete, profileSetup });
+      
+      return !onboardingComplete || !profileSetup;
+    } catch (error) {
+      console.error('❌ First time user check error:', error);
+      return true; // Assume first time if there's an error
     }
   }
 

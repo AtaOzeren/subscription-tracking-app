@@ -72,5 +72,21 @@
     "searchSubscriptions": "Search subscriptions...",
     "startTypingToSearch": "Start typing to search your subscriptions",
     "noResultsFound": "No results found for your search"
+  },
+  "onboarding": {
+    "welcomeToApp": "Welcome to Subscription Tracker",
+    "trackYourSubscriptions": "Track all your subscriptions in one place and never miss a payment again",
+    "getStarted": "Get Started",
+    "setupProfile": "Setup Your Profile",
+    "selectCountry": "Select Country",
+    "selectCurrency": "Select Currency",
+    "countryPlaceholder": "Choose your country",
+    "currencyPlaceholder": "Choose your currency",
+    "searchCountry": "Search countries...",
+    "searchCurrency": "Search currencies...",
+    "noCountriesFound": "No countries found",
+    "noCurrenciesFound": "No currencies found",
+    "completeSetup": "Complete Setup",
+    "profileSetupRequired": "Please select your country and currency to continue"
   }
 }

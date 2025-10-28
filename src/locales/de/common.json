@@ -72,5 +72,21 @@
     "searchSubscriptions": "Abonnements suchen...",
     "startTypingToSearch": "Beginnen Sie mit der Eingabe, um Ihre Abonnements zu durchsuchen",
     "noResultsFound": "Keine Ergebnisse für Ihre Suche gefunden"
+  },
+  "onboarding": {
+    "welcomeToApp": "Willkommen beim Subscription Tracker",
+    "trackYourSubscriptions": "Verfolgen Sie alle Ihre Abonnements an einem Ort und verpassen Sie nie wieder eine Zahlung",
+    "getStarted": "Loslegen",
+    "setupProfile": "Profil Einrichten",
+    "selectCountry": "Land Auswählen",
+    "selectCurrency": "Währung Auswählen",
+    "countryPlaceholder": "Wählen Sie Ihr Land",
+    "currencyPlaceholder": "Wählen Sie Ihre Währung",
+    "searchCountry": "Länder suchen...",
+    "searchCurrency": "Währungen suchen...",
+    "noCountriesFound": "Keine Länder gefunden",
+    "noCurrenciesFound": "Keine Währungen gefunden",
+    "completeSetup": "Einrichtung Abschließen",
+    "profileSetupRequired": "Bitte wählen Sie Ihr Land und Ihre Währung, um fortzufahren"
   }
 }

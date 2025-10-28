@@ -15,6 +15,9 @@ import AddSubscriptionScreen from '../screens/AddSubscriptionScreen/AddSubscript
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import SubscriptionDetailScreen from '../screens/SubscriptionDetailScreen/SubscriptionDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+import WelcomeScreen from '../screens/WelcomeScreen/WelcomeScreen';
+import LanguageSelectionScreen from '../screens/LanguageSelectionScreen/LanguageSelectionScreen';
+import ProfileSetupScreen from '../screens/ProfileSetupScreen/ProfileSetupScreen';
 import CustomBottomTabBar from '../components/common/CustomBottomTabBar';
 
 const Stack = createStackNavigator();
@@ -37,6 +40,17 @@ const HomeStack = () => {
         component={ProfileScreen}
         options={{ title: 'Profile' }}
       />
+    </Stack.Navigator>
+  );
+};
+
+const OnboardingNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
+      <Stack.Screen name="Auth" component={AuthNavigator} />
+      <Stack.Screen name="ProfileSetup" component={ProfileSetupScreen} />
     </Stack.Navigator>
   );
 };
@@ -112,7 +126,7 @@ const MainNavigator = () => {
 };
 
 const AppNavigator = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, isFirstTimeUser } = useAuth();
   const { isLoading: languageLoading } = useLanguage();
 
   if (isLoading || languageLoading) {
@@ -121,7 +135,9 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? (
+      {isFirstTimeUser ? (
+        <OnboardingNavigator />
+      ) : isAuthenticated ? (
         <MainNavigator />
       ) : (
         <AuthNavigator />

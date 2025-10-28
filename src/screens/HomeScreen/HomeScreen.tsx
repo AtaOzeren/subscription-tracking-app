@@ -6,6 +6,7 @@ import { useLanguage, availableLanguages, LanguageCode } from '../../contexts/La
 import { useTranslation } from 'react-i18next';
 import { getGreetingMessage } from '../../utils/helpers';
 import ProfileButton from '../../components/common/ProfileButton';
+import { storageService } from '../../services/storageService';
 
 interface HomeScreenProps {
   scrollY?: Animated.Value;
@@ -136,6 +137,33 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
     }
   };
 
+  const handleDebugReset = async () => {
+    Alert.alert(
+      'Debug Reset',
+      'This will clear all data and restart the app as if first time. Continue?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Reset',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              // Clear all storage
+              await storageService.clearAll();
+              Alert.alert('Success', 'All data cleared. Please restart the app manually.');
+            } catch (error) {
+              console.error('Debug reset failed:', error);
+              Alert.alert('Error', 'Failed to reset app data');
+            }
+          }
+        }
+      ]
+    );
+  };
+
   const handleLogout = () => {
     Alert.alert(
       t('common.logout'),
@@ -173,6 +201,12 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
             </Animated.Text>
           </View>
           <View className="flex-row items-center gap-2">
+            <TouchableOpacity
+              onPress={handleDebugReset}
+              className="w-10 h-10 bg-red-500 rounded-full items-center justify-center"
+            >
+              <Text className="text-white text-xs font-bold">R</Text>
+            </TouchableOpacity>
             <ProfileButton onPress={handleProfilePress} />
           </View>
         </View>
