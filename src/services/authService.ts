@@ -360,11 +360,11 @@ class AuthService {
   async isFirstTimeUser(): Promise<boolean> {
     try {
       const onboardingComplete = await storageService.getOnboardingComplete();
-      const profileSetup = await storageService.getProfileSetup();
       
-      console.log('🔍 First time user check:', { onboardingComplete, profileSetup });
+      console.log('🔍 First time user check - onboardingComplete:', onboardingComplete);
       
-      return !onboardingComplete || !profileSetup;
+      // Only check if onboarding is complete (Welcome -> Language -> Login flow)
+      return !onboardingComplete;
     } catch (error) {
       console.error('❌ First time user check error:', error);
       return true; // Assume first time if there's an error
@@ -427,6 +427,28 @@ class AuthService {
     } catch (error) {
       console.error('❌ Logout error:', error);
       // Don't throw error for logout
+    }
+  }
+
+  async forceLogout(): Promise<void> {
+    try {
+      console.log('🔄 Starting force logout with complete reset...');
+      
+      // Clear all auth data
+      await storageService.clearAuth();
+      this.api.setSecurityData(null);
+      
+      // Clear all app data
+      await storageService.clearAll();
+      
+      // Reset onboarding flags
+      await storageService.setOnboardingComplete(false);
+      await storageService.setProfileSetup(false);
+      
+      console.log('✅ Force logout completed - all data cleared');
+    } catch (error) {
+      console.error('❌ Force logout error:', error);
+      throw error;
     }
   }
 

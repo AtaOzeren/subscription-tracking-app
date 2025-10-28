@@ -90,7 +90,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
 
   const changeLanguage = async (languageCode: LanguageCode) => {
     try {
-      setIsLoading(true);
+      // Don't set loading during language change to prevent navigation reset
+      // setIsLoading(true);
       
       // Change i18n language
       await i18n.changeLanguage(languageCode);
@@ -111,7 +112,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     } catch (error) {
       console.error('Error changing language:', error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 

@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../contexts/AuthContext';
 import { authService } from '../../services/authService';
 import { referenceService } from '../../services/referenceService';
 import { storageService } from '../../services/storageService';
@@ -13,6 +14,7 @@ type ProfileSetupScreenNavigationProp = StackNavigationProp<any, 'ProfileSetup'>
 
 const ProfileSetupScreen = () => {
   const navigation = useNavigation<ProfileSetupScreenNavigationProp>();
+  const { checkAuth } = useAuth();
   const { t } = useTranslation();
   
   const [countries, setCountries] = useState<Country[]>([]);
@@ -81,21 +83,25 @@ const ProfileSetupScreen = () => {
 
     try {
       setLoading(true);
+      console.log('💾 Saving profile setup...');
+      
+      // Update user profile with selected country and currency
       await authService.updateProfile({
         region: selectedCountry.code,
         currency: selectedCurrency.code
       });
+      console.log('✅ Profile updated successfully');
 
+      // Mark profile setup as complete
       await storageService.setProfileSetup(true);
-      await storageService.setOnboardingComplete(true);
+      console.log('✅ Profile setup marked as complete');
 
-      // Navigate to main app
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Main' }],
-      });
+      // Refresh auth state to trigger navigation to main app
+      await checkAuth();
+      console.log('✅ Auth state refreshed, navigating to main app');
+      
     } catch (error) {
-      console.error('Error saving profile:', error);
+      console.error('❌ Error saving profile:', error);
       Alert.alert(
         t('common.error', { defaultValue: 'Error' }),
         error instanceof Error ? error.message : t('profileSetup.saveError', { defaultValue: 'Failed to save profile. Please try again.' })

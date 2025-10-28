@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, Sc
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { storageService } from '../../services/storageService';
 import AppleButton from '../../components/common/AppleButton';
 import AppleInput from '../../components/common/AppleInput';
 import Logo from '../../components/common/Logo';
@@ -47,6 +48,20 @@ const LoginScreen: React.FC = () => {
       console.log('🔐 Starting login for:', email);
       await login(email, password);
       console.log('✅ Login successful');
+      
+      // Mark onboarding as complete (Welcome -> Language -> Login completed)
+      await storageService.setOnboardingComplete(true);
+      console.log('✅ Onboarding marked as complete');
+      
+      // Check if profile setup is needed
+      const profileSetup = await storageService.getProfileSetup();
+      if (!profileSetup) {
+        console.log('🔄 Redirecting to ProfileSetup...');
+        // Navigate to ProfileSetup screen
+        navigation.navigate('ProfileSetup' as never);
+      } else {
+        console.log('✅ Profile already setup, proceeding to main app');
+      }
     } catch (error) {
       console.error('❌ Login error:', error);
       Alert.alert(t('auth.loginFailed'), error instanceof Error ? error.message : 'An error occurred');

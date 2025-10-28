@@ -52,7 +52,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       console.log('🔄 Starting login process...');
-      setLoading(true);
+      // Don't set global loading state - screens handle their own loading
+      // setLoading(true);
       const response = await authService.login(email, password);
       console.log('✅ Login completed, setting auth state');
       setAuth(response.user, response.token);
@@ -61,14 +62,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       clearAuth();
       throw error;
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
   const register = async (email: string, password: string, name: string) => {
     try {
       console.log('🔄 Starting register process...');
-      setLoading(true);
+      // Don't set global loading state - screens handle their own loading
+      // setLoading(true);
       const response = await authService.register(email, password, name);
       console.log('✅ Register completed, setting auth state');
       setAuth(response.user, response.token);
@@ -77,7 +79,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       clearAuth();
       throw error;
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -100,6 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (!token) {
         console.log('🔍 No token found, user not authenticated');
         clearAuth();
+        await checkFirstTimeUser();
         return;
       }
 
@@ -107,13 +110,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (user) {
         console.log('✅ Auth check successful, user authenticated');
         setAuth(user, token);
+        // Always check first time user status after auth check
+        await checkFirstTimeUser();
       } else {
         console.log('❌ Auth check failed, token invalid');
         clearAuth();
+        await checkFirstTimeUser();
       }
     } catch (error) {
       console.error('❌ Auth check error:', error);
       clearAuth();
+      await checkFirstTimeUser();
     } finally {
       setLoading(false);
     }

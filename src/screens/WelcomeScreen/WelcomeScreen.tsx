@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Image, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { authService } from '../../services/authService';
+import { storageService } from '../../services/storageService';
 
 type WelcomeScreenNavigationProp = StackNavigationProp<any, 'Welcome'>;
 
@@ -18,9 +20,34 @@ const WelcomeScreen = () => {
   const buttonSlideAnim = useRef(new Animated.Value(30)).current;
 
   useEffect(() => {
+    // Reset app only if onboarding is not complete
+    const resetAppForFirstTime = async () => {
+      try {
+        console.log('🔄 Checking onboarding status...');
+        const onboardingComplete = await storageService.getOnboardingComplete();
+        
+        if (!onboardingComplete) {
+          console.log('🔄 Onboarding not complete, checking for existing session...');
+          const token = await authService.getToken();
+          
+          if (token) {
+            console.log('🗑️ Found existing token, clearing all data...');
+            // Force logout and clear all data for fresh onboarding
+            await authService.forceLogout();
+            console.log('✅ App reset completed for fresh onboarding');
+          } else {
+            console.log('✅ No existing session found, fresh start');
+          }
+        } else {
+          console.log('✅ Onboarding already complete, skipping reset');
+        }
+      } catch (error) {
+        console.error('❌ Error resetting app:', error);
+      }
+    };
+
     // Start animations when component mounts
     const startAnimations = () => {
-      // Logo and text animations
       Animated.parallel([
         Animated.timing(logoFadeAnim, {
           toValue: 1,
@@ -51,6 +78,7 @@ const WelcomeScreen = () => {
       ]).start();
     };
 
+    resetAppForFirstTime();
     startAnimations();
   }, []);
 
@@ -92,7 +120,7 @@ const WelcomeScreen = () => {
 
       {/* Dots Indicator */}
       <Animated.View
-        className="absolute bottom-24 left-0 right-0 items-center"
+        className="absolute bottom-32 left-0 right-0 items-center"
         style={{
           opacity: buttonFadeAnim,
           transform: [{ translateY: buttonSlideAnim }]
