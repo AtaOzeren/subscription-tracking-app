@@ -1,0 +1,51 @@
+{
+  "common": {
+    "welcome": "Добро пожаловать",
+    "signIn": "Войти",
+    "signUp": "Зарегистрироваться",
+    "logout": "Выйти",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "add": "Добавить",
+    "back": "Назад",
+    "next": "Далее",
+    "done": "Готово",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "success": "Успех",
+    "settings": "Настройки"
+  },
+  "auth": {
+    "welcomeToApp": "Добро пожаловать в Sub-Tracking",
+    "signInToAccount": "Войдите в свой аккаунт",
+    "emailAddress": "Адрес электронной почты",
+    "password": "Пароль",
+    "dontHaveAccount": "У вас нет аккаунта?",
+    "alreadyHaveAccount": "У вас уже есть аккаунт?",
+    "emailRequired": "Требуется электронная почта",
+    "validEmail": "Пожалуйста, введите действительный адрес электронной почты",
+    "passwordRequired": "Требуется пароль",
+    "loginFailed": "Вход не удался",
+    "registerFailed": "Регистрация не удалась"
+  },
+  "home": {
+    "mySubscriptions": "Мои подписки",
+    "welcomeBack": "Добро пожаловать, {{name}}!",
+    "trackExpenses": "Отслеживайте свои регулярные расходы",
+    "monthly": "Ежемесячно",
+    "yearly": "Ежегодно",
+    "activeSubscriptions": "Активные подписки ({{count}})",
+    "noSubscriptions": "Подписок пока нет. Нажмите \"Добавить\", чтобы создать вашу первую подписку."
+  },
+  "language": {
+    "selectLanguage": "Выберите язык",
+    "english": "Английский",
+    "german": "Немецкий",
+    "turkish": "Турецкий",
+    "italian": "Итальянский",
+    "french": "Французский",
+    "russian": "Русский"
+  }
+}

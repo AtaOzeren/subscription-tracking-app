@@ -60,10 +60,10 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', style, animated = true }) 
         ]}
       >
         <Image
-          source={require('../../../assets/logo/subscription-tracking.png')}
+          source={require('../../../assets/logo/subscription-tracking-black.webp')}
           style={[
             sizeStyles[size],
-            { 
+            {
               resizeMode: 'cover',
             }
           ]}

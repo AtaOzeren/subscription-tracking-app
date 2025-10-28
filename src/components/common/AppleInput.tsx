@@ -5,60 +5,35 @@ interface AppleInputProps extends TextInputProps {
   label?: string;
   error?: string;
   containerStyle?: ViewStyle;
+  containerClassName?: string;
 }
 
 const AppleInput: React.FC<AppleInputProps> = ({
   label,
   error,
   containerStyle,
+  containerClassName,
   style,
   ...props
 }) => {
-  const inputStyle: ViewStyle = {
-    borderWidth: 1,
-    borderColor: error ? '#FF3B30' : '#C6C6C8',
-    borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 1,
-    elevation: 1,
-  };
-
-  const inputTextStyle: TextStyle = {
-    fontSize: 16,
-    fontFamily: 'SF Pro Text',
-    textAlign: 'center',
-  };
-
-  const labelStyle: TextStyle = {
-    fontSize: 16,
-    fontFamily: 'SF Pro Display',
-    fontWeight: '600' as const,
-    color: '#000000',
-    marginBottom: 8,
-    textAlign: 'center',
-  };
-
-  const errorStyle: TextStyle = {
-    fontSize: 14,
-    fontFamily: 'SF Pro Text',
-    color: '#FF3B30',
-    marginTop: 4,
-  };
-
   return (
-    <View style={[{ width: '100%' }, containerStyle]}>
-      {label && <Text style={labelStyle}>{label}</Text>}
+    <View className={`w-full ${containerClassName || ''}`} style={containerStyle}>
+      {label && (
+        <Text className="text-base font-semibold text-black mb-2 text-center" style={{ fontFamily: 'SF Pro Display' }}>
+          {label}
+        </Text>
+      )}
       <TextInput
-        style={[inputStyle, inputTextStyle, { width: '100%' }, style]}
+        className={`w-full border ${error ? 'border-red-500' : 'border-gray-300'} rounded-2xl px-4 py-3 bg-white shadow-sm text-base text-center`}
+        style={{ fontFamily: 'SF Pro Text', ...(style as any) }}
         placeholderTextColor="#8E8E93"
         {...props}
       />
-      {error && <Text style={errorStyle}>{error}</Text>}
+      {error && (
+        <Text className="text-sm text-red-500 mt-1" style={{ fontFamily: 'SF Pro Text' }}>
+          {error}
+        </Text>
+      )}
     </View>
   );
 };

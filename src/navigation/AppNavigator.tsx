@@ -4,12 +4,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import LoadingScreen from '../screens/LoadingScreen/LoadingScreen';
 import AuthNavigator from './AuthNavigator';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import AddSubscriptionScreen from '../screens/AddSubscriptionScreen/AddSubscriptionScreen';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import SubscriptionDetailScreen from '../screens/SubscriptionDetailScreen/SubscriptionDetailScreen';
+import LanguageSelectionScreen from '../screens/LanguageSelectionScreen/LanguageSelectionScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -33,8 +35,9 @@ const HomeStack = () => {
 
 const AppNavigator = () => {
   const { isAuthenticated, isLoading } = useAuth();
+  const { isFirstTime, isLoading: languageLoading } = useLanguage();
 
-  if (isLoading) {
+  if (isLoading || languageLoading) {
     return <LoadingScreen />;
   }
 

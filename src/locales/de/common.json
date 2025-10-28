@@ -1,0 +1,51 @@
+{
+  "common": {
+    "welcome": "Willkommen",
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "logout": "Abmelden",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "add": "Hinzufügen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "done": "Fertig",
+    "loading": "Laden...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "settings": "Einstellungen"
+  },
+  "auth": {
+    "welcomeToApp": "Willkommen bei Sub-Tracking",
+    "signInToAccount": "Melden Sie sich in Ihrem Konto an",
+    "emailAddress": "E-Mail-Adresse",
+    "password": "Passwort",
+    "dontHaveAccount": "Haben Sie kein Konto?",
+    "alreadyHaveAccount": "Haben Sie bereits ein Konto?",
+    "emailRequired": "E-Mail ist erforderlich",
+    "validEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "passwordRequired": "Passwort ist erforderlich",
+    "loginFailed": "Anmeldung fehlgeschlagen",
+    "registerFailed": "Registrierung fehlgeschlagen"
+  },
+  "home": {
+    "mySubscriptions": "Meine Abonnements",
+    "welcomeBack": "Willkommen zurück, {{name}}!",
+    "trackExpenses": "Verfolgen Sie Ihre wiederkehrenden Ausgaben",
+    "monthly": "Monatlich",
+    "yearly": "Jährlich",
+    "activeSubscriptions": "Aktive Abonnements ({{count}})",
+    "noSubscriptions": "Noch keine Abonnements. Tippen Sie auf \"Hinzufügen\", um Ihr erstes Abonnement zu erstellen."
+  },
+  "language": {
+    "selectLanguage": "Sprache auswählen",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "turkish": "Türkisch",
+    "italian": "Italienisch",
+    "french": "Französisch",
+    "russian": "Russisch"
+  }
+}

@@ -1,21 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, Animated, TextStyle } from 'react-native';
+import { Text, Animated, TextStyle, ViewStyle } from 'react-native';
 
 interface AnimatedTextProps {
   children: React.ReactNode;
-  style?: TextStyle;
+  style?: TextStyle | ViewStyle;
   className?: string;
   delay?: number;
   duration?: number;
   type?: 'fadeInUp' | 'fadeIn' | 'slideInLeft';
+  asView?: boolean;
 }
 
 const AnimatedText: React.FC<AnimatedTextProps> = ({
   children,
   style,
+  className,
   delay = 0,
   duration = 800,
   type = 'fadeInUp',
+  asView = false,
 }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const translateYAnim = useRef(new Animated.Value(30)).current;
@@ -78,7 +81,7 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
     return () => clearTimeout(timer);
   }, [delay, duration, type, fadeAnim, translateYAnim, translateXAnim]);
 
-  const getAnimatedStyle = (): Animated.WithAnimatedObject<TextStyle> => {
+  const getAnimatedStyle = (): any => {
     const baseStyle = {
       opacity: fadeAnim,
     };
@@ -99,8 +102,16 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({
     }
   };
 
+  if (asView) {
+    return (
+      <Animated.View style={[style, getAnimatedStyle()]} className={className}>
+        {children}
+      </Animated.View>
+    );
+  }
+
   return (
-    <Animated.Text style={[style, getAnimatedStyle()]}>
+    <Animated.Text style={[style, getAnimatedStyle()]} className={className}>
       {children}
     </Animated.Text>
   );
