@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, Alert, Modal, TextInput, Keyb
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { authService } from '../../services/authService';
 import { referenceService } from '../../services/referenceService';
 import { storageService } from '../../services/storageService';
@@ -11,8 +12,43 @@ import Logo from '../../components/common/Logo';
 import AnimatedText from '../../components/common/AnimatedText';
 import AppleButton from '../../components/common/AppleButton';
 
+// Language to Country mapping
+const languageToCountryMap: Record<string, string> = {
+  'tr': 'TR', // Turkish → Turkey
+  'en': 'US', // English → United States
+  'de': 'DE', // German → Germany
+  'fr': 'FR', // French → France
+  'it': 'IT', // Italian → Italy
+  'ru': 'RU', // Russian → Russia
+};
+
+// Country to Currency mapping
+const countryToCurrencyMap: Record<string, string> = {
+  'TR': 'TRY', // Turkey → Turkish Lira
+  'US': 'USD', // United States → US Dollar
+  'DE': 'EUR', // Germany → Euro
+  'FR': 'EUR', // France → Euro
+  'IT': 'EUR', // Italy → Euro
+  'RU': 'RUB', // Russia → Russian Ruble
+  'GB': 'GBP', // United Kingdom → British Pound
+  'CN': 'CNY', // China → Chinese Yuan
+  'JP': 'JPY', // Japan → Japanese Yen
+  'CA': 'CAD', // Canada → Canadian Dollar
+  'AU': 'AUD', // Australia → Australian Dollar
+  'MX': 'MXN', // Mexico → Mexican Peso
+  'BR': 'BRL', // Brazil → Brazilian Real
+  'IN': 'INR', // India → Indian Rupee
+  'SG': 'SGD', // Singapore → Singapore Dollar
+  'AE': 'AED', // UAE → UAE Dirham
+  'ZA': 'ZAR', // South Africa → South African Rand
+  'SE': 'SEK', // Sweden → Swedish Krona
+  'ES': 'EUR', // Spain → Euro
+  'NL': 'EUR', // Netherlands → Euro
+};
+
 const ProfileSetupScreen = () => {
   const { checkAuth } = useAuth();
+  const { currentLanguage } = useLanguage();
   const { t } = useTranslation();
   
   const [countries, setCountries] = useState<Country[]>([]);
@@ -34,33 +70,57 @@ const ProfileSetupScreen = () => {
     if (searchText === '') {
       setFilteredCountries(countries);
     } else {
-      setFilteredCountries(
-        countries.filter(country => 
-          country.name.toLowerCase().includes(searchText.toLowerCase())
-        )
+      const filtered = countries.filter(country => 
+        country.name.toLowerCase().includes(searchText.toLowerCase())
       );
+      setFilteredCountries(filtered);
     }
-    console.log('🔍 Filtered countries:', searchText === '' ? countries.length : filteredCountries.length);
+    console.log('🔍 Filtered countries:', filteredCountries.length);
   }, [searchText, countries]);
 
   useEffect(() => {
     if (searchText === '') {
       setFilteredCurrencies(currencies);
     } else {
-      setFilteredCurrencies(
-        currencies.filter(currency => 
-          currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
-          currency.code.toLowerCase().includes(searchText.toLowerCase())
-        )
+      const filtered = currencies.filter(currency => 
+        currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        currency.code.toLowerCase().includes(searchText.toLowerCase())
       );
+      setFilteredCurrencies(filtered);
     }
-    console.log('🔍 Filtered currencies:', searchText === '' ? currencies.length : filteredCurrencies.length);
+    console.log('🔍 Filtered currencies:', filteredCurrencies.length);
   }, [searchText, currencies]);
+
+  const sortByPreferredCountry = (countries: Country[]): Country[] => {
+    const preferredCountryCode = languageToCountryMap[currentLanguage.code];
+    if (!preferredCountryCode) return countries;
+
+    const preferredCountry = countries.find(c => c.code === preferredCountryCode);
+    if (!preferredCountry) return countries;
+
+    const otherCountries = countries.filter(c => c.code !== preferredCountryCode);
+    return [preferredCountry, ...otherCountries];
+  };
+
+  const sortByPreferredCurrency = (currencies: Currency[], countryCode?: string): Currency[] => {
+    const preferredCurrencyCode = countryCode 
+      ? countryToCurrencyMap[countryCode] 
+      : countryToCurrencyMap[languageToCountryMap[currentLanguage.code]];
+    
+    if (!preferredCurrencyCode) return currencies;
+
+    const preferredCurrency = currencies.find(c => c.code === preferredCurrencyCode);
+    if (!preferredCurrency) return currencies;
+
+    const otherCurrencies = currencies.filter(c => c.code !== preferredCurrencyCode);
+    return [preferredCurrency, ...otherCurrencies];
+  };
 
   const loadData = async () => {
     try {
       setLoading(true);
       console.log('🔄 ProfileSetup: Loading countries and currencies...');
+      console.log('🌍 Current language:', currentLanguage.code);
       
       const [countriesData, currenciesData] = await Promise.all([
         referenceService.getCountries(),
@@ -68,14 +128,19 @@ const ProfileSetupScreen = () => {
       ]);
       
       console.log('✅ ProfileSetup: Countries loaded:', countriesData.length);
-      console.log('📦 Countries data:', JSON.stringify(countriesData, null, 2));
       console.log('✅ ProfileSetup: Currencies loaded:', currenciesData.length);
-      console.log('📦 Currencies data:', JSON.stringify(currenciesData, null, 2));
       
-      setCountries(countriesData);
-      setCurrencies(currenciesData);
-      setFilteredCountries(countriesData);
-      setFilteredCurrencies(currenciesData);
+      // Sort countries by user's language preference
+      const sortedCountries = sortByPreferredCountry(countriesData);
+      const sortedCurrencies = sortByPreferredCurrency(currenciesData);
+      
+      console.log('🔝 Preferred country moved to top:', sortedCountries[0]?.code);
+      console.log('🔝 Preferred currency moved to top:', sortedCurrencies[0]?.code);
+      
+      setCountries(sortedCountries);
+      setCurrencies(sortedCurrencies);
+      setFilteredCountries(sortedCountries);
+      setFilteredCurrencies(sortedCurrencies);
       
       console.log('✅ ProfileSetup: Data set to state successfully');
     } catch (error) {
@@ -134,10 +199,16 @@ const ProfileSetupScreen = () => {
       <TouchableOpacity
         key={item.code}
         onPress={() => {
-          console.log('👆 Country selected:', item.name);
+          console.log('👆 Country selected:', item.name, item.code);
           setSelectedCountry(item);
           setShowCountryModal(false);
           setSearchText('');
+          
+          // Auto-sort currencies based on selected country
+          const sortedCurrencies = sortByPreferredCurrency(currencies, item.code);
+          setFilteredCurrencies(sortedCurrencies);
+          setCurrencies(sortedCurrencies);
+          console.log('💱 Currencies re-sorted for country:', item.code, '→', sortedCurrencies[0]?.code);
         }}
         style={{
           padding: 16,
