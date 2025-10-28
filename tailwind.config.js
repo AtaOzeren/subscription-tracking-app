@@ -6,7 +6,18 @@ module.exports = {
   ],
   presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: [
+          'SF Pro Display',
+          'SF Pro Text',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'system-ui',
+          'sans-serif'
+        ],
+      },
+    },
   },
   plugins: [],
 }
