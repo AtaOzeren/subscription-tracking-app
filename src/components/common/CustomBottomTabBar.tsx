@@ -161,9 +161,9 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 0,
-    left: 20,
-    right: 20,
+    bottom: -25,
+    left: 5,
+    right: 5,
     backgroundColor: 'transparent',
     zIndex: 999,
   },
