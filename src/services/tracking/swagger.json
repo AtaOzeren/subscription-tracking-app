@@ -1,0 +1,1720 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {},
+        "description": "Complete subscription tracking API with automatic token management",
+        "title": "Subscription Tracking API",
+        "version": "1.0.0"
+    },
+    "host": "localhost:5001",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/api/admin/categories": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Categories1"
+                ],
+                "description": "Get all categories in the system (admin only)",
+                "operationId": "getAllCategories1",
+                "summary": "Get All Categories"
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "description": {
+                                    "example": "Description of new category",
+                                    "type": "string"
+                                },
+                                "icon": {
+                                    "example": "category-icon",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "example": "New Category",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Categories1"
+                ],
+                "description": "Create new category (admin only)",
+                "operationId": "createCategory",
+                "summary": "Create Category"
+            }
+        },
+        "/api/admin/categories/1": {
+            "delete": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Categories1"
+                ],
+                "description": "Delete category from system (admin only)",
+                "operationId": "deleteCategory",
+                "summary": "Delete Category"
+            },
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Categories1"
+                ],
+                "description": "Get specific category details (admin only)",
+                "operationId": "getCategoryById1",
+                "summary": "Get Category by ID"
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "description": {
+                                    "example": "Updated description",
+                                    "type": "string"
+                                },
+                                "icon": {
+                                    "example": "updated-icon",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "example": "Updated Category Name",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Categories1"
+                ],
+                "description": "Update category details (admin only)",
+                "operationId": "updateCategory",
+                "summary": "Update Category"
+            }
+        },
+        "/api/admin/categories/1/icon": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "parameters": [
+                    {
+                        "format": "binary",
+                        "in": "formData",
+                        "name": "icon",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Categories1"
+                ],
+                "description": "Upload category icon image file (admin only)",
+                "operationId": "uploadCategoryIcon",
+                "summary": "Upload Category Icon"
+            }
+        },
+        "/api/admin/countries": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Countries"
+                ],
+                "description": "Get all countries in the system (admin only)",
+                "operationId": "getAllCountries",
+                "summary": "Get All Countries"
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "example": "JP",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "example": "Japan",
+                                    "type": "string"
+                                },
+                                "region": {
+                                    "example": "Asia",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Countries"
+                ],
+                "description": "Create new country (admin only)",
+                "operationId": "createCountry",
+                "summary": "Create Country"
+            }
+        },
+        "/api/admin/countries/JP": {
+            "delete": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Countries"
+                ],
+                "description": "Delete country from system (admin only)",
+                "operationId": "deleteCountry",
+                "summary": "Delete Country"
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "example": "Updated Country Name",
+                                    "type": "string"
+                                },
+                                "region": {
+                                    "example": "Updated Region",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Countries"
+                ],
+                "description": "Update country details (admin only)",
+                "operationId": "updateCountry",
+                "summary": "Update Country"
+            }
+        },
+        "/api/admin/countries/US": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Countries"
+                ],
+                "description": "Get specific country details (admin only)",
+                "operationId": "getCountryByCode",
+                "summary": "Get Country by Code"
+            }
+        },
+        "/api/admin/currencies": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Currencies"
+                ],
+                "description": "Get all currencies in the system (admin only)",
+                "operationId": "getAllCurrencies",
+                "summary": "Get All Currencies"
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "example": "KRW",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "example": "South Korean Won",
+                                    "type": "string"
+                                },
+                                "symbol": {
+                                    "example": "₩",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Currencies"
+                ],
+                "description": "Create new currency (admin only)",
+                "operationId": "createCurrency",
+                "summary": "Create Currency"
+            }
+        },
+        "/api/admin/currencies/KRW": {
+            "delete": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Currencies"
+                ],
+                "description": "Delete currency from system (admin only)",
+                "operationId": "deleteCurrency",
+                "summary": "Delete Currency"
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "example": "Updated Currency Name",
+                                    "type": "string"
+                                },
+                                "symbol": {
+                                    "example": "Updated Symbol",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Currencies"
+                ],
+                "description": "Update currency details (admin only)",
+                "operationId": "updateCurrency",
+                "summary": "Update Currency"
+            }
+        },
+        "/api/admin/currencies/USD": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Reference Data1",
+                    "Currencies"
+                ],
+                "description": "Get specific currency details (admin only)",
+                "operationId": "getCurrencyByCode",
+                "summary": "Get Currency by Code"
+            }
+        },
+        "/api/admin/logs": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Admin Logs"
+                ],
+                "description": "Get all admin logs with pagination (admin only)",
+                "operationId": "getAllLogs",
+                "summary": "Get All Logs"
+            }
+        },
+        "/api/admin/logs/admin/1": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Admin Logs"
+                ],
+                "description": "Get logs for specific admin user (admin only)",
+                "operationId": "getLogsByAdminId",
+                "summary": "Get Logs by Admin ID"
+            }
+        },
+        "/api/admin/logs/stats": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Admin Logs"
+                ],
+                "description": "Get admin log statistics and recent activities (admin only)",
+                "operationId": "getLogStatistics",
+                "summary": "Get Log Statistics"
+            }
+        },
+        "/api/admin/plans": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Plans"
+                ],
+                "description": "Get all subscription plans in the system (admin only)",
+                "operationId": "getAllPlans",
+                "summary": "Get All Plans"
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "billing_cycle": {
+                                    "example": "monthly",
+                                    "type": "string"
+                                },
+                                "features": {
+                                    "properties": {
+                                        "downloads": {
+                                            "example": 6,
+                                            "type": "number"
+                                        },
+                                        "quality": {
+                                            "example": "4K",
+                                            "type": "string"
+                                        },
+                                        "screens": {
+                                            "example": 4,
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "is_active": {
+                                    "example": true,
+                                    "type": "boolean"
+                                },
+                                "name": {
+                                    "example": "Premium Plan",
+                                    "type": "string"
+                                },
+                                "slug": {
+                                    "example": "premium",
+                                    "type": "string"
+                                },
+                                "subscription_id": {
+                                    "example": 1,
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Plans"
+                ],
+                "description": "Create new subscription plan (admin only)",
+                "operationId": "createPlan",
+                "summary": "Create Plan"
+            }
+        },
+        "/api/admin/plans/1": {
+            "delete": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Plans"
+                ],
+                "description": "Delete plan from system (admin only)",
+                "operationId": "deletePlan",
+                "summary": "Delete Plan"
+            },
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Plans"
+                ],
+                "description": "Get specific plan details (admin only)",
+                "operationId": "getPlanById",
+                "summary": "Get Plan by ID"
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "billing_cycle": {
+                                    "example": "yearly",
+                                    "type": "string"
+                                },
+                                "features": {
+                                    "properties": {
+                                        "downloads": {
+                                            "example": 10,
+                                            "type": "number"
+                                        },
+                                        "quality": {
+                                            "example": "8K",
+                                            "type": "string"
+                                        },
+                                        "screens": {
+                                            "example": 6,
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "is_active": {
+                                    "example": false,
+                                    "type": "boolean"
+                                },
+                                "name": {
+                                    "example": "Updated Premium Plan",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Plans"
+                ],
+                "description": "Update plan details (admin only)",
+                "operationId": "updatePlan",
+                "summary": "Update Plan"
+            }
+        },
+        "/api/admin/prices": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Prices"
+                ],
+                "description": "Get all price records in the system (admin only)",
+                "operationId": "getAllPrices",
+                "summary": "Get All Prices"
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "country_code": {
+                                    "example": "US",
+                                    "type": "string"
+                                },
+                                "currency": {
+                                    "example": "USD",
+                                    "type": "string"
+                                },
+                                "plan_id": {
+                                    "example": 1,
+                                    "type": "number"
+                                },
+                                "price": {
+                                    "example": 12.99,
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Prices"
+                ],
+                "description": "Create new price record (admin only)",
+                "operationId": "createPrice",
+                "summary": "Create Price"
+            }
+        },
+        "/api/admin/prices/1": {
+            "delete": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Prices"
+                ],
+                "description": "Delete price record from system (admin only)",
+                "operationId": "deletePrice",
+                "summary": "Delete Price"
+            },
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Prices"
+                ],
+                "description": "Get specific price record (admin only)",
+                "operationId": "getPriceById",
+                "summary": "Get Price by ID"
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "currency": {
+                                    "example": "EUR",
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "example": 15.99,
+                                    "type": "number"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Prices"
+                ],
+                "description": "Update price record (admin only)",
+                "operationId": "updatePrice",
+                "summary": "Update Price"
+            }
+        },
+        "/api/admin/subscriptions": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Subscriptions"
+                ],
+                "description": "Get all subscriptions in the system (admin only)",
+                "operationId": "getAllSubscriptions1",
+                "summary": "Get All Subscriptions"
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "category_id": {
+                                    "example": 1,
+                                    "type": "number"
+                                },
+                                "default_price": {
+                                    "example": 9.99,
+                                    "type": "number"
+                                },
+                                "description": {
+                                    "example": "Description of new subscription",
+                                    "type": "string"
+                                },
+                                "logo_url": {
+                                    "example": "https://example.com/logo.png",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "example": "New Subscription",
+                                    "type": "string"
+                                },
+                                "website_url": {
+                                    "example": "https://example.com",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Subscriptions"
+                ],
+                "description": "Create new subscription (admin only)",
+                "operationId": "createSubscription",
+                "summary": "Create Subscription"
+            }
+        },
+        "/api/admin/subscriptions/1": {
+            "delete": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Subscriptions"
+                ],
+                "description": "Delete subscription from system (admin only)",
+                "operationId": "deleteSubscription",
+                "summary": "Delete Subscription"
+            },
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Subscriptions"
+                ],
+                "description": "Get specific subscription details (admin only)",
+                "operationId": "getSubscriptionById",
+                "summary": "Get Subscription by ID"
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "category_id": {
+                                    "example": 2,
+                                    "type": "number"
+                                },
+                                "default_price": {
+                                    "example": 12.99,
+                                    "type": "number"
+                                },
+                                "description": {
+                                    "example": "Updated description",
+                                    "type": "string"
+                                },
+                                "logo_url": {
+                                    "example": "https://example.com/updated-logo.png",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "example": "Updated Subscription Name",
+                                    "type": "string"
+                                },
+                                "website_url": {
+                                    "example": "https://updated-example.com",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Subscriptions"
+                ],
+                "description": "Update subscription details (admin only)",
+                "operationId": "updateSubscription",
+                "summary": "Update Subscription"
+            }
+        },
+        "/api/admin/users": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Users"
+                ],
+                "description": "Get all users in the system (admin only)",
+                "operationId": "getAllUsers",
+                "summary": "Get All Users"
+            }
+        },
+        "/api/admin/users/1": {
+            "delete": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Users"
+                ],
+                "description": "Delete user from system (admin only)",
+                "operationId": "deleteUser",
+                "summary": "Delete User"
+            },
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Users"
+                ],
+                "description": "Get specific user details (admin only)",
+                "operationId": "getUserById",
+                "summary": "Get User by ID"
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "currency": {
+                                    "example": "TRY",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "example": "updated@example.com",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "example": "Updated Name",
+                                    "type": "string"
+                                },
+                                "region": {
+                                    "example": "TR",
+                                    "type": "string"
+                                },
+                                "role": {
+                                    "example": "customer",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Users"
+                ],
+                "description": "Update user details (admin only)",
+                "operationId": "updateUser",
+                "summary": "Update User"
+            }
+        },
+        "/api/analytics/custom-subscriptions": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get most popular custom subscriptions (admin only)",
+                "operationId": "topCustomSubscriptions",
+                "summary": "Top Custom Subscriptions"
+            }
+        },
+        "/api/analytics/dashboard": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get complete analytics dashboard with all statistics (admin only)",
+                "operationId": "completeDashboard",
+                "summary": "Complete Dashboard"
+            }
+        },
+        "/api/analytics/overview": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get dashboard overview statistics (admin only)",
+                "operationId": "dashboardOverview",
+                "summary": "Dashboard Overview"
+            }
+        },
+        "/api/analytics/popular-plans": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get most popular subscription plans (admin only)",
+                "operationId": "mostPopularPlans",
+                "summary": "Most Popular Plans"
+            }
+        },
+        "/api/analytics/popular-subscriptions": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get most popular preset subscriptions (admin only)",
+                "operationId": "mostPopularSubscriptions",
+                "summary": "Most Popular Subscriptions"
+            }
+        },
+        "/api/analytics/revenue-by-category": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get revenue breakdown by category (admin only)",
+                "operationId": "revenueByCategory",
+                "summary": "Revenue by Category"
+            }
+        },
+        "/api/analytics/user-segmentation": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Analytics"
+                ],
+                "description": "Get user segmentation by billing cycle, currency, and region (admin only)",
+                "operationId": "userSegmentation",
+                "summary": "User Segmentation"
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "example": "john@example.com",
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "example": "123456",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Auth"
+                ],
+                "description": "Login - Token auto-saved",
+                "operationId": "login",
+                "summary": "Login"
+            }
+        },
+        "/api/auth/profile": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Profile"
+                ],
+                "description": "Get profile - Token auto-used (Collection Auth)",
+                "operationId": "getProfile",
+                "summary": "Get Profile"
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "currency": {
+                                    "example": "TRY",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "example": "John Doe Updated",
+                                    "type": "string"
+                                },
+                                "region": {
+                                    "example": "TR",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Profile"
+                ],
+                "description": "Update user profile (region, currency, name)",
+                "operationId": "updateProfile",
+                "summary": "Update Profile"
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "example": "john@example.com",
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "example": "John Doe",
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "example": "123456",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Auth"
+                ],
+                "description": "Register a new user - Token auto-saved",
+                "operationId": "register",
+                "summary": "Register"
+            }
+        },
+        "/api/catalog/subscriptions": {
+            "get": {
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "category_id",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Subscription Catalog"
+                ],
+                "description": "Filter subscriptions by category (1=Streaming, 2=Music, etc.)",
+                "operationId": "getSubscriptionsByCategory",
+                "summary": "Get Subscriptions by Category"
+            }
+        },
+        "/api/catalog/subscriptions/1": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Subscription Catalog"
+                ],
+                "description": "Get subscription details with plans and prices (filtered by user's region)",
+                "operationId": "getSubscriptionDetails",
+                "summary": "Get Subscription Details"
+            }
+        },
+        "/api/catalog/subscriptions/1/plans": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Subscription Catalog"
+                ],
+                "description": "Get all plans for a subscription (Basic, Standard, Premium)",
+                "operationId": "getSubscriptionPlans",
+                "summary": "Get Subscription Plans"
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Categories"
+                ],
+                "description": "Get all subscription categories (Streaming, Music, AI, etc.)",
+                "operationId": "getAllCategories",
+                "summary": "Get All Categories"
+            }
+        },
+        "/api/categories/1": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Categories"
+                ],
+                "description": "Get single category details",
+                "operationId": "getCategoryById",
+                "summary": "Get Category by ID"
+            }
+        },
+        "/api/my-subscriptions": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "My Subscriptions"
+                ],
+                "description": "Get all my active subscriptions",
+                "operationId": "getMySubscriptions",
+                "summary": "Get My Subscriptions"
+            }
+        },
+        "/api/my-subscriptions/1": {
+            "delete": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "My Subscriptions"
+                ],
+                "description": "Delete subscription from my list",
+                "operationId": "deleteMySubscription",
+                "summary": "Delete My Subscription"
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "custom_price": {
+                                    "example": 250,
+                                    "type": "number"
+                                },
+                                "next_billing_date": {
+                                    "example": "2024-03-01",
+                                    "type": "string"
+                                },
+                                "notes": {
+                                    "example": "Updated gym membership price",
+                                    "type": "string"
+                                },
+                                "status": {
+                                    "example": "active",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "My Subscriptions"
+                ],
+                "description": "Update subscription details (price, billing date, status)",
+                "operationId": "updateMySubscription",
+                "summary": "Update My Subscription"
+            }
+        },
+        "/api/my-subscriptions/custom": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "custom_billing_cycle": {
+                                    "example": "monthly",
+                                    "type": "string"
+                                },
+                                "custom_category_id": {
+                                    "example": 11,
+                                    "type": "number"
+                                },
+                                "custom_currency": {
+                                    "example": "TRY",
+                                    "type": "string"
+                                },
+                                "custom_name": {
+                                    "example": "Local Gym Membership",
+                                    "type": "string"
+                                },
+                                "custom_price": {
+                                    "example": 200,
+                                    "type": "number"
+                                },
+                                "next_billing_date": {
+                                    "example": "2024-02-01",
+                                    "type": "string"
+                                },
+                                "notes": {
+                                    "example": "Fitness center membership",
+                                    "type": "string"
+                                },
+                                "start_date": {
+                                    "example": "2024-01-01",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "My Subscriptions"
+                ],
+                "description": "Add custom subscription (not in catalog)",
+                "operationId": "addCustomSubscription",
+                "summary": "Add Custom Subscription"
+            }
+        },
+        "/api/my-subscriptions/preset": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "next_billing_date": {
+                                    "example": "2024-02-01",
+                                    "type": "string"
+                                },
+                                "notes": {
+                                    "example": "Netflix Premium plan",
+                                    "type": "string"
+                                },
+                                "plan_id": {
+                                    "example": 3,
+                                    "type": "number"
+                                },
+                                "start_date": {
+                                    "example": "2024-01-01",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "My Subscriptions"
+                ],
+                "description": "Add subscription from catalog (Netflix, Spotify, etc.)",
+                "operationId": "addPresetSubscription",
+                "summary": "Add Preset Subscription"
+            }
+        },
+        "/api/my-subscriptions/stats": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "My Subscriptions"
+                ],
+                "description": "Get subscription statistics and monthly costs",
+                "operationId": "getMySubscriptionStats",
+                "summary": "Get My Subscription Stats"
+            }
+        },
+        "/api/reference/countries": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Reference Data"
+                ],
+                "description": "Get all countries list",
+                "operationId": "getCountries",
+                "summary": "Get Countries"
+            }
+        },
+        "/api/reference/countries/region/Europe": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Reference Data"
+                ],
+                "description": "Get countries filtered by region (e.g., Europe, Asia, North America)",
+                "operationId": "getCountriesByRegion",
+                "summary": "Get Countries by Region"
+            }
+        },
+        "/api/reference/currencies": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Reference Data"
+                ],
+                "description": "Get all currencies list",
+                "operationId": "getCurrencies",
+                "summary": "Get Currencies"
+            }
+        },
+        "/health": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "description": "Check if server is running",
+                "operationId": "healthCheck",
+                "summary": "Health Check"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth"
+        },
+        {
+            "name": "Customer"
+        },
+        {
+            "name": "Profile"
+        },
+        {
+            "name": "My Subscriptions"
+        },
+        {
+            "name": "Categories"
+        },
+        {
+            "name": "Subscription Catalog"
+        },
+        {
+            "name": "Reference Data"
+        },
+        {
+            "name": "Admin"
+        },
+        {
+            "name": "Users"
+        },
+        {
+            "name": "Categories1"
+        },
+        {
+            "name": "Subscriptions"
+        },
+        {
+            "name": "Plans"
+        },
+        {
+            "name": "Prices"
+        },
+        {
+            "name": "Reference Data1"
+        },
+        {
+            "name": "Countries"
+        },
+        {
+            "name": "Currencies"
+        },
+        {
+            "name": "Admin Logs"
+        },
+        {
+            "name": "Analytics"
+        }
+    ]
+}
