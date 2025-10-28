@@ -77,9 +77,12 @@
     "welcomeToApp": "Abonelik Takip'e Hoş Geldiniz",
     "trackYourSubscriptions": "Tüm aboneliklerinizi tek bir yerde takip edin ve bir ödemeyi kaçırmayın",
     "getStarted": "Başla",
-    "setupProfile": "Profilinizi Ayarlayın",
+    "setupProfile": "Profilinizi Tamamlayın",
+    "setupProfileSubtitle": "Ülkenizi ve para biriminizi seçin",
     "selectCountry": "Ülke Seçin",
     "selectCurrency": "Para Birimi Seçin",
+    "country": "ÜLKE",
+    "currency": "PARA BİRİMİ",
     "countryPlaceholder": "Ülkenizi seçin",
     "currencyPlaceholder": "Para biriminizi seçin",
     "searchCountry": "Ülkeleri ara...",
@@ -87,6 +90,8 @@
     "noCountriesFound": "Ülke bulunamadı",
     "noCurrenciesFound": "Para birimi bulunamadı",
     "completeSetup": "Kurulumu Tamamla",
-    "profileSetupRequired": "Devam etmek için lütfen ülkenizi ve para biriminizi seçin"
+    "profileSetupRequired": "Lütfen ülke ve para birimi seçin",
+    "loadError": "Veriler yüklenemedi. Lütfen tekrar deneyin.",
+    "saveError": "Profil kaydedilemedi. Lütfen tekrar deneyin."
   }
 }

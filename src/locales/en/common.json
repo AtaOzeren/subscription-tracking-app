@@ -77,16 +77,21 @@
     "welcomeToApp": "Welcome to Subscription Tracker",
     "trackYourSubscriptions": "Track all your subscriptions in one place and never miss a payment again",
     "getStarted": "Get Started",
-    "setupProfile": "Setup Your Profile",
+    "setupProfile": "Complete Your Profile",
+    "setupProfileSubtitle": "Select your country and currency",
     "selectCountry": "Select Country",
     "selectCurrency": "Select Currency",
-    "countryPlaceholder": "Choose your country",
-    "currencyPlaceholder": "Choose your currency",
+    "country": "COUNTRY",
+    "currency": "CURRENCY",
+    "countryPlaceholder": "Select your country",
+    "currencyPlaceholder": "Select your currency",
     "searchCountry": "Search countries...",
     "searchCurrency": "Search currencies...",
     "noCountriesFound": "No countries found",
     "noCurrenciesFound": "No currencies found",
     "completeSetup": "Complete Setup",
-    "profileSetupRequired": "Please select your country and currency to continue"
+    "profileSetupRequired": "Please select both country and currency",
+    "loadError": "Failed to load data. Please try again.",
+    "saveError": "Failed to save profile. Please try again."
   }
 }

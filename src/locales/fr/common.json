@@ -77,16 +77,21 @@
     "welcomeToApp": "Bienvenue dans Subscription Tracker",
     "trackYourSubscriptions": "Suivez tous vos abonnements en un seul endroit et ne manquez plus jamais un paiement",
     "getStarted": "Commencer",
-    "setupProfile": "Configurer Votre Profil",
+    "setupProfile": "Complétez Votre Profil",
+    "setupProfileSubtitle": "Sélectionnez votre pays et votre devise",
     "selectCountry": "Sélectionner le Pays",
     "selectCurrency": "Sélectionner la Devise",
-    "countryPlaceholder": "Choisissez votre pays",
-    "currencyPlaceholder": "Choisissez votre devise",
+    "country": "PAYS",
+    "currency": "DEVISE",
+    "countryPlaceholder": "Sélectionnez votre pays",
+    "currencyPlaceholder": "Sélectionnez votre devise",
     "searchCountry": "Rechercher des pays...",
     "searchCurrency": "Rechercher des devises...",
     "noCountriesFound": "Aucun pays trouvé",
     "noCurrenciesFound": "Aucune devise trouvée",
     "completeSetup": "Terminer la Configuration",
-    "profileSetupRequired": "Veuillez sélectionner votre pays et votre devise pour continuer"
+    "profileSetupRequired": "Veuillez sélectionner pays et devise",
+    "loadError": "Échec du chargement des données. Veuillez réessayer.",
+    "saveError": "Échec de l'enregistrement du profil. Veuillez réessayer."
   }
 }

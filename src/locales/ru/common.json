@@ -77,9 +77,12 @@
     "welcomeToApp": "Добро пожаловать в Subscription Tracker",
     "trackYourSubscriptions": "Отслеживайте все ваши подписки в одном месте и никогда не пропускайте платеж",
     "getStarted": "Начать",
-    "setupProfile": "Настройте Ваш Профиль",
+    "setupProfile": "Завершите Ваш Профиль",
+    "setupProfileSubtitle": "Выберите вашу страну и валюту",
     "selectCountry": "Выберите Страну",
     "selectCurrency": "Выберите Валюту",
+    "country": "СТРАНА",
+    "currency": "ВАЛЮТА",
     "countryPlaceholder": "Выберите вашу страну",
     "currencyPlaceholder": "Выберите вашу валюту",
     "searchCountry": "Поиск стран...",
@@ -87,6 +90,8 @@
     "noCountriesFound": "Страны не найдены",
     "noCurrenciesFound": "Валюты не найдены",
     "completeSetup": "Завершить Настройку",
-    "profileSetupRequired": "Пожалуйста, выберите вашу страну и валюту для продолжения"
+    "profileSetupRequired": "Пожалуйста, выберите страну и валюту",
+    "loadError": "Не удалось загрузить данные. Попробуйте снова.",
+    "saveError": "Не удалось сохранить профиль. Попробуйте снова."
   }
 }

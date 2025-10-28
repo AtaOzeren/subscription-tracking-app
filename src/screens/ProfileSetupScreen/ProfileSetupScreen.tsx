@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert, Modal, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { authService } from '../../services/authService';
 import { referenceService } from '../../services/referenceService';
@@ -12,6 +13,7 @@ import AppleButton from '../../components/common/AppleButton';
 
 const ProfileSetupScreen = () => {
   const { checkAuth } = useAuth();
+  const { t } = useTranslation();
   
   const [countries, setCountries] = useState<Country[]>([]);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
@@ -79,8 +81,8 @@ const ProfileSetupScreen = () => {
     } catch (error) {
       console.error('❌ ProfileSetup: Error loading reference data:', error);
       Alert.alert(
-        'Error',
-        error instanceof Error ? error.message : 'Failed to load data. Please try again.'
+        t('common.error'),
+        error instanceof Error ? error.message : t('onboarding.loadError')
       );
     } finally {
       setLoading(false);
@@ -90,8 +92,8 @@ const ProfileSetupScreen = () => {
   const handleSave = async () => {
     if (!selectedCountry || !selectedCurrency) {
       Alert.alert(
-        'Error',
-        'Please select both country and currency.'
+        t('common.error'),
+        t('onboarding.profileSetupRequired')
       );
       return;
     }
@@ -118,8 +120,8 @@ const ProfileSetupScreen = () => {
     } catch (error) {
       console.error('❌ Error saving profile:', error);
       Alert.alert(
-        'Error',
-        error instanceof Error ? error.message : 'Failed to save profile. Please try again.'
+        t('common.error'),
+        error instanceof Error ? error.message : t('onboarding.saveError')
       );
     } finally {
       setLoading(false);
@@ -218,7 +220,7 @@ const ProfileSetupScreen = () => {
             color: '#8E8E93'
           }}
         >
-          Loading...
+          {t('common.loading')}
         </Text>
       </SafeAreaView>
     );
@@ -252,7 +254,7 @@ const ProfileSetupScreen = () => {
                 duration={1000}
                 type="fadeInUp"
               >
-                Complete Your Profile
+                {t('onboarding.setupProfile')}
               </AnimatedText>
               <AnimatedText
                 style={{ 
@@ -266,7 +268,7 @@ const ProfileSetupScreen = () => {
                 duration={1000}
                 type="fadeInUp"
               >
-                Select your country and currency
+                {t('onboarding.setupProfileSubtitle')}
               </AnimatedText>
             </View>
           </View>
@@ -291,7 +293,7 @@ const ProfileSetupScreen = () => {
                   letterSpacing: -0.08,
                 }}
               >
-                COUNTRY
+                {t('onboarding.country')}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -318,7 +320,7 @@ const ProfileSetupScreen = () => {
                     color: selectedCountry ? '#1C1C1E' : '#8E8E93'
                   }}
                 >
-                  {selectedCountry ? selectedCountry.name : 'Select your country'}
+                  {selectedCountry ? selectedCountry.name : t('onboarding.countryPlaceholder')}
                 </Text>
               </TouchableOpacity>
             </AnimatedText>
@@ -341,7 +343,7 @@ const ProfileSetupScreen = () => {
                   letterSpacing: -0.08,
                 }}
               >
-                CURRENCY
+                {t('onboarding.currency')}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -368,7 +370,7 @@ const ProfileSetupScreen = () => {
                     color: selectedCurrency ? '#1C1C1E' : '#8E8E93'
                   }}
                 >
-                  {selectedCurrency ? `${selectedCurrency.name} (${selectedCurrency.code})` : 'Select your currency'}
+                  {selectedCurrency ? `${selectedCurrency.name} (${selectedCurrency.code})` : t('onboarding.currencyPlaceholder')}
                 </Text>
               </TouchableOpacity>
             </AnimatedText>
@@ -384,7 +386,7 @@ const ProfileSetupScreen = () => {
           >
             <View className="w-full">
               <AppleButton
-                title="Complete Setup"
+                title={t('onboarding.completeSetup')}
                 onPress={handleSave}
                 loading={loading}
                 disabled={loading || !selectedCountry || !selectedCurrency}
@@ -417,7 +419,7 @@ const ProfileSetupScreen = () => {
                       color: '#8E8E93'
                     }}
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </Text>
                 </TouchableOpacity>
                 <Text 
@@ -428,7 +430,7 @@ const ProfileSetupScreen = () => {
                     color: '#1C1C1E'
                   }}
                 >
-                  Select Country
+                  {t('onboarding.selectCountry')}
                 </Text>
                 <View style={{ width: 60 }} />
               </View>
@@ -449,7 +451,7 @@ const ProfileSetupScreen = () => {
                 <TextInput
                   value={searchText}
                   onChangeText={setSearchText}
-                  placeholder="Search countries..."
+                  placeholder={t('onboarding.searchCountry')}
                   placeholderTextColor="#8E8E93"
                   style={{ 
                     fontFamily: 'SF Pro Text',
@@ -484,7 +486,7 @@ const ProfileSetupScreen = () => {
                         color: '#8E8E93'
                       }}
                     >
-                      No countries found
+                      {t('onboarding.noCountriesFound')}
                     </Text>
                   </View>
                 );
@@ -514,7 +516,7 @@ const ProfileSetupScreen = () => {
                       color: '#8E8E93'
                     }}
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </Text>
                 </TouchableOpacity>
                 <Text 
@@ -525,7 +527,7 @@ const ProfileSetupScreen = () => {
                     color: '#1C1C1E'
                   }}
                 >
-                  Select Currency
+                  {t('onboarding.selectCurrency')}
                 </Text>
                 <View style={{ width: 60 }} />
               </View>
@@ -546,7 +548,7 @@ const ProfileSetupScreen = () => {
                 <TextInput
                   value={searchText}
                   onChangeText={setSearchText}
-                  placeholder="Search currencies..."
+                  placeholder={t('onboarding.searchCurrency')}
                   placeholderTextColor="#8E8E93"
                   style={{ 
                     fontFamily: 'SF Pro Text',
@@ -575,7 +577,7 @@ const ProfileSetupScreen = () => {
                         color: '#8E8E93'
                       }}
                     >
-                      No currencies found
+                      {t('onboarding.noCurrenciesFound')}
                     </Text>
                   </View>
                 );
