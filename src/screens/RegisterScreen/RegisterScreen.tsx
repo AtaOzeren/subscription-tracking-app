@@ -3,10 +3,13 @@ import { View, Text, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, Sc
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { storageService } from '../../services/storageService';
 import AppleButton from '../../components/common/AppleButton';
 import AppleInput from '../../components/common/AppleInput';
 import Logo from '../../components/common/Logo';
 import AnimatedText from '../../components/common/AnimatedText';
+import ProgressIndicator from '../../components/common/ProgressIndicator';
+import BackButton from '../../components/common/BackButton';
 
 const RegisterScreen: React.FC = () => {
   const [name, setName] = useState('');
@@ -80,6 +83,20 @@ const RegisterScreen: React.FC = () => {
       console.log('🔐 Starting registration for:', email);
       await register(email, password, name);
       console.log('✅ Registration successful');
+
+      // Mark onboarding as complete (Welcome -> Language -> Register completed)
+      await storageService.setOnboardingComplete(true);
+      console.log('✅ Onboarding marked as complete');
+
+      // Check if profile setup is needed
+      const profileSetup = await storageService.getProfileSetup();
+      if (!profileSetup) {
+        console.log('🔄 Redirecting to ProfileSetup...');
+        // Navigate to ProfileSetup screen
+        navigation.navigate('ProfileSetup' as never);
+      } else {
+        console.log('✅ Profile already setup, proceeding to main app');
+      }
     } catch (error) {
       console.error('❌ Registration error:', error);
       Alert.alert(t('auth.registerFailed'), error instanceof Error ? error.message : 'An error occurred');
@@ -89,13 +106,18 @@ const RegisterScreen: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       className="flex-1 bg-ios-background"
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView 
+      {/* Back Button */}
+      <View className="px-6 pt-4 pb-1">
+        <BackButton />
+      </View>
+
+      <ScrollView
         className="flex-1"
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
         keyboardShouldPersistTaps="handled"
       >
         <View className="flex-1 justify-center px-6 py-8">
@@ -104,7 +126,7 @@ const RegisterScreen: React.FC = () => {
             <Logo size="large" animated={true} />
             <View className="mt-8 items-center">
               <AnimatedText
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Display',
                   fontSize: 32,
                   fontWeight: 'bold',
@@ -119,7 +141,7 @@ const RegisterScreen: React.FC = () => {
                 Welcome Sub-Tracking
               </AnimatedText>
               <AnimatedText
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Text',
                   fontSize: 15,
                   color: '#8E8E93',
@@ -224,30 +246,10 @@ const RegisterScreen: React.FC = () => {
             </AnimatedText>
           </View>
 
-          {/* Sign Up Button */}
-          <AnimatedText
-            style={{ opacity: 0, width: '100%' }}
-            delay={1400}
-            duration={800}
-            type="fadeInUp"
-          >
-            <View style={{ width: '100%' }}>
-              <AppleButton
-                title="Sign Up"
-                onPress={handleRegister}
-                loading={isLoading}
-                disabled={isLoading}
-                variant="primary"
-                size="large"
-                style={{ marginBottom: 20, width: '100%' }}
-              />
-            </View>
-          </AnimatedText>
-
           {/* Sign In Link */}
           <AnimatedText
             style={{ opacity: 0, width: '100%' }}
-            delay={1500}
+            delay={1400}
             duration={800}
             type="fadeIn"
           >
@@ -255,7 +257,7 @@ const RegisterScreen: React.FC = () => {
               <Text className="text-ios-text-secondary text-base" style={{ fontFamily: 'SF Pro Text' }}>
                 Already have an account?{' '}
               </Text>
-              <TouchableOpacity 
+              <TouchableOpacity
                 onPress={() => navigation.navigate('Login' as never)}
                 activeOpacity={0.6}
               >
@@ -267,6 +269,40 @@ const RegisterScreen: React.FC = () => {
           </AnimatedText>
         </View>
       </ScrollView>
+
+      {/* Progress Indicator */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1450}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-32 left-0 right-0 items-center">
+          <ProgressIndicator totalSteps={4} currentStep={3} />
+        </View>
+      </AnimatedText>
+
+      {/* Sign Up Button - Fixed at Bottom */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1500}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-8 left-8 right-8">
+          <AppleButton
+            title="Sign Up"
+            onPress={handleRegister}
+            loading={isLoading}
+            disabled={isLoading}
+            variant="primary"
+            size="large"
+            style={{ width: '100%' }}
+          />
+        </View>
+      </AnimatedText>
     </KeyboardAvoidingView>
   );
 };

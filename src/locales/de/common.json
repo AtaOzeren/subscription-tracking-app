@@ -72,5 +72,26 @@
     "searchSubscriptions": "Abonnements suchen...",
     "startTypingToSearch": "Beginnen Sie mit der Eingabe, um Ihre Abonnements zu durchsuchen",
     "noResultsFound": "Keine Ergebnisse für Ihre Suche gefunden"
+  },
+  "onboarding": {
+    "welcomeToApp": "Willkommen beim Subscription Tracker",
+    "trackYourSubscriptions": "Verfolgen Sie alle Ihre Abonnements an einem Ort und verpassen Sie nie wieder eine Zahlung",
+    "getStarted": "Loslegen",
+    "setupProfile": "Vervollständigen Sie Ihr Profil",
+    "setupProfileSubtitle": "Wählen Sie Ihr Land und Ihre Währung",
+    "selectCountry": "Land Auswählen",
+    "selectCurrency": "Währung Auswählen",
+    "country": "LAND",
+    "currency": "WÄHRUNG",
+    "countryPlaceholder": "Wählen Sie Ihr Land",
+    "currencyPlaceholder": "Wählen Sie Ihre Währung",
+    "searchCountry": "Länder suchen...",
+    "searchCurrency": "Währungen suchen...",
+    "noCountriesFound": "Keine Länder gefunden",
+    "noCurrenciesFound": "Keine Währungen gefunden",
+    "completeSetup": "Einrichtung Abschließen",
+    "profileSetupRequired": "Bitte wählen Sie Land und Währung",
+    "loadError": "Daten konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "saveError": "Profil konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
   }
 }

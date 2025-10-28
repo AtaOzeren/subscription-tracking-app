@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import AppleButton from '../../components/common/AppleButton';
 import AnimatedText from '../../components/common/AnimatedText';
+import ProgressIndicator from '../../components/common/ProgressIndicator';
+import BackButton from '../../components/common/BackButton';
 
 const LanguageSelectionScreen: React.FC = () => {
   const { changeLanguage, isLoading, currentLanguage } = useLanguage();
@@ -87,8 +89,8 @@ const LanguageSelectionScreen: React.FC = () => {
       console.log('🌍 Changing language to:', selectedLanguage);
       await changeLanguage(selectedLanguage);
       console.log('✅ Language changed successfully');
-      // Navigate to Login screen after language selection
-      navigation.navigate('Login' as never);
+      // Navigate to Auth navigator after language selection
+      navigation.navigate('Auth' as never);
     } catch (error) {
       console.error('❌ Error selecting language:', error);
     }
@@ -96,9 +98,14 @@ const LanguageSelectionScreen: React.FC = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-ios-background">
+      {/* Back Button */}
+      <View className="px-6 pt-2 pb-2">
+        <BackButton />
+      </View>
+
       <ScrollView 
         className="flex-1"
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
       >
         <View className="flex-1 justify-center px-6 py-8">
           {/* Header Section */}
@@ -206,29 +213,42 @@ const LanguageSelectionScreen: React.FC = () => {
               </AnimatedText>
             ))}
           </View>
-
-          {/* Continue Button */}
-          <AnimatedText
-            style={{ opacity: 0, width: '100%' }}
-            delay={1600}
-            duration={800}
-            type="fadeInUp"
-            asView={true}
-          >
-            <View className="w-full mt-8">
-              <AppleButton
-                title={t('common.next')}
-                onPress={handleContinue}
-                loading={isLoading}
-                disabled={isLoading}
-                variant="primary"
-                size="large"
-                style={{ width: '100%' }}
-              />
-            </View>
-          </AnimatedText>
         </View>
       </ScrollView>
+
+      {/* Progress Indicator */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1500}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-32 left-0 right-0 items-center">
+          <ProgressIndicator totalSteps={4} currentStep={2} />
+        </View>
+      </AnimatedText>
+
+      {/* Continue Button - Fixed at Bottom */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1600}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-8 left-8 right-8">
+          <AppleButton
+            title={t('common.next')}
+            onPress={handleContinue}
+            loading={isLoading}
+            disabled={isLoading}
+            variant="primary"
+            size="large"
+            style={{ width: '100%' }}
+          />
+        </View>
+      </AnimatedText>
     </SafeAreaView>
   );
 };

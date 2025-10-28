@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { storageService } from '../../services/storageService';
 import AppleButton from '../../components/common/AppleButton';
 import AppleInput from '../../components/common/AppleInput';
 import Logo from '../../components/common/Logo';
 import AnimatedText from '../../components/common/AnimatedText';
+import ProgressIndicator from '../../components/common/ProgressIndicator';
+import BackButton from '../../components/common/BackButton';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -47,6 +51,20 @@ const LoginScreen: React.FC = () => {
       console.log('🔐 Starting login for:', email);
       await login(email, password);
       console.log('✅ Login successful');
+      
+      // Mark onboarding as complete (Welcome -> Language -> Login completed)
+      await storageService.setOnboardingComplete(true);
+      console.log('✅ Onboarding marked as complete');
+      
+      // Check if profile setup is needed
+      const profileSetup = await storageService.getProfileSetup();
+      if (!profileSetup) {
+        console.log('🔄 Redirecting to ProfileSetup...');
+        // Navigate to ProfileSetup screen
+        navigation.navigate('ProfileSetup' as never);
+      } else {
+        console.log('✅ Profile already setup, proceeding to main app');
+      }
     } catch (error) {
       console.error('❌ Login error:', error);
       Alert.alert(t('auth.loginFailed'), error instanceof Error ? error.message : 'An error occurred');
@@ -56,15 +74,21 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView 
-      className="flex-1 bg-ios-background"
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <ScrollView 
+    <SafeAreaView className="flex-1 bg-ios-background">
+      {/* Back Button */}
+      <View className="px-6 pt-4 pb-1">
+        <BackButton />
+      </View>
+
+      <KeyboardAvoidingView 
         className="flex-1"
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
+        <ScrollView 
+          className="flex-1"
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
+          keyboardShouldPersistTaps="handled"
+        >
         <View className="flex-1 justify-center px-6 py-8">
           {/* Logo Section */}
           <View className="items-center mb-12">
@@ -149,30 +173,10 @@ const LoginScreen: React.FC = () => {
             </AnimatedText>
           </View>
 
-          {/* Sign In Button */}
-          <AnimatedText
-            style={{ opacity: 0, width: '100%' }}
-            delay={1300}
-            duration={800}
-            type="fadeInUp"
-          >
-             <View style={{ width: '100%' }}>
-               <AppleButton
-                 title={t('common.signIn')}
-                 onPress={handleLogin}
-                 loading={isLoading}
-                 disabled={isLoading}
-                 variant="primary"
-                 size="large"
-                 containerClassName="mb-8"
-               />
-             </View>
-          </AnimatedText>
-
           {/* Sign Up Link */}
           <AnimatedText
             style={{ opacity: 0, width: '100%' }}
-            delay={1450}
+            delay={1300}
             duration={800}
             type="fadeIn"
           >
@@ -192,7 +196,42 @@ const LoginScreen: React.FC = () => {
           </AnimatedText>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+
+      {/* Progress Indicator */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1400}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-32 left-0 right-0 items-center">
+          <ProgressIndicator totalSteps={4} currentStep={3} />
+        </View>
+      </AnimatedText>
+
+      {/* Sign In Button - Fixed at Bottom */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1450}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-8 left-8 right-8">
+          <AppleButton
+            title={t('common.signIn')}
+            onPress={handleLogin}
+            loading={isLoading}
+            disabled={isLoading}
+            variant="primary"
+            size="large"
+            style={{ width: '100%' }}
+          />
+        </View>
+      </AnimatedText>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
