@@ -12,6 +12,7 @@ import Logo from '../../components/common/Logo';
 import AnimatedText from '../../components/common/AnimatedText';
 import AppleButton from '../../components/common/AppleButton';
 import CountryFlag from '../../components/common/CountryFlag';
+import ProgressIndicator from '../../components/common/ProgressIndicator';
 
 // Language to Country mapping
 const languageToCountryMap: Record<string, string> = {
@@ -465,6 +466,19 @@ const ProfileSetupScreen = () => {
           </View>
         </View>
       </ScrollView>
+
+      {/* Progress Indicator */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1150}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-32 left-0 right-0 items-center">
+          <ProgressIndicator totalSteps={4} currentStep={4} />
+        </View>
+      </AnimatedText>
 
       {/* Save Button - Fixed at Bottom */}
       <AnimatedText

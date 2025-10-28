@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +9,8 @@ import AppleButton from '../../components/common/AppleButton';
 import AppleInput from '../../components/common/AppleInput';
 import Logo from '../../components/common/Logo';
 import AnimatedText from '../../components/common/AnimatedText';
+import ProgressIndicator from '../../components/common/ProgressIndicator';
+import BackButton from '../../components/common/BackButton';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -71,15 +74,21 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView 
-      className="flex-1 bg-ios-background"
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <ScrollView 
+    <SafeAreaView className="flex-1 bg-ios-background">
+      {/* Back Button */}
+      <View className="px-6 pt-4 pb-1">
+        <BackButton />
+      </View>
+
+      <KeyboardAvoidingView 
         className="flex-1"
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
-        keyboardShouldPersistTaps="handled"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
+        <ScrollView 
+          className="flex-1"
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
+          keyboardShouldPersistTaps="handled"
+        >
         <View className="flex-1 justify-center px-6 py-8">
           {/* Logo Section */}
           <View className="items-center mb-12">
@@ -188,6 +197,19 @@ const LoginScreen: React.FC = () => {
         </View>
       </ScrollView>
 
+      {/* Progress Indicator */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1400}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-32 left-0 right-0 items-center">
+          <ProgressIndicator totalSteps={4} currentStep={3} />
+        </View>
+      </AnimatedText>
+
       {/* Sign In Button - Fixed at Bottom */}
       <AnimatedText
         style={{ opacity: 0 }}
@@ -208,7 +230,8 @@ const LoginScreen: React.FC = () => {
           />
         </View>
       </AnimatedText>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

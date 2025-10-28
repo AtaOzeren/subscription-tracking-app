@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { authService } from '../../services/authService';
 import { storageService } from '../../services/storageService';
 import AppleButton from '../../components/common/AppleButton';
+import ProgressIndicator from '../../components/common/ProgressIndicator';
 
 type WelcomeScreenNavigationProp = StackNavigationProp<any, 'Welcome'>;
 
@@ -127,12 +128,7 @@ const WelcomeScreen = () => {
           transform: [{ translateY: buttonSlideAnim }]
         }}
       >
-        <View className="flex-row gap-2">
-          <View className="w-2 h-2 rounded-full border-2 border-black bg-black" />
-          <View className="w-2 h-2 rounded-full border-2 border-gray-400" />
-          <View className="w-2 h-2 rounded-full border-2 border-gray-400" />
-          <View className="w-2 h-2 rounded-full border-2 border-gray-400" />
-        </View>
+        <ProgressIndicator totalSteps={4} currentStep={1} />
       </Animated.View>
 
       {/* Next Button - Fixed at Bottom */}
