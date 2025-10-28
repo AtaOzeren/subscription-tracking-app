@@ -110,7 +110,7 @@ const RegisterScreen: React.FC = () => {
     >
       <ScrollView 
         className="flex-1"
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
         keyboardShouldPersistTaps="handled"
       >
         <View className="flex-1 justify-center px-6 py-8">
@@ -239,30 +239,10 @@ const RegisterScreen: React.FC = () => {
             </AnimatedText>
           </View>
 
-          {/* Sign Up Button */}
-          <AnimatedText
-            style={{ opacity: 0, width: '100%' }}
-            delay={1400}
-            duration={800}
-            type="fadeInUp"
-          >
-            <View style={{ width: '100%' }}>
-              <AppleButton
-                title="Sign Up"
-                onPress={handleRegister}
-                loading={isLoading}
-                disabled={isLoading}
-                variant="primary"
-                size="large"
-                style={{ marginBottom: 20, width: '100%' }}
-              />
-            </View>
-          </AnimatedText>
-
           {/* Sign In Link */}
           <AnimatedText
             style={{ opacity: 0, width: '100%' }}
-            delay={1500}
+            delay={1400}
             duration={800}
             type="fadeIn"
           >
@@ -282,6 +262,27 @@ const RegisterScreen: React.FC = () => {
           </AnimatedText>
         </View>
       </ScrollView>
+
+      {/* Sign Up Button - Fixed at Bottom */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1500}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-8 left-8 right-8">
+          <AppleButton
+            title="Sign Up"
+            onPress={handleRegister}
+            loading={isLoading}
+            disabled={isLoading}
+            variant="primary"
+            size="large"
+            style={{ width: '100%' }}
+          />
+        </View>
+      </AnimatedText>
     </KeyboardAvoidingView>
   );
 };

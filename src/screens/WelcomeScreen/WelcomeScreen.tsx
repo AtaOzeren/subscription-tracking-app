@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, Animated } from 'react-native';
+import { View, Text, Image, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { authService } from '../../services/authService';
 import { storageService } from '../../services/storageService';
+import AppleButton from '../../components/common/AppleButton';
 
 type WelcomeScreenNavigationProp = StackNavigationProp<any, 'Welcome'>;
 
@@ -142,15 +143,13 @@ const WelcomeScreen = () => {
           transform: [{ translateY: buttonSlideAnim }]
         }}
       >
-        <TouchableOpacity
+        <AppleButton
+          title="Next"
           onPress={handleNext}
-          className="w-full bg-black py-4 rounded-lg items-center"
-          activeOpacity={0.8}
-        >
-          <Text className="text-white font-semibold text-lg">
-            Next
-          </Text>
-        </TouchableOpacity>
+          variant="primary"
+          size="large"
+          style={{ width: '100%' }}
+        />
       </Animated.View>
     </SafeAreaView>
   );

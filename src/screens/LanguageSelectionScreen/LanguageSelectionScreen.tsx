@@ -98,7 +98,7 @@ const LanguageSelectionScreen: React.FC = () => {
     <SafeAreaView className="flex-1 bg-ios-background">
       <ScrollView 
         className="flex-1"
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
       >
         <View className="flex-1 justify-center px-6 py-8">
           {/* Header Section */}
@@ -206,29 +206,29 @@ const LanguageSelectionScreen: React.FC = () => {
               </AnimatedText>
             ))}
           </View>
-
-          {/* Continue Button */}
-          <AnimatedText
-            style={{ opacity: 0, width: '100%' }}
-            delay={1600}
-            duration={800}
-            type="fadeInUp"
-            asView={true}
-          >
-            <View className="w-full mt-8">
-              <AppleButton
-                title={t('common.next')}
-                onPress={handleContinue}
-                loading={isLoading}
-                disabled={isLoading}
-                variant="primary"
-                size="large"
-                style={{ width: '100%' }}
-              />
-            </View>
-          </AnimatedText>
         </View>
       </ScrollView>
+
+      {/* Continue Button - Fixed at Bottom */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1600}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-8 left-8 right-8">
+          <AppleButton
+            title={t('common.next')}
+            onPress={handleContinue}
+            loading={isLoading}
+            disabled={isLoading}
+            variant="primary"
+            size="large"
+            style={{ width: '100%' }}
+          />
+        </View>
+      </AnimatedText>
     </SafeAreaView>
   );
 };

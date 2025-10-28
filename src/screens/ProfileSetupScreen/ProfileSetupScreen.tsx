@@ -314,7 +314,7 @@ const ProfileSetupScreen = () => {
     >
       <ScrollView 
         className="flex-1"
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
         keyboardShouldPersistTaps="handled"
       >
         <View className="flex-1 justify-center px-6 py-8">
@@ -463,29 +463,29 @@ const ProfileSetupScreen = () => {
               </TouchableOpacity>
             </AnimatedText>
           </View>
-
-          {/* Save Button */}
-          <AnimatedText
-            style={{ opacity: 0, width: '100%' }}
-            delay={1200}
-            duration={800}
-            type="fadeInUp"
-            asView={true}
-          >
-            <View className="w-full">
-              <AppleButton
-                title={t('onboarding.completeSetup')}
-                onPress={handleSave}
-                loading={loading}
-                disabled={loading || !selectedCountry || !selectedCurrency}
-                variant="primary"
-                size="large"
-                style={{ width: '100%' }}
-              />
-            </View>
-          </AnimatedText>
         </View>
       </ScrollView>
+
+      {/* Save Button - Fixed at Bottom */}
+      <AnimatedText
+        style={{ opacity: 0 }}
+        delay={1200}
+        duration={800}
+        type="fadeInUp"
+        asView={true}
+      >
+        <View className="absolute bottom-8 left-8 right-8">
+          <AppleButton
+            title={t('onboarding.completeSetup')}
+            onPress={handleSave}
+            loading={loading}
+            disabled={loading || !selectedCountry || !selectedCurrency}
+            variant="primary"
+            size="large"
+            style={{ width: '100%' }}
+          />
+        </View>
+      </AnimatedText>
 
       {/* Country Modal */}
       <Modal
