@@ -11,6 +11,7 @@ import { Country, Currency } from '../../types/reference';
 import Logo from '../../components/common/Logo';
 import AnimatedText from '../../components/common/AnimatedText';
 import AppleButton from '../../components/common/AppleButton';
+import CountryFlag from '../../components/common/CountryFlag';
 
 // Language to Country mapping
 const languageToCountryMap: Record<string, string> = {
@@ -62,15 +63,7 @@ const ProfileSetupScreen = () => {
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [filteredCurrencies, setFilteredCurrencies] = useState<Currency[]>([]);
 
-  // Convert country code to flag emoji
-  const getCountryFlag = (countryCode: string): string => {
-    // Unicode flag emoji: Regional Indicator Symbol Letter
-    const codePoints = countryCode
-      .toUpperCase()
-      .split('')
-      .map(char => 127397 + char.charCodeAt(0));
-    return String.fromCodePoint(...codePoints);
-  };
+
 
   useEffect(() => {
     loadData();
@@ -205,7 +198,6 @@ const ProfileSetupScreen = () => {
 
   const renderCountryItem = (item: Country) => {
     console.log('🎨 Rendering country item:', item.name);
-    const flag = getCountryFlag(item.code);
     
     return (
       <TouchableOpacity
@@ -254,9 +246,7 @@ const ProfileSetupScreen = () => {
             {item.region}
           </Text>
         </View>
-        <Text style={{ fontSize: 32, marginLeft: 12 }}>
-          {flag}
-        </Text>
+        <CountryFlag countryCode={item.code} size={32} style={{ marginLeft: 12 }} />
       </TouchableOpacity>
     );
   };
@@ -418,9 +408,7 @@ const ProfileSetupScreen = () => {
                   {selectedCountry ? selectedCountry.name : t('onboarding.countryPlaceholder')}
                 </Text>
                 {selectedCountry && (
-                  <Text style={{ fontSize: 24, marginLeft: 8 }}>
-                    {getCountryFlag(selectedCountry.code)}
-                  </Text>
+                  <CountryFlag countryCode={selectedCountry.code} size={24} style={{ marginLeft: 8 }} />
                 )}
               </TouchableOpacity>
             </AnimatedText>
