@@ -77,7 +77,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY }
               style={styles.blurContainer}
             >
               <BlurView
-                intensity={80}
+                intensity={100}
                 tint="light"
                 style={styles.blurView}
               >
@@ -124,7 +124,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY }
             {searchTab && (
               <View style={styles.searchContainer}>
                 <BlurView
-                  intensity={80}
+                  intensity={100}
                   tint="light"
                   style={styles.searchBlurView}
                 >
@@ -159,15 +159,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   blurContainer: {
-    borderRadius: 20,
+    borderRadius: 28,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
+    elevation: 6,
   },
   blurView: {
-    borderRadius: 20,
+    borderRadius: 28,
     overflow: 'hidden',
   },
   searchContainer: {

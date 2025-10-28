@@ -58,28 +58,28 @@ const MainNavigator = () => {
   const tabs = [
     {
       key: 'home',
-      icon: '◉',
+      icon: '⌂',
       label: t('navigation.home'),
       onPress: () => setActiveTab('home'),
       isActive: activeTab === 'home',
     },
     {
       key: 'subscriptions',
-      icon: '▭',
+      icon: '☰',
       label: t('navigation.subscriptions'),
       onPress: () => setActiveTab('subscriptions'),
       isActive: activeTab === 'subscriptions',
     },
     {
       key: 'statistics',
-      icon: '◧',
+      icon: '▦',
       label: t('navigation.statistics'),
       onPress: () => setActiveTab('statistics'),
       isActive: activeTab === 'statistics',
     },
     {
       key: 'search',
-      icon: '◎',
+      icon: '⌕',
       label: t('navigation.search'),
       onPress: () => setActiveTab('search'),
       isActive: activeTab === 'search',
