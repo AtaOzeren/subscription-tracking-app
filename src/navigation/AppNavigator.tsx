@@ -1,19 +1,22 @@
-import React from 'react';
-import { Text } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Animated, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTranslation } from 'react-i18next';
 import LoadingScreen from '../screens/LoadingScreen/LoadingScreen';
 import AuthNavigator from './AuthNavigator';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
+import SubscriptionsScreen from '../screens/SubscriptionsScreen/SubscriptionsScreen';
+import StatisticsScreen from '../screens/StatisticsScreen/StatisticsScreen';
+import SearchScreen from '../screens/SearchScreen/SearchScreen';
 import AddSubscriptionScreen from '../screens/AddSubscriptionScreen/AddSubscriptionScreen';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import SubscriptionDetailScreen from '../screens/SubscriptionDetailScreen/SubscriptionDetailScreen';
-import LanguageSelectionScreen from '../screens/LanguageSelectionScreen/LanguageSelectionScreen';
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
+import CustomBottomTabBar from '../components/common/CustomBottomTabBar';
 
-const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
@@ -29,13 +32,88 @@ const HomeStack = () => {
         component={SubscriptionDetailScreen}
         options={{ title: 'Subscription Details' }}
       />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: 'Profile' }}
+      />
     </Stack.Navigator>
+  );
+};
+
+const MainNavigator = () => {
+  const [activeTab, setActiveTab] = useState('home');
+  const [tabBarHeight, setTabBarHeight] = useState(100);
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const { t } = useTranslation();
+
+  const renderScreen = () => {
+    switch (activeTab) {
+      case 'home':
+        return <HomeScreen scrollY={scrollY} tabBarHeight={tabBarHeight} />;
+      case 'subscriptions':
+        return <SubscriptionsScreen scrollY={scrollY} />;
+      case 'statistics':
+        return <StatisticsScreen scrollY={scrollY} />;
+      case 'search':
+        return <SearchScreen scrollY={scrollY} />;
+      default:
+        return <HomeScreen scrollY={scrollY} />;
+    }
+  };
+
+  const tabs = [
+    {
+      key: 'home',
+      iconName: 'home',
+      label: t('navigation.home'),
+      onPress: () => setActiveTab('home'),
+      isActive: activeTab === 'home',
+    },
+    {
+      key: 'subscriptions',
+      iconName: 'list',
+      label: t('navigation.subscriptions'),
+      onPress: () => setActiveTab('subscriptions'),
+      isActive: activeTab === 'subscriptions',
+    },
+    {
+      key: 'statistics',
+      iconName: 'bar-chart',
+      label: t('navigation.statistics'),
+      onPress: () => setActiveTab('statistics'),
+      isActive: activeTab === 'statistics',
+    },
+    {
+      key: 'search',
+      iconName: 'search',
+      label: t('navigation.search'),
+      onPress: () => setActiveTab('search'),
+      isActive: activeTab === 'search',
+    },
+  ];
+
+  return (
+    <View className="flex-1" style={{ position: 'relative' }}>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={0}
+      >
+        {renderScreen()}
+      </KeyboardAvoidingView>
+      <CustomBottomTabBar 
+        tabs={tabs} 
+        scrollY={scrollY} 
+        onLayout={setTabBarHeight}
+      />
+    </View>
   );
 };
 
 const AppNavigator = () => {
   const { isAuthenticated, isLoading } = useAuth();
-  const { isFirstTime, isLoading: languageLoading } = useLanguage();
+  const { isLoading: languageLoading } = useLanguage();
 
   if (isLoading || languageLoading) {
     return <LoadingScreen />;
@@ -44,38 +122,7 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       {isAuthenticated ? (
-        <Tab.Navigator
-          screenOptions={{
-            tabBarActiveTintColor: '#4ECDC4',
-            tabBarInactiveTintColor: 'gray',
-            headerShown: false,
-          }}
-        >
-          <Tab.Screen
-            name="Home"
-            component={HomeStack}
-            options={{
-              tabBarLabel: 'Home',
-              tabBarIcon: () => <Text>🏠</Text>
-            }}
-          />
-          <Tab.Screen
-            name="Add"
-            component={AddSubscriptionScreen}
-            options={{
-              tabBarLabel: 'Add',
-              tabBarIcon: () => <Text>➕</Text>
-            }}
-          />
-          <Tab.Screen
-            name="Settings"
-            component={SettingsScreen}
-            options={{
-              tabBarLabel: 'Settings',
-              tabBarIcon: () => <Text>⚙️</Text>
-            }}
-          />
-        </Tab.Navigator>
+        <MainNavigator />
       ) : (
         <AuthNavigator />
       )}

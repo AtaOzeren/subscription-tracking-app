@@ -37,7 +37,11 @@
     "monthly": "Monthly",
     "yearly": "Yearly",
     "activeSubscriptions": "Active Subscriptions ({{count}})",
-    "noSubscriptions": "No subscriptions yet. Tap \"Add\" to create your first subscription."
+    "noSubscriptions": "No subscriptions yet. Tap \"Add\" to create your first subscription.",
+    "goodMorning": "Good Morning {{name}}",
+    "goodDay": "Good Day {{name}}",
+    "goodEvening": "Good Evening {{name}}",
+    "goodNight": "Good Night {{name}}"
   },
   "language": {
     "selectLanguage": "Select Language",
@@ -47,5 +51,26 @@
     "italian": "Italian",
     "french": "French",
     "russian": "Russian"
+  },
+  "navigation": {
+    "home": "Home",
+    "subscriptions": "Subscriptions",
+    "statistics": "Statistics",
+    "search": "Search"
+  },
+  "subscriptions": {
+    "manageYourSubscriptions": "Manage all your subscriptions in one place",
+    "noSubscriptionsYet": "No subscriptions yet. Tap \"Add\" to create your first subscription."
+  },
+  "statistics": {
+    "viewYourSpending": "View your spending patterns and insights",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "noDataAvailable": "No data available yet. Start adding subscriptions to see your statistics."
+  },
+  "search": {
+    "searchSubscriptions": "Search subscriptions...",
+    "startTypingToSearch": "Start typing to search your subscriptions",
+    "noResultsFound": "No results found for your search"
   }
 }

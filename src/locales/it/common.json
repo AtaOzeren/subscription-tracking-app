@@ -37,7 +37,11 @@
     "monthly": "Mensile",
     "yearly": "Annuale",
     "activeSubscriptions": "Abbonamenti Attivi ({{count}})",
-    "noSubscriptions": "Nessun abbonamento ancora. Tocca \"Aggiungi\" per creare il tuo primo abbonamento."
+    "noSubscriptions": "Nessun abbonamento ancora. Tocca \"Aggiungi\" per creare il tuo primo abbonamento.",
+    "goodMorning": "Buongiorno {{name}}",
+    "goodDay": "Buona Giornata {{name}}",
+    "goodEvening": "Buonasera {{name}}",
+    "goodNight": "Buonanotte {{name}}"
   },
   "language": {
     "selectLanguage": "Seleziona Lingua",
@@ -47,5 +51,26 @@
     "italian": "Italiano",
     "french": "Francese",
     "russian": "Russo"
+  },
+  "navigation": {
+    "home": "Home",
+    "subscriptions": "Abbonamenti",
+    "statistics": "Statistiche",
+    "search": "Cerca"
+  },
+  "subscriptions": {
+    "manageYourSubscriptions": "Gestisci tutti i tuoi abbonamenti in un unico posto",
+    "noSubscriptionsYet": "Nessun abbonamento ancora. Tocca \"Aggiungi\" per creare il tuo primo abbonamento."
+  },
+  "statistics": {
+    "viewYourSpending": "Visualizza i tuoi modelli di spesa e le tue informazioni",
+    "monthly": "Mensile",
+    "yearly": "Annuale",
+    "noDataAvailable": "Nessun dato disponibile ancora. Inizia ad aggiungere abbonamenti per vedere le tue statistiche."
+  },
+  "search": {
+    "searchSubscriptions": "Cerca abbonamenti...",
+    "startTypingToSearch": "Inizia a digitare per cercare i tuoi abbonamenti",
+    "noResultsFound": "Nessun risultato trovato per la tua ricerca"
   }
 }

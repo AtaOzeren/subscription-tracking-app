@@ -1,16 +1,63 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert, Modal } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Alert, Modal, Animated } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage, availableLanguages, LanguageCode } from '../../contexts/LanguageContext';
 import { useTranslation } from 'react-i18next';
+import { getGreetingMessage } from '../../utils/helpers';
+import ProfileButton from '../../components/common/ProfileButton';
 
-const HomeScreen = ({ navigation }: any) => {
+interface HomeScreenProps {
+  scrollY?: Animated.Value;
+  tabBarHeight?: number;
+}
+
+const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
   const { user, logout } = useAuth();
   const { currentLanguage, changeLanguage, isLoading } = useLanguage();
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(currentLanguage.code);
+  const [greetingMessage, setGreetingMessage] = useState('');
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Force layout recalculation on mount to fix initial positioning issue
+    const timer = setTimeout(() => {
+      // This forces a re-render which recalculates the layout
+      // Similar to what happens when language is changed
+      setIsLanguageModalVisible(false);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    // Update greeting message when user changes or every minute
+    const updateGreeting = () => {
+      if (user?.name) {
+        setGreetingMessage(getGreetingMessage(user.name, t));
+        // Start fade in animation
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }).start();
+      }
+    };
+
+    updateGreeting();
+    const interval = setInterval(updateGreeting, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, [user?.name, t, fadeAnim]);
+
+  const handleProfilePress = () => {
+    // Navigate to profile screen
+    // TODO: Implement navigation when navigation prop is available
+    console.log('Profile button pressed - navigation to be implemented');
+  };
 
   const languageColors = {
     en: { border: '#000000', text: '#FFFFFF' },
@@ -114,38 +161,22 @@ const HomeScreen = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="p-4">
+    <SafeAreaView className="flex-1 bg-gray-50" style={{ paddingBottom: 0 }}>
+      <View className="p-4" style={{ paddingBottom: tabBarHeight + insets.bottom + 25 }}>
         <View className="flex-row justify-between items-center mb-2">
           <View>
-            <Text className="text-2xl font-bold text-gray-800">
-              {t('home.mySubscriptions')}
-            </Text>
-            <Text className="text-sm text-gray-500">
-              {t('home.welcomeBack', { name: user?.name || 'User' })}
-            </Text>
+            <Animated.Text 
+              className="text-2xl font-bold text-gray-800"
+              style={{ opacity: fadeAnim }}
+            >
+              {greetingMessage || t('home.mySubscriptions')}
+            </Animated.Text>
           </View>
           <View className="flex-row items-center gap-2">
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedLanguage(currentLanguage.code);
-                setIsLanguageModalVisible(true);
-              }}
-              className="bg-gray-200 p-2 rounded-lg"
-            >
-              {renderFlagBadge(currentLanguage.code)}
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleLogout}
-              className="bg-red-500 px-4 py-2 rounded-lg"
-            >
-              <Text className="text-white font-medium">{t('common.logout')}</Text>
-            </TouchableOpacity>
+            <ProfileButton onPress={handleProfilePress} />
           </View>
         </View>
-        <Text className="text-base text-gray-500 mb-6">
-          {t('home.trackExpenses')}
-        </Text>
+
         
         {/* Stats Cards */}
         <View className="flex-row justify-between mb-6">
@@ -166,7 +197,14 @@ const HomeScreen = ({ navigation }: any) => {
           </Text>
         </View>
         
-        <ScrollView className="flex-1">
+        <ScrollView 
+          className="flex-1"
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY || new Animated.Value(0) } } }],
+            { useNativeDriver: false }
+          )}
+          scrollEventThrottle={16}
+        >
           <View className="bg-white rounded-lg p-4 mb-3 shadow-sm">
             <Text className="text-gray-500 text-center py-8">
               {t('home.noSubscriptions')}
