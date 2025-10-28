@@ -14,6 +14,7 @@ import SearchScreen from '../screens/SearchScreen/SearchScreen';
 import AddSubscriptionScreen from '../screens/AddSubscriptionScreen/AddSubscriptionScreen';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import SubscriptionDetailScreen from '../screens/SubscriptionDetailScreen/SubscriptionDetailScreen';
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import CustomBottomTabBar from '../components/common/CustomBottomTabBar';
 
 const Stack = createStackNavigator();
@@ -30,6 +31,11 @@ const HomeStack = () => {
         name="SubscriptionDetail"
         component={SubscriptionDetailScreen}
         options={{ title: 'Subscription Details' }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: 'Profile' }}
       />
     </Stack.Navigator>
   );

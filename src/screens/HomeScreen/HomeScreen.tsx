@@ -4,6 +4,8 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage, availableLanguages, LanguageCode } from '../../contexts/LanguageContext';
 import { useTranslation } from 'react-i18next';
+import { getGreetingMessage } from '../../utils/helpers';
+import ProfileButton from '../../components/common/ProfileButton';
 
 interface HomeScreenProps {
   scrollY?: Animated.Value;
@@ -17,6 +19,7 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
   const insets = useSafeAreaInsets();
   const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(currentLanguage.code);
+  const [greetingMessage, setGreetingMessage] = useState('');
 
   useEffect(() => {
     // Force layout recalculation on mount to fix initial positioning issue
@@ -28,6 +31,26 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    // Update greeting message when user changes or every minute
+    const updateGreeting = () => {
+      if (user?.name) {
+        setGreetingMessage(getGreetingMessage(user.name));
+      }
+    };
+
+    updateGreeting();
+    const interval = setInterval(updateGreeting, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, [user?.name]);
+
+  const handleProfilePress = () => {
+    // Navigate to profile screen
+    // TODO: Implement navigation when navigation prop is available
+    console.log('Profile button pressed - navigation to be implemented');
+  };
 
   const languageColors = {
     en: { border: '#000000', text: '#FFFFFF' },
@@ -136,33 +159,17 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
         <View className="flex-row justify-between items-center mb-2">
           <View>
             <Text className="text-2xl font-bold text-gray-800">
-              {t('home.mySubscriptions')}
+              {greetingMessage || t('home.mySubscriptions')}
             </Text>
             <Text className="text-sm text-gray-500">
-              {t('home.welcomeBack', { name: user?.name || 'User' })}
+              {t('home.trackExpenses')}
             </Text>
           </View>
           <View className="flex-row items-center gap-2">
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedLanguage(currentLanguage.code);
-                setIsLanguageModalVisible(true);
-              }}
-              className="bg-gray-200 p-2 rounded-lg"
-            >
-              {renderFlagBadge(currentLanguage.code)}
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleLogout}
-              className="bg-red-500 px-4 py-2 rounded-lg"
-            >
-              <Text className="text-white font-medium">{t('common.logout')}</Text>
-            </TouchableOpacity>
+            <ProfileButton onPress={handleProfilePress} />
           </View>
         </View>
-        <Text className="text-base text-gray-500 mb-6">
-          {t('home.trackExpenses')}
-        </Text>
+
         
         {/* Stats Cards */}
         <View className="flex-row justify-between mb-6">

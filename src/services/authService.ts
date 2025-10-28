@@ -296,6 +296,51 @@ class AuthService {
     }
   }
 
+  async getProfile(): Promise<User | null> {
+    try {
+      const token = await storageService.getToken();
+      if (!token) {
+        console.log('🔍 No token found for profile request');
+        return null;
+      }
+
+      console.log('🔍 Fetching user profile...');
+      this.api.setSecurityData(token);
+
+      const response = await this.fetchWithTimeout(`${this.baseUrl}/api/auth/profile`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      }, 10000);
+      
+      console.log('📡 Profile response status:', response.status);
+      
+      if (!response.ok) {
+        console.error('❌ Profile HTTP Error:', response.status);
+        return null;
+      }
+      
+      const apiResponse: ApiResponse<User> = await response.json();
+      console.log('🔍 Parsed profile response:', apiResponse);
+      
+      if (!apiResponse || !apiResponse.success || !apiResponse.data) {
+        console.error('❌ Invalid profile response:', apiResponse);
+        return null;
+      }
+      
+      const user: User = apiResponse.data;
+      console.log('✅ Profile fetched successfully:', user.email);
+      
+      await storageService.setUser(user);
+      return user;
+    } catch (error) {
+      console.error('❌ Profile fetch error:', error);
+      return null;
+    }
+  }
+
   async logout(): Promise<void> {
     try {
       console.log('🚪 Logging out...');
