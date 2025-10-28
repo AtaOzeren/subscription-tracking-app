@@ -62,6 +62,16 @@ const ProfileSetupScreen = () => {
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [filteredCurrencies, setFilteredCurrencies] = useState<Currency[]>([]);
 
+  // Convert country code to flag emoji
+  const getCountryFlag = (countryCode: string): string => {
+    // Unicode flag emoji: Regional Indicator Symbol Letter
+    const codePoints = countryCode
+      .toUpperCase()
+      .split('')
+      .map(char => 127397 + char.charCodeAt(0));
+    return String.fromCodePoint(...codePoints);
+  };
+
   useEffect(() => {
     loadData();
   }, []);
@@ -195,6 +205,8 @@ const ProfileSetupScreen = () => {
 
   const renderCountryItem = (item: Country) => {
     console.log('🎨 Rendering country item:', item.name);
+    const flag = getCountryFlag(item.code);
+    
     return (
       <TouchableOpacity
         key={item.code}
@@ -215,27 +227,35 @@ const ProfileSetupScreen = () => {
           borderBottomWidth: 1,
           borderBottomColor: '#E5E5EA',
           backgroundColor: '#FFFFFF',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Text 
-          style={{ 
-            fontFamily: 'SF Pro Display',
-            fontSize: 16,
-            fontWeight: '600',
-            color: '#1C1C1E',
-            marginBottom: 4
-          }}
-        >
-          {item.name}
-        </Text>
-        <Text 
-          style={{ 
-            fontFamily: 'SF Pro Text',
-            fontSize: 14,
-            color: '#8E8E93'
-          }}
-        >
-          {item.region}
+        <View style={{ flex: 1 }}>
+          <Text 
+            style={{ 
+              fontFamily: 'SF Pro Display',
+              fontSize: 16,
+              fontWeight: '600',
+              color: '#1C1C1E',
+              marginBottom: 4
+            }}
+          >
+            {item.name}
+          </Text>
+          <Text 
+            style={{ 
+              fontFamily: 'SF Pro Text',
+              fontSize: 14,
+              color: '#8E8E93'
+            }}
+          >
+            {item.region}
+          </Text>
+        </View>
+        <Text style={{ fontSize: 32, marginLeft: 12 }}>
+          {flag}
         </Text>
       </TouchableOpacity>
     );
@@ -381,6 +401,9 @@ const ProfileSetupScreen = () => {
                   shadowRadius: 2,
                   elevation: 1,
                   borderColor: '#E5E5EA',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
                 <Text 
@@ -388,11 +411,17 @@ const ProfileSetupScreen = () => {
                   style={{ 
                     fontFamily: 'SF Pro Text',
                     fontSize: 16,
-                    color: selectedCountry ? '#1C1C1E' : '#8E8E93'
+                    color: selectedCountry ? '#1C1C1E' : '#8E8E93',
+                    flex: 1,
                   }}
                 >
                   {selectedCountry ? selectedCountry.name : t('onboarding.countryPlaceholder')}
                 </Text>
+                {selectedCountry && (
+                  <Text style={{ fontSize: 24, marginLeft: 8 }}>
+                    {getCountryFlag(selectedCountry.code)}
+                  </Text>
+                )}
               </TouchableOpacity>
             </AnimatedText>
 
