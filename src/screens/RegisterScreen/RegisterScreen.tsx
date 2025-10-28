@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import AppleButton from '../../components/common/AppleButton';
 import AppleInput from '../../components/common/AppleInput';
 import Logo from '../../components/common/Logo';
@@ -16,12 +17,32 @@ const RegisterScreen: React.FC = () => {
   const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string; confirmPassword?: string }>({});
   const { register } = useAuth();
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const validateForm = (): boolean => {
     const newErrors: { name?: string; email?: string; password?: string; confirmPassword?: string } = {};
 
     if (!name) {
       newErrors.name = 'Name is required';
+    }
+
+    if (!email) {
+      newErrors.email = t('auth.emailRequired');
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        newErrors.email = t('auth.validEmail');
+      }
+    }
+
+    if (!password) {
+      newErrors.password = t('auth.passwordRequired');
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password';
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
     }
 
     if (!email) {
@@ -61,7 +82,7 @@ const RegisterScreen: React.FC = () => {
       console.log('✅ Registration successful');
     } catch (error) {
       console.error('❌ Registration error:', error);
-      Alert.alert('Registration Failed', error instanceof Error ? error.message : 'An error occurred');
+      Alert.alert(t('auth.registerFailed'), error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setIsLoading(false);
     }

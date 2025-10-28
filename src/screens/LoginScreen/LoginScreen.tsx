@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import AppleButton from '../../components/common/AppleButton';
 import AppleInput from '../../components/common/AppleInput';
 import Logo from '../../components/common/Logo';
@@ -14,21 +15,22 @@ const LoginScreen: React.FC = () => {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const { login } = useAuth();
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const validateForm = (): boolean => {
     const newErrors: { email?: string; password?: string } = {};
 
     if (!email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('auth.emailRequired');
     } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        newErrors.email = 'Please enter a valid email address';
+        newErrors.email = t('auth.validEmail');
       }
     }
 
     if (!password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = t('auth.passwordRequired');
     }
 
     setErrors(newErrors);
@@ -47,7 +49,7 @@ const LoginScreen: React.FC = () => {
       console.log('✅ Login successful');
     } catch (error) {
       console.error('❌ Login error:', error);
-      Alert.alert('Login Failed', error instanceof Error ? error.message : 'An error occurred');
+      Alert.alert(t('auth.loginFailed'), error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -103,26 +105,26 @@ const LoginScreen: React.FC = () => {
           {/* Form Section */}
           <View className="mb-6 w-full">
             <AnimatedText
-              style={{ opacity: 0, width: '100%' }}
-              delay={1000}
-              duration={800}
-              type="fadeInUp"
-            >
-              <View style={{ width: '100%' }}>
-                <AppleInput
-                  placeholder="Email Address"
-                  value={email}
-                  onChangeText={(text) => {
-                    setEmail(text);
-                    if (errors.email) setErrors({ ...errors, email: undefined });
-                  }}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  error={errors.email}
-                  containerStyle={{ marginBottom: 20, width: '100%' }}
-                />
-              </View>
+                 style={{ opacity: 0, width: '100%' }}
+                 delay={1000}
+                 duration={800}
+                 type="fadeInUp"
+               >
+               <View style={{ width: '100%' }}>
+                 <AppleInput
+                   placeholder={t('auth.emailAddress')}
+                   value={email}
+                   onChangeText={(text) => {
+                     setEmail(text);
+                     if (errors.email) setErrors({ ...errors, email: undefined });
+                   }}
+                   keyboardType="email-address"
+                   autoCapitalize="none"
+                   autoCorrect={false}
+                   error={errors.email}
+                   containerStyle={{ marginBottom: 20, width: '100%' }}
+                 />
+               </View>
             </AnimatedText>
 
             <AnimatedText
@@ -131,19 +133,19 @@ const LoginScreen: React.FC = () => {
               duration={800}
               type="fadeInUp"
             >
-              <View style={{ width: '100%' }}>
-                <AppleInput
-                  placeholder="Password"
-                  value={password}
-                  onChangeText={(text) => {
-                    setPassword(text);
-                    if (errors.password) setErrors({ ...errors, password: undefined });
-                  }}
-                  secureTextEntry
-                  error={errors.password}
-                  containerStyle={{ marginBottom: 0, width: '100%' }}
-                />
-              </View>
+               <View style={{ width: '100%' }}>
+                 <AppleInput
+                   placeholder={t('auth.password')}
+                   value={password}
+                   onChangeText={(text) => {
+                     setPassword(text);
+                     if (errors.password) setErrors({ ...errors, password: undefined });
+                   }}
+                   secureTextEntry
+                   error={errors.password}
+                   containerStyle={{ marginBottom: 0, width: '100%' }}
+                 />
+               </View>
             </AnimatedText>
           </View>
 
@@ -154,17 +156,17 @@ const LoginScreen: React.FC = () => {
             duration={800}
             type="fadeInUp"
           >
-            <View style={{ width: '100%' }}>
-              <AppleButton
-                title="Sign In"
-                onPress={handleLogin}
-                loading={isLoading}
-                disabled={isLoading}
-                variant="primary"
-                size="large"
-                style={{ marginBottom: 20, width: '100%' }}
-              />
-            </View>
+             <View style={{ width: '100%' }}>
+               <AppleButton
+                 title={t('common.signIn')}
+                 onPress={handleLogin}
+                 loading={isLoading}
+                 disabled={isLoading}
+                 variant="primary"
+                 size="large"
+                 style={{ marginBottom: 20, width: '100%' }}
+               />
+             </View>
           </AnimatedText>
 
           {/* Sign Up Link */}
@@ -174,19 +176,19 @@ const LoginScreen: React.FC = () => {
             duration={800}
             type="fadeIn"
           >
-            <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-              <Text className="text-ios-text-secondary text-base" style={{ fontFamily: 'SF Pro Text' }}>
-                Don't have an account?{' '}
-              </Text>
-              <TouchableOpacity 
-                onPress={() => navigation.navigate('Register' as never)}
-                activeOpacity={0.6}
-              >
-                <Text className="text-ios-blue text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
-                  Sign Up
-                </Text>
-              </TouchableOpacity>
-            </View>
+             <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+               <Text className="text-ios-text-secondary text-base" style={{ fontFamily: 'SF Pro Text' }}>
+                 {t('auth.dontHaveAccount')}{' '}
+               </Text>
+               <TouchableOpacity 
+                 onPress={() => navigation.navigate('Register' as never)}
+                 activeOpacity={0.6}
+               >
+                 <Text className="text-ios-blue text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
+                   {t('common.signUp')}
+                 </Text>
+               </TouchableOpacity>
+             </View>
           </AnimatedText>
         </View>
       </ScrollView>

@@ -1,0 +1,50 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "logout": "Logout",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "auth": {
+    "welcomeToApp": "Welcome Sub-Tracking",
+    "signInToAccount": "Sign in to your account",
+    "emailAddress": "Email Address",
+    "password": "Password",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "emailRequired": "Email is required",
+    "validEmail": "Please enter a valid email address",
+    "passwordRequired": "Password is required",
+    "loginFailed": "Login Failed",
+    "registerFailed": "Registration Failed"
+  },
+  "home": {
+    "mySubscriptions": "My Subscriptions",
+    "welcomeBack": "Welcome back, {{name}}!",
+    "trackExpenses": "Track your recurring expenses",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "activeSubscriptions": "Active Subscriptions ({{count}})",
+    "noSubscriptions": "No subscriptions yet. Tap \"Add\" to create your first subscription."
+  },
+  "language": {
+    "selectLanguage": "Select Language",
+    "english": "English",
+    "german": "German",
+    "turkish": "Turkish",
+    "italian": "Italian",
+    "french": "French",
+    "russian": "Russian"
+  }
+}

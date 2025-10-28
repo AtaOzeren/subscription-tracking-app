@@ -1,0 +1,50 @@
+{
+  "common": {
+    "welcome": "Hoş Geldiniz",
+    "signIn": "Giriş Yap",
+    "signUp": "Kayıt Ol",
+    "logout": "Çıkış Yap",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "add": "Ekle",
+    "back": "Geri",
+    "next": "İleri",
+    "done": "Tamam",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı"
+  },
+  "auth": {
+    "welcomeToApp": "Abone Takip'e Hoş Geldiniz",
+    "signInToAccount": "Hesabınıza giriş yapın",
+    "emailAddress": "E-posta Adresi",
+    "password": "Şifre",
+    "dontHaveAccount": "Hesabınız yok mu?",
+    "alreadyHaveAccount": "Zaten hesabınız var mı?",
+    "emailRequired": "E-posta gereklidir",
+    "validEmail": "Lütfen geçerli bir e-posta adresi girin",
+    "passwordRequired": "Şifre gereklidir",
+    "loginFailed": "Giriş Başarısız",
+    "registerFailed": "Kayıt Başarısız"
+  },
+  "home": {
+    "mySubscriptions": "Aboneliklerim",
+    "welcomeBack": "Hoş geldiniz, {{name}}!",
+    "trackExpenses": "Yinelenen harcamalarınızı takip edin",
+    "monthly": "Aylık",
+    "yearly": "Yıllık",
+    "activeSubscriptions": "Aktif Abonelikler ({{count}})",
+    "noSubscriptions": "Henüz abonelik yok. İlk aboneliğinizi oluşturmak için \"Ekle\"ye dokunun."
+  },
+  "language": {
+    "selectLanguage": "Dil Seçin",
+    "english": "İngilizce",
+    "german": "Almanca",
+    "turkish": "Türkçe",
+    "italian": "İtalyanca",
+    "french": "Fransızca",
+    "russian": "Rusça"
+  }
+}
