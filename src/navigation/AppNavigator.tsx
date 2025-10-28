@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Animated } from 'react-native';
+import { View, Animated, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAuth } from '../contexts/AuthContext';
@@ -58,28 +58,28 @@ const MainNavigator = () => {
   const tabs = [
     {
       key: 'home',
-      icon: '⌂',
+      iconName: 'home',
       label: t('navigation.home'),
       onPress: () => setActiveTab('home'),
       isActive: activeTab === 'home',
     },
     {
       key: 'subscriptions',
-      icon: '☰',
+      iconName: 'list',
       label: t('navigation.subscriptions'),
       onPress: () => setActiveTab('subscriptions'),
       isActive: activeTab === 'subscriptions',
     },
     {
       key: 'statistics',
-      icon: '▦',
+      iconName: 'bar-chart',
       label: t('navigation.statistics'),
       onPress: () => setActiveTab('statistics'),
       isActive: activeTab === 'statistics',
     },
     {
       key: 'search',
-      icon: '⌕',
+      iconName: 'search',
       label: t('navigation.search'),
       onPress: () => setActiveTab('search'),
       isActive: activeTab === 'search',
@@ -87,8 +87,14 @@ const MainNavigator = () => {
   ];
 
   return (
-    <View className="flex-1">
-      {renderScreen()}
+    <View className="flex-1" style={{ position: 'relative' }}>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={0}
+      >
+        {renderScreen()}
+      </KeyboardAvoidingView>
       <CustomBottomTabBar tabs={tabs} scrollY={scrollY} />
     </View>
   );

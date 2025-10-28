@@ -1,11 +1,12 @@
 import React, { useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Animated, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Animated, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
+import { Ionicons } from '@expo/vector-icons';
 
 interface TabItem {
   key: string;
-  icon: string;
+  iconName: string;
   label: string;
   onPress: () => void;
   isActive: boolean;
@@ -68,7 +69,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY }
 
   return (
     <View style={styles.container}>
-      <SafeAreaView edges={['bottom']}>
+      <SafeAreaView edges={['bottom']} style={styles.safeArea}>
         <View className="px-4 pb-2 pt-3">
           <View className="flex-row items-center justify-between">
             {/* Sol taraf - 3 ikon tek blur box'ta */}
@@ -90,12 +91,12 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY }
                       activeOpacity={0.7}
                     >
                       <View className="items-center justify-center px-4 py-2">
-                        <Text 
-                          className="text-black text-2xl mb-1"
-                          style={styles.icon}
-                        >
-                          {tab.icon}
-                        </Text>
+                        <Ionicons 
+                          name={tab.iconName as any}
+                          size={26}
+                          color="#000000"
+                          style={{ marginBottom: 4 }}
+                        />
                         <Animated.View
                           style={{
                             opacity: labelOpacity,
@@ -133,12 +134,11 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY }
                     className="items-center justify-center w-full h-full"
                     activeOpacity={0.7}
                   >
-                    <Text 
-                      className="text-black text-2xl"
-                      style={styles.icon}
-                    >
-                      {searchTab.icon}
-                    </Text>
+                    <Ionicons 
+                      name={searchTab.iconName as any}
+                      size={26}
+                      color="#000000"
+                    />
                   </TouchableOpacity>
                 </BlurView>
               </View>
@@ -156,6 +156,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    backgroundColor: 'transparent',
+    zIndex: 999,
+  },
+  safeArea: {
     backgroundColor: 'transparent',
   },
   blurContainer: {
@@ -177,17 +181,14 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
+    elevation: 6,
   },
   searchBlurView: {
     width: '100%',
     height: '100%',
     borderRadius: SEARCH_BUTTON_SIZE / 2,
-  },
-  icon: {
-    fontWeight: '600',
   },
   label: {
     fontFamily: 'SF Pro Text',

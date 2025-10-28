@@ -47,5 +47,26 @@
     "italian": "Italien",
     "french": "Français",
     "russian": "Russe"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "subscriptions": "Abonnements",
+    "statistics": "Statistiques",
+    "search": "Rechercher"
+  },
+  "subscriptions": {
+    "manageYourSubscriptions": "Gérez tous vos abonnements en un seul endroit",
+    "noSubscriptionsYet": "Aucun abonnement encore. Appuyez sur \"Ajouter\" pour créer votre premier abonnement."
+  },
+  "statistics": {
+    "viewYourSpending": "Consultez vos habitudes de dépenses et vos informations",
+    "monthly": "Mensuel",
+    "yearly": "Annuel",
+    "noDataAvailable": "Aucune donnée disponible pour le moment. Commencez à ajouter des abonnements pour voir vos statistiques."
+  },
+  "search": {
+    "searchSubscriptions": "Rechercher des abonnements...",
+    "startTypingToSearch": "Commencez à taper pour rechercher vos abonnements",
+    "noResultsFound": "Aucun résultat trouvé pour votre recherche"
   }
 }

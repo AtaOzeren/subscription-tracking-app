@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Animated } from 'react-native';
+import { View, Text, TextInput, ScrollView, Animated, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
@@ -13,21 +13,26 @@ const SearchScreen = ({ scrollY }: SearchScreenProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="p-4 pb-24">
-        <Text className="text-2xl font-bold text-gray-800 mb-4">
-          {t('navigation.search')}
-        </Text>
-        
-        {/* Search Input */}
-        <View className="bg-white rounded-lg p-3 mb-4 shadow-sm">
-          <TextInput
-            className="text-gray-800 text-base"
-            placeholder={t('search.searchSubscriptions')}
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            placeholderTextColor="#9CA3AF"
-          />
-        </View>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        className="flex-1"
+        keyboardVerticalOffset={100}
+      >
+        <View className="p-4 pb-24">
+          <Text className="text-2xl font-bold text-gray-800 mb-4">
+            {t('navigation.search')}
+          </Text>
+          
+          {/* Search Input */}
+          <View className="bg-white rounded-lg p-3 mb-4 shadow-sm">
+            <TextInput
+              className="text-gray-800 text-base"
+              placeholder={t('search.searchSubscriptions')}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholderTextColor="#9CA3AF"
+            />
+          </View>
         
         <ScrollView 
           className="flex-1"
@@ -51,7 +56,8 @@ const SearchScreen = ({ scrollY }: SearchScreenProps) => {
             </View>
           )}
         </ScrollView>
-      </View>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
