@@ -37,7 +37,11 @@
     "monthly": "Monthly",
     "yearly": "Yearly",
     "activeSubscriptions": "Active Subscriptions ({{count}})",
-    "noSubscriptions": "No subscriptions yet. Tap \"Add\" to create your first subscription."
+    "noSubscriptions": "No subscriptions yet. Tap \"Add\" to create your first subscription.",
+    "goodMorning": "Good Morning {{name}}",
+    "goodDay": "Good Day {{name}}",
+    "goodEvening": "Good Evening {{name}}",
+    "goodNight": "Good Night {{name}}"
   },
   "language": {
     "selectLanguage": "Select Language",

@@ -36,7 +36,7 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
     // Update greeting message when user changes or every minute
     const updateGreeting = () => {
       if (user?.name) {
-        setGreetingMessage(getGreetingMessage(user.name));
+        setGreetingMessage(getGreetingMessage(user.name, t));
       }
     };
 
@@ -44,7 +44,7 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
     const interval = setInterval(updateGreeting, 60000); // Update every minute
 
     return () => clearInterval(interval);
-  }, [user?.name]);
+  }, [user?.name, t]);
 
   const handleProfilePress = () => {
     // Navigate to profile screen
@@ -160,9 +160,6 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
           <View>
             <Text className="text-2xl font-bold text-gray-800">
               {greetingMessage || t('home.mySubscriptions')}
-            </Text>
-            <Text className="text-sm text-gray-500">
-              {t('home.trackExpenses')}
             </Text>
           </View>
           <View className="flex-row items-center gap-2">

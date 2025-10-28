@@ -37,7 +37,11 @@
     "monthly": "Ежемесячно",
     "yearly": "Ежегодно",
     "activeSubscriptions": "Активные подписки ({{count}})",
-    "noSubscriptions": "Подписок пока нет. Нажмите \"Добавить\", чтобы создать вашу первую подписку."
+    "noSubscriptions": "Подписок пока нет. Нажмите \"Добавить\", чтобы создать вашу первую подписку.",
+    "goodMorning": "Доброе утро {{name}}",
+    "goodDay": "Добрый день {{name}}",
+    "goodEvening": "Добрый вечер {{name}}",
+    "goodNight": "Доброй ночи {{name}}"
   },
   "language": {
     "selectLanguage": "Выберите язык",

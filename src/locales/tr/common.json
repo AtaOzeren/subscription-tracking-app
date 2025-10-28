@@ -37,7 +37,11 @@
     "monthly": "Aylık",
     "yearly": "Yıllık",
     "activeSubscriptions": "Aktif Abonelikler ({{count}})",
-    "noSubscriptions": "Henüz abonelik yok. İlk aboneliğinizi oluşturmak için \"Ekle\"ye dokunun."
+    "noSubscriptions": "Henüz abonelik yok. İlk aboneliğinizi oluşturmak için \"Ekle\"ye dokunun.",
+    "goodMorning": "Günaydın {{name}}",
+    "goodDay": "İyi Günler {{name}}",
+    "goodEvening": "İyi Akşamlar {{name}}",
+    "goodNight": "İyi Geceler {{name}}"
   },
   "language": {
     "selectLanguage": "Dil Seçin",

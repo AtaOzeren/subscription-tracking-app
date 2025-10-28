@@ -37,7 +37,11 @@
     "monthly": "Mensuel",
     "yearly": "Annuel",
     "activeSubscriptions": "Abonnements Actifs ({{count}})",
-    "noSubscriptions": "Aucun abonnement encore. Appuyez sur \"Ajouter\" pour créer votre premier abonnement."
+    "noSubscriptions": "Aucun abonnement encore. Appuyez sur \"Ajouter\" pour créer votre premier abonnement.",
+    "goodMorning": "Bonjour {{name}}",
+    "goodDay": "Bonne Journée {{name}}",
+    "goodEvening": "Bonsoir {{name}}",
+    "goodNight": "Bonne Nuit {{name}}"
   },
   "language": {
     "selectLanguage": "Sélectionner la Langue",

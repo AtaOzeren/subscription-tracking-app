@@ -1,18 +1,18 @@
 /**
  * Get greeting message based on current time
  */
-export const getGreetingMessage = (name: string): string => {
+export const getGreetingMessage = (name: string, t: (key: string, options?: any) => string): string => {
   const hour = new Date().getHours();
   const firstName = getFirstName(name);
   
   if (hour >= 5 && hour < 12) {
-    return `Günaydın ${firstName}`;
+    return t('home.goodMorning', { name: firstName });
   } else if (hour >= 12 && hour < 18) {
-    return `İyi Günler ${firstName}`;
+    return t('home.goodDay', { name: firstName });
   } else if (hour >= 18 && hour < 22) {
-    return `İyi Akşamlar ${firstName}`;
+    return t('home.goodEvening', { name: firstName });
   } else {
-    return `İyi Geceler ${firstName}`;
+    return t('home.goodNight', { name: firstName });
   }
 };
 
