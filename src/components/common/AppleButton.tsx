@@ -1,5 +1,5 @@
-import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, ViewStyle, TextStyle } from 'react-native';
+import React, { useRef } from 'react';
+import { TouchableOpacity, Text, ActivityIndicator, ViewStyle, TextStyle, Animated } from 'react-native';
 
 interface AppleButtonProps {
   title: string;
@@ -22,6 +22,22 @@ const AppleButton: React.FC<AppleButtonProps> = ({
   style,
   textStyle,
 }) => {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.96,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      friction: 5,
+      useNativeDriver: true,
+    }).start();
+  };
   const getButtonStyle = (): ViewStyle => {
     const baseStyle: ViewStyle = {
       borderRadius: 16,
@@ -89,21 +105,25 @@ const AppleButton: React.FC<AppleButtonProps> = ({
   };
 
   return (
-    <TouchableOpacity
-      style={getButtonStyle()}
-      onPress={onPress}
-      disabled={disabled || loading}
-      activeOpacity={0.8}
-    >
-      {loading ? (
-        <ActivityIndicator 
-          color={variant === 'outline' ? '#007AFF' : '#FFFFFF'} 
-          size="small" 
-        />
-      ) : (
-        <Text style={getTextStyle()}>{title}</Text>
-      )}
-    </TouchableOpacity>
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      <TouchableOpacity
+        style={getButtonStyle()}
+        onPress={onPress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        disabled={disabled || loading}
+        activeOpacity={0.9}
+      >
+        {loading ? (
+          <ActivityIndicator 
+            color={variant === 'outline' ? '#007AFF' : '#FFFFFF'} 
+            size="small" 
+          />
+        ) : (
+          <Text style={getTextStyle()}>{title}</Text>
+        )}
+      </TouchableOpacity>
+    </Animated.View>
   );
 };
 

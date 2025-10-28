@@ -51,10 +51,10 @@ const AppleInput: React.FC<AppleInputProps> = ({
   };
 
   return (
-    <View style={containerStyle}>
+    <View style={[{ width: '100%' }, containerStyle]}>
       {label && <Text style={labelStyle}>{label}</Text>}
       <TextInput
-        style={[inputStyle, inputTextStyle, style]}
+        style={[inputStyle, inputTextStyle, { width: '100%' }, style]}
         placeholderTextColor="#8E8E93"
         {...props}
       />

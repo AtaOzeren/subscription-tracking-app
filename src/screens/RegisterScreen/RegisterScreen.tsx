@@ -79,18 +79,20 @@ const RegisterScreen: React.FC = () => {
       >
         <View className="flex-1 justify-center px-6 py-8">
           {/* Logo Section */}
-          <View className="items-center mb-20">
-            <Logo size="large" />
-            <View className="mt-12 items-center">
+          <View className="items-center mb-12">
+            <Logo size="large" animated={true} />
+            <View className="mt-8 items-center">
               <AnimatedText
                 style={{ 
                   fontFamily: 'SF Pro Display',
                   fontSize: 32,
                   fontWeight: 'bold',
                   color: '#000000',
-                  marginBottom: 12,
+                  marginBottom: 8,
+                  letterSpacing: -0.5,
                 }}
-                delay={200}
+                delay={600}
+                duration={1000}
                 type="fadeInUp"
               >
                 Welcome Sub-Tracking
@@ -98,11 +100,13 @@ const RegisterScreen: React.FC = () => {
               <AnimatedText
                 style={{ 
                   fontFamily: 'SF Pro Text',
-                  fontSize: 16,
-                  color: '#3C3C43',
+                  fontSize: 15,
+                  color: '#8E8E93',
                   textAlign: 'center',
+                  letterSpacing: 0.2,
                 }}
-                delay={400}
+                delay={800}
+                duration={1000}
                 type="fadeInUp"
               >
                 Sign up to get started
@@ -111,87 +115,135 @@ const RegisterScreen: React.FC = () => {
           </View>
 
           {/* Form Section */}
-          <View className="mb-8">
-            <AppleInput
-              label="Full Name"
-              placeholder="Enter your name"
-              value={name}
-              onChangeText={(text) => {
-                setName(text);
-                if (errors.name) setErrors({ ...errors, name: undefined });
-              }}
-              autoCapitalize="words"
-              error={errors.name}
-              containerStyle={{ marginBottom: 20 }}
-            />
+          <View className="mb-6 w-full">
+            <AnimatedText
+              style={{ opacity: 0, width: '100%' }}
+              delay={1000}
+              duration={800}
+              type="fadeInUp"
+            >
+              <View style={{ width: '100%' }}>
+                <AppleInput
+                  placeholder="Full Name"
+                  value={name}
+                  onChangeText={(text) => {
+                    setName(text);
+                    if (errors.name) setErrors({ ...errors, name: undefined });
+                  }}
+                  autoCapitalize="words"
+                  error={errors.name}
+                  containerStyle={{ marginBottom: 16, width: '100%' }}
+                />
+              </View>
+            </AnimatedText>
 
-            <AppleInput
-              label="Email Address"
-              placeholder="Enter your email"
-              value={email}
-              onChangeText={(text) => {
-                setEmail(text);
-                if (errors.email) setErrors({ ...errors, email: undefined });
-              }}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              error={errors.email}
-              containerStyle={{ marginBottom: 20 }}
-            />
+            <AnimatedText
+              style={{ opacity: 0, width: '100%' }}
+              delay={1100}
+              duration={800}
+              type="fadeInUp"
+            >
+              <View style={{ width: '100%' }}>
+                <AppleInput
+                  placeholder="Email Address"
+                  value={email}
+                  onChangeText={(text) => {
+                    setEmail(text);
+                    if (errors.email) setErrors({ ...errors, email: undefined });
+                  }}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  error={errors.email}
+                  containerStyle={{ marginBottom: 16, width: '100%' }}
+                />
+              </View>
+            </AnimatedText>
 
-            <AppleInput
-              label="Password"
-              placeholder="Enter your password"
-              value={password}
-              onChangeText={(text) => {
-                setPassword(text);
-                if (errors.password) setErrors({ ...errors, password: undefined });
-              }}
-              secureTextEntry
-              error={errors.password}
-              containerStyle={{ marginBottom: 20 }}
-            />
+            <AnimatedText
+              style={{ opacity: 0, width: '100%' }}
+              delay={1200}
+              duration={800}
+              type="fadeInUp"
+            >
+              <View style={{ width: '100%' }}>
+                <AppleInput
+                  placeholder="Password"
+                  value={password}
+                  onChangeText={(text) => {
+                    setPassword(text);
+                    if (errors.password) setErrors({ ...errors, password: undefined });
+                  }}
+                  secureTextEntry
+                  error={errors.password}
+                  containerStyle={{ marginBottom: 16, width: '100%' }}
+                />
+              </View>
+            </AnimatedText>
 
-            <AppleInput
-              label="Confirm Password"
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChangeText={(text) => {
-                setConfirmPassword(text);
-                if (errors.confirmPassword) setErrors({ ...errors, confirmPassword: undefined });
-              }}
-              secureTextEntry
-              error={errors.confirmPassword}
-              containerStyle={{ marginBottom: 0 }}
-            />
+            <AnimatedText
+              style={{ opacity: 0, width: '100%' }}
+              delay={1300}
+              duration={800}
+              type="fadeInUp"
+            >
+              <View style={{ width: '100%' }}>
+                <AppleInput
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChangeText={(text) => {
+                    setConfirmPassword(text);
+                    if (errors.confirmPassword) setErrors({ ...errors, confirmPassword: undefined });
+                  }}
+                  secureTextEntry
+                  error={errors.confirmPassword}
+                  containerStyle={{ marginBottom: 0, width: '100%' }}
+                />
+              </View>
+            </AnimatedText>
           </View>
 
           {/* Sign Up Button */}
-          <AppleButton
-            title="Sign Up"
-            onPress={handleRegister}
-            loading={isLoading}
-            disabled={isLoading}
-            variant="primary"
-            size="large"
-            style={{ marginBottom: 24 }}
-          />
+          <AnimatedText
+            style={{ opacity: 0, width: '100%' }}
+            delay={1400}
+            duration={800}
+            type="fadeInUp"
+          >
+            <View style={{ width: '100%' }}>
+              <AppleButton
+                title="Sign Up"
+                onPress={handleRegister}
+                loading={isLoading}
+                disabled={isLoading}
+                variant="primary"
+                size="large"
+                style={{ marginBottom: 20, width: '100%' }}
+              />
+            </View>
+          </AnimatedText>
 
           {/* Sign In Link */}
-          <View className="flex-row justify-center items-center">
-            <Text className="text-ios-text-secondary text-base" style={{ fontFamily: 'SF Pro Text' }}>
-              Already have an account?{' '}
-            </Text>
-            <TouchableOpacity 
-              onPress={() => navigation.navigate('Login' as never)}
-              activeOpacity={0.6}
-            >
-              <Text className="text-ios-blue text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
-                Sign In
+          <AnimatedText
+            style={{ opacity: 0, width: '100%' }}
+            delay={1500}
+            duration={800}
+            type="fadeIn"
+          >
+            <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+              <Text className="text-ios-text-secondary text-base" style={{ fontFamily: 'SF Pro Text' }}>
+                Already have an account?{' '}
               </Text>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity 
+                onPress={() => navigation.navigate('Login' as never)}
+                activeOpacity={0.6}
+              >
+                <Text className="text-ios-blue text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
+                  Sign In
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </AnimatedText>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
