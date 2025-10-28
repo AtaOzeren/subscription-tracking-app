@@ -78,7 +78,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
   return (
     <View style={styles.container} onLayout={handleLayout}>
       <SafeAreaView edges={['bottom']} style={styles.safeArea}>
-        <View className="px-4 pb-2 pt-3">
+        <View className="px-2 pb-1 pt-1">
           <View className="flex-row items-center justify-between">
             {/* Sol taraf - 3 ikon tek blur box'ta */}
             <View 
@@ -86,11 +86,11 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
               style={styles.blurContainer}
             >
               <BlurView
-                intensity={100}
+                intensity={150}
                 tint="light"
                 style={styles.blurView}
               >
-                <View className="flex-row items-center justify-around px-2 py-3">
+                 <View className="flex-row items-center justify-around px-1 py-1">
                   {mainTabs.map((tab) => (
                     <TouchableOpacity
                       key={tab.key}
@@ -98,7 +98,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
                       className="flex-1 items-center justify-center"
                       activeOpacity={0.7}
                     >
-                      <View className="items-center justify-center px-4 py-2">
+                       <View className="items-center justify-center px-2 py-1">
                         <Ionicons 
                           name={tab.iconName as any}
                           size={26}
@@ -133,7 +133,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
             {searchTab && (
               <View style={styles.searchContainer}>
                 <BlurView
-                  intensity={100}
+                  intensity={150}
                   tint="light"
                   style={styles.searchBlurView}
                 >
@@ -177,10 +177,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 16,
     elevation: 6,
+    backgroundColor: 'rgba(245, 245, 245, 0.8)',
   },
   blurView: {
     borderRadius: 28,
     overflow: 'hidden',
+    backgroundColor: 'rgba(245, 245, 245, 0.6)',
   },
   searchContainer: {
     width: SEARCH_BUTTON_SIZE,
@@ -192,11 +194,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 16,
     elevation: 6,
+    backgroundColor: 'rgba(245, 245, 245, 0.8)',
   },
   searchBlurView: {
     width: '100%',
     height: '100%',
     borderRadius: SEARCH_BUTTON_SIZE / 2,
+    backgroundColor: 'rgba(245, 245, 245, 0.6)',
   },
   label: {
     fontFamily: 'SF Pro Text',
