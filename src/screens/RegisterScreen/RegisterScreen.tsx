@@ -13,8 +13,16 @@ const RegisterScreen: React.FC = () => {
   const navigation = useNavigation();
 
   const handleRegister = async () => {
+    // Validation
     if (!name || !email || !password || !confirmPassword) {
       Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Error', 'Please enter a valid email address');
       return;
     }
 
@@ -30,8 +38,11 @@ const RegisterScreen: React.FC = () => {
 
     try {
       setIsLoading(true);
+      console.log('🔐 Starting registration for:', email);
       await register(email, password, name);
+      console.log('✅ Registration successful');
     } catch (error) {
+      console.error('❌ Registration error:', error);
       Alert.alert('Registration Failed', error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setIsLoading(false);

@@ -11,15 +11,26 @@ const LoginScreen: React.FC = () => {
   const navigation = useNavigation();
 
   const handleLogin = async () => {
+    // Validation
     if (!email || !password) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
 
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Error', 'Please enter a valid email address');
+      return;
+    }
+
     try {
       setIsLoading(true);
+      console.log('🔐 Starting login for:', email);
       await login(email, password);
+      console.log('✅ Login successful');
     } catch (error) {
+      console.error('❌ Login error:', error);
       Alert.alert('Login Failed', error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setIsLoading(false);
