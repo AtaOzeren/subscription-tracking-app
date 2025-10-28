@@ -47,5 +47,26 @@
     "italian": "İtalyanca",
     "french": "Fransızca",
     "russian": "Rusça"
+  },
+  "navigation": {
+    "home": "Ev",
+    "subscriptions": "Abonelikler",
+    "statistics": "İstatistikler",
+    "search": "Arama"
+  },
+  "subscriptions": {
+    "manageYourSubscriptions": "Tüm aboneliklerinizi tek bir yerden yönetin",
+    "noSubscriptionsYet": "Henüz abonelik yok. İlk aboneliğinizi oluşturmak için \"Ekle\"ye dokunun."
+  },
+  "statistics": {
+    "viewYourSpending": "Harcama desenlerinizi ve içgörülerinizi görün",
+    "monthly": "Aylık",
+    "yearly": "Yıllık",
+    "noDataAvailable": "Henüz veri yok. İstatistiklerinizi görmek için abonelik eklemeye başlayın."
+  },
+  "search": {
+    "searchSubscriptions": "Abonelikleri ara...",
+    "startTypingToSearch": "Aboneliklerinizi aramak için yazmaya başlayın",
+    "noResultsFound": "Aramanız için sonuç bulunamadı"
   }
 }

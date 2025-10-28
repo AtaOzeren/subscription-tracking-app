@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert, Modal, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage, availableLanguages, LanguageCode } from '../../contexts/LanguageContext';
 import { useTranslation } from 'react-i18next';
 
-const HomeScreen = ({ navigation }: any) => {
+interface HomeScreenProps {
+  scrollY?: Animated.Value;
+}
+
+const HomeScreen = ({ scrollY }: HomeScreenProps) => {
   const { user, logout } = useAuth();
   const { currentLanguage, changeLanguage, isLoading } = useLanguage();
   const { t } = useTranslation();
@@ -115,7 +119,7 @@ const HomeScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="p-4">
+      <View className="p-4 pb-24">
         <View className="flex-row justify-between items-center mb-2">
           <View>
             <Text className="text-2xl font-bold text-gray-800">
@@ -166,7 +170,14 @@ const HomeScreen = ({ navigation }: any) => {
           </Text>
         </View>
         
-        <ScrollView className="flex-1">
+        <ScrollView 
+          className="flex-1"
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY || new Animated.Value(0) } } }],
+            { useNativeDriver: false }
+          )}
+          scrollEventThrottle={16}
+        >
           <View className="bg-white rounded-lg p-4 mb-3 shadow-sm">
             <Text className="text-gray-500 text-center py-8">
               {t('home.noSubscriptions')}
