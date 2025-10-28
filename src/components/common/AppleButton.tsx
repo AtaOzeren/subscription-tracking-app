@@ -10,6 +10,7 @@ interface AppleButtonProps {
   size?: 'small' | 'medium' | 'large';
   style?: ViewStyle;
   textStyle?: TextStyle;
+  containerClassName?: string;
 }
 
 const AppleButton: React.FC<AppleButtonProps> = ({
@@ -21,6 +22,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
   size = 'medium',
   style,
   textStyle,
+  containerClassName,
 }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
@@ -105,7 +107,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
   };
 
   return (
-    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }} className={containerClassName || ''}>
       <TouchableOpacity
         style={getButtonStyle()}
         onPress={onPress}

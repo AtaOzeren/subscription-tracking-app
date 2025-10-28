@@ -7,13 +7,28 @@ import AppleButton from '../../components/common/AppleButton';
 import AnimatedText from '../../components/common/AnimatedText';
 
 const LanguageSelectionScreen: React.FC = () => {
-  const { changeLanguage, isLoading } = useLanguage();
+  const { changeLanguage, isLoading, currentLanguage } = useLanguage();
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = React.useState<'en' | 'de' | 'tr' | 'it' | 'fr' | 'ru'>(currentLanguage.code);
 
-  const handleLanguageSelect = async (languageCode: 'en' | 'de' | 'tr' | 'it' | 'fr' | 'ru') => {
+  // Flag colors for each language
+  const languageColors = {
+    en: { bg: '#012169', text: '#FFFFFF' },      // UK Blue
+    de: { bg: '#000000', text: '#FFCE00' },      // Germany Black & Gold
+    tr: { bg: '#E30A17', text: '#FFFFFF' },      // Turkey Red
+    it: { bg: '#009246', text: '#FFFFFF' },      // Italy Green
+    fr: { bg: '#0055A4', text: '#FFFFFF' },      // France Blue
+    ru: { bg: '#0039A6', text: '#FFFFFF' },      // Russia Blue
+  };
+
+  const handleLanguageSelect = (languageCode: 'en' | 'de' | 'tr' | 'it' | 'fr' | 'ru') => {
+    setSelectedLanguage(languageCode);
+  };
+
+  const handleContinue = async () => {
     try {
-      await changeLanguage(languageCode);
+      await changeLanguage(selectedLanguage);
       // Navigate to Login screen after language selection
       navigation.navigate('Login' as never);
     } catch (error) {
@@ -64,52 +79,58 @@ const LanguageSelectionScreen: React.FC = () => {
           </View>
 
           {/* Language Options */}
-          <View className="w-full space-y-3">
+          <View className="w-full">
             {availableLanguages.map((language, index) => (
               <AnimatedText
                 key={language.code}
+                className={`w-full ${index < availableLanguages.length - 1 ? 'mb-6' : ''}`}
                 style={{ opacity: 0, width: '100%' }}
                 delay={1000 + (index * 100)}
                 duration={800}
                 type="fadeInUp"
+                asView={true}
               >
-                <View style={{ width: '100%' }}>
-                  <TouchableOpacity
-                    onPress={() => handleLanguageSelect(language.code)}
-                    disabled={isLoading}
-                    className={`w-full p-4 rounded-xl border-2 ${
-                      isLoading 
+                <TouchableOpacity
+                  onPress={() => handleLanguageSelect(language.code)}
+                  disabled={isLoading}
+                  className={`w-full p-3 rounded-xl border-2 ${
+                    selectedLanguage === language.code
+                      ? 'bg-ios-blue/5 border-ios-blue'
+                      : isLoading 
                         ? 'bg-gray-100 border-gray-200' 
-                        : 'bg-white border-gray-200 active:border-ios-blue active:bg-ios-blue/5'
-                    }`}
-                    style={{ 
-                      shadowColor: '#000',
-                      shadowOffset: { width: 0, height: 1 },
-                      shadowOpacity: 0.05,
-                      shadowRadius: 2,
-                      elevation: 1,
-                    }}
-                  >
-                    <View className="flex-row items-center justify-between">
-                      <View className="flex-row items-center">
-                        <View className="w-8 h-8 rounded-full bg-ios-blue/10 items-center justify-center mr-3">
-                          <Text className="text-ios-blue font-bold text-sm">
-                            {language.code.toUpperCase()}
-                          </Text>
-                        </View>
-                        <View>
-                          <Text className="text-gray-800 font-semibold text-base" style={{ fontFamily: 'SF Pro Display' }}>
-                            {language.nativeName}
-                          </Text>
-                          <Text className="text-gray-500 text-sm" style={{ fontFamily: 'SF Pro Text' }}>
-                            {language.name}
-                          </Text>
-                        </View>
+                        : 'bg-white border-gray-200'
+                  }`}
+                  style={{ 
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.05,
+                    shadowRadius: 2,
+                    elevation: 1,
+                  }}
+                >
+                  <View className="flex-row items-center justify-between">
+                    <View className="flex-row items-center">
+                      <View className={`w-8 h-8 rounded-full ${selectedLanguage === language.code ? 'bg-ios-blue/20' : 'bg-ios-blue/10'} items-center justify-center mr-3`}>
+                        <Text className="text-ios-blue font-bold text-sm">
+                          {language.code.toUpperCase()}
+                        </Text>
                       </View>
-                      <View className="w-6 h-6 rounded-full border-2 border-gray-300" />
+                      <View>
+                        <Text className={`${selectedLanguage === language.code ? 'text-ios-blue' : 'text-gray-800'} font-semibold text-base`} style={{ fontFamily: 'SF Pro Display' }}>
+                          {language.nativeName}
+                        </Text>
+                        <Text className={`${selectedLanguage === language.code ? 'text-ios-blue/70' : 'text-gray-500'} text-sm`} style={{ fontFamily: 'SF Pro Text' }}>
+                          {language.name}
+                        </Text>
+                      </View>
                     </View>
-                  </TouchableOpacity>
-                </View>
+                    <View className={`w-6 h-6 rounded-full border-2 ${selectedLanguage === language.code ? 'border-ios-blue bg-ios-blue' : 'border-gray-300'} items-center justify-center`}>
+                      {selectedLanguage === language.code && (
+                        <View className="w-3 h-3 rounded-full bg-white" />
+                      )}
+                    </View>
+                  </View>
+                </TouchableOpacity>
               </AnimatedText>
             ))}
           </View>
@@ -120,11 +141,12 @@ const LanguageSelectionScreen: React.FC = () => {
             delay={1600}
             duration={800}
             type="fadeInUp"
+            asView={true}
           >
-            <View style={{ width: '100%', marginTop: 30 }}>
+            <View className="w-full mt-12">
               <AppleButton
-                title="Continue with English"
-                onPress={() => handleLanguageSelect('en')}
+                title={t('common.next')}
+                onPress={handleContinue}
                 loading={isLoading}
                 disabled={isLoading}
                 variant="primary"

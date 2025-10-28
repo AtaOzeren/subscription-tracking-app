@@ -122,7 +122,7 @@ const LoginScreen: React.FC = () => {
                    autoCapitalize="none"
                    autoCorrect={false}
                    error={errors.email}
-                   containerStyle={{ marginBottom: 20, width: '100%' }}
+                   containerClassName="mb-8"
                  />
                </View>
             </AnimatedText>
@@ -143,7 +143,7 @@ const LoginScreen: React.FC = () => {
                    }}
                    secureTextEntry
                    error={errors.password}
-                   containerStyle={{ marginBottom: 0, width: '100%' }}
+                   containerClassName="mb-8"
                  />
                </View>
             </AnimatedText>
@@ -164,7 +164,7 @@ const LoginScreen: React.FC = () => {
                  disabled={isLoading}
                  variant="primary"
                  size="large"
-                 style={{ marginBottom: 20, width: '100%' }}
+                 containerClassName="mb-8"
                />
              </View>
           </AnimatedText>
