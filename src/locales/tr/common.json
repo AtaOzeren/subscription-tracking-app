@@ -14,7 +14,8 @@
     "done": "Tamam",
     "loading": "Yükleniyor...",
     "error": "Hata",
-    "success": "Başarılı"
+    "success": "Başarılı",
+    "settings": "Ayarlar"
   },
   "auth": {
     "welcomeToApp": "Abone Takip'e Hoş Geldiniz",

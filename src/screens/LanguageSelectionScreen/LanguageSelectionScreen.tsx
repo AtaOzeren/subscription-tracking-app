@@ -84,11 +84,13 @@ const LanguageSelectionScreen: React.FC = () => {
 
   const handleContinue = async () => {
     try {
+      console.log('🌍 Changing language to:', selectedLanguage);
       await changeLanguage(selectedLanguage);
+      console.log('✅ Language changed successfully');
       // Navigate to Login screen after language selection
       navigation.navigate('Login' as never);
     } catch (error) {
-      console.error('Error selecting language:', error);
+      console.error('❌ Error selecting language:', error);
     }
   };
 

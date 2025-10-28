@@ -76,11 +76,6 @@ const AppNavigator = () => {
             }}
           />
         </Tab.Navigator>
-      ) : isFirstTime ? (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
-          <Stack.Screen name="Auth" component={AuthNavigator} />
-        </Stack.Navigator>
       ) : (
         <AuthNavigator />
       )}

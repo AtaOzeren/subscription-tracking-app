@@ -14,7 +14,8 @@
     "done": "Fertig",
     "loading": "Laden...",
     "error": "Fehler",
-    "success": "Erfolg"
+    "success": "Erfolg",
+    "settings": "Einstellungen"
   },
   "auth": {
     "welcomeToApp": "Willkommen bei Sub-Tracking",
