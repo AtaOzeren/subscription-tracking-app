@@ -28,17 +28,16 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', style }) => {
             shadowOpacity: 0.1,
             shadowRadius: 8,
             elevation: 4,
-            padding: 16,
+            overflow: 'hidden',
           },
         ]}
       >
         <Image
           source={require('../../../assets/logo/subscription-tracking.png')}
           style={[
+            sizeStyles[size],
             { 
-              resizeMode: 'contain',
-              width: sizeStyles[size].width - 32,
-              height: sizeStyles[size].height - 32,
+              resizeMode: 'cover',
             }
           ]}
         />

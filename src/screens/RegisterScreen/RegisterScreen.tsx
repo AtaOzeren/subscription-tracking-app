@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import AppleButton from '../../components/common/AppleButton';
 import AppleInput from '../../components/common/AppleInput';
 import Logo from '../../components/common/Logo';
+import AnimatedText from '../../components/common/AnimatedText';
 
 const RegisterScreen: React.FC = () => {
   const [name, setName] = useState('');
@@ -78,20 +79,39 @@ const RegisterScreen: React.FC = () => {
       >
         <View className="flex-1 justify-center px-6 py-8">
           {/* Logo Section */}
-          <View className="items-center mb-12">
+          <View className="items-center mb-20">
             <Logo size="large" />
-            <View className="mt-8 items-center">
-              <Text className="text-3xl font-bold text-ios-text mb-2" style={{ fontFamily: 'SF Pro Display' }}>
+            <View className="mt-12 items-center">
+              <AnimatedText
+                style={{ 
+                  fontFamily: 'SF Pro Display',
+                  fontSize: 32,
+                  fontWeight: 'bold',
+                  color: '#000000',
+                  marginBottom: 12,
+                }}
+                delay={200}
+                type="fadeInUp"
+              >
                 Welcome Sub-Tracking
-              </Text>
-              <Text className="text-base text-ios-text-secondary text-center" style={{ fontFamily: 'SF Pro Text' }}>
+              </AnimatedText>
+              <AnimatedText
+                style={{ 
+                  fontFamily: 'SF Pro Text',
+                  fontSize: 16,
+                  color: '#3C3C43',
+                  textAlign: 'center',
+                }}
+                delay={400}
+                type="fadeInUp"
+              >
                 Sign up to get started
-              </Text>
+              </AnimatedText>
             </View>
           </View>
 
           {/* Form Section */}
-          <View className="space-y-4 mb-8">
+          <View className="mb-8">
             <AppleInput
               label="Full Name"
               placeholder="Enter your name"
@@ -102,6 +122,7 @@ const RegisterScreen: React.FC = () => {
               }}
               autoCapitalize="words"
               error={errors.name}
+              containerStyle={{ marginBottom: 20 }}
             />
 
             <AppleInput
@@ -116,6 +137,7 @@ const RegisterScreen: React.FC = () => {
               autoCapitalize="none"
               autoCorrect={false}
               error={errors.email}
+              containerStyle={{ marginBottom: 20 }}
             />
 
             <AppleInput
@@ -128,6 +150,7 @@ const RegisterScreen: React.FC = () => {
               }}
               secureTextEntry
               error={errors.password}
+              containerStyle={{ marginBottom: 20 }}
             />
 
             <AppleInput
@@ -140,6 +163,7 @@ const RegisterScreen: React.FC = () => {
               }}
               secureTextEntry
               error={errors.confirmPassword}
+              containerStyle={{ marginBottom: 0 }}
             />
           </View>
 

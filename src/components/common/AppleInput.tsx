@@ -40,6 +40,7 @@ const AppleInput: React.FC<AppleInputProps> = ({
     fontWeight: '600' as const,
     color: '#000000',
     marginBottom: 8,
+    textAlign: 'center',
   };
 
   const errorStyle: TextStyle = {
