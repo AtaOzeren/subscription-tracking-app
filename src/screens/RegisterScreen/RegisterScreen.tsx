@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigation } from '@react-navigation/native';
 
 const RegisterScreen: React.FC = () => {
   const [name, setName] = useState('');
@@ -9,6 +10,7 @@ const RegisterScreen: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { register } = useAuth();
+  const navigation = useNavigation();
 
   const handleRegister = async () => {
     if (!name || !email || !password || !confirmPassword) {
@@ -111,7 +113,7 @@ const RegisterScreen: React.FC = () => {
 
       <View className="flex-row justify-center mt-6">
         <Text className="text-gray-600">Already have an account? </Text>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Login' as never)}>
           <Text className="text-teal-500 font-medium">Sign In</Text>
         </TouchableOpacity>
       </View>

@@ -50,23 +50,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
+      console.log('🔄 Starting login process...');
       setLoading(true);
       const response = await authService.login(email, password);
+      console.log('✅ Login completed, setting auth state');
       setAuth(response.user, response.token);
     } catch (error) {
+      console.error('❌ Login failed in context:', error);
       clearAuth();
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const register = async (email: string, password: string, name: string) => {
     try {
+      console.log('🔄 Starting register process...');
       setLoading(true);
       const response = await authService.register(email, password, name);
+      console.log('✅ Register completed, setting auth state');
       setAuth(response.user, response.token);
     } catch (error) {
+      console.error('❌ Register failed in context:', error);
       clearAuth();
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,23 +92,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const checkAuth = async () => {
     try {
+      console.log('🔄 Starting auth check...');
       setLoading(true);
       const token = await authService.getToken();
       
       if (!token) {
+        console.log('🔍 No token found, user not authenticated');
         clearAuth();
         return;
       }
 
       const user = await authService.validateToken();
       if (user) {
+        console.log('✅ Auth check successful, user authenticated');
         setAuth(user, token);
       } else {
+        console.log('❌ Auth check failed, token invalid');
         clearAuth();
       }
     } catch (error) {
-      console.error('Auth check error:', error);
+      console.error('❌ Auth check error:', error);
       clearAuth();
+    } finally {
+      setLoading(false);
     }
   };
 
