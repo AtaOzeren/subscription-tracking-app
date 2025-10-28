@@ -24,7 +24,7 @@ const AppleInput: React.FC<AppleInputProps> = ({
         </Text>
       )}
       <TextInput
-        className={`w-full border ${error ? 'border-red-500' : 'border-gray-300'} rounded-2xl px-4 py-2 bg-white shadow-sm text-base text-center`}
+        className={`w-full border ${error ? 'border-red-500' : 'border-gray-300'} rounded-2xl px-4 py-3 bg-white shadow-sm text-base text-center`}
         style={{ fontFamily: 'SF Pro Text', ...(style as any) }}
         placeholderTextColor="#8E8E93"
         {...props}

@@ -21,7 +21,7 @@ const resources = {
 
 // Get device language or fallback to English
 const getDeviceLanguage = () => {
-  const deviceLanguage = Localization.locale?.split('-')[0] || 'en';
+  const deviceLanguage = Localization.getLocales()[0]?.languageCode?.split('-')[0] || 'en';
   
   // Check if device language is supported
   if (resources[deviceLanguage as keyof typeof resources]) {
