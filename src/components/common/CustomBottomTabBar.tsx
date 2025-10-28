@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { View, TouchableOpacity, Animated, StyleSheet, Text } from 'react-native';
+import { View, TouchableOpacity, Animated, StyleSheet, Text, LayoutChangeEvent } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,13 +15,21 @@ interface TabItem {
 interface CustomBottomTabBarProps {
   tabs: TabItem[];
   scrollY?: Animated.Value;
+  onLayout?: (height: number) => void;
 }
 
 const SEARCH_BUTTON_SIZE = 60;
 
-const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY }) => {
+const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, onLayout }) => {
   const labelOpacity = useRef(new Animated.Value(1)).current;
   const labelHeight = useRef(new Animated.Value(1)).current;
+
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const { height } = event.nativeEvent.layout;
+    if (onLayout) {
+      onLayout(height);
+    }
+  };
 
   useEffect(() => {
     if (scrollY) {
@@ -68,7 +76,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY }
   const mainTabs = tabs.filter(tab => tab.key !== 'search');
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onLayout={handleLayout}>
       <SafeAreaView edges={['bottom']} style={styles.safeArea}>
         <View className="px-4 pb-2 pt-3">
           <View className="flex-row items-center justify-between">
@@ -153,9 +161,9 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY }
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
+    bottom: 20,
+    left: 20,
+    right: 20,
     backgroundColor: 'transparent',
     zIndex: 999,
   },

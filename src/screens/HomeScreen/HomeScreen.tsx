@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert, Modal, Animated } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage, availableLanguages, LanguageCode } from '../../contexts/LanguageContext';
 import { useTranslation } from 'react-i18next';
 
 interface HomeScreenProps {
   scrollY?: Animated.Value;
+  tabBarHeight?: number;
 }
 
-const HomeScreen = ({ scrollY }: HomeScreenProps) => {
+const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
   const { user, logout } = useAuth();
   const { currentLanguage, changeLanguage, isLoading } = useLanguage();
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(currentLanguage.code);
+
+  useEffect(() => {
+    // Force layout recalculation on mount to fix initial positioning issue
+    const timer = setTimeout(() => {
+      // This forces a re-render which recalculates the layout
+      // Similar to what happens when language is changed
+      setIsLanguageModalVisible(false);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const languageColors = {
     en: { border: '#000000', text: '#FFFFFF' },
@@ -118,8 +131,8 @@ const HomeScreen = ({ scrollY }: HomeScreenProps) => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="p-4 pb-24">
+    <SafeAreaView className="flex-1 bg-gray-50" style={{ paddingBottom: 0 }}>
+      <View className="p-4" style={{ paddingBottom: tabBarHeight + insets.bottom }}>
         <View className="flex-row justify-between items-center mb-2">
           <View>
             <Text className="text-2xl font-bold text-gray-800">

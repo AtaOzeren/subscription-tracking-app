@@ -37,13 +37,14 @@ const HomeStack = () => {
 
 const MainNavigator = () => {
   const [activeTab, setActiveTab] = useState('home');
+  const [tabBarHeight, setTabBarHeight] = useState(100);
   const scrollY = useRef(new Animated.Value(0)).current;
   const { t } = useTranslation();
 
   const renderScreen = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeScreen scrollY={scrollY} />;
+        return <HomeScreen scrollY={scrollY} tabBarHeight={tabBarHeight} />;
       case 'subscriptions':
         return <SubscriptionsScreen scrollY={scrollY} />;
       case 'statistics':
@@ -95,7 +96,11 @@ const MainNavigator = () => {
       >
         {renderScreen()}
       </KeyboardAvoidingView>
-      <CustomBottomTabBar tabs={tabs} scrollY={scrollY} />
+      <CustomBottomTabBar 
+        tabs={tabs} 
+        scrollY={scrollY} 
+        onLayout={setTabBarHeight}
+      />
     </View>
   );
 };
