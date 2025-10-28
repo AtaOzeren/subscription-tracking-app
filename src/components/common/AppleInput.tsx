@@ -17,7 +17,7 @@ const AppleInput: React.FC<AppleInputProps> = ({
   const inputStyle: ViewStyle = {
     borderWidth: 1,
     borderColor: error ? '#FF3B30' : '#C6C6C8',
-    borderRadius: 12,
+    borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 12,
     backgroundColor: '#FFFFFF',
@@ -31,6 +31,7 @@ const AppleInput: React.FC<AppleInputProps> = ({
   const inputTextStyle: TextStyle = {
     fontSize: 16,
     fontFamily: 'SF Pro Text',
+    textAlign: 'center',
   };
 
   const labelStyle: TextStyle = {

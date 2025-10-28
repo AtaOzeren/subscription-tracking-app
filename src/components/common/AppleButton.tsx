@@ -24,7 +24,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
 }) => {
   const getButtonStyle = (): ViewStyle => {
     const baseStyle: ViewStyle = {
-      borderRadius: 12,
+      borderRadius: 16,
       alignItems: 'center',
       justifyContent: 'center',
       shadowColor: '#000',

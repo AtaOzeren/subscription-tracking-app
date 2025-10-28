@@ -82,7 +82,7 @@ const RegisterScreen: React.FC = () => {
             <Logo size="large" />
             <View className="mt-8 items-center">
               <Text className="text-3xl font-bold text-ios-text mb-2" style={{ fontFamily: 'SF Pro Display' }}>
-                Create Account
+                Welcome Sub-Tracking
               </Text>
               <Text className="text-base text-ios-text-secondary text-center" style={{ fontFamily: 'SF Pro Text' }}>
                 Sign up to get started

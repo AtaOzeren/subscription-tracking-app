@@ -33,8 +33,10 @@ module.exports = {
         'ios-input': '0 1px 2px rgba(0, 0, 0, 0.05)',
       },
       borderRadius: {
-        'ios': '12px',
-        'ios-sm': '8px',
+        'ios': '16px',
+        'ios-sm': '12px',
+        'ios-lg': '20px',
+        'ios-xl': '24px',
       },
     },
   },
