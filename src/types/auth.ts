@@ -5,6 +5,7 @@ export interface User {
   role: string;
   currency?: string;
   region?: string;
+  last_login_at?: string;
 }
 
 export interface LoginRequest {
@@ -16,6 +17,24 @@ export interface RegisterRequest {
   email: string;
   password: string;
   name: string;
+}
+
+export interface LoginResponseData {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  region?: string;
+  currency?: string;
+  last_login_at?: string;
+  token: string;
+  refreshToken: string;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
 }
 
 export interface AuthResponse {

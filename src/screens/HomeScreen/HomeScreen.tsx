@@ -1,15 +1,54 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../../contexts/AuthContext';
 
 const HomeScreen = ({ navigation }: any) => {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Logout',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await logout();
+            } catch (error) {
+              console.error('Logout error:', error);
+            }
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <View className="p-4">
-        <Text className="text-2xl font-bold text-gray-800 mb-2">
-          My Subscriptions
-        </Text>
+        <View className="flex-row justify-between items-center mb-2">
+          <View>
+            <Text className="text-2xl font-bold text-gray-800">
+              My Subscriptions
+            </Text>
+            <Text className="text-sm text-gray-500">
+              Welcome back, {user?.name || 'User'}!
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={handleLogout}
+            className="bg-red-500 px-4 py-2 rounded-lg"
+          >
+            <Text className="text-white font-medium">Logout</Text>
+          </TouchableOpacity>
+        </View>
         <Text className="text-base text-gray-500 mb-6">
           Track your recurring expenses
         </Text>
