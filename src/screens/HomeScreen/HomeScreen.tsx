@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert, Modal, Animated } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
@@ -20,6 +20,7 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
   const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(currentLanguage.code);
   const [greetingMessage, setGreetingMessage] = useState('');
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     // Force layout recalculation on mount to fix initial positioning issue
@@ -37,6 +38,12 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
     const updateGreeting = () => {
       if (user?.name) {
         setGreetingMessage(getGreetingMessage(user.name, t));
+        // Start fade in animation
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }).start();
       }
     };
 
@@ -44,7 +51,7 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
     const interval = setInterval(updateGreeting, 60000); // Update every minute
 
     return () => clearInterval(interval);
-  }, [user?.name, t]);
+  }, [user?.name, t, fadeAnim]);
 
   const handleProfilePress = () => {
     // Navigate to profile screen
@@ -158,9 +165,12 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
       <View className="p-4" style={{ paddingBottom: tabBarHeight + insets.bottom + 25 }}>
         <View className="flex-row justify-between items-center mb-2">
           <View>
-            <Text className="text-2xl font-bold text-gray-800">
+            <Animated.Text 
+              className="text-2xl font-bold text-gray-800"
+              style={{ opacity: fadeAnim }}
+            >
               {greetingMessage || t('home.mySubscriptions')}
-            </Text>
+            </Animated.Text>
           </View>
           <View className="flex-row items-center gap-2">
             <ProfileButton onPress={handleProfilePress} />
