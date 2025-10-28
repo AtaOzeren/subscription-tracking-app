@@ -17,6 +17,25 @@ module.exports = {
           'sans-serif'
         ],
       },
+      colors: {
+        'ios-blue': '#007AFF',
+        'ios-blue-dark': '#0056CC',
+        'ios-gray': '#8E8E93',
+        'ios-light-gray': '#F2F2F7',
+        'ios-border': '#C6C6C8',
+        'ios-background': '#FFFFFF',
+        'ios-text': '#000000',
+        'ios-text-secondary': '#3C3C43',
+        'ios-text-tertiary': '#3C3C4399',
+      },
+      boxShadow: {
+        'ios-button': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+        'ios-input': '0 1px 2px rgba(0, 0, 0, 0.05)',
+      },
+      borderRadius: {
+        'ios': '12px',
+        'ios-sm': '8px',
+      },
     },
   },
   plugins: [],
