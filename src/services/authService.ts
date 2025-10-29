@@ -5,15 +5,9 @@ import { ProfileUpdateData } from '../types/reference';
 
 class AuthService {
   private api: Api<string>;
-  private baseUrl: string;
 
   constructor() {
-    // Use local IP instead of localhost for React Native
-    // Change this to your computer's IP address when testing on physical device
-    this.baseUrl = 'http://192.168.1.5:5001';
-    
     this.api = new Api<string>({
-      baseUrl: this.baseUrl,
       securityWorker: (token) => {
         if (token) {
           return {
@@ -25,6 +19,11 @@ class AuthService {
         return {};
       },
     });
+  }
+
+  private get baseUrl() {
+    // baseUrl is already set in tracking-api from .env
+    return this.api.baseUrl;
   }
 
   // Helper function to create fetch with timeout
@@ -466,7 +465,7 @@ class AuthService {
     return await storageService.getToken();
   }
 
-  getApiClient(): Api<string> {
+  getApiClient() {
     return this.api;
   }
 }

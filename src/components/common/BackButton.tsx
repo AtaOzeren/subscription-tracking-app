@@ -19,7 +19,12 @@ const BackButton: React.FC<BackButtonProps> = ({ onPress, style }) => {
     if (onPress) {
       onPress();
     } else {
-      navigation.goBack();
+      // Check if we can go back before calling goBack()
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else {
+        console.log('Cannot go back - no previous screen in stack');
+      }
     }
   };
 

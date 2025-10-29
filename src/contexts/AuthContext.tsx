@@ -139,7 +139,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     checkAuth();
-    checkFirstTimeUser();
   }, []);
 
   const value: AuthContextType = {

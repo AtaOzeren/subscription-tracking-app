@@ -10,6 +10,11 @@
  * ---------------------------------------------------------------
  */
 
+import Constants from 'expo-constants';
+
+// Get API base URL from app.json extra config
+const API_BASE_URL = Constants.expoConfig?.extra?.apiBaseUrl || 'http://localhost:5001';
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -63,7 +68,8 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = "http://localhost:5001";
+  // Read baseUrl from app.json extra config via expo-constants
+  public baseUrl: string = API_BASE_URL;
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -79,6 +85,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
   constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
     Object.assign(this, apiConfig);
+    console.log('🔧 API Client initialized with baseUrl:', this.baseUrl);
   }
 
   public setSecurityData = (data: SecurityDataType | null) => {

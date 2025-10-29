@@ -1,57 +1,28 @@
+import { Api } from './tracking/tracking-api';
 import { Country, Currency, CountriesResponse, CurrenciesResponse } from '../types/reference';
 
+/**
+ * Reference Service
+ * Handles fetching reference data (countries, currencies) using tracking-api
+ */
 class ReferenceService {
-  private baseUrl: string;
+  private api: Api<string>;
 
   constructor() {
-    // Use local IP instead of localhost for React Native
-    // Change this to your computer's IP address when testing on physical device
-    this.baseUrl = 'http://192.168.1.5:5001';
-  }
-
-  // Helper function to create fetch with timeout
-  private async fetchWithTimeout(url: string, options: RequestInit, timeout = 10000): Promise<Response> {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
-    
-    try {
-      const response = await fetch(url, {
-        ...options,
-        signal: controller.signal,
-      });
-      clearTimeout(id);
-      return response;
-    } catch (error) {
-      clearTimeout(id);
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new Error('Request timeout. Please check your connection and try again.');
-      }
-      throw error;
-    }
+    this.api = new Api<string>();
   }
 
   async getCountries(): Promise<Country[]> {
     try {
-      console.log('🌍 Fetching countries...');
+      console.log('🌍 Fetching countries from API...');
       
-      const response = await this.fetchWithTimeout(`${this.baseUrl}/api/reference/countries`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }, 10000);
+      // Use tracking-api directly
+      const response = await this.api.api.getCountries();
       
-      console.log('📡 Countries response status:', response.status);
+      // Parse response
+      const apiResponse = response.data as unknown as CountriesResponse;
       
-      if (!response.ok) {
-        console.error('❌ Countries HTTP Error:', response.status);
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
-      const apiResponse: CountriesResponse = await response.json();
-      console.log('🔍 Parsed countries response:', apiResponse);
-      
-      if (!apiResponse.success || !apiResponse.data) {
+      if (!apiResponse || !apiResponse.success || !apiResponse.data) {
         throw new Error('Invalid countries response from server');
       }
       
@@ -76,26 +47,15 @@ class ReferenceService {
 
   async getCurrencies(): Promise<Currency[]> {
     try {
-      console.log('💰 Fetching currencies...');
+      console.log('💰 Fetching currencies from API...');
       
-      const response = await this.fetchWithTimeout(`${this.baseUrl}/api/reference/currencies`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }, 10000);
+      // Use tracking-api directly
+      const response = await this.api.api.getCurrencies();
       
-      console.log('📡 Currencies response status:', response.status);
+      // Parse response
+      const apiResponse = response.data as unknown as CurrenciesResponse;
       
-      if (!response.ok) {
-        console.error('❌ Currencies HTTP Error:', response.status);
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
-      const apiResponse: CurrenciesResponse = await response.json();
-      console.log('🔍 Parsed currencies response:', apiResponse);
-      
-      if (!apiResponse.success || !apiResponse.data) {
+      if (!apiResponse || !apiResponse.success || !apiResponse.data) {
         throw new Error('Invalid currencies response from server');
       }
       

@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLanguage, availableLanguages } from '../../contexts/LanguageContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
