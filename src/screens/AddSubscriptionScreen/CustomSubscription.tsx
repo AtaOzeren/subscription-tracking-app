@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import FormField from '../../components/subscription/FormField';
 import CategorySelector from '../../components/subscription/CategorySelector';
 import BillingCycleSelector from '../../components/subscription/BillingCycleSelector';
+import AppleButton from '../../components/common/AppleButton';
 
 interface CustomSubscriptionProps {
   onClose: () => void;
@@ -183,18 +184,14 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
           textAlignVertical="top"
         />
 
-        <TouchableOpacity
+        <AppleButton
+          title="Add Custom Subscription"
           onPress={handleAddCustomSubscription}
           disabled={loading}
-          className="bg-black rounded-2xl py-4 items-center mb-6"
-        >
-          <Text
-            className="text-white text-lg font-semibold"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            {loading ? 'Adding...' : 'Add Custom Subscription'}
-          </Text>
-        </TouchableOpacity>
+          loading={loading}
+          size="large"
+          containerClassName="mb-6"
+        />
       </ScrollView>
     </View>
   );

@@ -7,6 +7,7 @@ import { Category, CatalogSubscription, Plan, Price } from '../../types/catalog'
 import { useAuth } from '../../contexts/AuthContext';
 import CustomSubscription from './CustomSubscription';
 import FormField from '../../components/subscription/FormField';
+import AppleButton from '../../components/common/AppleButton';
 
 interface AddSubscriptionScreenProps {
   onClose: () => void;
@@ -491,18 +492,14 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
           textAlignVertical="top"
         />
 
-        <TouchableOpacity
+        <AppleButton
+          title="Add Subscription"
           onPress={handleAddPresetSubscription}
           disabled={loading}
-          className="bg-black rounded-2xl py-4 items-center mb-6"
-        >
-          <Text
-            className="text-white text-lg font-semibold"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            {loading ? 'Adding...' : 'Add Subscription'}
-          </Text>
-        </TouchableOpacity>
+          loading={loading}
+          size="large"
+          containerClassName="mb-6"
+        />
       </ScrollView>
     </View>
   );
