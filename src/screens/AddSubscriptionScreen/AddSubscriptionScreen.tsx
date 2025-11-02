@@ -1,24 +1,705 @@
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Image, Alert } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
+import { catalogService } from '../../services/catalogService';
+import { Category, CatalogSubscription, Plan, Price } from '../../types/catalog';
+import { useAuth } from '../../contexts/AuthContext';
 
-const AddSubscriptionScreen = () => {
-  return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="p-4">
-        <Text className="text-2xl font-bold text-gray-800 mb-6">
-          Add Subscription
-        </Text>
-        
-        <ScrollView className="flex-1">
-          <View className="bg-white rounded-lg p-4 shadow-sm">
-            <Text className="text-gray-500 text-center py-8 text-base">
-              Add subscription form will be available here
-            </Text>
-          </View>
-        </ScrollView>
+interface AddSubscriptionScreenProps {
+  onClose: () => void;
+}
+
+const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
+  const { t } = useTranslation();
+  const { user } = useAuth();
+  const insets = useSafeAreaInsets();
+  
+  // Step states
+  const [step, setStep] = useState<'search' | 'select-plan' | 'details' | 'custom'>('search');
+  
+  // Data states
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subscriptions, setSubscriptions] = useState<CatalogSubscription[]>([]);
+  const [filteredSubscriptions, setFilteredSubscriptions] = useState<CatalogSubscription[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Selection states
+  const [selectedSubscription, setSelectedSubscription] = useState<CatalogSubscription | null>(null);
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+  
+  // Form states
+  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
+  const [nextBillingDate, setNextBillingDate] = useState('');
+  const [notes, setNotes] = useState('');
+  
+  // Custom subscription states
+  const [customName, setCustomName] = useState('');
+  const [customCategoryId, setCustomCategoryId] = useState<number | null>(null);
+  const [customPrice, setCustomPrice] = useState('');
+  const [customBillingCycle, setCustomBillingCycle] = useState<'monthly' | 'yearly' | 'weekly'>('monthly');
+  
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setFilteredSubscriptions(subscriptions);
+    } else {
+      const filtered = subscriptions.filter(sub =>
+        sub.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        sub.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredSubscriptions(filtered);
+    }
+  }, [searchQuery, subscriptions]);
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      const [categoriesData, subscriptionsData] = await Promise.all([
+        catalogService.getCategories(),
+        catalogService.getCatalogSubscriptions(),
+      ]);
+      setCategories(categoriesData);
+      setSubscriptions(subscriptionsData);
+      setFilteredSubscriptions(subscriptionsData);
+    } catch (error) {
+      Alert.alert(
+        t('common.error'),
+        error instanceof Error ? error.message : t('common.somethingWentWrong')
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelectSubscription = async (subscription: CatalogSubscription) => {
+    try {
+      setLoading(true);
+      setSelectedSubscription(subscription);
+      
+      const subscriptionDetails = await catalogService.getSubscriptionDetails(subscription.id);
+      
+      if (subscriptionDetails.plans && subscriptionDetails.plans.length > 0) {
+        setPlans(subscriptionDetails.plans);
+        setStep('select-plan');
+      } else {
+        // No plans, go directly to details
+        setStep('details');
+      }
+    } catch (error) {
+      Alert.alert(
+        t('common.error'),
+        error instanceof Error ? error.message : t('common.somethingWentWrong')
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelectPlan = (plan: Plan) => {
+    setSelectedPlan(plan);
+    
+    // Calculate next billing date based on billing cycle
+    const nextDate = new Date();
+    if (plan.billing_cycle === 'monthly') {
+      nextDate.setMonth(nextDate.getMonth() + 1);
+    } else if (plan.billing_cycle === 'yearly') {
+      nextDate.setFullYear(nextDate.getFullYear() + 1);
+    } else if (plan.billing_cycle === 'weekly') {
+      nextDate.setDate(nextDate.getDate() + 7);
+    }
+    setNextBillingDate(nextDate.toISOString().split('T')[0]);
+    
+    setStep('details');
+  };
+
+  const handleAddPresetSubscription = async () => {
+    if (!selectedPlan) {
+      Alert.alert(t('common.error'), 'Please select a plan');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await catalogService.addPresetSubscription({
+        plan_id: selectedPlan.id,
+        start_date: startDate,
+        next_billing_date: nextBillingDate,
+        notes: notes || undefined,
+      });
+
+      Alert.alert(
+        t('common.success'),
+        'Subscription added successfully!',
+        [{ text: 'OK', onPress: onClose }]
+      );
+    } catch (error) {
+      Alert.alert(
+        t('common.error'),
+        error instanceof Error ? error.message : t('common.somethingWentWrong')
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddCustomSubscription = async () => {
+    if (!customName.trim() || !customCategoryId || !customPrice) {
+      Alert.alert(t('common.error'), 'Please fill all required fields');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await catalogService.addCustomSubscription({
+        custom_name: customName,
+        custom_category_id: customCategoryId,
+        custom_price: parseFloat(customPrice),
+        custom_currency: user?.currency || 'USD',
+        custom_billing_cycle: customBillingCycle,
+        start_date: startDate,
+        next_billing_date: nextBillingDate,
+        notes: notes || undefined,
+      });
+
+      Alert.alert(
+        t('common.success'),
+        'Custom subscription added successfully!',
+        [{ text: 'OK', onPress: onClose }]
+      );
+    } catch (error) {
+      Alert.alert(
+        t('common.error'),
+        error instanceof Error ? error.message : t('common.somethingWentWrong')
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getUserPrice = (prices: Price[]): Price | undefined => {
+    return prices.find(p => p.region === user?.region) || prices[0];
+  };
+
+  // Render Search Step
+  const renderSearchStep = () => (
+    <View className="flex-1">
+      {/* Search Bar */}
+      <View className="px-4 mb-4">
+        <View className="bg-gray-100 rounded-xl px-4 py-3 flex-row items-center">
+          <Text className="mr-2">🔍</Text>
+          <TextInput
+            placeholder="Search subscriptions (e.g., Netflix, Steam)..."
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            className="flex-1 text-base"
+            style={{ fontFamily: 'SF Pro Text' }}
+          />
+        </View>
       </View>
-    </SafeAreaView>
+
+      {/* Results */}
+      <ScrollView className="flex-1 px-4">
+        {filteredSubscriptions.length === 0 && searchQuery.trim() !== '' ? (
+          <View className="bg-white rounded-2xl p-8 items-center mb-4">
+            <Text className="text-5xl mb-4">🔍</Text>
+            <Text
+              className="text-lg font-semibold text-gray-900 mb-2"
+              style={{ fontFamily: 'SF Pro Display' }}
+            >
+              No Results Found
+            </Text>
+            <Text
+              className="text-sm text-gray-500 text-center mb-4"
+              style={{ fontFamily: 'SF Pro Text' }}
+            >
+              Can't find "{searchQuery}"? Add it as a custom subscription
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setCustomName(searchQuery);
+                setStep('custom');
+              }}
+              className="bg-black rounded-full px-6 py-3"
+            >
+              <Text
+                className="text-white font-semibold"
+                style={{ fontFamily: 'SF Pro Display' }}
+              >
+                + Add Custom
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          filteredSubscriptions.map((subscription) => (
+            <TouchableOpacity
+              key={subscription.id}
+              onPress={() => handleSelectSubscription(subscription)}
+              className="bg-white rounded-2xl p-4 mb-3"
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.1,
+                shadowRadius: 3,
+                elevation: 2,
+              }}
+            >
+              <View className="flex-row items-center">
+                <View className="w-16 h-16 rounded-xl bg-gray-100 items-center justify-center mr-4">
+                  {subscription.logo_url ? (
+                    <Image
+                      source={{ uri: subscription.logo_url }}
+                      className="w-12 h-12 rounded-lg"
+                      resizeMode="contain"
+                    />
+                  ) : (
+                    <Text className="text-2xl">{subscription.category.icon_url}</Text>
+                  )}
+                </View>
+
+                <View className="flex-1">
+                  <Text
+                    className="text-lg font-bold text-gray-900 mb-1"
+                    style={{ fontFamily: 'SF Pro Display' }}
+                  >
+                    {subscription.name}
+                  </Text>
+                  <Text
+                    className="text-sm text-gray-500"
+                    style={{ fontFamily: 'SF Pro Text' }}
+                    numberOfLines={2}
+                  >
+                    {subscription.description}
+                  </Text>
+                </View>
+
+                <Text className="text-2xl ml-2">→</Text>
+              </View>
+            </TouchableOpacity>
+          ))
+        )}
+
+        {/* Add Custom Button */}
+        <TouchableOpacity
+          onPress={() => setStep('custom')}
+          className="bg-gray-100 rounded-2xl p-6 items-center mb-6"
+        >
+          <Text className="text-3xl mb-2">➕</Text>
+          <Text
+            className="text-base font-semibold text-gray-900"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Add Custom Subscription
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
+  );
+
+  // Render Select Plan Step
+  const renderSelectPlanStep = () => (
+    <View className="flex-1">
+      <ScrollView className="flex-1 px-4">
+        <View className="mb-6">
+          <Text
+            className="text-2xl font-bold text-gray-900 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Select a Plan
+          </Text>
+          <Text
+            className="text-base text-gray-500"
+            style={{ fontFamily: 'SF Pro Text' }}
+          >
+            Choose the plan that works best for you
+          </Text>
+        </View>
+
+        {plans.map((plan) => {
+          const price = getUserPrice(plan.prices);
+          return (
+            <TouchableOpacity
+              key={plan.id}
+              onPress={() => handleSelectPlan(plan)}
+              className="bg-white rounded-2xl p-6 mb-4"
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+                elevation: 3,
+              }}
+            >
+              <View className="flex-row items-center justify-between mb-3">
+                <Text
+                  className="text-xl font-bold text-gray-900"
+                  style={{ fontFamily: 'SF Pro Display' }}
+                >
+                  {plan.name}
+                </Text>
+                {price && (
+                  <Text
+                    className="text-2xl font-bold text-black"
+                    style={{ fontFamily: 'SF Pro Display' }}
+                  >
+                    {price.currency} {price.price.toFixed(2)}
+                  </Text>
+                )}
+              </View>
+
+              <Text
+                className="text-sm text-gray-600 mb-3"
+                style={{ fontFamily: 'SF Pro Text' }}
+              >
+                Billed {plan.billing_cycle}
+              </Text>
+
+              {plan.features && Object.keys(plan.features).length > 0 && (
+                <View className="border-t border-gray-200 pt-3">
+                  {Object.entries(plan.features).map(([key, value]) => (
+                    <View key={key} className="flex-row items-center mb-2">
+                      <Text className="mr-2">✓</Text>
+                      <Text
+                        className="text-sm text-gray-700"
+                        style={{ fontFamily: 'SF Pro Text' }}
+                      >
+                        {key}: {String(value)}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              )}
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
+  );
+
+  // Render Details Step
+  const renderDetailsStep = () => (
+    <View className="flex-1">
+      <ScrollView className="flex-1 px-4">
+        <View className="mb-6">
+          <Text
+            className="text-2xl font-bold text-gray-900 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Subscription Details
+          </Text>
+          {selectedSubscription && selectedPlan && (
+            <Text
+              className="text-base text-gray-500"
+              style={{ fontFamily: 'SF Pro Text' }}
+            >
+              {selectedSubscription.name} - {selectedPlan.name}
+            </Text>
+          )}
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Start Date
+          </Text>
+          <TextInput
+            value={startDate}
+            onChangeText={setStartDate}
+            placeholder="YYYY-MM-DD"
+            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
+            style={{ fontFamily: 'SF Pro Text' }}
+          />
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Next Billing Date
+          </Text>
+          <TextInput
+            value={nextBillingDate}
+            onChangeText={setNextBillingDate}
+            placeholder="YYYY-MM-DD"
+            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
+            style={{ fontFamily: 'SF Pro Text' }}
+          />
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Notes (Optional)
+          </Text>
+          <TextInput
+            value={notes}
+            onChangeText={setNotes}
+            placeholder="Add any notes..."
+            multiline
+            numberOfLines={3}
+            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
+            style={{ fontFamily: 'SF Pro Text', textAlignVertical: 'top' }}
+          />
+        </View>
+
+        <TouchableOpacity
+          onPress={handleAddPresetSubscription}
+          disabled={loading}
+          className="bg-black rounded-2xl py-4 items-center mb-6"
+        >
+          <Text
+            className="text-white text-lg font-semibold"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            {loading ? 'Adding...' : 'Add Subscription'}
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
+  );
+
+  // Render Custom Step
+  const renderCustomStep = () => (
+    <View className="flex-1">
+      <ScrollView className="flex-1 px-4">
+        <View className="mb-6">
+          <Text
+            className="text-2xl font-bold text-gray-900 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Add Custom Subscription
+          </Text>
+          <Text
+            className="text-base text-gray-500"
+            style={{ fontFamily: 'SF Pro Text' }}
+          >
+            Create your own subscription
+          </Text>
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Subscription Name *
+          </Text>
+          <TextInput
+            value={customName}
+            onChangeText={setCustomName}
+            placeholder="e.g., Steam, Gym Membership"
+            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
+            style={{ fontFamily: 'SF Pro Text' }}
+          />
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Category *
+          </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {categories.map((category) => (
+              <TouchableOpacity
+                key={category.id}
+                onPress={() => setCustomCategoryId(category.id)}
+                className={`mr-2 px-3 py-2 rounded-full flex-row items-center ${
+                  customCategoryId === category.id ? 'bg-black' : 'bg-gray-100'
+                }`}
+              >
+                <Text className="text-xs mr-1">{category.icon_url}</Text>
+                <Text
+                  className={`text-sm font-semibold ${
+                    customCategoryId === category.id ? 'text-white' : 'text-gray-700'
+                  }`}
+                  style={{ fontFamily: 'SF Pro Display' }}
+                >
+                  {category.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Price *
+          </Text>
+          <TextInput
+            value={customPrice}
+            onChangeText={setCustomPrice}
+            placeholder="0.00"
+            keyboardType="decimal-pad"
+            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
+            style={{ fontFamily: 'SF Pro Text' }}
+          />
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Billing Cycle *
+          </Text>
+          <View className="flex-row">
+            {(['weekly', 'monthly', 'yearly'] as const).map((cycle) => (
+              <TouchableOpacity
+                key={cycle}
+                onPress={() => setCustomBillingCycle(cycle)}
+                className={`flex-1 mr-2 py-3 rounded-xl items-center ${
+                  customBillingCycle === cycle ? 'bg-black' : 'bg-gray-100'
+                }`}
+              >
+                <Text
+                  className={`text-sm font-semibold ${
+                    customBillingCycle === cycle ? 'text-white' : 'text-gray-700'
+                  }`}
+                  style={{ fontFamily: 'SF Pro Display' }}
+                >
+                  {cycle.charAt(0).toUpperCase() + cycle.slice(1)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Start Date
+          </Text>
+          <TextInput
+            value={startDate}
+            onChangeText={setStartDate}
+            placeholder="YYYY-MM-DD"
+            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
+            style={{ fontFamily: 'SF Pro Text' }}
+          />
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Next Billing Date
+          </Text>
+          <TextInput
+            value={nextBillingDate}
+            onChangeText={setNextBillingDate}
+            placeholder="YYYY-MM-DD"
+            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
+            style={{ fontFamily: 'SF Pro Text' }}
+          />
+        </View>
+
+        <View className="bg-white rounded-2xl p-4 mb-4">
+          <Text
+            className="text-sm font-semibold text-gray-700 mb-2"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            Notes (Optional)
+          </Text>
+          <TextInput
+            value={notes}
+            onChangeText={setNotes}
+            placeholder="Add any notes..."
+            multiline
+            numberOfLines={3}
+            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
+            style={{ fontFamily: 'SF Pro Text', textAlignVertical: 'top' }}
+          />
+        </View>
+
+        <TouchableOpacity
+          onPress={handleAddCustomSubscription}
+          disabled={loading}
+          className="bg-black rounded-2xl py-4 items-center mb-6"
+        >
+          <Text
+            className="text-white text-lg font-semibold"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            {loading ? 'Adding...' : 'Add Custom Subscription'}
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
+  );
+
+  const renderBackButton = () => {
+    let onPress = onClose;
+    let title = 'Cancel';
+
+    if (step === 'select-plan') {
+      onPress = () => setStep('search');
+      title = '← Back';
+    } else if (step === 'details') {
+      onPress = () => setStep('select-plan');
+      title = '← Back';
+    } else if (step === 'custom') {
+      onPress = () => setStep('search');
+      title = '← Back';
+    }
+
+    return (
+      <TouchableOpacity onPress={onPress} className="mr-4">
+        <Text
+          className="text-base font-semibold text-gray-700"
+          style={{ fontFamily: 'SF Pro Display' }}
+        >
+          {title}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <View className="flex-1 bg-gray-50">
+      {/* Header - Fixed at top with status bar */}
+      <View 
+        className="bg-white border-b border-gray-200"
+        style={{ paddingTop: insets.top }}
+      >
+        <View className="px-4 py-3 flex-row items-center">
+          {renderBackButton()}
+          <Text
+            className="text-xl font-bold text-gray-900 flex-1"
+            style={{ fontFamily: 'SF Pro Display' }}
+          >
+            {step === 'search' && 'Add Subscription'}
+            {step === 'select-plan' && 'Select Plan'}
+            {step === 'details' && 'Details'}
+            {step === 'custom' && 'Custom Subscription'}
+          </Text>
+        </View>
+      </View>
+
+      {/* Content */}
+      {step === 'search' && renderSearchStep()}
+      {step === 'select-plan' && renderSelectPlanStep()}
+      {step === 'details' && renderDetailsStep()}
+      {step === 'custom' && renderCustomStep()}
+    </View>
   );
 };
 

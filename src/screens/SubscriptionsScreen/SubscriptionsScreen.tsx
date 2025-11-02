@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Image, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { catalogService } from '../../services/catalogService';
 import { Category, CatalogSubscription } from '../../types/catalog';
+import AddSubscriptionScreen from '../AddSubscriptionScreen/AddSubscriptionScreen';
 
 const SubscriptionsScreen = () => {
   const { t } = useTranslation();
@@ -12,6 +13,7 @@ const SubscriptionsScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -58,55 +60,60 @@ const SubscriptionsScreen = () => {
   };
 
   const handleAddSubscription = () => {
-    Alert.alert('Add Subscription', 'This feature will be implemented next!');
+    setShowAddModal(true);
   };
 
-  const renderCategoryFilter = () => (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      className="mb-3"
-      contentContainerStyle={{ paddingHorizontal: 16 }}
-    >
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+    onRefresh(); // Refresh the list after adding
+  };
+
+  const renderCategoryFilter = () => {
+    const allCategories = [{ id: null, name: 'All', icon_url: '' }, ...categories];
+    const halfLength = Math.ceil(allCategories.length / 2);
+    const firstRow = allCategories.slice(0, halfLength);
+    const secondRow = allCategories.slice(halfLength);
+
+    const renderCategoryChip = (category: { id: number | null; name: string; icon_url: string }) => (
       <TouchableOpacity
-        onPress={() => setSelectedCategory(null)}
-        className={`mr-2 px-3 py-1.5 rounded-full ${
-          selectedCategory === null ? 'bg-black' : 'bg-gray-200'
+        key={category.id || 'all'}
+        onPress={() => setSelectedCategory(category.id)}
+        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${
+          selectedCategory === category.id ? 'bg-black' : 'bg-gray-200'
         }`}
         style={{ height: 32 }}
       >
+        {category.icon_url ? <Text className="text-xs mr-1">{category.icon_url}</Text> : null}
         <Text
           className={`text-sm font-semibold ${
-            selectedCategory === null ? 'text-white' : 'text-gray-700'
+            selectedCategory === category.id ? 'text-white' : 'text-gray-700'
           }`}
           style={{ fontFamily: 'SF Pro Display' }}
         >
-          All
+          {category.name}
         </Text>
       </TouchableOpacity>
+    );
 
-      {categories.map((category) => (
-        <TouchableOpacity
-          key={category.id}
-          onPress={() => setSelectedCategory(category.id)}
-          className={`mr-2 px-3 py-1.5 rounded-full flex-row items-center ${
-            selectedCategory === category.id ? 'bg-black' : 'bg-gray-200'
-          }`}
-          style={{ height: 32 }}
+    return (
+      <View className="px-4">
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="mb-1"
         >
-          <Text className="text-xs mr-1">{category.icon_url}</Text>
-          <Text
-            className={`text-sm font-semibold ${
-              selectedCategory === category.id ? 'text-white' : 'text-gray-700'
-            }`}
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            {category.name}
-          </Text>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
-  );
+          {firstRow.map(renderCategoryChip)}
+        </ScrollView>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="mb-2"
+        >
+          {secondRow.map(renderCategoryChip)}
+        </ScrollView>
+      </View>
+    );
+  };
 
   const renderSubscriptionCard = (subscription: CatalogSubscription) => (
     <TouchableOpacity
@@ -246,6 +253,15 @@ const SubscriptionsScreen = () => {
           subscriptions.map(renderSubscriptionCard)
         )}
       </ScrollView>
+
+      {/* Add Subscription Modal */}
+      <Modal
+        visible={showAddModal}
+        animationType="slide"
+        presentationStyle="fullScreen"
+      >
+        <AddSubscriptionScreen onClose={handleCloseAddModal} />
+      </Modal>
     </SafeAreaView>
   );
 };
