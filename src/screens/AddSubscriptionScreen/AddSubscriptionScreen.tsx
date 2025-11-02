@@ -187,120 +187,162 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     return prices.find(p => p.region === user?.region) || prices[0];
   };
 
-  // Render Search Step
-  const renderSearchStep = () => (
-    <View className="flex-1">
-      {/* Search Bar */}
-      <View className="px-4 mb-4">
-        <View className="bg-gray-100 rounded-xl px-4 py-3 flex-row items-center">
-          <Text className="mr-2">🔍</Text>
-          <TextInput
-            placeholder="Search subscriptions (e.g., Netflix, Steam)..."
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            className="flex-1 text-base"
-            style={{ fontFamily: 'SF Pro Text' }}
-          />
-        </View>
-      </View>
+  // Group subscriptions by category
+  const groupSubscriptionsByCategory = () => {
+    const grouped: { [key: string]: { category: Category; subscriptions: CatalogSubscription[] } } = {};
+    
+    filteredSubscriptions.forEach((subscription) => {
+      const categoryId = subscription.category.id.toString();
+      if (!grouped[categoryId]) {
+        grouped[categoryId] = {
+          category: subscription.category,
+          subscriptions: [],
+        };
+      }
+      grouped[categoryId].subscriptions.push(subscription);
+    });
+    
+    return Object.values(grouped);
+  };
 
-      {/* Results */}
-      <ScrollView className="flex-1 px-4">
-        {filteredSubscriptions.length === 0 && searchQuery.trim() !== '' ? (
-          <View className="bg-white rounded-2xl p-8 items-center mb-4">
-            <Text className="text-5xl mb-4">🔍</Text>
-            <Text
-              className="text-lg font-semibold text-gray-900 mb-2"
-              style={{ fontFamily: 'SF Pro Display' }}
-            >
-              No Results Found
-            </Text>
-            <Text
-              className="text-sm text-gray-500 text-center mb-4"
+  // Render Search Step
+  const renderSearchStep = () => {
+    const groupedData = groupSubscriptionsByCategory();
+    
+    return (
+      <View className="flex-1">
+        {/* Search Bar */}
+        <View className="px-4 mb-4">
+          <View className="bg-gray-100 rounded-xl px-4 py-3 flex-row items-center">
+            <Text className="mr-2">🔍</Text>
+            <TextInput
+              placeholder="Search subscriptions (e.g., Netflix, Steam)..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              className="flex-1 text-base"
               style={{ fontFamily: 'SF Pro Text' }}
-            >
-              Can't find "{searchQuery}"? Add it as a custom subscription
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setCustomName(searchQuery);
-                setStep('custom');
-              }}
-              className="bg-black rounded-full px-6 py-3"
-            >
+            />
+          </View>
+        </View>
+
+        {/* Results */}
+        <ScrollView className="flex-1 px-4">
+          {filteredSubscriptions.length === 0 && searchQuery.trim() !== '' ? (
+            <View className="bg-white rounded-2xl p-8 items-center mb-4">
+              <Text className="text-5xl mb-4">🔍</Text>
               <Text
-                className="text-white font-semibold"
+                className="text-lg font-semibold text-gray-900 mb-2"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
-                + Add Custom
+                No Results Found
               </Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          filteredSubscriptions.map((subscription) => (
-            <TouchableOpacity
-              key={subscription.id}
-              onPress={() => handleSelectSubscription(subscription)}
-              className="bg-white rounded-2xl p-4 mb-3"
-              style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 1 },
-                shadowOpacity: 0.1,
-                shadowRadius: 3,
-                elevation: 2,
-              }}
-            >
-              <View className="flex-row items-center">
-                <View className="w-16 h-16 rounded-xl bg-gray-100 items-center justify-center mr-4">
-                  {subscription.logo_url ? (
-                    <Image
-                      source={{ uri: subscription.logo_url }}
-                      className="w-12 h-12 rounded-lg"
-                      resizeMode="contain"
-                    />
-                  ) : (
-                    <Text className="text-2xl">{subscription.category.icon_url}</Text>
-                  )}
+              <Text
+                className="text-sm text-gray-500 text-center mb-4"
+                style={{ fontFamily: 'SF Pro Text' }}
+              >
+                Can't find "{searchQuery}"? Add it as a custom subscription
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setCustomName(searchQuery);
+                  setStep('custom');
+                }}
+                className="bg-black rounded-full px-6 py-3"
+              >
+                <Text
+                  className="text-white font-semibold"
+                  style={{ fontFamily: 'SF Pro Display' }}
+                >
+                  + Add Custom
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <>
+              {groupedData.map((group) => (
+                <View key={group.category.id} className="mb-6">
+                  {/* Category Header */}
+                  <View className="flex-row items-center mb-3">
+                    <View className="w-8 h-8 rounded-lg bg-gray-100 items-center justify-center mr-2">
+                      <Text className="text-lg">{group.category.icon_url}</Text>
+                    </View>
+                    <Text
+                      className="text-xl font-bold text-gray-900"
+                      style={{ fontFamily: 'SF Pro Display' }}
+                    >
+                      {group.category.name}
+                    </Text>
+                  </View>
+
+                  {/* Category Subscriptions */}
+                  {group.subscriptions.map((subscription) => (
+                    <TouchableOpacity
+                      key={subscription.id}
+                      onPress={() => handleSelectSubscription(subscription)}
+                      className="bg-white rounded-2xl p-4 mb-3"
+                      style={{
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 3,
+                        elevation: 2,
+                      }}
+                    >
+                      <View className="flex-row items-center">
+                        <View className="w-16 h-16 rounded-xl bg-gray-100 items-center justify-center mr-4">
+                          {subscription.logo_url ? (
+                            <Image
+                              source={{ uri: subscription.logo_url }}
+                              className="w-12 h-12 rounded-lg"
+                              resizeMode="contain"
+                            />
+                          ) : (
+                            <Text className="text-2xl">{subscription.category.icon_url}</Text>
+                          )}
+                        </View>
+
+                        <View className="flex-1">
+                          <Text
+                            className="text-lg font-bold text-gray-900 mb-1"
+                            style={{ fontFamily: 'SF Pro Display' }}
+                          >
+                            {subscription.name}
+                          </Text>
+                          <Text
+                            className="text-sm text-gray-500"
+                            style={{ fontFamily: 'SF Pro Text' }}
+                            numberOfLines={2}
+                          >
+                            {subscription.description}
+                          </Text>
+                        </View>
+
+                        <Text className="text-2xl ml-2">→</Text>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
                 </View>
+              ))}
+            </>
+          )}
 
-                <View className="flex-1">
-                  <Text
-                    className="text-lg font-bold text-gray-900 mb-1"
-                    style={{ fontFamily: 'SF Pro Display' }}
-                  >
-                    {subscription.name}
-                  </Text>
-                  <Text
-                    className="text-sm text-gray-500"
-                    style={{ fontFamily: 'SF Pro Text' }}
-                    numberOfLines={2}
-                  >
-                    {subscription.description}
-                  </Text>
-                </View>
-
-                <Text className="text-2xl ml-2">→</Text>
-              </View>
-            </TouchableOpacity>
-          ))
-        )}
-
-        {/* Add Custom Button */}
-        <TouchableOpacity
-          onPress={() => setStep('custom')}
-          className="bg-gray-100 rounded-2xl p-6 items-center mb-6"
-        >
-          <Text className="text-3xl mb-2">➕</Text>
-          <Text
-            className="text-base font-semibold text-gray-900"
-            style={{ fontFamily: 'SF Pro Display' }}
+          {/* Add Custom Button */}
+          <TouchableOpacity
+            onPress={() => setStep('custom')}
+            className="bg-gray-100 rounded-2xl p-6 items-center mb-6"
           >
-            Add Custom Subscription
-          </Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
-  );
+            <Text className="text-3xl mb-2">➕</Text>
+            <Text
+              className="text-base font-semibold text-gray-900"
+              style={{ fontFamily: 'SF Pro Display' }}
+            >
+              Add Custom Subscription
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    );
+  };
 
   // Render Select Plan Step
   const renderSelectPlanStep = () => (

@@ -1,4 +1,5 @@
 import { Api } from './tracking/tracking-api';
+import { storageService } from './storageService';
 import {
   Category,
   CatalogSubscription,
@@ -28,6 +29,19 @@ class CatalogService {
 
   private get baseUrl() {
     return this.api.baseUrl;
+  }
+
+  private async getAuthHeaders(): Promise<HeadersInit> {
+    const token = await storageService.getToken();
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    return headers;
   }
 
   private async fetchWithTimeout(url: string, options: RequestInit, timeout = 30000): Promise<Response> {
@@ -177,11 +191,10 @@ class CatalogService {
   // My Subscriptions - Get All
   async getMySubscriptions(): Promise<MySubscription[]> {
     try {
+      const headers = await this.getAuthHeaders();
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/my-subscriptions`, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
 
       if (!response.ok) {
@@ -204,11 +217,10 @@ class CatalogService {
   // My Subscriptions - Add Preset
   async addPresetSubscription(data: AddPresetSubscriptionRequest): Promise<MySubscription> {
     try {
+      const headers = await this.getAuthHeaders();
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/my-subscriptions/preset`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(data),
       });
 
@@ -236,11 +248,10 @@ class CatalogService {
   // My Subscriptions - Add Custom
   async addCustomSubscription(data: AddCustomSubscriptionRequest): Promise<MySubscription> {
     try {
+      const headers = await this.getAuthHeaders();
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/my-subscriptions/custom`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(data),
       });
 
@@ -268,11 +279,10 @@ class CatalogService {
   // My Subscriptions - Update
   async updateSubscription(id: number, data: UpdateSubscriptionRequest): Promise<MySubscription> {
     try {
+      const headers = await this.getAuthHeaders();
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/my-subscriptions/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(data),
       });
 
@@ -300,11 +310,10 @@ class CatalogService {
   // My Subscriptions - Delete
   async deleteSubscription(id: number): Promise<void> {
     try {
+      const headers = await this.getAuthHeaders();
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/my-subscriptions/${id}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
 
       if (!response.ok) {
