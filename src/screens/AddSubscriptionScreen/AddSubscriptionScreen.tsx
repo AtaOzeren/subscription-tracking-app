@@ -23,6 +23,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
   const [subscriptions, setSubscriptions] = useState<CatalogSubscription[]>([]);
   const [filteredSubscriptions, setFilteredSubscriptions] = useState<CatalogSubscription[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   
   // Selection states
   const [selectedSubscription, setSelectedSubscription] = useState<CatalogSubscription | null>(null);
@@ -47,16 +48,23 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
   }, []);
 
   useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredSubscriptions(subscriptions);
-    } else {
-      const filtered = subscriptions.filter(sub =>
+    let filtered = subscriptions;
+
+    // Filter by category
+    if (selectedCategory !== null) {
+      filtered = filtered.filter(sub => sub.category.id === selectedCategory);
+    }
+
+    // Filter by search query
+    if (searchQuery.trim() !== '') {
+      filtered = filtered.filter(sub =>
         sub.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         sub.description.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredSubscriptions(filtered);
     }
-  }, [searchQuery, subscriptions]);
+
+    setFilteredSubscriptions(filtered);
+  }, [searchQuery, subscriptions, selectedCategory]);
 
   const loadData = async () => {
     try {
@@ -187,6 +195,54 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     return prices.find(p => p.region === user?.region) || prices[0];
   };
 
+  // Render Category Filter (2-row layout like SubscriptionsScreen)
+  const renderCategoryFilter = () => {
+    const allCategories = [{ id: null, name: 'All', icon_url: '' }, ...categories];
+    const halfLength = Math.ceil(allCategories.length / 2);
+    const firstRow = allCategories.slice(0, halfLength);
+    const secondRow = allCategories.slice(halfLength);
+
+    const renderCategoryChip = (category: { id: number | null; name: string; icon_url: string }) => (
+      <TouchableOpacity
+        key={category.id || 'all'}
+        onPress={() => setSelectedCategory(category.id)}
+        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${
+          selectedCategory === category.id ? 'bg-black' : 'bg-gray-200'
+        }`}
+        style={{ height: 32 }}
+      >
+        {category.icon_url ? <Text className="text-xs mr-1">{category.icon_url}</Text> : null}
+        <Text
+          className={`text-sm font-semibold ${
+            selectedCategory === category.id ? 'text-white' : 'text-gray-700'
+          }`}
+          style={{ fontFamily: 'SF Pro Display' }}
+        >
+          {category.name}
+        </Text>
+      </TouchableOpacity>
+    );
+
+    return (
+      <View className="px-4 mb-4">
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="mb-1"
+        >
+          {firstRow.map(renderCategoryChip)}
+        </ScrollView>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="mb-2"
+        >
+          {secondRow.map(renderCategoryChip)}
+        </ScrollView>
+      </View>
+    );
+  };
+
   // Group subscriptions by category
   const groupSubscriptionsByCategory = () => {
     const grouped: { [key: string]: { category: Category; subscriptions: CatalogSubscription[] } } = {};
@@ -210,7 +266,12 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     const groupedData = groupSubscriptionsByCategory();
     
     return (
-      <View className="flex-1">
+      <ScrollView className="flex-1">
+        {/* Category Filter */}
+        <View className="pt-4">
+          {renderCategoryFilter()}
+        </View>
+
         {/* Search Bar */}
         <View className="px-4 mb-4">
           <View className="bg-gray-100 rounded-xl px-4 py-3 flex-row items-center">
@@ -226,7 +287,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
         </View>
 
         {/* Results */}
-        <ScrollView className="flex-1 px-4">
+        <View className="px-4">
           {filteredSubscriptions.length === 0 && searchQuery.trim() !== '' ? (
             <View className="bg-white rounded-2xl p-8 items-center mb-4">
               <Text className="text-5xl mb-4">🔍</Text>
@@ -339,8 +400,8 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
               Add Custom Subscription
             </Text>
           </TouchableOpacity>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   };
 
