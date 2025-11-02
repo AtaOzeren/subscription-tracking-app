@@ -765,7 +765,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     }
 
     return (
-      <TouchableOpacity onPress={onPress} className="mr-4">
+      <TouchableOpacity onPress={onPress}>
         <Text
           className="text-base font-semibold text-gray-700"
           style={{ fontFamily: 'SF Pro Display' }}
@@ -783,17 +783,17 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
         className="bg-white border-b border-gray-200"
         style={{ paddingTop: insets.top }}
       >
-        <View className="px-4 py-3 flex-row items-center">
-          {renderBackButton()}
+        <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
           <Text
-            className="text-xl font-bold text-gray-900 flex-1"
-            style={{ fontFamily: 'SF Pro Display' }}
+            className="text-3xl font-bold text-gray-900 flex-1"
+            style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
           >
             {step === 'search' && 'Add Subscription'}
             {step === 'select-plan' && 'Select Plan'}
             {step === 'details' && 'Details'}
             {step === 'custom' && 'Custom Subscription'}
           </Text>
+          {renderBackButton()}
         </View>
       </View>
 
