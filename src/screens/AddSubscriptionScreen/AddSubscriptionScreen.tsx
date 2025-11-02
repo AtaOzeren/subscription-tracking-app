@@ -6,6 +6,7 @@ import { catalogService } from '../../services/catalogService';
 import { Category, CatalogSubscription, Plan, Price } from '../../types/catalog';
 import { useAuth } from '../../contexts/AuthContext';
 import CustomSubscription from './CustomSubscription';
+import FormField from '../../components/subscription/FormField';
 
 interface AddSubscriptionScreenProps {
   onClose: () => void;
@@ -454,73 +455,41 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
   // Render Details Step
   const renderDetailsStep = () => (
     <View className="flex-1">
-      <ScrollView className="flex-1 px-4">
-        <View className="mb-6">
-          <Text
-            className="text-2xl font-bold text-gray-900 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Subscription Details
-          </Text>
-          {selectedSubscription && selectedPlan && (
+      <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingTop: 16 }}>
+        {selectedSubscription && selectedPlan && (
+          <View className="mb-4">
             <Text
-              className="text-base text-gray-500"
+              className="text-base text-gray-500 text-center"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {selectedSubscription.name} - {selectedPlan.name}
             </Text>
-          )}
-        </View>
+          </View>
+        )}
 
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Start Date
-          </Text>
-          <TextInput
-            value={startDate}
-            onChangeText={setStartDate}
-            placeholder="YYYY-MM-DD"
-            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
-            style={{ fontFamily: 'SF Pro Text' }}
-          />
-        </View>
+        <FormField
+          label="Start Date"
+          value={startDate}
+          onChangeText={setStartDate}
+          placeholder="YYYY-MM-DD"
+        />
 
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Next Billing Date
-          </Text>
-          <TextInput
-            value={nextBillingDate}
-            onChangeText={setNextBillingDate}
-            placeholder="YYYY-MM-DD"
-            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
-            style={{ fontFamily: 'SF Pro Text' }}
-          />
-        </View>
+        <FormField
+          label="Next Billing Date"
+          value={nextBillingDate}
+          onChangeText={setNextBillingDate}
+          placeholder="YYYY-MM-DD"
+        />
 
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Notes (Optional)
-          </Text>
-          <TextInput
-            value={notes}
-            onChangeText={setNotes}
-            placeholder="Add any notes..."
-            multiline
-            numberOfLines={3}
-            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
-            style={{ fontFamily: 'SF Pro Text', textAlignVertical: 'top' }}
-          />
-        </View>
+        <FormField
+          label="Notes (Optional)"
+          value={notes}
+          onChangeText={setNotes}
+          placeholder="Add any notes..."
+          multiline
+          numberOfLines={3}
+          textAlignVertical="top"
+        />
 
         <TouchableOpacity
           onPress={handleAddPresetSubscription}

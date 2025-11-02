@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { catalogService } from '../../services/catalogService';
 import { Category } from '../../types/catalog';
 import { useAuth } from '../../contexts/AuthContext';
+import FormField from '../../components/subscription/FormField';
+import CategorySelector from '../../components/subscription/CategorySelector';
+import BillingCycleSelector from '../../components/subscription/BillingCycleSelector';
 
 interface CustomSubscriptionProps {
   onClose: () => void;
@@ -112,161 +115,73 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
 
       {/* Content */}
       <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingTop: 16 }}>
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Subscription Name *
-          </Text>
-          <TextInput
-            value={customName}
-            onChangeText={setCustomName}
-            placeholder="e.g., Steam, Gym Membership"
-            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
-            style={{ fontFamily: 'SF Pro Text' }}
-          />
-        </View>
+        <FormField
+          label="Subscription Name"
+          required
+          value={customName}
+          onChangeText={setCustomName}
+          placeholder="e.g., Steam, Gym Membership"
+        />
 
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Category *
-          </Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {categories.map((category) => (
-              <TouchableOpacity
-                key={category.id}
-                onPress={() => setCustomCategoryId(category.id)}
-                className={`mr-2 px-3 py-2 rounded-full flex-row items-center ${
-                  customCategoryId === category.id ? 'bg-black' : 'bg-gray-100'
-                }`}
-              >
-                <Text className="text-xs mr-1">{category.icon_url}</Text>
-                <Text
-                  className={`text-sm font-semibold ${
-                    customCategoryId === category.id ? 'text-white' : 'text-gray-700'
-                  }`}
-                  style={{ fontFamily: 'SF Pro Display' }}
-                >
-                  {category.name}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+        <CategorySelector
+          categories={categories}
+          selectedCategoryId={customCategoryId}
+          onSelectCategory={setCustomCategoryId}
+          required
+        />
 
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Price *
-          </Text>
-          <TextInput
-            value={customPrice}
-            onChangeText={setCustomPrice}
-            placeholder="0.00"
-            keyboardType="decimal-pad"
-            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
-            style={{ fontFamily: 'SF Pro Text' }}
-          />
-        </View>
+        <FormField
+          label="Price"
+          required
+          value={customPrice}
+          onChangeText={setCustomPrice}
+          placeholder="0.00"
+          keyboardType="decimal-pad"
+        />
 
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Billing Cycle *
-          </Text>
-          <View className="flex-row">
-            {(['weekly', 'monthly', 'yearly'] as const).map((cycle) => (
-              <TouchableOpacity
-                key={cycle}
-                onPress={() => {
-                  setCustomBillingCycle(cycle);
-                  // Auto-calculate next billing date when cycle changes
-                  if (startDate) {
-                    const calculatedDate = calculateNextBillingDate(startDate, cycle);
-                    setNextBillingDate(calculatedDate);
-                  }
-                }}
-                className={`flex-1 mr-2 py-3 rounded-xl items-center ${
-                  customBillingCycle === cycle ? 'bg-black' : 'bg-gray-100'
-                }`}
-              >
-                <Text
-                  className={`text-sm font-semibold ${
-                    customBillingCycle === cycle ? 'text-white' : 'text-gray-700'
-                  }`}
-                  style={{ fontFamily: 'SF Pro Display' }}
-                >
-                  {cycle.charAt(0).toUpperCase() + cycle.slice(1)}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
+        <BillingCycleSelector
+          selectedCycle={customBillingCycle}
+          onSelectCycle={(cycle) => {
+            setCustomBillingCycle(cycle);
+            // Auto-calculate next billing date when cycle changes
+            if (startDate) {
+              const calculatedDate = calculateNextBillingDate(startDate, cycle);
+              setNextBillingDate(calculatedDate);
+            }
+          }}
+          required
+        />
 
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Start Date
-          </Text>
-          <TextInput
-            value={startDate}
-            onChangeText={(date) => {
-              setStartDate(date);
-              // Auto-calculate next billing date when start date changes
-              if (date && date.length === 10) { // Valid date format YYYY-MM-DD
-                const calculatedDate = calculateNextBillingDate(date, customBillingCycle);
-                setNextBillingDate(calculatedDate);
-              }
-            }}
-            placeholder="YYYY-MM-DD"
-            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
-            style={{ fontFamily: 'SF Pro Text' }}
-          />
-        </View>
+        <FormField
+          label="Start Date"
+          value={startDate}
+          onChangeText={(date) => {
+            setStartDate(date);
+            // Auto-calculate next billing date when start date changes
+            if (date && date.length === 10) { // Valid date format YYYY-MM-DD
+              const calculatedDate = calculateNextBillingDate(date, customBillingCycle);
+              setNextBillingDate(calculatedDate);
+            }
+          }}
+          placeholder="YYYY-MM-DD"
+        />
 
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Next Billing Date
-          </Text>
-          <TextInput
-            value={nextBillingDate}
-            onChangeText={setNextBillingDate}
-            placeholder="YYYY-MM-DD"
-            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
-            style={{ fontFamily: 'SF Pro Text' }}
-          />
-        </View>
+        <FormField
+          label="Next Billing Date"
+          value={nextBillingDate}
+          onChangeText={setNextBillingDate}
+          placeholder="YYYY-MM-DD"
+        />
 
-        <View className="bg-white rounded-2xl p-4 mb-4">
-          <Text
-            className="text-sm font-semibold text-gray-700 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Notes (Optional)
-          </Text>
-          <TextInput
-            value={notes}
-            onChangeText={setNotes}
-            placeholder="Add any notes..."
-            multiline
-            numberOfLines={3}
-            className="bg-gray-50 rounded-xl px-4 py-3 text-base"
-            style={{ fontFamily: 'SF Pro Text', textAlignVertical: 'top' }}
-          />
-        </View>
+        <FormField
+          label="Notes (Optional)"
+          value={notes}
+          onChangeText={setNotes}
+          placeholder="Add any notes..."
+          multiline
+          numberOfLines={3}
+          textAlignVertical="top"
+        />
 
         <TouchableOpacity
           onPress={handleAddCustomSubscription}
