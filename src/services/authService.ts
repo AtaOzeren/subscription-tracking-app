@@ -26,8 +26,29 @@ class AuthService {
     return this.api.baseUrl;
   }
 
+  // Test API connectivity before making requests
+  async testConnection(): Promise<boolean> {
+    try {
+      const response = await this.fetchWithTimeout(`${this.baseUrl}/health`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }, 10000);
+      
+      if (!response.ok) {
+        return false;
+      }
+      
+      await response.json();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   // Helper function to create fetch with timeout
-  private async fetchWithTimeout(url: string, options: RequestInit, timeout = 10000): Promise<Response> {
+  private async fetchWithTimeout(url: string, options: RequestInit, timeout = 30000): Promise<Response> {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
     
@@ -40,8 +61,14 @@ class AuthService {
       return response;
     } catch (error) {
       clearTimeout(id);
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new Error('Request timeout. Please check your connection and try again.');
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          throw new Error('Request timeout. Please check your connection and try again.');
+        }
+        if (error.message.includes('Network request failed')) {
+          throw new Error('Cannot connect to server. Please check your network connection.');
+        }
       }
       throw error;
     }
@@ -49,12 +76,11 @@ class AuthService {
 
   async login(email: string, password: string): Promise<AuthResponse> {
     try {
-      console.log('🔐 Login attempt:', { email });
-      console.log('🌐 API Base URL:', this.api.baseUrl);
-      
-      // Use fetch directly to bypass swagger API issues
-      const startTime = Date.now();
-      console.log('⏰ Starting direct fetch call at:', new Date().toISOString());
+      // Test connection first (non-blocking)
+      const isConnected = await this.testConnection();
+      if (!isConnected) {
+        console.warn('Health check failed, attempting login anyway');
+      }
       
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/auth/login`, {
         method: 'POST',
@@ -62,25 +88,16 @@ class AuthService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
-      }, 10000);
-      
-      const endTime = Date.now();
-      console.log('⏰ Fetch call completed in:', endTime - startTime, 'ms');
-      console.log('📡 Response status:', response.status);
-      console.log('📡 Response ok:', response.ok);
+      }, 30000);
       
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('❌ HTTP Error:', errorData);
         throw new Error((errorData as any).message || `HTTP ${response.status}: ${response.statusText}`);
       }
       
       const apiResponse: ApiResponse<LoginResponseData> = await response.json();
-      console.log('🔍 Parsed API response:', apiResponse);
       
-      // Validate response structure
       if (!apiResponse.success) {
-        console.error('❌ API response success is false:', apiResponse);
         throw new Error(apiResponse.message || 'Login failed');
       }
       
@@ -89,19 +106,11 @@ class AuthService {
       }
       
       const loginData: LoginResponseData = apiResponse.data;
-      console.log('✅ Login data received:', { 
-        id: loginData.id, 
-        email: loginData.email, 
-        name: loginData.name,
-        hasToken: !!loginData.token
-      });
       
-      // Validate login data
       if (!loginData.token) {
         throw new Error('No authentication token received');
       }
       
-      // Extract user data
       const user: User = {
         id: loginData.id,
         email: loginData.email,
@@ -114,18 +123,13 @@ class AuthService {
       
       const token = loginData.token;
       
-      // Save to storage
-      console.log('💾 Saving to storage...');
       await Promise.all([
         storageService.setToken(token),
         storageService.setUser(user),
       ]);
-      console.log('✅ Saved to storage successfully');
 
-      // Set token for future API calls
       this.api.setSecurityData(token);
 
-      console.log('✅ Login successful:', { user: user.email, token: token.substring(0, 10) + '...' });
       return { user, token };
       
     } catch (error) {
@@ -133,23 +137,39 @@ class AuthService {
       console.error('❌ Error type:', typeof error);
       console.error('❌ Error message:', error instanceof Error ? error.message : 'Unknown error');
       
-      // Handle different types of errors
+      // Handle different types of errors with user-friendly messages
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
         
-        if (errorMessage.includes('fetch') || errorMessage.includes('network') || 
+        // Network and connection errors
+        if (errorMessage.includes('cannot connect to server')) {
+          throw error; // Already has detailed message
+        } else if (errorMessage.includes('fetch') || errorMessage.includes('network') || 
             errorMessage.includes('enotfound') || errorMessage.includes('econnrefused')) {
-          throw new Error('Network error. Please check your connection and try again.');
-        } else if (errorMessage.includes('401') || errorMessage.includes('unauthorized')) {
-          throw new Error('Invalid email or password. Please try again.');
-        } else if (errorMessage.includes('400') || errorMessage.includes('bad request')) {
-          throw new Error('Invalid request. Please check your input and try again.');
-        } else if (errorMessage.includes('500') || errorMessage.includes('server error')) {
+          throw new Error('Cannot connect to server. Please check your internet connection.');
+        } else if (errorMessage.includes('timeout')) {
+          throw new Error('Connection timeout. The server took too long to respond. Please try again.');
+        }
+        
+        // Authentication errors
+        else if (errorMessage.includes('401') || errorMessage.includes('unauthorized') || 
+                 errorMessage.includes('invalid credentials')) {
+          throw new Error('Invalid email or password.');
+        }
+        
+        // Validation errors
+        else if (errorMessage.includes('400') || errorMessage.includes('bad request')) {
+          throw new Error('Invalid login details. Please check your email and password.');
+        }
+        
+        // Server errors
+        else if (errorMessage.includes('500') || errorMessage.includes('server error')) {
           throw new Error('Server error. Please try again later.');
-        } else if (errorMessage.includes('timeout') || errorMessage.includes('timeout')) {
-          throw new Error('Request timeout. Please check your connection and try again.');
-        } else if (errorMessage.includes('invalid credentials') || errorMessage.includes('login failed')) {
-          throw new Error('Invalid email or password. Please try again.');
+        }
+        
+        // Generic login failures
+        else if (errorMessage.includes('login failed')) {
+          throw new Error('Login failed. Please check your credentials.');
         }
       }
       
@@ -159,26 +179,20 @@ class AuthService {
 
   async register(email: string, password: string, name: string): Promise<AuthResponse> {
     try {
-      console.log('🔐 Register attempt:', { email, name });
-      
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password, name }),
-      }, 10000);
-      
-      console.log('📡 Register response status:', response.status);
+      }, 30000);
       
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('❌ Register HTTP Error:', errorData);
         throw new Error((errorData as any).message || `HTTP ${response.status}: ${response.statusText}`);
       }
       
       const apiResponse: ApiResponse<LoginResponseData> = await response.json();
-      console.log('🔍 Parsed register response:', apiResponse);
       
       if (!apiResponse || !apiResponse.success || !apiResponse.data) {
         throw new Error('Invalid register response from server');
@@ -205,7 +219,6 @@ class AuthService {
 
       this.api.setSecurityData(token);
 
-      console.log('✅ Register successful:', { user: user.email });
       return { user, token };
     } catch (error) {
       console.error('❌ Register error:', error);
@@ -232,11 +245,9 @@ class AuthService {
     try {
       const token = await storageService.getToken();
       if (!token) {
-        console.log('🔍 No token found in storage');
         return null;
       }
 
-      console.log('🔍 Validating token:', token.substring(0, 10) + '...');
       this.api.setSecurityData(token);
 
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/auth/profile`, {
@@ -245,47 +256,36 @@ class AuthService {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-      }, 10000);
-      
-      console.log('📡 Profile response status:', response.status);
+      }, 30000);
       
       if (!response.ok) {
-        console.error('❌ Profile HTTP Error:', response.status);
         await this.logout();
         return null;
       }
       
       const apiResponse: ApiResponse<User> = await response.json();
-      console.log('🔍 Parsed profile response:', apiResponse);
       
       if (!apiResponse || !apiResponse.success || !apiResponse.data) {
-        console.error('❌ Invalid profile response:', apiResponse);
         await this.logout();
         return null;
       }
       
       const user: User = apiResponse.data;
-      console.log('✅ Token validation successful:', user.email);
       
       await storageService.setUser(user);
       return user;
     } catch (error) {
-      console.error('❌ Token validation error:', error);
-      
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
         
         if (errorMessage.includes('401') || errorMessage.includes('unauthorized') || errorMessage.includes('token')) {
-          console.log('🔑 Token is invalid, logging out');
           await this.logout();
           return null;
         }
         
         if (errorMessage.includes('fetch') || errorMessage.includes('network')) {
-          console.log('⚠️ Network error, using stored user data as fallback');
           const user = await storageService.getUser();
           if (user) {
-            console.log('✅ Using stored user data:', user.email);
             return user;
           }
         }
@@ -313,7 +313,7 @@ class AuthService {
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(data),
-      }, 10000);
+      }, 30000);
       
       console.log('📡 Profile update response status:', response.status);
       
@@ -397,7 +397,7 @@ class AuthService {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-      }, 10000);
+      }, 30000);
       
       console.log('📡 Profile response status:', response.status);
       

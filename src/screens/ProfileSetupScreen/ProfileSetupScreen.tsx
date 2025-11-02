@@ -79,7 +79,6 @@ const ProfileSetupScreen = () => {
       );
       setFilteredCountries(filtered);
     }
-    console.log('🔍 Filtered countries:', filteredCountries.length);
   }, [searchText, countries]);
 
   useEffect(() => {
@@ -92,7 +91,6 @@ const ProfileSetupScreen = () => {
       );
       setFilteredCurrencies(filtered);
     }
-    console.log('🔍 Filtered currencies:', filteredCurrencies.length);
   }, [searchText, currencies]);
 
   const sortByPreferredCountry = (countries: Country[]): Country[] => {
@@ -123,30 +121,20 @@ const ProfileSetupScreen = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      console.log('🔄 ProfileSetup: Loading countries and currencies...');
-      console.log('🌍 Current language:', currentLanguage.code);
       
       const [countriesData, currenciesData] = await Promise.all([
         referenceService.getCountries(),
         referenceService.getCurrencies()
       ]);
       
-      console.log('✅ ProfileSetup: Countries loaded:', countriesData.length);
-      console.log('✅ ProfileSetup: Currencies loaded:', currenciesData.length);
-      
       // Sort countries by user's language preference
       const sortedCountries = sortByPreferredCountry(countriesData);
       const sortedCurrencies = sortByPreferredCurrency(currenciesData);
-      
-      console.log('🔝 Preferred country moved to top:', sortedCountries[0]?.code);
-      console.log('🔝 Preferred currency moved to top:', sortedCurrencies[0]?.code);
       
       setCountries(sortedCountries);
       setCurrencies(sortedCurrencies);
       setFilteredCountries(sortedCountries);
       setFilteredCurrencies(sortedCurrencies);
-      
-      console.log('✅ ProfileSetup: Data set to state successfully');
     } catch (error) {
       console.error('❌ ProfileSetup: Error loading reference data:', error);
       Alert.alert(
@@ -169,22 +157,18 @@ const ProfileSetupScreen = () => {
 
     try {
       setLoading(true);
-      console.log('💾 Saving profile setup...');
       
       // Update user profile with selected country and currency
       await authService.updateProfile({
         region: selectedCountry.code,
         currency: selectedCurrency.code
       });
-      console.log('✅ Profile updated successfully');
 
       // Mark profile setup as complete
       await storageService.setProfileSetup(true);
-      console.log('✅ Profile setup marked as complete');
 
       // Refresh auth state to trigger navigation to main app
       await checkAuth();
-      console.log('✅ Auth state refreshed, navigating to main app');
       
     } catch (error) {
       console.error('❌ Error saving profile:', error);
@@ -198,13 +182,10 @@ const ProfileSetupScreen = () => {
   };
 
   const renderCountryItem = (item: Country) => {
-    console.log('🎨 Rendering country item:', item.name);
-    
     return (
       <TouchableOpacity
         key={item.code}
         onPress={() => {
-          console.log('👆 Country selected:', item.name, item.code);
           setSelectedCountry(item);
           setShowCountryModal(false);
           setSearchText('');
@@ -213,7 +194,6 @@ const ProfileSetupScreen = () => {
           const sortedCurrencies = sortByPreferredCurrency(currencies, item.code);
           setFilteredCurrencies(sortedCurrencies);
           setCurrencies(sortedCurrencies);
-          console.log('💱 Currencies re-sorted for country:', item.code, '→', sortedCurrencies[0]?.code);
         }}
         style={{
           padding: 16,
@@ -256,7 +236,6 @@ const ProfileSetupScreen = () => {
     <TouchableOpacity
       key={item.code}
       onPress={() => {
-        console.log('👆 Currency selected:', item.name);
         setSelectedCurrency(item);
         setShowCurrencyModal(false);
         setSearchText('');
@@ -379,7 +358,6 @@ const ProfileSetupScreen = () => {
               </Text>
               <TouchableOpacity
                 onPress={() => {
-                  console.log('🔘 Opening country modal, countries:', countries.length);
                   setSearchText('');
                   setFilteredCountries(countries);
                   setShowCountryModal(true);
@@ -436,7 +414,6 @@ const ProfileSetupScreen = () => {
               </Text>
               <TouchableOpacity
                 onPress={() => {
-                  console.log('🔘 Opening currency modal, currencies:', currencies.length);
                   setSearchText('');
                   setFilteredCurrencies(currencies);
                   setShowCurrencyModal(true);
@@ -569,30 +546,21 @@ const ProfileSetupScreen = () => {
               style={{ flex: 1 }}
               contentContainerStyle={{ flexGrow: 1 }}
             >
-              {(() => {
-                console.log('📋 Rendering countries list, count:', filteredCountries.length);
-                console.log('📋 First country:', filteredCountries[0] ? JSON.stringify(filteredCountries[0]) : 'undefined');
-                return filteredCountries.length > 0 ? (
-                  <>
-                    {filteredCountries.map((country, index) => {
-                      console.log(`🏳️ Rendering country ${index}:`, country.name);
-                      return renderCountryItem(country);
-                    })}
-                  </>
-                ) : (
-                  <View className="p-8 items-center">
-                    <Text 
-                      style={{ 
-                        fontFamily: 'SF Pro Text',
-                        fontSize: 16,
-                        color: '#8E8E93'
-                      }}
-                    >
-                      {t('onboarding.noCountriesFound')}
-                    </Text>
-                  </View>
-                );
-              })()}
+              {filteredCountries.length > 0 ? (
+                filteredCountries.map(renderCountryItem)
+              ) : (
+                <View className="p-8 items-center">
+                  <Text 
+                    style={{ 
+                      fontFamily: 'SF Pro Text',
+                      fontSize: 16,
+                      color: '#8E8E93'
+                    }}
+                  >
+                    {t('onboarding.noCountriesFound')}
+                  </Text>
+                </View>
+              )}
             </ScrollView>
           </View>
         </View>
@@ -666,24 +634,21 @@ const ProfileSetupScreen = () => {
               style={{ flex: 1 }}
               contentContainerStyle={{ flexGrow: 1 }}
             >
-              {(() => {
-                console.log('📋 Rendering currencies list, count:', filteredCurrencies.length);
-                return filteredCurrencies.length > 0 ? (
-                  filteredCurrencies.map(renderCurrencyItem)
-                ) : (
-                  <View className="p-8 items-center">
-                    <Text 
-                      style={{ 
-                        fontFamily: 'SF Pro Text',
-                        fontSize: 16,
-                        color: '#8E8E93'
-                      }}
-                    >
-                      {t('onboarding.noCurrenciesFound')}
-                    </Text>
-                  </View>
-                );
-              })()}
+              {filteredCurrencies.length > 0 ? (
+                filteredCurrencies.map(renderCurrencyItem)
+              ) : (
+                <View className="p-8 items-center">
+                  <Text 
+                    style={{ 
+                      fontFamily: 'SF Pro Text',
+                      fontSize: 16,
+                      color: '#8E8E93'
+                    }}
+                  >
+                    {t('onboarding.noCurrenciesFound')}
+                  </Text>
+                </View>
+              )}
             </ScrollView>
           </View>
         </View>
