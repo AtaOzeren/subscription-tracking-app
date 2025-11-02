@@ -195,6 +195,22 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     return prices.find(p => p.region === user?.region) || prices[0];
   };
 
+  // Calculate next billing date based on start date and billing cycle
+  const calculateNextBillingDate = (startDateStr: string, cycle: 'weekly' | 'monthly' | 'yearly'): string => {
+    const startDate = new Date(startDateStr);
+    const nextDate = new Date(startDate);
+
+    if (cycle === 'weekly') {
+      nextDate.setDate(nextDate.getDate() + 7);
+    } else if (cycle === 'monthly') {
+      nextDate.setMonth(nextDate.getMonth() + 1);
+    } else if (cycle === 'yearly') {
+      nextDate.setFullYear(nextDate.getFullYear() + 1);
+    }
+
+    return nextDate.toISOString().split('T')[0];
+  };
+
   // Render Category Filter (2-row layout like SubscriptionsScreen)
   const renderCategoryFilter = () => {
     const allCategories = [{ id: null, name: 'All', icon_url: '' }, ...categories];
@@ -575,22 +591,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
   // Render Custom Step
   const renderCustomStep = () => (
     <View className="flex-1">
-      <ScrollView className="flex-1 px-4">
-        <View className="mb-6">
-          <Text
-            className="text-2xl font-bold text-gray-900 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Add Custom Subscription
-          </Text>
-          <Text
-            className="text-base text-gray-500"
-            style={{ fontFamily: 'SF Pro Text' }}
-          >
-            Create your own subscription
-          </Text>
-        </View>
-
+      <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingTop: 16 }}>
         <View className="bg-white rounded-2xl p-4 mb-4">
           <Text
             className="text-sm font-semibold text-gray-700 mb-2"
@@ -665,7 +666,14 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
             {(['weekly', 'monthly', 'yearly'] as const).map((cycle) => (
               <TouchableOpacity
                 key={cycle}
-                onPress={() => setCustomBillingCycle(cycle)}
+                onPress={() => {
+                  setCustomBillingCycle(cycle);
+                  // Auto-calculate next billing date when cycle changes
+                  if (startDate) {
+                    const calculatedDate = calculateNextBillingDate(startDate, cycle);
+                    setNextBillingDate(calculatedDate);
+                  }
+                }}
                 className={`flex-1 mr-2 py-3 rounded-xl items-center ${
                   customBillingCycle === cycle ? 'bg-black' : 'bg-gray-100'
                 }`}
@@ -692,7 +700,14 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
           </Text>
           <TextInput
             value={startDate}
-            onChangeText={setStartDate}
+            onChangeText={(date) => {
+              setStartDate(date);
+              // Auto-calculate next billing date when start date changes
+              if (date && date.length === 10) { // Valid date format YYYY-MM-DD
+                const calculatedDate = calculateNextBillingDate(date, customBillingCycle);
+                setNextBillingDate(calculatedDate);
+              }
+            }}
             placeholder="YYYY-MM-DD"
             className="bg-gray-50 rounded-xl px-4 py-3 text-base"
             style={{ fontFamily: 'SF Pro Text' }}
