@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import CustomSubscription from './CustomSubscription';
 import FormField from '../../components/subscription/FormField';
 import AppleButton from '../../components/common/AppleButton';
+import PlanSelector from '../../components/subscription/PlanSelector';
 
 interface AddSubscriptionScreenProps {
   onClose: () => void;
@@ -154,10 +155,6 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const getUserPrice = (prices: Price[]): Price | undefined => {
-    return prices.find(p => p.region === user?.region) || prices[0];
   };
 
   // Render Category Filter (2-row layout like SubscriptionsScreen)
@@ -375,82 +372,13 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
 
   // Render Select Plan Step
   const renderSelectPlanStep = () => (
-    <View className="flex-1">
-      <ScrollView className="flex-1 px-4">
-        <View className="mb-6">
-          <Text
-            className="text-2xl font-bold text-gray-900 mb-2"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            Select a Plan
-          </Text>
-          <Text
-            className="text-base text-gray-500"
-            style={{ fontFamily: 'SF Pro Text' }}
-          >
-            Choose the plan that works best for you
-          </Text>
-        </View>
-
-        {plans.map((plan) => {
-          const price = getUserPrice(plan.prices);
-          return (
-            <TouchableOpacity
-              key={plan.id}
-              onPress={() => handleSelectPlan(plan)}
-              className="bg-white rounded-2xl p-6 mb-4"
-              style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 4,
-                elevation: 3,
-              }}
-            >
-              <View className="flex-row items-center justify-between mb-3">
-                <Text
-                  className="text-xl font-bold text-gray-900"
-                  style={{ fontFamily: 'SF Pro Display' }}
-                >
-                  {plan.name}
-                </Text>
-                {price && (
-                  <Text
-                    className="text-2xl font-bold text-black"
-                    style={{ fontFamily: 'SF Pro Display' }}
-                  >
-                    {price.currency} {price.price.toFixed(2)}
-                  </Text>
-                )}
-              </View>
-
-              <Text
-                className="text-sm text-gray-600 mb-3"
-                style={{ fontFamily: 'SF Pro Text' }}
-              >
-                Billed {plan.billing_cycle}
-              </Text>
-
-              {plan.features && Object.keys(plan.features).length > 0 && (
-                <View className="border-t border-gray-200 pt-3">
-                  {Object.entries(plan.features).map(([key, value]) => (
-                    <View key={key} className="flex-row items-center mb-2">
-                      <Text className="mr-2">✓</Text>
-                      <Text
-                        className="text-sm text-gray-700"
-                        style={{ fontFamily: 'SF Pro Text' }}
-                      >
-                        {key}: {String(value)}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-    </View>
+    <PlanSelector
+      plans={plans}
+      onSelectPlan={handleSelectPlan}
+      userRegion={user?.region}
+      title="Select a Plan"
+      subtitle="Choose the plan that works best for you"
+    />
   );
 
   // Render Details Step
