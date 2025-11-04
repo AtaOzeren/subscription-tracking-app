@@ -2,35 +2,69 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Image, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { catalogService } from '../../services/catalogService';
-import { Category, CatalogSubscription } from '../../types/catalog';
+import { useAuth } from '../../contexts/AuthContext';
+import { mySubscriptionsService } from '../../services/mySubscriptionsService';
+import { UserSubscription } from '../../types/subscription';
+import UserSubscriptionCard from '../../components/subscription/UserSubscriptionCard';
 import AddSubscriptionScreen from '../AddSubscriptionScreen/AddSubscriptionScreen';
 
 const SubscriptionsScreen = () => {
   const { t } = useTranslation();
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [subscriptions, setSubscriptions] = useState<CatalogSubscription[]>([]);
+  const { user, isAuthenticated } = useAuth();
+  const [subscriptions, setSubscriptions] = useState<UserSubscription[]>([]);
+  const [filteredSubscriptions, setFilteredSubscriptions] = useState<UserSubscription[]>([]);
+  const [categories, setCategories] = useState<Array<{id: number, name: string, icon_url: string, count: number}>>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (isAuthenticated && user) {
+      loadSubscriptions();
+    }
+  }, [isAuthenticated, user]);
 
   useEffect(() => {
-    loadSubscriptions();
-  }, [selectedCategory]);
+    filterSubscriptions();
+  }, [subscriptions, selectedCategory]);
 
-  const loadData = async () => {
+  const loadSubscriptions = async () => {
     try {
+      // Check if user is authenticated
+      if (!isAuthenticated || !user) {
+        console.log('❌ User not authenticated, cannot load subscriptions');
+        Alert.alert(
+          'Authentication Required',
+          'Please login to view your subscriptions'
+        );
+        return;
+      }
+
       setLoading(true);
-      const [categoriesData] = await Promise.all([
-        catalogService.getCategories(),
-      ]);
-      setCategories(categoriesData);
+      console.log('🔄 Loading subscriptions for user:', user.email);
+      const data = await mySubscriptionsService.getMySubscriptions();
+      setSubscriptions(data);
+      
+      // Extract unique categories with counts
+      const categoryMap = new Map();
+      data.forEach(sub => {
+        const key = sub.category.id;
+        if (!categoryMap.has(key)) {
+          categoryMap.set(key, {
+            id: sub.category.id,
+            name: sub.category.name,
+            icon_url: sub.category.icon_url,
+            count: 0
+          });
+        }
+        categoryMap.get(key).count++;
+      });
+      
+      setCategories(Array.from(categoryMap.values()));
+      console.log('✅ Subscriptions loaded successfully:', data.length);
     } catch (error) {
+      console.error('❌ Error in loadSubscriptions:', error);
       Alert.alert(
         t('common.error'),
         error instanceof Error ? error.message : t('common.somethingWentWrong')
@@ -40,41 +74,51 @@ const SubscriptionsScreen = () => {
     }
   };
 
-  const loadSubscriptions = async () => {
-    try {
-      const data = await catalogService.getCatalogSubscriptions(selectedCategory || undefined);
-      setSubscriptions(data);
-    } catch (error) {
-      Alert.alert(
-        t('common.error'),
-        error instanceof Error ? error.message : t('common.somethingWentWrong')
+  const filterSubscriptions = () => {
+    if (selectedCategory === null) {
+      setFilteredSubscriptions(subscriptions);
+    } else {
+      setFilteredSubscriptions(
+        subscriptions.filter(sub => sub.category.id === selectedCategory)
       );
     }
   };
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await loadData();
     await loadSubscriptions();
     setRefreshing(false);
   };
 
-  const handleAddSubscription = () => {
-    setShowAddModal(true);
-  };
-
-  const handleCloseAddModal = () => {
-    setShowAddModal(false);
-    onRefresh(); // Refresh the list after adding
+  const handleDeleteSubscription = async (id: number) => {
+    Alert.alert(
+      'Delete Subscription',
+      'Are you sure you want to delete this subscription?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await mySubscriptionsService.deleteSubscription(id);
+              await loadSubscriptions();
+            } catch (error) {
+              Alert.alert('Error', 'Failed to delete subscription');
+            }
+          }
+        }
+      ]
+    );
   };
 
   const renderCategoryFilter = () => {
-    const allCategories = [{ id: null, name: 'All', icon_url: '' }, ...categories];
+    const allCategories = [{ id: null, name: 'All', icon_url: '', count: subscriptions.length }, ...categories];
     const halfLength = Math.ceil(allCategories.length / 2);
     const firstRow = allCategories.slice(0, halfLength);
     const secondRow = allCategories.slice(halfLength);
 
-    const renderCategoryChip = (category: { id: number | null; name: string; icon_url: string }) => (
+    const renderCategoryChip = (category: { id: number | null; name: string; icon_url: string; count: number }) => (
       <TouchableOpacity
         key={category.id || 'all'}
         onPress={() => setSelectedCategory(category.id)}
@@ -90,7 +134,7 @@ const SubscriptionsScreen = () => {
           }`}
           style={{ fontFamily: 'SF Pro Display' }}
         >
-          {category.name}
+          {category.name} ({category.count})
         </Text>
       </TouchableOpacity>
     );
@@ -115,66 +159,6 @@ const SubscriptionsScreen = () => {
     );
   };
 
-  const renderSubscriptionCard = (subscription: CatalogSubscription) => (
-    <TouchableOpacity
-      key={subscription.id}
-      className="bg-white rounded-2xl p-4 mb-3 shadow-sm"
-      style={{
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 2,
-      }}
-    >
-      <View className="flex-row items-center">
-        <View className="w-16 h-16 rounded-xl bg-gray-100 items-center justify-center mr-4">
-          {subscription.logo_url ? (
-            <Image
-              source={{ uri: subscription.logo_url }}
-              className="w-12 h-12 rounded-lg"
-              resizeMode="contain"
-            />
-          ) : (
-            <Text className="text-2xl">{subscription.category.icon_url}</Text>
-          )}
-        </View>
-
-        <View className="flex-1">
-          <Text
-            className="text-lg font-bold text-gray-900 mb-1"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            {subscription.name}
-          </Text>
-          <Text
-            className="text-sm text-gray-500 mb-1"
-            style={{ fontFamily: 'SF Pro Text' }}
-            numberOfLines={2}
-          >
-            {subscription.description}
-          </Text>
-          <View className="flex-row items-center">
-            <Text className="text-xs mr-1">{subscription.category.icon_url}</Text>
-            <Text
-              className="text-xs text-gray-400"
-              style={{ fontFamily: 'SF Pro Text' }}
-            >
-              {subscription.category.name}
-            </Text>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          onPress={handleAddSubscription}
-          className="bg-black rounded-full w-10 h-10 items-center justify-center"
-        >
-          <Text className="text-white text-xl font-bold">+</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
-  );
-
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       {/* Header + Category Filter - White Background */}
@@ -186,11 +170,17 @@ const SubscriptionsScreen = () => {
               className="text-3xl font-bold text-gray-900"
               style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
             >
-              Subscriptions
+              My Subscriptions
+            </Text>
+            <Text
+              className="text-sm text-gray-500 mt-1"
+              style={{ fontFamily: 'SF Pro Text' }}
+            >
+              {subscriptions.length} active subscription{subscriptions.length !== 1 ? 's' : ''}
             </Text>
           </View>
           <TouchableOpacity
-            onPress={handleAddSubscription}
+            onPress={() => setShowAddModal(true)}
             className="bg-black rounded-full px-6 py-3 flex-row items-center"
             style={{
               shadowColor: '#000',
@@ -211,7 +201,7 @@ const SubscriptionsScreen = () => {
         </View>
 
         {/* Category Filter */}
-        {renderCategoryFilter()}
+        {categories.length > 0 && renderCategoryFilter()}
       </View>
 
       {/* Subscriptions List */}
@@ -231,26 +221,36 @@ const SubscriptionsScreen = () => {
               {t('common.loading')}...
             </Text>
           </View>
-        ) : subscriptions.length === 0 ? (
+        ) : filteredSubscriptions.length === 0 ? (
           <View className="bg-white rounded-2xl p-8 items-center">
             <Text className="text-5xl mb-4">📱</Text>
             <Text
               className="text-lg font-semibold text-gray-900 mb-2"
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              No Subscriptions Found
+              {selectedCategory ? 'No Subscriptions in This Category' : 'No Subscriptions Yet'}
             </Text>
             <Text
               className="text-sm text-gray-500 text-center"
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              {selectedCategory
-                ? 'No subscriptions in this category'
-                : 'Browse available subscriptions and add them to your list'}
+              {selectedCategory 
+                ? 'Try selecting a different category or add a new subscription'
+                : 'Start by adding your first subscription to track your expenses'
+              }
             </Text>
           </View>
         ) : (
-          subscriptions.map(renderSubscriptionCard)
+          filteredSubscriptions.map(subscription => (
+            <UserSubscriptionCard
+              key={subscription.id}
+              subscription={subscription}
+              onDelete={() => handleDeleteSubscription(subscription.id)}
+              onPress={() => {
+                // Navigate to subscription details
+              }}
+            />
+          ))
         )}
       </ScrollView>
 
@@ -260,7 +260,10 @@ const SubscriptionsScreen = () => {
         animationType="slide"
         presentationStyle="fullScreen"
       >
-        <AddSubscriptionScreen onClose={handleCloseAddModal} />
+        <AddSubscriptionScreen onClose={() => {
+          setShowAddModal(false);
+          onRefresh();
+        }} />
       </Modal>
     </SafeAreaView>
   );
