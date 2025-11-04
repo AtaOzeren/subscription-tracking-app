@@ -11,7 +11,7 @@ export interface ApiSubscription {
   custom_billing_cycle: string | null;
   start_date: string;
   next_billing_date: string;
-  status: 'active' | 'inactive' | 'cancelled';
+  status: 'active' | 'cancelled' | 'expired' | 'paused';
   notes: string | null;
   created_at: string;
   updated_at: string;
@@ -56,7 +56,7 @@ export interface UserSubscription {
   currency: string;
   billingCycle: 'monthly' | 'yearly' | 'weekly' | 'daily';
   nextBillingDate: string;
-  status: 'active' | 'inactive' | 'cancelled';
+  status: 'active' | 'cancelled' | 'expired' | 'paused';
   notes?: string;
   logoUrl?: string;
   isCustom: boolean;

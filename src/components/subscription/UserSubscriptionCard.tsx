@@ -34,10 +34,21 @@ const UserSubscriptionCard = ({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return '#10B981';
-      case 'inactive': return '#F59E0B';
-      case 'cancelled': return '#EF4444';
+      case 'active': return '#10B981';      // Green
+      case 'cancelled': return '#EF4444';   // Red
+      case 'expired': return '#F59E0B';     // Orange
+      case 'paused': return '#6B7280';      // Gray
       default: return '#6B7280';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'active': return 'Aktif';
+      case 'cancelled': return 'İptal Edilmiş';
+      case 'expired': return 'Süresi Dolmuş';
+      case 'paused': return 'Duraklatılmış';
+      default: return status;
     }
   };
 
@@ -108,13 +119,13 @@ const UserSubscriptionCard = ({
           Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString()}
         </Text>
         <Text 
-          className="text-xs capitalize"
+          className="text-xs"
           style={{ 
             fontFamily: 'SF Pro Text', 
             color: getStatusColor(subscription.status) 
           }}
         >
-          {subscription.status}
+          {getStatusLabel(subscription.status)}
         </Text>
       </View>
     </TouchableOpacity>

@@ -26,7 +26,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
   // Edit form states
   const [editPrice, setEditPrice] = useState(subscription.price.toString());
   const [editNextBillingDate, setEditNextBillingDate] = useState(subscription.nextBillingDate);
-  const [editStatus, setEditStatus] = useState<'active' | 'inactive' | 'cancelled'>(subscription.status);
+  const [editStatus, setEditStatus] = useState<'active' | 'cancelled' | 'expired' | 'paused'>(subscription.status);
   const [editNotes, setEditNotes] = useState(subscription.notes || '');
   const [loading, setLoading] = useState(false);
 
@@ -53,19 +53,31 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return '#10B981';
-      case 'inactive': return '#F59E0B';
-      case 'cancelled': return '#EF4444';
+      case 'active': return '#10B981';      // Green
+      case 'cancelled': return '#EF4444';   // Red
+      case 'expired': return '#F59E0B';     // Orange
+      case 'paused': return '#6B7280';      // Gray
       default: return '#6B7280';
     }
   };
 
   const getStatusBackground = (status: string) => {
     switch (status) {
-      case 'active': return '#D1FAE5';
-      case 'inactive': return '#FEF3C7';
-      case 'cancelled': return '#FEE2E2';
+      case 'active': return '#D1FAE5';      // Light Green
+      case 'cancelled': return '#FEE2E2';   // Light Red
+      case 'expired': return '#FEF3C7';     // Light Orange
+      case 'paused': return '#F3F4F6';      // Light Gray
       default: return '#F3F4F6';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'active': return 'Aktif';
+      case 'cancelled': return 'İptal Edilmiş';
+      case 'expired': return 'Süresi Dolmuş';
+      case 'paused': return 'Duraklatılmış';
+      default: return status;
     }
   };
 
@@ -205,13 +217,13 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                 style={{ backgroundColor: getStatusBackground(subscription.status) }}
               >
                 <Text
-                  className="text-sm font-semibold capitalize"
+                  className="text-sm font-semibold"
                   style={{ 
                     fontFamily: 'SF Pro Text',
                     color: getStatusColor(subscription.status)
                   }}
                 >
-                  {subscription.status}
+                  {getStatusLabel(subscription.status)}
                 </Text>
               </View>
             </View>
@@ -485,22 +497,29 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               >
                 Status
               </Text>
-              <View className="flex-row">
-                {(['active', 'inactive', 'cancelled'] as const).map((status) => (
+              <View className="flex-row flex-wrap">
+                {([
+                  { value: 'active', label: 'Aktif' },
+                  { value: 'cancelled', label: 'İptal Edilmiş' },
+                  { value: 'expired', label: 'Süresi Dolmuş' },
+                  { value: 'paused', label: 'Duraklatılmış' }
+                ] as const).map((status) => (
                   <TouchableOpacity
-                    key={status}
-                    onPress={() => setEditStatus(status)}
-                    className={`flex-1 mr-2 last:mr-0 py-3 rounded-xl ${
-                      editStatus === status ? 'bg-blue-600' : 'bg-gray-100'
+                    key={status.value}
+                    onPress={() => setEditStatus(status.value)}
+                    className={`w-[48%] mb-2 py-3 rounded-xl ${
+                      status.value === 'active' || status.value === 'expired' ? 'mr-2' : ''
+                    } ${
+                      editStatus === status.value ? 'bg-blue-600' : 'bg-gray-100'
                     }`}
                   >
                     <Text
-                      className={`text-center text-sm font-semibold capitalize ${
-                        editStatus === status ? 'text-white' : 'text-gray-700'
+                      className={`text-center text-sm font-semibold ${
+                        editStatus === status.value ? 'text-white' : 'text-gray-700'
                       }`}
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
-                      {status}
+                      {status.label}
                     </Text>
                   </TouchableOpacity>
                 ))}
