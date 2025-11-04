@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { UserSubscription } from '../../types/subscription';
 
 interface UserSubscriptionCardProps {
@@ -11,6 +12,7 @@ const UserSubscriptionCard = ({
   subscription,
   onPress,
 }: UserSubscriptionCardProps) => {
+  const { t } = useTranslation();
   const formatPrice = (price: number, currency: string) => {
     const symbols: Record<string, string> = {
       USD: '$',
@@ -23,13 +25,7 @@ const UserSubscriptionCard = ({
   };
 
   const getBillingCycleText = (cycle: string) => {
-    const cycles: Record<string, string> = {
-      daily: '/day',
-      weekly: '/week',
-      monthly: '/month',
-      yearly: '/year',
-    };
-    return cycles[cycle] || '';
+    return t(`subscription.per${cycle.charAt(0).toUpperCase() + cycle.slice(1)}` as any) || '';
   };
 
   const getStatusColor = (status: string) => {
@@ -43,13 +39,7 @@ const UserSubscriptionCard = ({
   };
 
   const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'active': return 'Aktif';
-      case 'cancelled': return 'İptal Edilmiş';
-      case 'expired': return 'Süresi Dolmuş';
-      case 'paused': return 'Duraklatılmış';
-      default: return status;
-    }
+    return t(`subscriptionStatus.${status}` as any);
   };
 
   return (
@@ -116,7 +106,7 @@ const UserSubscriptionCard = ({
       {/* Footer */}
       <View className="mt-3 pt-3 border-t border-gray-100 flex-row justify-between items-center">
         <Text className="text-xs text-gray-500" style={{ fontFamily: 'SF Pro Text' }}>
-          Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString()}
+          {t('subscription.nextBilling')}: {new Date(subscription.nextBillingDate).toLocaleDateString()}
         </Text>
         <Text 
           className="text-xs"

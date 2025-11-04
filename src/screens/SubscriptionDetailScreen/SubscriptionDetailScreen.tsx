@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Alert, Modal, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { UserSubscription } from '../../types/subscription';
 import { mySubscriptionsService } from '../../services/mySubscriptionsService';
 import FormField from '../../components/subscription/FormField';
@@ -20,6 +21,7 @@ interface SubscriptionDetailScreenProps {
 const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
   const { subscription, onDelete, onBack, onUpdate } = route.params;
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
   const [showMenu, setShowMenu] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   
@@ -42,13 +44,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
   };
 
   const getBillingCycleText = (cycle: string) => {
-    const cycles: Record<string, string> = {
-      daily: 'Daily',
-      weekly: 'Weekly',
-      monthly: 'Monthly',
-      yearly: 'Yearly',
-    };
-    return cycles[cycle] || cycle;
+    return t(`subscription.${cycle}` as any);
   };
 
   const getStatusColor = (status: string) => {
@@ -72,24 +68,21 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
   };
 
   const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'active': return 'Aktif';
-      case 'cancelled': return 'İptal Edilmiş';
-      case 'expired': return 'Süresi Dolmuş';
-      case 'paused': return 'Duraklatılmış';
-      default: return status;
-    }
+    return t(`subscriptionStatus.${status}` as any);
   };
 
   const handleDelete = () => {
     setShowMenu(false);
     Alert.alert(
-      'Delete Subscription',
-      `Are you sure you want to delete ${subscription.name}?`,
+      t('subscriptionAlerts.deleteTitle'),
+      t('subscriptionAlerts.deleteMessage', { name: subscription.name }),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: t('common.cancel'), 
+          style: 'cancel' 
+        },
         {
-          text: 'Delete',
+          text: t('subscriptionAlerts.deleteConfirm'),
           style: 'destructive',
           onPress: () => {
             onDelete(subscription.id);
@@ -106,47 +99,52 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
   };
 
   const handleUpdateSubscription = async () => {
-    try {
-      setLoading(true);
-      
-      const updates: any = {
-        next_billing_date: editNextBillingDate,
-        status: editStatus,
-        notes: editNotes || undefined,
-      };
+    Alert.alert(
+      t('subscriptionAlerts.updateTitle'),
+      t('subscriptionAlerts.updateMessage'),
+      [
+        {
+          text: t('common.cancel'),
+          style: 'cancel'
+        },
+        {
+          text: t('subscriptionAlerts.updateConfirm'),
+          style: 'default',
+          onPress: async () => {
+            try {
+              setLoading(true);
+              
+              const updates: any = {
+                next_billing_date: editNextBillingDate,
+                status: editStatus,
+                notes: editNotes || undefined,
+              };
 
-      // Only include custom_price if it's a custom subscription
-      if (subscription.isCustom) {
-        updates.custom_price = parseFloat(editPrice);
-      }
+              // Only include custom_price if it's a custom subscription
+              if (subscription.isCustom) {
+                updates.custom_price = parseFloat(editPrice);
+              }
 
-      await mySubscriptionsService.updateSubscription(subscription.id, updates);
-      
-      setShowEditModal(false);
-      
-      Alert.alert(
-        'Success',
-        'Subscription updated successfully!',
-        [
-          { 
-            text: 'OK', 
-            onPress: () => {
+              await mySubscriptionsService.updateSubscription(subscription.id, updates);
+              
+              setShowEditModal(false);
+              
               if (onUpdate) {
                 onUpdate();
               }
               onBack();
+            } catch (error) {
+              Alert.alert(
+                t('common.error'),
+                error instanceof Error ? error.message : t('subscriptionAlerts.updateError')
+              );
+            } finally {
+              setLoading(false);
             }
           }
-        ]
-      );
-    } catch (error) {
-      Alert.alert(
-        'Error',
-        error instanceof Error ? error.message : 'Failed to update subscription'
-      );
-    } finally {
-      setLoading(false);
-    }
+        }
+      ]
+    );
   };
 
   return (
@@ -162,7 +160,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-base font-semibold text-gray-700"
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              ← Back
+              {t("common.back")}
             </Text>
           </TouchableOpacity>
           <View className="flex-1" />
@@ -424,14 +422,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                   className="text-base font-semibold text-gray-700"
                   style={{ fontFamily: 'SF Pro Display' }}
                 >
-                  Cancel
+                  {t("common.cancel")}
                 </Text>
               </TouchableOpacity>
               <Text
                 className="text-3xl font-bold text-gray-900 flex-1 text-center"
                 style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
               >
-                Edit Subscription
+                {t("subscriptionActions.edit")}
               </Text>
               <View style={{ width: 60 }} />
             </View>
@@ -473,7 +471,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
             {/* Price (only for custom subscriptions) */}
             {subscription.isCustom && (
               <FormField
-                label="Price"
+                label="Fiyat"
                 value={editPrice}
                 onChangeText={setEditPrice}
                 placeholder="0.00"
@@ -483,10 +481,10 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
             {/* Next Billing Date */}
             <FormField
-              label="Next Billing Date"
+              label="Sonraki Fatura Tarihi"
               value={editNextBillingDate}
               onChangeText={setEditNextBillingDate}
-              placeholder="YYYY-MM-DD"
+              placeholder="YYYY-AA-GG"
             />
 
             {/* Status Selector */}
@@ -495,12 +493,12 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                 className="text-sm font-semibold text-gray-700 mb-3"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
-                Status
+                Durum
               </Text>
               <View className="flex-row flex-wrap">
                 {([
                   { value: 'active', label: 'Aktif' },
-                  { value: 'cancelled', label: 'İptal Edilmiş' },
+                  { value: 'cancelled', label: '{t("common.cancel")} Edilmiş' },
                   { value: 'expired', label: 'Süresi Dolmuş' },
                   { value: 'paused', label: 'Duraklatılmış' }
                 ] as const).map((status) => (
@@ -532,12 +530,12 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                 className="text-sm font-semibold text-gray-700 mb-2"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
-                Notes (Optional)
+                Notlar (İsteğe Bağlı)
               </Text>
               <TextInput
                 value={editNotes}
                 onChangeText={setEditNotes}
-                placeholder="Add any notes..."
+                placeholder="Notlarınızı buraya ekleyin..."
                 multiline
                 numberOfLines={4}
                 textAlignVertical="top"
@@ -548,7 +546,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
             {/* Save Button */}
             <AppleButton
-              title="Save Changes"
+              title="Değişiklikleri Kaydet"
               onPress={handleUpdateSubscription}
               disabled={loading}
               loading={loading}
@@ -591,13 +589,13 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                       className="text-lg font-semibold text-blue-600"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
-                      Edit Subscription
+                      {t("subscriptionActions.edit")}
                     </Text>
                     <Text 
                       className="text-sm text-gray-500 mt-0.5"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
-                      Update price, status, or notes
+                      {t("subscriptionActions.editDescription")}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -614,13 +612,13 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                       className="text-lg font-semibold text-red-600"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
-                      Delete Subscription
+                      {t("subscriptionActions.delete")}
                     </Text>
                     <Text 
                       className="text-sm text-gray-500 mt-0.5"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
-                      Remove this subscription from your list
+                      {t("subscriptionActions.deleteDescription")}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -633,7 +631,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                     className="text-center text-base font-semibold text-gray-700"
                     style={{ fontFamily: 'SF Pro Display' }}
                   >
-                    Cancel
+                    {t("common.cancel")}
                   </Text>
                 </TouchableOpacity>
               </View>
