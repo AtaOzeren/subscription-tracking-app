@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Image, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
@@ -7,8 +7,10 @@ import { mySubscriptionsService } from '../../services/mySubscriptionsService';
 import { UserSubscription } from '../../types/subscription';
 import UserSubscriptionCard from '../../components/subscription/UserSubscriptionCard';
 import AddSubscriptionScreen from '../AddSubscriptionScreen/AddSubscriptionScreen';
+import SubscriptionDetailScreen from '../SubscriptionDetailScreen/SubscriptionDetailScreen';
 
 const SubscriptionsScreen = () => {
+  const [selectedSubscription, setSelectedSubscription] = useState<UserSubscription | null>(null);
   const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
   const [subscriptions, setSubscriptions] = useState<UserSubscription[]>([]);
@@ -245,10 +247,7 @@ const SubscriptionsScreen = () => {
             <UserSubscriptionCard
               key={subscription.id}
               subscription={subscription}
-              onDelete={() => handleDeleteSubscription(subscription.id)}
-              onPress={() => {
-                // Navigate to subscription details
-              }}
+              onPress={() => setSelectedSubscription(subscription)}
             />
           ))
         )}
@@ -265,6 +264,28 @@ const SubscriptionsScreen = () => {
           onRefresh();
         }} />
       </Modal>
+
+      {/* Subscription Detail Modal */}
+      {selectedSubscription && (
+        <Modal
+          visible={selectedSubscription !== null}
+          animationType="slide"
+          presentationStyle="fullScreen"
+        >
+          <SubscriptionDetailScreen
+            route={{
+              params: {
+                subscription: selectedSubscription,
+                onDelete: async (id: number) => {
+                  await handleDeleteSubscription(id);
+                  setSelectedSubscription(null);
+                },
+                onBack: () => setSelectedSubscription(null),
+              },
+            }}
+          />
+        </Modal>
+      )}
     </SafeAreaView>
   );
 };

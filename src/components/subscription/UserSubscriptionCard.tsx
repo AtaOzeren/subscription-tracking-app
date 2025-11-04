@@ -5,13 +5,11 @@ import { UserSubscription } from '../../types/subscription';
 interface UserSubscriptionCardProps {
   subscription: UserSubscription;
   onPress: (subscription: UserSubscription) => void;
-  onDelete: () => void;
 }
 
 const UserSubscriptionCard = ({
   subscription,
   onPress,
-  onDelete,
 }: UserSubscriptionCardProps) => {
   const formatPrice = (price: number, currency: string) => {
     const symbols: Record<string, string> = {
@@ -95,39 +93,13 @@ const UserSubscriptionCard = ({
             </Text>
           )}
 
-          <View className="flex-row items-center mb-2">
-            <Text className="text-xs mr-1">{subscription.category.icon_url}</Text>
-            <Text
-              className="text-xs text-gray-400"
-              style={{ fontFamily: 'SF Pro Text' }}
-            >
-              {subscription.category.name}
-            </Text>
-            {subscription.isCustom && (
-              <Text
-                className="text-xs text-blue-600 ml-2"
-                style={{ fontFamily: 'SF Pro Text' }}
-              >
-                Custom
-              </Text>
-            )}
-          </View>
-
-          <Text className="text-xl font-bold text-blue-600">
+          <Text className="text-xl font-bold text-blue-600 mt-1">
             {formatPrice(subscription.price, subscription.currency)}
             <Text className="text-sm font-normal text-gray-500">
               {getBillingCycleText(subscription.billingCycle)}
             </Text>
           </Text>
         </View>
-
-        {/* Actions */}
-        <TouchableOpacity
-          onPress={onDelete}
-          className="bg-red-50 rounded-full w-8 h-8 items-center justify-center ml-3"
-        >
-          <Text className="text-red-600 text-sm font-bold">×</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Footer */}
@@ -145,19 +117,6 @@ const UserSubscriptionCard = ({
           {subscription.status}
         </Text>
       </View>
-
-      {/* Notes */}
-      {subscription.notes && (
-        <View className="mt-2 pt-2 border-t border-gray-50">
-          <Text 
-            className="text-xs text-gray-600" 
-            style={{ fontFamily: 'SF Pro Text' }}
-            numberOfLines={2}
-          >
-            {subscription.notes}
-          </Text>
-        </View>
-      )}
     </TouchableOpacity>
   );
 };
