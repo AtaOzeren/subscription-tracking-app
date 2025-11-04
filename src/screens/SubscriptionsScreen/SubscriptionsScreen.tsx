@@ -281,6 +281,9 @@ const SubscriptionsScreen = () => {
                   setSelectedSubscription(null);
                 },
                 onBack: () => setSelectedSubscription(null),
+                onUpdate: async () => {
+                  await loadSubscriptions();
+                },
               },
             }}
           />
