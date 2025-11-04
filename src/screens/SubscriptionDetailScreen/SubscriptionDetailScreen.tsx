@@ -233,7 +233,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-sm text-gray-500 mb-1" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              {getBillingCycleText(subscription.billingCycle)} Cost
+              {getBillingCycleText(subscription.billingCycle)} {t("subscription.cost")}
             </Text>
             <Text 
               className="text-4xl font-bold text-blue-600" 
@@ -250,7 +250,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
             className="text-xl font-bold text-gray-900 mb-4" 
             style={{ fontFamily: 'SF Pro Display' }}
           >
-            Subscription Information
+            {t("subscription.subscriptionInformation")}
           </Text>
 
           {/* Category */}
@@ -259,7 +259,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-base text-gray-500" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              Category
+              {t("subscription.category")}
             </Text>
             <Text 
               className="text-base font-semibold text-gray-900" 
@@ -275,7 +275,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-base text-gray-500" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              Billing Cycle
+              {t("subscription.billingCycle")}
             </Text>
             <Text 
               className="text-base font-semibold text-gray-900" 
@@ -291,7 +291,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-base text-gray-500" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              Next Billing Date
+              {t("subscription.nextBillingDate")}
             </Text>
             <Text 
               className="text-base font-semibold text-gray-900" 
@@ -311,7 +311,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-base text-gray-500" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              Price
+              {t("subscription.price")}
             </Text>
             <Text 
               className="text-base font-semibold text-blue-600" 
@@ -327,7 +327,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-base text-gray-500" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              Currency
+              {t("subscription.currency")}
             </Text>
             <Text 
               className="text-base font-semibold text-gray-900" 
@@ -343,7 +343,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-base text-gray-500" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              Type
+              {t("subscription.type")}
             </Text>
             <Text 
               className="text-base font-semibold text-gray-900" 
@@ -361,7 +361,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-xl font-bold text-gray-900 mb-4" 
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              Features
+              {t("subscription.features")}
             </Text>
             {Object.entries(subscription.features).map(([key, value], index, array) => (
               <View 
@@ -392,7 +392,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-xl font-bold text-gray-900 mb-3" 
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              Notes
+              {t("subscription.notes")}
             </Text>
             <Text 
               className="text-base text-gray-700 leading-6" 
@@ -471,7 +471,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
             {/* Price (only for custom subscriptions) */}
             {subscription.isCustom && (
               <FormField
-                label="Fiyat"
+                label={t("subscription.price")}
                 value={editPrice}
                 onChangeText={setEditPrice}
                 placeholder="0.00"
@@ -481,10 +481,10 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
             {/* Next Billing Date */}
             <FormField
-              label="Sonraki Fatura Tarihi"
+              label={t("subscription.nextBillingDate")}
               value={editNextBillingDate}
               onChangeText={setEditNextBillingDate}
-              placeholder="YYYY-AA-GG"
+              placeholder="YYYY-MM-DD"
             />
 
             {/* Status Selector */}
@@ -493,14 +493,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                 className="text-sm font-semibold text-gray-700 mb-3"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
-                Durum
+                {t("subscription.status")}
               </Text>
               <View className="flex-row flex-wrap">
                 {([
-                  { value: 'active', label: 'Aktif' },
-                  { value: 'cancelled', label: '{t("common.cancel")} Edilmiş' },
-                  { value: 'expired', label: 'Süresi Dolmuş' },
-                  { value: 'paused', label: 'Duraklatılmış' }
+                  { value: 'active', label: t('subscriptionStatus.active') },
+                  { value: 'cancelled', label: t('subscriptionStatus.cancelled') },
+                  { value: 'expired', label: t('subscriptionStatus.expired') },
+                  { value: 'paused', label: t('subscriptionStatus.paused') }
                 ] as const).map((status) => (
                   <TouchableOpacity
                     key={status.value}
@@ -530,12 +530,12 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                 className="text-sm font-semibold text-gray-700 mb-2"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
-                Notlar (İsteğe Bağlı)
+                {t("subscription.notesOptional")}
               </Text>
               <TextInput
                 value={editNotes}
                 onChangeText={setEditNotes}
-                placeholder="Notlarınızı buraya ekleyin..."
+                placeholder={t("subscription.notesPlaceholder")}
                 multiline
                 numberOfLines={4}
                 textAlignVertical="top"
@@ -546,7 +546,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
             {/* Save Button */}
             <AppleButton
-              title="Değişiklikleri Kaydet"
+              title={t("subscriptionActions.saveChanges")}
               onPress={handleUpdateSubscription}
               disabled={loading}
               loading={loading}

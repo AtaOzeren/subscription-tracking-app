@@ -15,7 +15,8 @@
     "loading": "Загрузка...",
     "error": "Ошибка",
     "success": "Успех",
-    "settings": "Настройки"
+    "settings": "Настройки",
+    "somethingWentWrong": "Что-то пошло не так"
   },
   "auth": {
     "welcomeToApp": "Добро пожаловать в Sub-Tracking",
@@ -28,7 +29,10 @@
     "validEmail": "Пожалуйста, введите действительный адрес электронной почты",
     "passwordRequired": "Требуется пароль",
     "loginFailed": "Вход не удался",
-    "registerFailed": "Регистрация не удалась"
+    "registerFailed": "Регистрация не удалась",
+    "loginRequired": "Требуется вход",
+    "loginToViewSubscriptions": "Войдите, чтобы просмотреть подписки",
+    "confirmLogout": "Выйти"
   },
   "home": {
     "mySubscriptions": "Мои подписки",
@@ -60,7 +64,13 @@
   },
   "subscriptions": {
     "manageYourSubscriptions": "Управляйте всеми своими подписками в одном месте",
-    "noSubscriptionsYet": "Подписок пока нет. Нажмите \"Добавить\", чтобы создать вашу первую подписку."
+    "mySubscriptions": "Мои подписки",
+    "activeSubscriptionsCount": "Активные подписки ({{count}})",
+    "noSubscriptionsInCategory": "Нет подписок в этой категории",
+    "noSubscriptionsYet": "Подписок пока нет. Нажмите \"Добавить\", чтобы создать вашу первую подписку.",
+    "noSubscriptionsMessage": "Подписок пока нет. Нажмите \"Добавить\", чтобы создать вашу первую подписку.",
+    "noSubscriptionsCategoryMessage": "Нет подписок в этой категории",
+    "all": "Все"
   },
   "subscription": {
     "nextBilling": "Следующий платёж",
@@ -89,7 +99,8 @@
     "dailyCost": "Ежедневная стоимость",
     "weeklyCost": "Еженедельная стоимость",
     "monthlyCost": "Ежемесячная стоимость",
-    "yearlyCost": "Ежегодная стоимость"
+    "yearlyCost": "Ежегодная стоимость",
+    "cost": "Стоимость"
   },
   "subscriptionStatus": {
     "active": "Активна",
@@ -119,7 +130,9 @@
     "updateSuccess": "Подписка успешно обновлена!",
     "updateError": "Произошла ошибка при обновлении подписки",
     "deleteSuccess": "Подписка успешно удалена!",
-    "deleteError": "Произошла ошибка при удалении подписки"
+    "deleteError": "Произошла ошибка при удалении подписки",
+    "subscriptionAdded": "Подписка успешно добавлена!",
+    "customSubscriptionAdded": "Пользовательская подписка успешно добавлена!"
   },
   "addSubscription": {
     "title": "Добавить подписку",
@@ -173,5 +186,16 @@
     "profileSetupRequired": "Пожалуйста, выберите страну и валюту",
     "loadError": "Не удалось загрузить данные. Попробуйте снова.",
     "saveError": "Не удалось сохранить профиль. Попробуйте снова."
+  },
+  "form": {
+    "fillRequiredFields": "Пожалуйста, заполните все обязательные поля",
+    "selectPlan": "Выберите план"
+  },
+  "debug": {
+    "resetTitle": "Сбросить данные",
+    "resetMessage": "Вы уверены, что хотите сбросить все данные? Это действие нельзя отменить.",
+    "resetConfirm": "Да, сбросить",
+    "resetSuccess": "Данные успешно сброшены!",
+    "resetError": "Произошла ошибка при сбросе данных"
   }
 }

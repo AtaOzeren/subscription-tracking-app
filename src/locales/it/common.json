@@ -15,7 +15,8 @@
     "loading": "Caricamento...",
     "error": "Errore",
     "success": "Successo",
-    "settings": "Impostazioni"
+    "settings": "Impostazioni",
+    "somethingWentWrong": "Qualcosa è andato storto"
   },
   "auth": {
     "welcomeToApp": "Benvenuto in Sub-Tracking",
@@ -28,7 +29,10 @@
     "validEmail": "Inserisci un indirizzo email valido",
     "passwordRequired": "La password è richiesta",
     "loginFailed": "Accesso Fallito",
-    "registerFailed": "Registrazione Fallita"
+    "registerFailed": "Registrazione Fallita",
+    "loginRequired": "Accesso richiesto",
+    "loginToViewSubscriptions": "Accedi per visualizzare gli abbonamenti",
+    "confirmLogout": "Esci"
   },
   "home": {
     "mySubscriptions": "I Miei Abbonamenti",
@@ -60,7 +64,13 @@
   },
   "subscriptions": {
     "manageYourSubscriptions": "Gestisci tutti i tuoi abbonamenti in un unico posto",
-    "noSubscriptionsYet": "Nessun abbonamento ancora. Tocca \"Aggiungi\" per creare il tuo primo abbonamento."
+    "mySubscriptions": "I Miei Abbonamenti",
+    "activeSubscriptionsCount": "Abbonamenti Attivi ({{count}})",
+    "noSubscriptionsInCategory": "Nessun abbonamento in questa categoria",
+    "noSubscriptionsYet": "Nessun abbonamento ancora. Tocca \"Aggiungi\" per creare il tuo primo abbonamento.",
+    "noSubscriptionsMessage": "Nessun abbonamento ancora. Tocca \"Aggiungi\" per creare il tuo primo abbonamento.",
+    "noSubscriptionsCategoryMessage": "Nessun abbonamento in questa categoria",
+    "all": "Tutti"
   },
   "subscription": {
     "nextBilling": "Prossima Fatturazione",
@@ -89,7 +99,8 @@
     "dailyCost": "Costo Giornaliero",
     "weeklyCost": "Costo Settimanale",
     "monthlyCost": "Costo Mensile",
-    "yearlyCost": "Costo Annuale"
+    "yearlyCost": "Costo Annuale",
+    "cost": "Costo"
   },
   "subscriptionStatus": {
     "active": "Attivo",
@@ -119,7 +130,9 @@
     "updateSuccess": "Abbonamento aggiornato con successo!",
     "updateError": "Si è verificato un errore durante l'aggiornamento dell'abbonamento",
     "deleteSuccess": "Abbonamento eliminato con successo!",
-    "deleteError": "Si è verificato un errore durante l'eliminazione dell'abbonamento"
+    "deleteError": "Si è verificato un errore durante l'eliminazione dell'abbonamento",
+    "subscriptionAdded": "Abbonamento aggiunto con successo!",
+    "customSubscriptionAdded": "Abbonamento personalizzato aggiunto con successo!"
   },
   "addSubscription": {
     "title": "Aggiungi Abbonamento",
@@ -173,5 +186,16 @@
     "profileSetupRequired": "Seleziona paese e valuta",
     "loadError": "Caricamento dati fallito. Riprova.",
     "saveError": "Salvataggio profilo fallito. Riprova."
+  },
+  "form": {
+    "fillRequiredFields": "Compila tutti i campi obbligatori",
+    "selectPlan": "Seleziona un piano"
+  },
+  "debug": {
+    "resetTitle": "Reimposta dati",
+    "resetMessage": "Sei sicuro di voler reimpostare tutti i dati? Questa azione non può essere annullata.",
+    "resetConfirm": "Sì, reimposta",
+    "resetSuccess": "Dati reimpostati con successo!",
+    "resetError": "Si è verificato un errore durante la reimpostazione dei dati"
   }
 }

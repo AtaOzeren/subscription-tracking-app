@@ -57,7 +57,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
 
   const handleAddCustomSubscription = async () => {
     if (!customName.trim() || !customCategoryId || !customPrice) {
-      Alert.alert(t('common.error'), 'Please fill all required fields');
+      Alert.alert(t('common.error'), t('form.fillRequiredFields'));
       return;
     }
 
@@ -76,7 +76,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
 
       Alert.alert(
         t('common.success'),
-        'Custom subscription added successfully!',
+        t('subscriptionAlerts.customSubscriptionAdded'),
         [{ text: 'OK', onPress: onClose }]
       );
     } catch (error) {
@@ -101,14 +101,14 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
             className="text-3xl font-bold text-gray-900 flex-1"
             style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
           >
-            Custom Subscription
+            {t('customSubscription.title')}
           </Text>
           <TouchableOpacity onPress={onClose}>
             <Text
               className="text-base font-semibold text-gray-700"
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              Cancel
+              {t('common.cancel')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -117,11 +117,11 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
       {/* Content */}
       <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingTop: 16 }}>
         <FormField
-          label="Subscription Name"
+          label={t('customSubscription.name')}
           required
           value={customName}
           onChangeText={setCustomName}
-          placeholder="e.g., Steam, Gym Membership"
+          placeholder={t('customSubscription.namePlaceholder')}
         />
 
         <CategorySelector
@@ -132,7 +132,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
         />
 
         <FormField
-          label="Price"
+          label={t('subscription.price')}
           required
           value={customPrice}
           onChangeText={setCustomPrice}
@@ -154,7 +154,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
         />
 
         <FormField
-          label="Start Date"
+          label={t('addSubscription.startDate')}
           value={startDate}
           onChangeText={(date) => {
             setStartDate(date);
@@ -168,24 +168,24 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
         />
 
         <FormField
-          label="Next Billing Date"
+          label={t('subscription.nextBillingDate')}
           value={nextBillingDate}
           onChangeText={setNextBillingDate}
           placeholder="YYYY-MM-DD"
         />
 
         <FormField
-          label="Notes (Optional)"
+          label={t('subscription.notesOptional')}
           value={notes}
           onChangeText={setNotes}
-          placeholder="Add any notes..."
+          placeholder={t('subscription.notesPlaceholder')}
           multiline
           numberOfLines={3}
           textAlignVertical="top"
         />
 
         <AppleButton
-          title="Add Custom Subscription"
+          title={t('customSubscription.title')}
           onPress={handleAddCustomSubscription}
           disabled={loading}
           loading={loading}

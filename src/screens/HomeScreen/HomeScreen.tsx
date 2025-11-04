@@ -139,24 +139,24 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
 
   const handleDebugReset = async () => {
     Alert.alert(
-      'Debug Reset',
-      'This will clear all data and restart the app as if first time. Continue?',
+      t('debug.resetTitle'),
+      t('debug.resetMessage'),
       [
         {
-          text: 'Cancel',
+          text: t('common.cancel'),
           style: 'cancel',
         },
         {
-          text: 'Reset',
+          text: t('debug.resetConfirm'),
           style: 'destructive',
           onPress: async () => {
             try {
               // Clear all storage
               await storageService.clearAll();
-              Alert.alert('Success', 'All data cleared. Please restart the app manually.');
+              Alert.alert(t('common.success'), t('debug.resetSuccess'));
             } catch (error) {
               console.error('Debug reset failed:', error);
-              Alert.alert('Error', 'Failed to reset app data');
+              Alert.alert(t('common.error'), t('debug.resetError'));
             }
           }
         }
@@ -167,7 +167,7 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
   const handleLogout = () => {
     Alert.alert(
       t('common.logout'),
-      'Are you sure you want to logout?',
+      t('auth.confirmLogout'),
       [
         {
           text: t('common.cancel'),

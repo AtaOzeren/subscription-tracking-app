@@ -15,7 +15,8 @@
     "loading": "Chargement...",
     "error": "Erreur",
     "success": "Succès",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "somethingWentWrong": "Une erreur s'est produite"
   },
   "auth": {
     "welcomeToApp": "Bienvenue dans Sub-Tracking",
@@ -28,7 +29,10 @@
     "validEmail": "Veuillez entrer une adresse email valide",
     "passwordRequired": "Le mot de passe est requis",
     "loginFailed": "Connexion Échouée",
-    "registerFailed": "Inscription Échouée"
+    "registerFailed": "Inscription Échouée",
+    "loginRequired": "Connexion requise",
+    "loginToViewSubscriptions": "Connectez-vous pour voir vos abonnements",
+    "confirmLogout": "Se Déconnecter"
   },
   "home": {
     "mySubscriptions": "Mes Abonnements",
@@ -60,7 +64,13 @@
   },
   "subscriptions": {
     "manageYourSubscriptions": "Gérez tous vos abonnements en un seul endroit",
-    "noSubscriptionsYet": "Aucun abonnement encore. Appuyez sur \"Ajouter\" pour créer votre premier abonnement."
+    "mySubscriptions": "Mes Abonnements",
+    "activeSubscriptionsCount": "Abonnements Actifs ({{count}})",
+    "noSubscriptionsInCategory": "Aucun abonnement dans cette catégorie",
+    "noSubscriptionsYet": "Aucun abonnement encore. Appuyez sur \"Ajouter\" pour créer votre premier abonnement.",
+    "noSubscriptionsMessage": "Aucun abonnement encore. Appuyez sur \"Ajouter\" pour créer votre premier abonnement.",
+    "noSubscriptionsCategoryMessage": "Aucun abonnement dans cette catégorie",
+    "all": "Tous"
   },
   "subscription": {
     "nextBilling": "Prochaine Facturation",
@@ -89,7 +99,8 @@
     "dailyCost": "Coût Quotidien",
     "weeklyCost": "Coût Hebdomadaire",
     "monthlyCost": "Coût Mensuel",
-    "yearlyCost": "Coût Annuel"
+    "yearlyCost": "Coût Annuel",
+    "cost": "Coût"
   },
   "subscriptionStatus": {
     "active": "Actif",
@@ -119,7 +130,9 @@
     "updateSuccess": "Abonnement mis à jour avec succès !",
     "updateError": "Une erreur s'est produite lors de la mise à jour de l'abonnement",
     "deleteSuccess": "Abonnement supprimé avec succès !",
-    "deleteError": "Une erreur s'est produite lors de la suppression de l'abonnement"
+    "deleteError": "Une erreur s'est produite lors de la suppression de l'abonnement",
+    "subscriptionAdded": "Abonnement ajouté avec succès !",
+    "customSubscriptionAdded": "Abonnement personnalisé ajouté avec succès !"
   },
   "addSubscription": {
     "title": "Ajouter un Abonnement",
@@ -173,5 +186,16 @@
     "profileSetupRequired": "Veuillez sélectionner pays et devise",
     "loadError": "Échec du chargement des données. Veuillez réessayer.",
     "saveError": "Échec de l'enregistrement du profil. Veuillez réessayer."
+  },
+  "form": {
+    "fillRequiredFields": "Veuillez remplir tous les champs obligatoires",
+    "selectPlan": "Sélectionner un plan"
+  },
+  "debug": {
+    "resetTitle": "Réinitialiser les données",
+    "resetMessage": "Êtes-vous sûr de vouloir réinitialiser toutes les données ? Cette action est irréversible.",
+    "resetConfirm": "Oui, réinitialiser",
+    "resetSuccess": "Données réinitialisées avec succès !",
+    "resetError": "Une erreur s'est produite lors de la réinitialisation des données"
   }
 }

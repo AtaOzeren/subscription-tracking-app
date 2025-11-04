@@ -15,7 +15,8 @@
     "loading": "Laden...",
     "error": "Fehler",
     "success": "Erfolg",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "somethingWentWrong": "Etwas ist schief gelaufen"
   },
   "auth": {
     "welcomeToApp": "Willkommen bei Sub-Tracking",
@@ -28,7 +29,10 @@
     "validEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
     "passwordRequired": "Passwort ist erforderlich",
     "loginFailed": "Anmeldung fehlgeschlagen",
-    "registerFailed": "Registrierung fehlgeschlagen"
+    "registerFailed": "Registrierung fehlgeschlagen",
+    "loginRequired": "Anmeldung erforderlich",
+    "loginToViewSubscriptions": "Anmelden, um Abonnements anzuzeigen",
+    "confirmLogout": "Abmelden"
   },
   "home": {
     "mySubscriptions": "Meine Abonnements",
@@ -60,7 +64,14 @@
   },
   "subscriptions": {
     "manageYourSubscriptions": "Verwalten Sie alle Ihre Abonnements an einem Ort",
-    "noSubscriptionsYet": "Noch keine Abonnements. Tippen Sie auf \"Hinzufügen\", um Ihr erstes Abonnement zu erstellen."
+    "noSubscriptionsYet": "Noch keine Abonnements. Tippen Sie auf \"Hinzufügen\", um Ihr erstes Abonnement zu erstellen.",
+    "mySubscriptions": "Meine Abonnements",
+    "activeSubscriptionsCount": "{{count}} aktive Abonnements",
+    "noSubscriptionsInCategory": "Keine Abonnements in dieser Kategorie",
+    "noSubscriptionsYet": "Noch keine Abonnements",
+    "noSubscriptionsMessage": "Beginnen Sie mit dem Hinzufügen Ihres ersten Abonnements, um Ihre Ausgaben zu verfolgen",
+    "noSubscriptionsCategoryMessage": "Versuchen Sie eine andere Kategorie auszuwählen oder fügen Sie ein neues Abonnement hinzu",
+    "all": "Alle"
   },
   "subscription": {
     "nextBilling": "Nächste Abrechnung",
@@ -89,7 +100,8 @@
     "dailyCost": "Tägliche Kosten",
     "weeklyCost": "Wöchentliche Kosten",
     "monthlyCost": "Monatliche Kosten",
-    "yearlyCost": "Jährliche Kosten"
+    "yearlyCost": "Jährliche Kosten",
+    "cost": "Kosten"
   },
   "subscriptionStatus": {
     "active": "Aktiv",
@@ -119,7 +131,9 @@
     "updateSuccess": "Abonnement erfolgreich aktualisiert!",
     "updateError": "Beim Aktualisieren des Abonnements ist ein Fehler aufgetreten",
     "deleteSuccess": "Abonnement erfolgreich gelöscht!",
-    "deleteError": "Beim Löschen des Abonnements ist ein Fehler aufgetreten"
+    "deleteError": "Beim Löschen des Abonnements ist ein Fehler aufgetreten",
+    "subscriptionAdded": "Abonnement erfolgreich hinzugefügt!",
+    "customSubscriptionAdded": "Benutzerdefiniertes Abonnement erfolgreich hinzugefügt!"
   },
   "addSubscription": {
     "title": "Abonnement Hinzufügen",
@@ -173,5 +187,16 @@
     "profileSetupRequired": "Bitte wählen Sie Land und Währung",
     "loadError": "Daten konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
     "saveError": "Profil konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+  },
+  "form": {
+    "fillRequiredFields": "Bitte füllen Sie alle erforderlichen Felder aus",
+    "selectPlan": "Bitte wählen Sie einen Plan"
+  },
+  "debug": {
+    "resetTitle": "Debug-Zurücksetzung",
+    "resetMessage": "Dies löscht alle Daten und startet die App neu als ob zum ersten Mal. Fortfahren?",
+    "resetConfirm": "Zurücksetzen",
+    "resetSuccess": "Alle Daten gelöscht. Bitte starten Sie die App manuell neu.",
+    "resetError": "App-Daten konnten nicht zurückgesetzt werden"
   }
 }

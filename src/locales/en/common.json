@@ -15,7 +15,8 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "settings": "Settings"
+    "settings": "Settings",
+    "somethingWentWrong": "Something went wrong"
   },
   "auth": {
     "welcomeToApp": "Welcome Sub-Tracking",
@@ -28,7 +29,10 @@
     "validEmail": "Please enter a valid email address",
     "passwordRequired": "Password is required",
     "loginFailed": "Login Failed",
-    "registerFailed": "Registration Failed"
+    "registerFailed": "Registration Failed",
+    "loginRequired": "Authentication Required",
+    "loginToViewSubscriptions": "Please login to view your subscriptions",
+    "confirmLogout": "Are you sure you want to logout?"
   },
   "home": {
     "mySubscriptions": "My Subscriptions",
@@ -60,7 +64,14 @@
   },
   "subscriptions": {
     "manageYourSubscriptions": "Manage all your subscriptions in one place",
-    "noSubscriptionsYet": "No subscriptions yet. Tap \"Add\" to create your first subscription."
+    "noSubscriptionsYet": "No subscriptions yet. Tap \"Add\" to create your first subscription.",
+    "mySubscriptions": "My Subscriptions",
+    "activeSubscriptionsCount": "{{count}} active subscription{{plural}}",
+    "noSubscriptionsInCategory": "No Subscriptions in This Category",
+    "noSubscriptionsYet": "No Subscriptions Yet",
+    "noSubscriptionsMessage": "Start by adding your first subscription to track your expenses",
+    "noSubscriptionsCategoryMessage": "Try selecting a different category or add a new subscription",
+    "all": "All"
   },
   "subscription": {
     "nextBilling": "Next Billing",
@@ -89,7 +100,8 @@
     "dailyCost": "Daily Cost",
     "weeklyCost": "Weekly Cost",
     "monthlyCost": "Monthly Cost",
-    "yearlyCost": "Yearly Cost"
+    "yearlyCost": "Yearly Cost",
+    "cost": "Cost"
   },
   "subscriptionStatus": {
     "active": "Active",
@@ -119,7 +131,9 @@
     "updateSuccess": "Subscription updated successfully!",
     "updateError": "An error occurred while updating the subscription",
     "deleteSuccess": "Subscription deleted successfully!",
-    "deleteError": "An error occurred while deleting the subscription"
+    "deleteError": "An error occurred while deleting the subscription",
+    "subscriptionAdded": "Subscription added successfully!",
+    "customSubscriptionAdded": "Custom subscription added successfully!"
   },
   "addSubscription": {
     "title": "Add Subscription",
@@ -173,5 +187,16 @@
     "profileSetupRequired": "Please select both country and currency",
     "loadError": "Failed to load data. Please try again.",
     "saveError": "Failed to save profile. Please try again."
+  },
+  "form": {
+    "fillRequiredFields": "Please fill all required fields",
+    "selectPlan": "Please select a plan"
+  },
+  "debug": {
+    "resetTitle": "Debug Reset",
+    "resetMessage": "This will clear all data and restart the app as if first time. Continue?",
+    "resetConfirm": "Reset",
+    "resetSuccess": "All data cleared. Please restart the app manually.",
+    "resetError": "Failed to reset app data"
   }
 }

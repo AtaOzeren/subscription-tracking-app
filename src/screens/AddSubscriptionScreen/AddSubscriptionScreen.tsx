@@ -129,7 +129,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
 
   const handleAddPresetSubscription = async () => {
     if (!selectedPlan) {
-      Alert.alert(t('common.error'), 'Please select a plan');
+      Alert.alert(t('common.error'), t('form.selectPlan'));
       return;
     }
 
@@ -144,7 +144,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
 
       Alert.alert(
         t('common.success'),
-        'Subscription added successfully!',
+        t('subscriptionAlerts.subscriptionAdded'),
         [{ text: 'OK', onPress: onClose }]
       );
     } catch (error) {
@@ -159,7 +159,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
 
   // Render Category Filter (2-row layout like SubscriptionsScreen)
   const renderCategoryFilter = () => {
-    const allCategories = [{ id: null, name: 'All', icon_url: '' }, ...categories];
+    const allCategories = [{ id: null, name: t('subscriptions.all'), icon_url: '' }, ...categories];
     const halfLength = Math.ceil(allCategories.length / 2);
     const firstRow = allCategories.slice(0, halfLength);
     const secondRow = allCategories.slice(halfLength);
@@ -239,7 +239,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
           <View className="bg-gray-100 rounded-xl px-4 py-3 flex-row items-center">
             <Text className="mr-2">🔍</Text>
             <TextInput
-              placeholder="Search subscriptions (e.g., Netflix, Steam)..."
+              placeholder={t('addSubscription.searchPlaceholder')}
               value={searchQuery}
               onChangeText={setSearchQuery}
               className="flex-1 text-base"
@@ -257,13 +257,13 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
                 className="text-lg font-semibold text-gray-900 mb-2"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
-                No Results Found
+                 {t('addSubscription.noResults')}
               </Text>
               <Text
                 className="text-sm text-gray-500 text-center mb-4"
                 style={{ fontFamily: 'SF Pro Text' }}
               >
-                Can't find "{searchQuery}"? Add it as a custom subscription
+                 {t('addSubscription.noResultsMessage', { query: searchQuery })}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -276,7 +276,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
                   className="text-white font-semibold"
                   style={{ fontFamily: 'SF Pro Display' }}
                 >
-                  + Add Custom
+                   {t('addSubscription.addCustomButton')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -362,7 +362,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
               className="text-base font-semibold text-gray-900"
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              Add Custom Subscription
+               {t('addSubscription.addCustomButton')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -376,8 +376,8 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
       plans={plans}
       onSelectPlan={handleSelectPlan}
       userRegion={user?.region}
-      title="Select a Plan"
-      subtitle="Choose the plan that works best for you"
+      title={t('addSubscription.selectPlanTitle')}
+      subtitle={t('addSubscription.selectPlanSubtitle')}
     />
   );
 
@@ -397,31 +397,31 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
         )}
 
         <FormField
-          label="Start Date"
+          label={t('addSubscription.startDate')}
           value={startDate}
           onChangeText={setStartDate}
           placeholder="YYYY-MM-DD"
         />
 
         <FormField
-          label="Next Billing Date"
+          label={t('subscription.nextBillingDate')}
           value={nextBillingDate}
           onChangeText={setNextBillingDate}
           placeholder="YYYY-MM-DD"
         />
 
         <FormField
-          label="Notes (Optional)"
+          label={t('subscription.notesOptional')}
           value={notes}
           onChangeText={setNotes}
-          placeholder="Add any notes..."
+          placeholder={t('subscription.notesPlaceholder')}
           multiline
           numberOfLines={3}
           textAlignVertical="top"
         />
 
         <AppleButton
-          title="Add Subscription"
+          title={t('subscriptionActions.add')}
           onPress={handleAddPresetSubscription}
           disabled={loading}
           loading={loading}
@@ -434,14 +434,14 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
 
   const renderBackButton = () => {
     let onPress = onClose;
-    let title = 'Cancel';
+    let title = t('common.cancel');
 
     if (step === 'select-plan') {
       onPress = () => setStep('search');
-      title = '← Back';
+      title = `← ${t('common.back')}`;
     } else if (step === 'details') {
       onPress = () => setStep('select-plan');
-      title = '← Back';
+      title = `← ${t('common.back')}`;
     }
 
     return (
@@ -468,9 +468,9 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
             className="text-3xl font-bold text-gray-900 flex-1"
             style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
           >
-            {step === 'search' && 'Add Subscription'}
-            {step === 'select-plan' && 'Select Plan'}
-            {step === 'details' && 'Details'}
+            {step === 'search' && t('addSubscription.title')}
+            {step === 'select-plan' && t('addSubscription.selectPlanTitle')}
+            {step === 'details' && t('addSubscription.detailsTitle')}
           </Text>
           {renderBackButton()}
         </View>

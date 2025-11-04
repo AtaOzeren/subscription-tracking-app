@@ -37,8 +37,8 @@ const SubscriptionsScreen = () => {
       if (!isAuthenticated || !user) {
         console.log('❌ User not authenticated, cannot load subscriptions');
         Alert.alert(
-          'Authentication Required',
-          'Please login to view your subscriptions'
+          t('auth.loginRequired'),
+          t('auth.loginToViewSubscriptions')
         );
         return;
       }
@@ -93,29 +93,29 @@ const SubscriptionsScreen = () => {
   };
 
   const handleDeleteSubscription = async (id: number) => {
-    Alert.alert(
-      'Delete Subscription',
-      'Are you sure you want to delete this subscription?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await mySubscriptionsService.deleteSubscription(id);
-              await loadSubscriptions();
-            } catch (error) {
-              Alert.alert('Error', 'Failed to delete subscription');
+      Alert.alert(
+        t('subscriptionAlerts.deleteTitle'),
+        t('subscriptionAlerts.deleteMessage', { name: 'this subscription' }),
+        [
+          { text: t('common.cancel'), style: 'cancel' },
+          {
+            text: t('subscriptionAlerts.deleteConfirm'),
+            style: 'destructive',
+            onPress: async () => {
+              try {
+                await mySubscriptionsService.deleteSubscription(id);
+                await loadSubscriptions();
+              } catch (error) {
+                Alert.alert(t('common.error'), t('subscriptionAlerts.deleteError'));
+              }
             }
           }
-        }
-      ]
-    );
+        ]
+      );
   };
 
   const renderCategoryFilter = () => {
-    const allCategories = [{ id: null, name: 'All', icon_url: '', count: subscriptions.length }, ...categories];
+    const allCategories = [{ id: null, name: t('subscriptions.all'), icon_url: '', count: subscriptions.length }, ...categories];
     const halfLength = Math.ceil(allCategories.length / 2);
     const firstRow = allCategories.slice(0, halfLength);
     const secondRow = allCategories.slice(halfLength);
@@ -172,13 +172,16 @@ const SubscriptionsScreen = () => {
               className="text-3xl font-bold text-gray-900"
               style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
             >
-              My Subscriptions
+              {t('subscriptions.mySubscriptions')}
             </Text>
             <Text
               className="text-sm text-gray-500 mt-1"
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              {subscriptions.length} active subscription{subscriptions.length !== 1 ? 's' : ''}
+              {t('subscriptions.activeSubscriptionsCount', { 
+                count: subscriptions.length,
+                plural: subscriptions.length !== 1 ? 's' : ''
+              })}
             </Text>
           </View>
           <TouchableOpacity
@@ -197,7 +200,7 @@ const SubscriptionsScreen = () => {
               className="text-white font-semibold"
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              Add
+              {t('common.add')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -230,15 +233,15 @@ const SubscriptionsScreen = () => {
               className="text-lg font-semibold text-gray-900 mb-2"
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              {selectedCategory ? 'No Subscriptions in This Category' : 'No Subscriptions Yet'}
+              {selectedCategory ? t('subscriptions.noSubscriptionsInCategory') : t('subscriptions.noSubscriptionsYet')}
             </Text>
             <Text
               className="text-sm text-gray-500 text-center"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {selectedCategory 
-                ? 'Try selecting a different category or add a new subscription'
-                : 'Start by adding your first subscription to track your expenses'
+                ? t('subscriptions.noSubscriptionsCategoryMessage')
+                : t('subscriptions.noSubscriptionsMessage')
               }
             </Text>
           </View>

@@ -15,7 +15,8 @@
     "loading": "Yükleniyor...",
     "error": "Hata",
     "success": "Başarılı",
-    "settings": "Ayarlar"
+    "settings": "Ayarlar",
+    "somethingWentWrong": "Bir şeyler yanlış gitti"
   },
   "auth": {
     "welcomeToApp": "Abone Takip'e Hoş Geldiniz",
@@ -28,7 +29,10 @@
     "validEmail": "Lütfen geçerli bir e-posta adresi girin",
     "passwordRequired": "Şifre gereklidir",
     "loginFailed": "Giriş Başarısız",
-    "registerFailed": "Kayıt Başarısız"
+    "registerFailed": "Kayıt Başarısız",
+    "loginRequired": "Kimlik Doğrulama Gerekli",
+    "loginToViewSubscriptions": "Aboneliklerinizi görmek için lütfen giriş yapın",
+    "confirmLogout": "Çıkış Yap"
   },
   "home": {
     "mySubscriptions": "Aboneliklerim",
@@ -60,7 +64,14 @@
   },
   "subscriptions": {
     "manageYourSubscriptions": "Tüm aboneliklerinizi tek bir yerden yönetin",
-    "noSubscriptionsYet": "Henüz abonelik yok. İlk aboneliğinizi oluşturmak için \"Ekle\"ye dokunun."
+    "noSubscriptionsYet": "Henüz abonelik yok. İlk aboneliğinizi oluşturmak için \"Ekle\"ye dokunun.",
+    "mySubscriptions": "Aboneliklerim",
+    "activeSubscriptionsCount": "{{count}} aktif abonelik",
+    "noSubscriptionsInCategory": "Bu Kategoride Abonelik Yok",
+    "noSubscriptionsYet": "Henüz Abonelik Yok",
+    "noSubscriptionsMessage": "Harcamalarınızı takip etmek için ilk aboneliğinizi ekleyerek başlayın",
+    "noSubscriptionsCategoryMessage": "Farklı bir kategori seçmeyi deneyin veya yeni bir abonelik ekleyin",
+    "all": "Tümü"
   },
   "subscription": {
     "nextBilling": "Sonraki Fatura",
@@ -89,7 +100,8 @@
     "dailyCost": "Günlük Maliyet",
     "weeklyCost": "Haftalık Maliyet",
     "monthlyCost": "Aylık Maliyet",
-    "yearlyCost": "Yıllık Maliyet"
+    "yearlyCost": "Yıllık Maliyet",
+    "cost": "Maliyet"
   },
   "subscriptionStatus": {
     "active": "Aktif",
@@ -119,7 +131,9 @@
     "updateSuccess": "Abonelik bilgileri başarıyla güncellendi!",
     "updateError": "Abonelik güncellenirken bir hata oluştu",
     "deleteSuccess": "Abonelik başarıyla silindi!",
-    "deleteError": "Abonelik silinirken bir hata oluştu"
+    "deleteError": "Abonelik silinirken bir hata oluştu",
+    "subscriptionAdded": "Abonelik başarıyla eklendi!",
+    "customSubscriptionAdded": "Özel abonelik başarıyla eklendi!"
   },
   "addSubscription": {
     "title": "Abonelik Ekle",
@@ -173,5 +187,16 @@
     "profileSetupRequired": "Lütfen ülke ve para birimi seçin",
     "loadError": "Veriler yüklenemedi. Lütfen tekrar deneyin.",
     "saveError": "Profil kaydedilemedi. Lütfen tekrar deneyin."
+  },
+  "form": {
+    "fillRequiredFields": "Lütfen tüm zorunlu alanları doldurun",
+    "selectPlan": "Lütfen bir plan seçin"
+  },
+  "debug": {
+    "resetTitle": "Hata Ayıklama Sıfırlama",
+    "resetMessage": "Bu işlem tüm verileri temizleyecek ve uygulamayı ilk kez açılmış gibi yeniden başlatacak. Devam edilsin mi?",
+    "resetConfirm": "Sıfırla",
+    "resetSuccess": "Tüm veriler temizlendi. Lütfen uygulamayı manuel olarak yeniden başlatın.",
+    "resetError": "Uygulama verileri sıfırlanamadı"
   }
 }
