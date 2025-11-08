@@ -43,7 +43,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
 
   const handleUpdate = async () => {
     if (!editName.trim()) {
-      Alert.alert(t('common.error'), 'Name is required');
+      Alert.alert(t('common.error'), t('profile.nameRequired', { defaultValue: 'Name is required' }));
       return;
     }
 
@@ -87,7 +87,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
               console.error('Error updating profile:', error);
               Alert.alert(
                 t('common.error'),
-                error instanceof Error ? error.message : 'Failed to update profile'
+                error instanceof Error ? error.message : t('profile.updateFailed', { defaultValue: 'Failed to update profile' })
               );
             } finally {
               setUpdating(false);

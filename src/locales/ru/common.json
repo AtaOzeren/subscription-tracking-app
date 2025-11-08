@@ -229,6 +229,18 @@
     "updateRegionalTitle": "Обновить региональные настройки",
     "updateRegionalMessage": "Вы уверены, что хотите обновить региональные настройки?",
     "regionalUpdateSuccess": "Региональные настройки успешно обновлены",
+    "avatar": "Аватар",
+    "changeAvatar": "Изменить аватар",
+    "selectAvatar": "Выбрать аватар",
+    "currentAvatar": "Текущий аватар",
+    "sampleAvatars": "Примеры аватаров",
+    "chooseFromGallery": "Выбрать из галереи",
+    "avatarPermissionDenied": "Требуется доступ к галерее!",
+    "avatarPickError": "Не удалось выбрать изображение из галереи. Попробуйте снова.",
+    "avatarSelectRequired": "Пожалуйста, выберите аватар",
+    "avatarTooLarge": "Размер изображения должен быть менее 5 МБ",
+    "nameRequired": "Имя обязательно",
+    "updateFailed": "Не удалось обновить профиль",
     "comingSoon": "Скоро"
   }
 }

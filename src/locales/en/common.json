@@ -238,8 +238,11 @@
     "sampleAvatars": "Sample Avatars",
     "chooseFromGallery": "Choose from Gallery",
     "avatarPermissionDenied": "Permission to access camera roll is required!",
-    "avatarPickError": "Failed to pick image from gallery",
+    "avatarPickError": "Failed to pick image from gallery. Please try again.",
     "avatarSelectRequired": "Please select an avatar",
+    "avatarTooLarge": "Image size must be less than 5MB",
+    "nameRequired": "Name is required",
+    "updateFailed": "Failed to update profile",
     "comingSoon": "Coming Soon"
   }
 }

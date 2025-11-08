@@ -230,6 +230,18 @@
     "updateRegionalTitle": "Bölgesel Ayarları Güncelle",
     "updateRegionalMessage": "Bölgesel ayarlarınızı güncellemek istediğinizden emin misiniz?",
     "regionalUpdateSuccess": "Bölgesel ayarlar başarıyla güncellendi",
+    "avatar": "Avatar",
+    "changeAvatar": "Avatar Değiştir",
+    "selectAvatar": "Avatar Seç",
+    "currentAvatar": "Mevcut Avatar",
+    "sampleAvatars": "Örnek Avatarlar",
+    "chooseFromGallery": "Galeriden Seç",
+    "avatarPermissionDenied": "Galeri erişim izni gerekli!",
+    "avatarPickError": "Galeriden resim seçilemedi. Lütfen tekrar deneyin.",
+    "avatarSelectRequired": "Lütfen bir avatar seçin",
+    "avatarTooLarge": "Resim boyutu 5MB'dan küçük olmalıdır",
+    "nameRequired": "İsim gereklidir",
+    "updateFailed": "Profil güncellenemedi",
     "comingSoon": "Yakında"
   }
 }

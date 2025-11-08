@@ -229,6 +229,18 @@
     "updateRegionalTitle": "Aggiorna impostazioni regionali",
     "updateRegionalMessage": "Sei sicuro di voler aggiornare le tue impostazioni regionali?",
     "regionalUpdateSuccess": "Impostazioni regionali aggiornate con successo",
+    "avatar": "Avatar",
+    "changeAvatar": "Cambia avatar",
+    "selectAvatar": "Seleziona avatar",
+    "currentAvatar": "Avatar attuale",
+    "sampleAvatars": "Avatar di esempio",
+    "chooseFromGallery": "Scegli dalla galleria",
+    "avatarPermissionDenied": "È richiesto l'accesso alla galleria!",
+    "avatarPickError": "Impossibile selezionare l'immagine dalla galleria. Riprova.",
+    "avatarSelectRequired": "Seleziona un avatar",
+    "avatarTooLarge": "La dimensione dell'immagine deve essere inferiore a 5 MB",
+    "nameRequired": "Il nome è obbligatorio",
+    "updateFailed": "Impossibile aggiornare il profilo",
     "comingSoon": "Prossimamente"
   }
 }
