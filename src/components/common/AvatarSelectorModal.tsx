@@ -162,12 +162,12 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
                     width: 140, 
                     height: 140,
                     borderWidth: 4,
-                    borderColor: '#3B82F6',
+                    borderColor: '#000000',
                   }}
                 />
                 {/* Check mark indicator */}
                 <View 
-                  className="absolute bottom-1 right-1 bg-blue-500 rounded-full items-center justify-center"
+                  className="absolute bottom-1 right-1 bg-black rounded-full items-center justify-center"
                   style={{ width: 40, height: 40, borderWidth: 4, borderColor: 'white' }}
                 >
                   <Text className="text-white font-bold text-xl">✓</Text>
@@ -222,15 +222,15 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
                       style={{ 
                         aspectRatio: 1,
                         borderWidth: selectedAvatar === avatar ? 4 : 0,
-                        borderColor: '#3B82F6',
+                        borderColor: '#000000',
                       }}
                     />
                     {selectedAvatar === avatar && (
                       <View 
                         className="absolute inset-0 rounded-2xl items-center justify-center"
-                        style={{ backgroundColor: 'rgba(59, 130, 246, 0.3)' }}
+                        style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
                       >
-                        <View className="bg-blue-500 rounded-full" style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}>
+                        <View className="bg-black rounded-full" style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}>
                           <Text className="text-white font-bold text-lg">✓</Text>
                         </View>
                       </View>
