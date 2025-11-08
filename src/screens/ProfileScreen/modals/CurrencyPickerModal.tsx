@@ -20,6 +20,28 @@ const CurrencyPickerModal: React.FC<CurrencyPickerModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  // Sıralama: Seçili en üstte, sonra USD, EUR, sonra diğerleri alfabetik
+  const sortedCurrencies = React.useMemo(() => {
+    const selected = currencies.find(c => c.code === selectedCurrency);
+    const usd = currencies.find(c => c.code === 'USD' && c.code !== selectedCurrency);
+    const eur = currencies.find(c => c.code === 'EUR' && c.code !== selectedCurrency);
+    const others = currencies
+      .filter(c => 
+        c.code !== selectedCurrency && 
+        c.code !== 'USD' && 
+        c.code !== 'EUR'
+      )
+      .sort((a, b) => a.name.localeCompare(b.name));
+    
+    const result = [];
+    if (selected) result.push(selected);
+    if (usd) result.push(usd);
+    if (eur) result.push(eur);
+    result.push(...others);
+    
+    return result;
+  }, [currencies, selectedCurrency]);
+
   return (
     <Modal
       visible={visible}
@@ -46,14 +68,14 @@ const CurrencyPickerModal: React.FC<CurrencyPickerModalProps> = ({
 
           {/* Currency List */}
           <ScrollView className="p-4">
-            {currencies.map((currency, index) => (
+            {sortedCurrencies.map((currency, index) => (
               <TouchableOpacity
                 key={currency.code}
                 onPress={() => {
                   onSelectCurrency(currency.code);
                   onClose();
                 }}
-                className={`p-4 rounded-xl ${index < currencies.length - 1 ? 'mb-2' : ''}`}
+                className={`p-4 rounded-xl ${index < sortedCurrencies.length - 1 ? 'mb-2' : ''}`}
                 style={{
                   backgroundColor: selectedCurrency === currency.code ? '#EBF5FF' : '#F9FAFB',
                 }}

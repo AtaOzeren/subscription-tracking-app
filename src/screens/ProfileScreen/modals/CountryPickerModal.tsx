@@ -21,6 +21,16 @@ const CountryPickerModal: React.FC<CountryPickerModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  // Sıralama: Seçili ülke en üstte, sonra diğerleri alfabetik
+  const sortedCountries = React.useMemo(() => {
+    const selected = countries.find(c => c.code === selectedCountry);
+    const others = countries
+      .filter(c => c.code !== selectedCountry)
+      .sort((a, b) => a.name.localeCompare(b.name));
+    
+    return selected ? [selected, ...others] : others;
+  }, [countries, selectedCountry]);
+
   return (
     <Modal
       visible={visible}
@@ -47,14 +57,14 @@ const CountryPickerModal: React.FC<CountryPickerModalProps> = ({
 
           {/* Country List */}
           <ScrollView className="p-4">
-            {countries.map((country, index) => (
+            {sortedCountries.map((country, index) => (
               <TouchableOpacity
                 key={country.code}
                 onPress={() => {
                   onSelectCountry(country.code);
                   onClose();
                 }}
-                className={`p-4 rounded-xl ${index < countries.length - 1 ? 'mb-2' : ''}`}
+                className={`p-4 rounded-xl ${index < sortedCountries.length - 1 ? 'mb-2' : ''}`}
                 style={{
                   backgroundColor: selectedCountry === country.code ? '#EBF5FF' : '#F9FAFB',
                 }}
