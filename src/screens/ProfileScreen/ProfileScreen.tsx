@@ -114,7 +114,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
             className="text-3xl font-bold text-gray-900 flex-1 text-center"
             style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
           >
-            {t('profile.title', { defaultValue: 'Profile' })}
+            {user?.name || t('profile.title', { defaultValue: 'Profile' })}
           </Text>
           <View style={{ width: 60 }} />
         </View>
@@ -140,93 +140,36 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
           <>
             {/* Profile Header */}
             <View className="bg-white p-6 mb-3">
-              <View className="items-center mb-4">
-                {/* Avatar Circle */}
-                <View className="w-24 h-24 rounded-full bg-blue-100 items-center justify-center mb-4">
+              <View className="flex-row items-center">
+                {/* Avatar Circle - Left */}
+                <View className="w-20 h-20 rounded-full bg-blue-100 items-center justify-center mr-4">
                   <Text
-                    className="text-4xl font-bold text-blue-600"
+                    className="text-3xl font-bold text-blue-600"
                     style={{ fontFamily: 'SF Pro Display' }}
                   >
                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                   </Text>
                 </View>
 
-                {/* Name */}
-                <Text
-                  className="text-2xl font-bold text-gray-900 mb-1"
-                  style={{ fontFamily: 'SF Pro Display' }}
-                >
-                  {user?.name || 'User'}
-                </Text>
-
-                {/* Email */}
-                <Text
-                  className="text-base text-gray-600"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {user?.email || 'No email'}
-                </Text>
+                {/* Name and Email - Right */}
+                <View className="flex-1">
+                  <Text
+                    className="text-xl font-bold text-gray-900 mb-1"
+                    style={{ fontFamily: 'SF Pro Display' }}
+                  >
+                    {user?.name || 'User'}
+                  </Text>
+                  <Text
+                    className="text-base text-gray-600"
+                    style={{ fontFamily: 'SF Pro Text' }}
+                  >
+                    {user?.email || 'No email'}
+                  </Text>
+                </View>
               </View>
             </View>
 
-            {/* Account Information */}
-            <View className="bg-white px-6 py-5 mb-3">
-              <Text
-                className="text-xl font-bold text-gray-900 mb-4"
-                style={{ fontFamily: 'SF Pro Display' }}
-              >
-                {t('profile.accountInfo', { defaultValue: 'Account Information' })}
-              </Text>
 
-              {/* User ID */}
-              <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
-                <Text
-                  className="text-base text-gray-500"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {t('profile.userId', { defaultValue: 'User ID' })}
-                </Text>
-                <Text
-                  className="text-base font-semibold text-gray-900"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  #{user?.id || 'N/A'}
-                </Text>
-              </View>
-
-              {/* Role */}
-              <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
-                <Text
-                  className="text-base text-gray-500"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {t('profile.role', { defaultValue: 'Role' })}
-                </Text>
-                <Text
-                  className="text-base font-semibold text-gray-900 capitalize"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {user?.role || 'N/A'}
-                </Text>
-              </View>
-
-              {/* Email */}
-              <View className="flex-row items-center justify-between py-3">
-                <Text
-                  className="text-base text-gray-500"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {t('profile.email', { defaultValue: 'Email' })}
-                </Text>
-                <Text
-                  className="text-base font-semibold text-gray-900"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                  numberOfLines={1}
-                >
-                  {user?.email || 'N/A'}
-                </Text>
-              </View>
-            </View>
 
             {/* Regional Settings */}
             <View className="bg-white px-6 py-5 mb-3">
@@ -277,63 +220,20 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
               </View>
             </View>
 
-            {/* Activity Timestamps */}
+            {/* Account Created - Centered */}
             <View className="bg-white px-6 py-5 mb-3">
-              <Text
-                className="text-xl font-bold text-gray-900 mb-4"
-                style={{ fontFamily: 'SF Pro Display' }}
-              >
-                {t('profile.activity', { defaultValue: 'Activity' })}
-              </Text>
-
-              {/* Last Login */}
-              <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
+              <View className="items-center">
                 <Text
-                  className="text-base text-gray-500"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {t('profile.lastLogin', { defaultValue: 'Last Login' })}
-                </Text>
-                <Text
-                  className="text-base font-semibold text-gray-900"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                  numberOfLines={1}
-                >
-                  {formatDate(user?.last_login_at)}
-                </Text>
-              </View>
-
-              {/* Created At */}
-              <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
-                <Text
-                  className="text-base text-gray-500"
+                  className="text-base text-gray-500 mb-2"
                   style={{ fontFamily: 'SF Pro Text' }}
                 >
                   {t('profile.createdAt', { defaultValue: 'Account Created' })}
                 </Text>
                 <Text
-                  className="text-base font-semibold text-gray-900"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                  numberOfLines={1}
+                  className="text-lg font-semibold text-gray-900"
+                  style={{ fontFamily: 'SF Pro Display' }}
                 >
                   {formatDate(user?.created_at)}
-                </Text>
-              </View>
-
-              {/* Updated At */}
-              <View className="flex-row items-center justify-between py-3">
-                <Text
-                  className="text-base text-gray-500"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {t('profile.updatedAt', { defaultValue: 'Last Updated' })}
-                </Text>
-                <Text
-                  className="text-base font-semibold text-gray-900"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                  numberOfLines={1}
-                >
-                  {formatDate(user?.updated_at)}
                 </Text>
               </View>
             </View>
