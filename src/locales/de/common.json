@@ -64,11 +64,10 @@
   },
   "subscriptions": {
     "manageYourSubscriptions": "Verwalten Sie alle Ihre Abonnements an einem Ort",
-    "noSubscriptionsYet": "Noch keine Abonnements. Tippen Sie auf \"Hinzufügen\", um Ihr erstes Abonnement zu erstellen.",
+    "noSubscriptionsYet": "Noch keine Abonnements",
     "mySubscriptions": "Meine Abonnements",
     "activeSubscriptionsCount": "{{count}} aktive Abonnements",
     "noSubscriptionsInCategory": "Keine Abonnements in dieser Kategorie",
-    "noSubscriptionsYet": "Noch keine Abonnements",
     "noSubscriptionsMessage": "Beginnen Sie mit dem Hinzufügen Ihres ersten Abonnements, um Ihre Ausgaben zu verfolgen",
     "noSubscriptionsCategoryMessage": "Versuchen Sie eine andere Kategorie auszuwählen oder fügen Sie ein neues Abonnement hinzu",
     "all": "Alle"
@@ -241,7 +240,12 @@
     "avatarSelectRequired": "Bitte wählen Sie einen Avatar",
     "avatarTooLarge": "Die Bildgröße muss kleiner als 5 MB sein",
     "nameRequired": "Name ist erforderlich",
-    "updateFailed": "Profil konnte nicht aktualisiert werden",
-    "comingSoon": "Demnächst"
+    "updateFailed": "Demnächst",
+    "selectAvatarDescription": "Wählen Sie ein Foto, das Sie repräsentiert",
+    "comingSoon": "Demnächst",
+    "or": "Oder",
+    "avatarSelected": "Avatar ausgewählt",
+    "noAvatarSelected": "Kein Avatar ausgewählt",
+    "uploadDescription": "Von Ihrem Gerät auswählen"
   }
 }

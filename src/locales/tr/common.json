@@ -64,11 +64,10 @@
   },
   "subscriptions": {
     "manageYourSubscriptions": "Tüm aboneliklerinizi tek bir yerden yönetin",
-    "noSubscriptionsYet": "Henüz abonelik yok. İlk aboneliğinizi oluşturmak için \"Ekle\"ye dokunun.",
+    "noSubscriptionsYet": "Henüz Abonelik Yok",
     "mySubscriptions": "Aboneliklerim",
     "activeSubscriptionsCount": "{{count}} aktif abonelik",
     "noSubscriptionsInCategory": "Bu Kategoride Abonelik Yok",
-    "noSubscriptionsYet": "Henüz Abonelik Yok",
     "noSubscriptionsMessage": "Harcamalarınızı takip etmek için ilk aboneliğinizi ekleyerek başlayın",
     "noSubscriptionsCategoryMessage": "Farklı bir kategori seçmeyi deneyin veya yeni bir abonelik ekleyin",
     "all": "Tümü"
@@ -241,7 +240,12 @@
     "avatarSelectRequired": "Lütfen bir avatar seçin",
     "avatarTooLarge": "Resim boyutu 5MB'dan küçük olmalıdır",
     "nameRequired": "İsim gereklidir",
-    "updateFailed": "Profil güncellenemedi",
-    "comingSoon": "Yakında"
+    "updateFailed": "Yakında",
+    "selectAvatarDescription": "Sizi temsil eden bir fotoğraf seçin",
+    "comingSoon": "Yakında",
+    "or": "Veya",
+    "avatarSelected": "Avatar Seçildi",
+    "noAvatarSelected": "Avatar Seçilmedi",
+    "uploadDescription": "Cihazınızdan seçin"
   }
 }

@@ -17,7 +17,8 @@
     "success": "Success",
     "settings": "Settings",
     "somethingWentWrong": "Something went wrong",
-    "comingSoon": "Coming Soon"
+    "comingSoon": "Coming Soon",
+    "or": "Or"
   },
   "auth": {
     "welcomeToApp": "Welcome Sub-Tracking",
@@ -243,6 +244,10 @@
     "avatarTooLarge": "Image size must be less than 5MB",
     "nameRequired": "Name is required",
     "updateFailed": "Failed to update profile",
+    "selectAvatarDescription": "Pick a photo that represents you",
+    "avatarSelected": "Avatar Selected",
+    "noAvatarSelected": "No Avatar Selected",
+    "uploadDescription": "Choose from your device",
     "comingSoon": "Coming Soon"
   }
 }

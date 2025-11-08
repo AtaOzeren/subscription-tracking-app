@@ -14,19 +14,18 @@ interface AvatarSelectorModalProps {
 }
 
 const { width: screenWidth } = Dimensions.get('window');
-const avatarSize = (screenWidth - 48) / 3 - 8;
 
-// Sample avatar URLs (copyright-free profile pictures)
+// Sample avatar URLs with better variety
 const sampleAvatars = [
-  'https://picsum.photos/seed/avatar1/200/200.jpg',
-  'https://picsum.photos/seed/avatar2/200/200.jpg',
-  'https://picsum.photos/seed/avatar3/200/200.jpg',
-  'https://picsum.photos/seed/avatar4/200/200.jpg',
-  'https://picsum.photos/seed/avatar5/200/200.jpg',
-  'https://picsum.photos/seed/avatar6/200/200.jpg',
-  'https://picsum.photos/seed/avatar7/200/200.jpg',
-  'https://picsum.photos/seed/avatar8/200/200.jpg',
-  'https://picsum.photos/seed/avatar9/200/200.jpg',
+  'https://i.pravatar.cc/300?img=1',
+  'https://i.pravatar.cc/300?img=2',
+  'https://i.pravatar.cc/300?img=3',
+  'https://i.pravatar.cc/300?img=4',
+  'https://i.pravatar.cc/300?img=5',
+  'https://i.pravatar.cc/300?img=6',
+  'https://i.pravatar.cc/300?img=7',
+  'https://i.pravatar.cc/300?img=8',
+  'https://i.pravatar.cc/300?img=9',
 ];
 
 const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
@@ -69,7 +68,7 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
         mediaTypes: ['images'],
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 0.7,
+        quality: 0.8,
       });
 
       if (!result.canceled && result.assets[0]) {
@@ -124,111 +123,214 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
     setSelectedAvatar(avatar);
   };
 
+  const avatarGridSize = (screenWidth - 72) / 3;
+
   return (
     <Modal
       visible={visible}
       animationType="slide"
       presentationStyle="fullScreen"
     >
-      <View className="flex-1 bg-gray-50">
-        {/* Header */}
+      <View className="flex-1 bg-white">
+        {/* Modern Header */}
         <View
-          className="bg-white border-b border-gray-200"
+          className="bg-white border-b border-gray-100"
           style={{ paddingTop: insets.top }}
         >
-          <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
-            <TouchableOpacity onPress={onClose}>
-              <Text
-                className="text-base font-semibold text-gray-700"
-                style={{ fontFamily: 'SF Pro Display' }}
+          <View className="px-6 pt-4 pb-6">
+            {/* Close Button - Top Right */}
+            <View className="flex-row justify-end mb-4">
+              <TouchableOpacity 
+                onPress={onClose}
+                className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center"
+                activeOpacity={0.7}
               >
-                {t('common.cancel')}
+                <Text className="text-xl font-bold text-gray-600">✕</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Title Section */}
+            <View className="mb-2">
+              <Text
+                className="text-3xl font-bold text-gray-900 mb-2"
+                style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
+              >
+                {t('profile.selectAvatar', { defaultValue: 'Choose Avatar' })}
               </Text>
-            </TouchableOpacity>
-            <Text
-              className="text-3xl font-bold text-gray-900 flex-1 text-center"
-              style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
-            >
-              {t('profile.selectAvatar', { defaultValue: 'Select Avatar' })}
-            </Text>
-            <View style={{ width: 60 }} />
+              <Text
+                className="text-sm text-gray-500"
+                style={{ fontFamily: 'SF Pro Text' }}
+              >
+                {t('profile.selectAvatarDescription', { defaultValue: 'Pick a photo that represents you' })}
+              </Text>
+            </View>
           </View>
         </View>
 
-        <ScrollView className="flex-1" contentContainerStyle={{ paddingTop: 16, paddingBottom: 32 }}>
-          {/* Current Avatar Preview */}
-          <View className="px-4 mb-6">
-            <Text
-              className="text-lg font-semibold text-gray-900 mb-4"
-              style={{ fontFamily: 'SF Pro Display' }}
-            >
-              {t('profile.currentAvatar', { defaultValue: 'Current Avatar' })}
-            </Text>
-            <View className="items-center">
+        <ScrollView 
+          className="flex-1" 
+          contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 32 }}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Current Avatar Preview - Large and Centered */}
+          <View className="items-center mb-8 mt-6">
+            <View className="relative">
               {selectedAvatar ? (
-                <Image
-                  source={{ uri: selectedAvatar }}
-                  className="w-24 h-24 rounded-full"
-                  style={{ width: 96, height: 96 }}
-                />
+                <View className="relative">
+                  <Image
+                    source={{ uri: selectedAvatar }}
+                    className="rounded-full"
+                    style={{ 
+                      width: 140, 
+                      height: 140,
+                      borderWidth: 4,
+                      borderColor: '#3B82F6',
+                    }}
+                  />
+                  {/* Check mark indicator */}
+                  <View 
+                    className="absolute bottom-1 right-1 bg-blue-500 rounded-full items-center justify-center"
+                    style={{ width: 40, height: 40, borderWidth: 4, borderColor: 'white' }}
+                  >
+                    <Text className="text-white font-bold text-xl">✓</Text>
+                  </View>
+                </View>
               ) : (
-                <View className="w-24 h-24 rounded-full bg-gray-200 items-center justify-center">
-                  <Text className="text-2xl text-gray-500">?</Text>
+                <View 
+                  className="rounded-full bg-gray-100 items-center justify-center"
+                  style={{ width: 140, height: 140, borderWidth: 4, borderColor: '#E5E7EB' }}
+                >
+                  <Text className="text-6xl text-gray-400">👤</Text>
                 </View>
               )}
             </View>
+            <Text
+              className="text-sm font-semibold text-gray-600 mt-4"
+              style={{ fontFamily: 'SF Pro Text' }}
+            >
+              {selectedAvatar ? t('profile.avatarSelected', { defaultValue: 'Avatar Selected' }) : t('profile.noAvatarSelected', { defaultValue: 'No Avatar Selected' })}
+            </Text>
           </View>
 
-          {/* Sample Avatars */}
-          <View className="px-4 mb-6">
+          {/* Upload from Gallery - Featured Card */}
+          <View className="mb-8">
+            <TouchableOpacity
+              onPress={pickImage}
+              disabled={loading}
+              className="bg-blue-500 rounded-2xl p-5 shadow-lg active:opacity-90"
+              activeOpacity={0.9}
+              style={{
+                shadowColor: '#3B82F6',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.2,
+                shadowRadius: 8,
+                elevation: 5,
+              }}
+            >
+              <View className="flex-row items-center justify-between">
+                <View className="flex-1 flex-row items-center">
+                  <View className="w-12 h-12 bg-white/20 rounded-full items-center justify-center mr-4">
+                    <Text className="text-2xl">📸</Text>
+                  </View>
+                  <View className="flex-1">
+                    <Text
+                      className="text-lg font-bold text-white mb-1"
+                      style={{ fontFamily: 'SF Pro Display' }}
+                    >
+                      {t('profile.chooseFromGallery', { defaultValue: 'Upload Photo' })}
+                    </Text>
+                    <Text
+                      className="text-sm text-white/80"
+                      style={{ fontFamily: 'SF Pro Text' }}
+                    >
+                      {t('profile.uploadDescription', { defaultValue: 'Choose from your device' })}
+                    </Text>
+                  </View>
+                </View>
+                {loading ? (
+                  <View className="w-6 h-6">
+                    <Text className="text-white">⟳</Text>
+                  </View>
+                ) : (
+                  <Text className="text-white text-xl">→</Text>
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          {/* Divider with Text */}
+          <View className="flex-row items-center mb-8">
+            <View className="flex-1 h-px bg-gray-200" />
+            <Text className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              {t('common.or', { defaultValue: 'Or' })}
+            </Text>
+            <View className="flex-1 h-px bg-gray-200" />
+          </View>
+
+          {/* Sample Avatars - Modern Grid */}
+          <View className="mb-6">
             <Text
-              className="text-lg font-semibold text-gray-900 mb-4"
+              className="text-lg font-bold text-gray-900 mb-5"
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              {t('profile.sampleAvatars', { defaultValue: 'Sample Avatars' })}
+              {t('profile.sampleAvatars', { defaultValue: 'Quick Select' })}
             </Text>
-            <View className="flex-row flex-wrap justify-between">
+            <View className="flex-row flex-wrap" style={{ marginHorizontal: -6 }}>
               {sampleAvatars.map((avatar, index) => (
                 <TouchableOpacity
                   key={index}
                   onPress={() => handleAvatarPress(avatar)}
-                  className={`mb-2 rounded-lg overflow-hidden border-2 ${
-                    selectedAvatar === avatar ? 'border-blue-500' : 'border-transparent'
-                  }`}
-                  style={{ width: avatarSize, height: avatarSize }}
+                  className="mb-3"
+                  style={{ width: '33.33%', paddingHorizontal: 6 }}
+                  activeOpacity={0.7}
                 >
-                  <Image
-                    source={{ uri: avatar }}
-                    className="w-full h-full"
-                    style={{ width: avatarSize, height: avatarSize }}
-                  />
+                  <View className="relative">
+                    <Image
+                      source={{ uri: avatar }}
+                      className="w-full rounded-2xl bg-gray-100"
+                      style={{ 
+                        aspectRatio: 1,
+                        borderWidth: selectedAvatar === avatar ? 4 : 0,
+                        borderColor: '#3B82F6',
+                      }}
+                    />
+                    {selectedAvatar === avatar && (
+                      <View 
+                        className="absolute inset-0 rounded-2xl items-center justify-center"
+                        style={{ backgroundColor: 'rgba(59, 130, 246, 0.3)' }}
+                      >
+                        <View className="bg-blue-500 rounded-full" style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}>
+                          <Text className="text-white font-bold text-lg">✓</Text>
+                        </View>
+                      </View>
+                    )}
+                  </View>
                 </TouchableOpacity>
               ))}
             </View>
           </View>
-
-          {/* Gallery Option */}
-          <View className="px-4 mb-6">
-            <AppleButton
-              title={t('profile.chooseFromGallery', { defaultValue: 'Choose from Gallery' })}
-              onPress={pickImage}
-              loading={loading}
-              disabled={loading}
-              variant="secondary"
-              size="large"
-            />
-          </View>
-
-          {/* Save Button */}
-          <View className="px-4">
-            <AppleButton
-              title={t('common.save', { defaultValue: 'Save' })}
-              onPress={handleSave}
-              disabled={!selectedAvatar}
-              size="large"
-            />
-          </View>
         </ScrollView>
+
+        {/* Fixed Bottom Button */}
+        <View 
+          className="bg-white border-t border-gray-100 px-6 shadow-lg"
+          style={{ 
+            paddingBottom: insets.bottom + 16, 
+            paddingTop: 16,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: -2 },
+            shadowOpacity: 0.05,
+            shadowRadius: 8,
+            elevation: 10,
+          }}
+        >
+          <AppleButton
+            title={t('common.save', { defaultValue: 'Save Avatar' })}
+            onPress={handleSave}
+            disabled={!selectedAvatar}
+            size="large"
+          />
+        </View>
       </View>
     </Modal>
   );

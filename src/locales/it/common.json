@@ -240,7 +240,12 @@
     "avatarSelectRequired": "Seleziona un avatar",
     "avatarTooLarge": "La dimensione dell'immagine deve essere inferiore a 5 MB",
     "nameRequired": "Il nome è obbligatorio",
-    "updateFailed": "Impossibile aggiornare il profilo",
-    "comingSoon": "Prossimamente"
+    "updateFailed": "Prossimamente",
+    "selectAvatarDescription": "Scegli una foto che ti rappresenta",
+    "comingSoon": "Prossimamente",
+    "or": "Oppure",
+    "avatarSelected": "Avatar selezionato",
+    "noAvatarSelected": "Nessun avatar selezionato",
+    "uploadDescription": "Scegli dal tuo dispositivo"
   }
 }

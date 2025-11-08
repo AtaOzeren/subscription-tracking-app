@@ -240,7 +240,12 @@
     "avatarSelectRequired": "Пожалуйста, выберите аватар",
     "avatarTooLarge": "Размер изображения должен быть менее 5 МБ",
     "nameRequired": "Имя обязательно",
-    "updateFailed": "Не удалось обновить профиль",
-    "comingSoon": "Скоро"
+    "updateFailed": "Скоро",
+    "selectAvatarDescription": "Выберите фото, которое вас представляет",
+    "comingSoon": "Скоро",
+    "or": "Или",
+    "avatarSelected": "Аватар выбран",
+    "noAvatarSelected": "Аватар не выбран",
+    "uploadDescription": "Выбрать с вашего устройства"
   }
 }
