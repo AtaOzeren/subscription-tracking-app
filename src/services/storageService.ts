@@ -127,6 +127,7 @@ export const storageService = {
       await Promise.all([
         AsyncStorage.removeItem(TOKEN_KEY),
         AsyncStorage.removeItem(USER_KEY),
+        AsyncStorage.removeItem(USER_AVATAR_KEY),
       ]);
     } catch (error) {
       console.error('Error clearing auth data:', error);

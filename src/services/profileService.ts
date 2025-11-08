@@ -58,12 +58,13 @@ class ProfileService {
 
       const user: User = apiResponse.data;
 
-      // Get avatar from local storage (avatar is stored locally, not on server)
+      // Update local storage with profile data (without avatar)
+      // Note: Avatar is stored separately in USER_AVATAR_KEY, not in USER_KEY
+      await storageService.setUser(user);
+
+      // Get avatar from local storage and merge for return value
       const avatar = await storageService.getAvatar();
       const userWithAvatar = { ...user, avatar: avatar || undefined };
-
-      // Update local storage with latest profile data
-      await storageService.setUser(userWithAvatar);
 
       return userWithAvatar;
     } catch (error) {
@@ -123,12 +124,13 @@ class ProfileService {
 
       const user: User = apiResponse.data;
 
-      // Get avatar from local storage (avatar is stored locally, not on server)
+      // Update local storage (without avatar)
+      // Note: Avatar is stored separately in USER_AVATAR_KEY, not in USER_KEY
+      await storageService.setUser(user);
+
+      // Get avatar from local storage and merge for return value
       const avatar = await storageService.getAvatar();
       const userWithAvatar = { ...user, avatar: avatar || undefined };
-
-      // Update local storage
-      await storageService.setUser(userWithAvatar);
 
       return userWithAvatar;
     } catch (error) {
