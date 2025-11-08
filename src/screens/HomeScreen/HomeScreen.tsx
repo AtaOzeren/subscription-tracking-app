@@ -11,9 +11,10 @@ import { storageService } from '../../services/storageService';
 interface HomeScreenProps {
   scrollY?: Animated.Value;
   tabBarHeight?: number;
+  onNavigateToProfile?: () => void;
 }
 
-const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
+const HomeScreen = ({ scrollY, tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps) => {
   const { user, logout } = useAuth();
   const { currentLanguage, changeLanguage, isLoading } = useLanguage();
   const { t } = useTranslation();
@@ -55,9 +56,11 @@ const HomeScreen = ({ scrollY, tabBarHeight = 100 }: HomeScreenProps) => {
   }, [user?.name, t, fadeAnim]);
 
   const handleProfilePress = () => {
-    // Navigate to profile screen
-    // TODO: Implement navigation when navigation prop is available
-    console.log('Profile button pressed - navigation to be implemented');
+    if (onNavigateToProfile) {
+      onNavigateToProfile();
+    } else {
+      console.log('Profile button pressed - navigation to be implemented');
+    }
   };
 
   const languageColors = {
