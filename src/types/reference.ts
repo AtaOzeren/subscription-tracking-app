@@ -13,8 +13,9 @@ export interface Currency {
 }
 
 export interface ProfileUpdateData {
-  region: string;
-  currency: string;
+  name?: string;
+  region?: string;
+  currency?: string;
 }
 
 export interface ApiResponse<T> {

@@ -58,14 +58,27 @@ const OnboardingNavigator = () => {
 
 const MainNavigator = () => {
   const [activeTab, setActiveTab] = useState('home');
+  const [activeScreen, setActiveScreen] = useState<'main' | 'profile'>('main');
   const [tabBarHeight, setTabBarHeight] = useState(100);
   const scrollY = useRef(new Animated.Value(0)).current;
   const { t } = useTranslation();
 
+  const handleNavigateToProfile = () => {
+    setActiveScreen('profile');
+  };
+
+  const handleBackToMain = () => {
+    setActiveScreen('main');
+  };
+
   const renderScreen = () => {
+    if (activeScreen === 'profile') {
+      return <ProfileScreen route={{ params: { onBack: handleBackToMain } }} />;
+    }
+
     switch (activeTab) {
       case 'home':
-        return <HomeScreen scrollY={scrollY} tabBarHeight={tabBarHeight} />;
+        return <HomeScreen scrollY={scrollY} tabBarHeight={tabBarHeight} onNavigateToProfile={handleNavigateToProfile} />;
       case 'subscriptions':
         return <SubscriptionsScreen scrollY={scrollY} />;
       case 'statistics':
@@ -73,7 +86,7 @@ const MainNavigator = () => {
       case 'search':
         return <SearchScreen scrollY={scrollY} />;
       default:
-        return <HomeScreen scrollY={scrollY} />;
+        return <HomeScreen scrollY={scrollY} onNavigateToProfile={handleNavigateToProfile} />;
     }
   };
 
@@ -117,11 +130,13 @@ const MainNavigator = () => {
       >
         {renderScreen()}
       </KeyboardAvoidingView>
-      <CustomBottomTabBar 
-        tabs={tabs} 
-        scrollY={scrollY} 
-        onLayout={setTabBarHeight}
-      />
+      {activeScreen === 'main' && (
+        <CustomBottomTabBar 
+          tabs={tabs} 
+          scrollY={scrollY} 
+          onLayout={setTabBarHeight}
+        />
+      )}
     </View>
   );
 };

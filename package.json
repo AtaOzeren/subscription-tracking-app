@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "start": "expo start",
+    "start": "npm run update-ip && expo start",
+    "start:nocache": "npm run update-ip && expo start --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "update-ip": "node update-ip.js",
     "gen": "swagger-typescript-api generate -p ./src/services/tracking/swagger.json -o ./src/services/tracking -n tracking-api.ts"
   },
   "dependencies": {
@@ -18,7 +20,9 @@
     "expo": "~54.0.20",
     "expo-blur": "^15.0.7",
     "expo-constants": "^18.0.10",
+    "expo-file-system": "^19.0.17",
     "expo-font": "^14.0.9",
+    "expo-image-picker": "^17.0.8",
     "expo-localization": "^17.0.7",
     "expo-status-bar": "~3.0.8",
     "i18next": "^25.6.0",

@@ -221,8 +221,6 @@ class AuthService {
 
       return { user, token };
     } catch (error) {
-      console.error('❌ Register error:', error);
-      
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
         
@@ -303,7 +301,6 @@ class AuthService {
         throw new Error('No authentication token found');
       }
 
-      console.log('🔧 Updating user profile...', data);
       this.api.setSecurityData(token);
 
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/auth/profile`, {
@@ -315,16 +312,12 @@ class AuthService {
         body: JSON.stringify(data),
       }, 30000);
       
-      console.log('📡 Profile update response status:', response.status);
-      
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('❌ Profile update HTTP Error:', errorData);
         throw new Error((errorData as any).message || `HTTP ${response.status}: ${response.statusText}`);
       }
       
       const profileData = await response.json();
-      console.log('🔍 Parsed profile update response:', profileData);
       
       // API returns partial user data (name, region, currency)
       // We need to merge with existing user data
@@ -341,13 +334,9 @@ class AuthService {
         currency: profileData.currency || existingUser.currency,
       };
       
-      console.log('✅ Profile updated successfully:', updatedUser.email);
-      
       await storageService.setUser(updatedUser);
       return updatedUser;
     } catch (error) {
-      console.error('❌ Profile update error:', error);
-      
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
         
@@ -370,12 +359,9 @@ class AuthService {
     try {
       const onboardingComplete = await storageService.getOnboardingComplete();
       
-      console.log('🔍 First time user check - onboardingComplete:', onboardingComplete);
-      
       // Only check if onboarding is complete (Welcome -> Language -> Login flow)
       return !onboardingComplete;
     } catch (error) {
-      console.error('❌ First time user check error:', error);
       return true; // Assume first time if there's an error
     }
   }
@@ -384,11 +370,9 @@ class AuthService {
     try {
       const token = await storageService.getToken();
       if (!token) {
-        console.log('🔍 No token found for profile request');
         return null;
       }
 
-      console.log('🔍 Fetching user profile...');
       this.api.setSecurityData(token);
 
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/auth/profile`, {
@@ -399,50 +383,36 @@ class AuthService {
         },
       }, 30000);
       
-      console.log('📡 Profile response status:', response.status);
-      
       if (!response.ok) {
-        console.error('❌ Profile HTTP Error:', response.status);
         return null;
       }
       
       const apiResponse: ApiResponse<User> = await response.json();
-      console.log('🔍 Parsed profile response:', apiResponse);
       
       if (!apiResponse || !apiResponse.success || !apiResponse.data) {
-        console.error('❌ Invalid profile response:', apiResponse);
         return null;
       }
       
       const user: User = apiResponse.data;
-      console.log('✅ Profile fetched successfully:', user.email);
       
       await storageService.setUser(user);
       return user;
     } catch (error) {
-      console.error('❌ Profile fetch error:', error);
       return null;
     }
   }
 
   async logout(): Promise<void> {
     try {
-      console.log('🚪 Logging out...');
-      
       await storageService.clearAuth();
       this.api.setSecurityData(null);
-      
-      console.log('✅ Logout successful');
     } catch (error) {
-      console.error('❌ Logout error:', error);
       // Don't throw error for logout
     }
   }
 
   async forceLogout(): Promise<void> {
     try {
-      console.log('🔄 Starting force logout with complete reset...');
-      
       // Clear all auth data
       await storageService.clearAuth();
       this.api.setSecurityData(null);
@@ -453,10 +423,7 @@ class AuthService {
       // Reset onboarding flags
       await storageService.setOnboardingComplete(false);
       await storageService.setProfileSetup(false);
-      
-      console.log('✅ Force logout completed - all data cleared');
     } catch (error) {
-      console.error('❌ Force logout error:', error);
       throw error;
     }
   }

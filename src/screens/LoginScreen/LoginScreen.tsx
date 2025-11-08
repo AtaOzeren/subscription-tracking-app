@@ -48,25 +48,23 @@ const LoginScreen: React.FC = () => {
 
     try {
       setIsLoading(true);
-      console.log('🔐 Starting login for:', email);
-      await login(email, password);
-      console.log('✅ Login successful');
+      
+      // Trim whitespace from inputs
+      const trimmedEmail = email.trim();
+      const trimmedPassword = password.trim();
+      
+      await login(trimmedEmail, trimmedPassword);
       
       // Mark onboarding as complete (Welcome -> Language -> Login completed)
       await storageService.setOnboardingComplete(true);
-      console.log('✅ Onboarding marked as complete');
       
       // Check if profile setup is needed
       const profileSetup = await storageService.getProfileSetup();
       if (!profileSetup) {
-        console.log('🔄 Redirecting to ProfileSetup...');
         // Navigate to ProfileSetup screen
         navigation.navigate('ProfileSetup' as never);
-      } else {
-        console.log('✅ Profile already setup, proceeding to main app');
       }
     } catch (error) {
-      console.error('❌ Login error:', error);
       Alert.alert(t('auth.loginFailed'), error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setIsLoading(false);

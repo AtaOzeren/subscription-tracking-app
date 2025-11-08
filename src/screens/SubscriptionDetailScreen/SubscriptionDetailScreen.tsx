@@ -228,19 +228,21 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
           </View>
 
           {/* Price Section */}
-          <View className="bg-gray-50 rounded-2xl p-6 items-center">
-            <Text 
-              className="text-sm text-gray-500 mb-1" 
-              style={{ fontFamily: 'SF Pro Text' }}
-            >
-              {getBillingCycleText(subscription.billingCycle)} {t("subscription.cost")}
-            </Text>
-            <Text 
-              className="text-4xl font-bold text-blue-600" 
-              style={{ fontFamily: 'SF Pro Display' }}
-            >
-              {formatPrice(subscription.price, subscription.currency)}
-            </Text>
+          <View className="border-t border-gray-100 pt-4">
+            <View className="flex-row items-center justify-between">
+              <Text 
+                className="text-base text-gray-500" 
+                style={{ fontFamily: 'SF Pro Text' }}
+              >
+                {getBillingCycleText(subscription.billingCycle)} {t("subscription.cost")}
+              </Text>
+              <Text 
+                className="text-xl font-bold text-blue-600" 
+                style={{ fontFamily: 'SF Pro Display' }}
+              >
+                {formatPrice(subscription.price, subscription.currency)}
+              </Text>
+            </View>
           </View>
         </View>
 
@@ -354,36 +356,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
           </View>
         </View>
 
-        {/* Features (if preset subscription) */}
-        {subscription.features && Object.keys(subscription.features).length > 0 && (
-          <View className="bg-white px-6 py-5 mb-3">
-            <Text 
-              className="text-xl font-bold text-gray-900 mb-4" 
-              style={{ fontFamily: 'SF Pro Display' }}
-            >
-              {t("subscription.features")}
-            </Text>
-            {Object.entries(subscription.features).map(([key, value], index, array) => (
-              <View 
-                key={key} 
-                className={`flex-row items-center justify-between py-3 ${index !== array.length - 1 ? 'border-b border-gray-100' : ''}`}
-              >
-                <Text 
-                  className="text-base text-gray-500 capitalize" 
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {key.replace(/_/g, ' ')}
-                </Text>
-                <Text 
-                  className="text-base font-semibold text-gray-900" 
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {typeof value === 'object' ? JSON.stringify(value) : String(value)}
-                </Text>
-              </View>
-            ))}
-          </View>
-        )}
+
 
         {/* Notes */}
         {subscription.notes && (

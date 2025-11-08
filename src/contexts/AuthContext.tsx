@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { AuthContextType, AuthState, User } from '../types/auth';
 import { authService } from '../services/authService';
+import { storageService } from '../services/storageService';
 
 const initialState: AuthState = {
   user: null,
@@ -51,35 +52,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      console.log('🔄 Starting login process...');
-      // Don't set global loading state - screens handle their own loading
-      // setLoading(true);
       const response = await authService.login(email, password);
-      console.log('✅ Login completed, setting auth state');
       setAuth(response.user, response.token);
     } catch (error) {
-      console.error('❌ Login failed in context:', error);
       clearAuth();
       throw error;
-    } finally {
-      // setLoading(false);
     }
   };
 
   const register = async (email: string, password: string, name: string) => {
     try {
-      console.log('🔄 Starting register process...');
-      // Don't set global loading state - screens handle their own loading
-      // setLoading(true);
       const response = await authService.register(email, password, name);
-      console.log('✅ Register completed, setting auth state');
       setAuth(response.user, response.token);
     } catch (error) {
-      console.error('❌ Register failed in context:', error);
       clearAuth();
       throw error;
-    } finally {
-      // setLoading(false);
     }
   };
 
@@ -87,7 +74,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       await authService.logout();
     } catch (error) {
-      console.error('Logout error:', error);
+      // Silently handle logout errors
     } finally {
       clearAuth();
     }
@@ -95,12 +82,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      console.log('🔄 Starting auth check...');
       setLoading(true);
       const token = await authService.getToken();
       
       if (!token) {
-        console.log('🔍 No token found, user not authenticated');
         clearAuth();
         await checkFirstTimeUser();
         return;
@@ -108,17 +93,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const user = await authService.validateToken();
       if (user) {
-        console.log('✅ Auth check successful, user authenticated');
-        setAuth(user, token);
-        // Always check first time user status after auth check
+        // Load avatar from local storage
+        const avatar = await storageService.getAvatar();
+        const userWithAvatar = { ...user, avatar: avatar || undefined };
+        setAuth(userWithAvatar, token);
         await checkFirstTimeUser();
       } else {
-        console.log('❌ Auth check failed, token invalid');
         clearAuth();
         await checkFirstTimeUser();
       }
     } catch (error) {
-      console.error('❌ Auth check error:', error);
       clearAuth();
       await checkFirstTimeUser();
     } finally {
@@ -129,10 +113,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const checkFirstTimeUser = async () => {
     try {
       const isFirstTime = await authService.isFirstTimeUser();
-      console.log('🔍 First time user check:', isFirstTime);
       setIsFirstTimeUser(isFirstTime);
     } catch (error) {
-      console.error('❌ First time user check error:', error);
       setIsFirstTimeUser(true);
     }
   };
