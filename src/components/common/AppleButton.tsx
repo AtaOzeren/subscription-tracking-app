@@ -6,7 +6,7 @@ interface AppleButtonProps {
   onPress: () => void;
   disabled?: boolean;
   loading?: boolean;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger';
   size?: 'small' | 'medium' | 'large';
   style?: ViewStyle;
   textStyle?: TextStyle;
@@ -58,7 +58,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
       large: { paddingHorizontal: 32, paddingVertical: 16, minHeight: 52 },
     };
 
-    const variantStyles = {
+    const variantStyles: Record<'primary' | 'secondary' | 'outline' | 'danger', ViewStyle> = {
       primary: {
         backgroundColor: disabled ? '#C6C6C8' : '#000000',
       },
@@ -69,6 +69,9 @@ const AppleButton: React.FC<AppleButtonProps> = ({
         backgroundColor: 'transparent',
         borderWidth: 1,
         borderColor: disabled ? '#C6C6C8' : '#000000',
+      },
+      danger: {
+        backgroundColor: disabled ? '#C6C6C8' : '#DC2626',
       },
     };
 
@@ -92,10 +95,11 @@ const AppleButton: React.FC<AppleButtonProps> = ({
       large: { fontSize: 18 },
     };
 
-    const variantStyles = {
+    const variantStyles: Record<'primary' | 'secondary' | 'outline' | 'danger', TextStyle> = {
       primary: { color: '#FFFFFF' },
       secondary: { color: '#FFFFFF' },
       outline: { color: disabled ? '#C6C6C8' : '#000000' },
+      danger: { color: '#FFFFFF' },
     };
 
     return {

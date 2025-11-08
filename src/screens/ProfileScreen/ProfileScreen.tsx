@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { profileService } from '../../services/profileService';
 import { User } from '../../types/auth';
 import CountryFlag from '../../components/common/CountryFlag';
+import AppleButton from '../../components/common/AppleButton';
 import ProfileUpdateModal from './modals/ProfileUpdateModal';
 import RegionalSettingsModal from './modals/RegionalSettingsModal';
 
@@ -273,17 +274,12 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
 
             {/* Logout Button */}
             <View className="px-4">
-              <TouchableOpacity
+              <AppleButton
+                title={t('profile.logout', { defaultValue: 'Logout' })}
                 onPress={handleLogout}
-                className="bg-red-600 rounded-2xl py-4 items-center"
-              >
-                <Text
-                  className="text-base font-semibold text-white"
-                  style={{ fontFamily: 'SF Pro Display' }}
-                >
-                  {t('profile.logout', { defaultValue: 'Logout' })}
-                </Text>
-              </TouchableOpacity>
+                variant="danger"
+                size="large"
+              />
             </View>
           </>
         )}
@@ -314,12 +310,12 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   onPress={handleProfileUpdatePress}
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
-                  <View className="w-10 h-10 bg-blue-50 rounded-full items-center justify-center mr-3">
-                    <Text className="text-xl">✏️</Text>
+                  <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
+                    <Text className="text-xl text-gray-900">✎</Text>
                   </View>
                   <View className="flex-1">
                     <Text
-                      className="text-lg font-semibold text-blue-600"
+                      className="text-lg font-semibold text-gray-900"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t('profile.profileUpdate', { defaultValue: 'Profile Update' })}
@@ -338,12 +334,12 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   onPress={handleRegionalSettingsPress}
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
-                  <View className="w-10 h-10 bg-green-50 rounded-full items-center justify-center mr-3">
-                    <Text className="text-xl">🌍</Text>
+                  <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
+                    <Text className="text-xl text-gray-900">⚑</Text>
                   </View>
                   <View className="flex-1">
                     <Text
-                      className="text-lg font-semibold text-green-600"
+                      className="text-lg font-semibold text-gray-900"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t('profile.regionalSettings', { defaultValue: 'Regional Settings' })}
@@ -363,11 +359,11 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4 opacity-50"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-xl">⚙️</Text>
+                    <Text className="text-xl text-gray-900">⚙</Text>
                   </View>
                   <View className="flex-1">
                     <Text
-                      className="text-lg font-semibold text-gray-600"
+                      className="text-lg font-semibold text-gray-900"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t('profile.settings', { defaultValue: 'Settings' })}
