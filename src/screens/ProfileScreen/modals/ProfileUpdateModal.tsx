@@ -62,19 +62,19 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
             try {
               setUpdating(true);
 
-              await profileService.updateProfile({
-                name: editName.trim(),
-                region: currentRegion,
-                currency: currentCurrency,
-                avatar: selectedAvatar,
-              });
-
-              // Save avatar to local storage
+              // Save avatar to local storage FIRST (avatar is not sent to API)
               if (selectedAvatar) {
                 await storageService.setAvatar(selectedAvatar);
               } else {
                 await storageService.removeAvatar();
               }
+
+              // Update profile on API (without avatar field)
+              await profileService.updateProfile({
+                name: editName.trim(),
+                region: currentRegion,
+                currency: currentCurrency,
+              });
 
               onClose();
               onUpdateSuccess();

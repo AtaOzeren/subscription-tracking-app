@@ -61,6 +61,13 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
     fetchProfile();
   }, []);
 
+  // Sync local user state with context user when it changes
+  useEffect(() => {
+    if (contextUser) {
+      setUser(contextUser);
+    }
+  }, [contextUser]);
+
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'N/A';
     try {

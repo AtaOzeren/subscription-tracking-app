@@ -58,10 +58,14 @@ class ProfileService {
 
       const user: User = apiResponse.data;
 
-      // Update local storage with latest profile data
-      await storageService.setUser(user);
+      // Get avatar from local storage (avatar is stored locally, not on server)
+      const avatar = await storageService.getAvatar();
+      const userWithAvatar = { ...user, avatar: avatar || undefined };
 
-      return user;
+      // Update local storage with latest profile data
+      await storageService.setUser(userWithAvatar);
+
+      return userWithAvatar;
     } catch (error) {
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
@@ -119,10 +123,14 @@ class ProfileService {
 
       const user: User = apiResponse.data;
 
-      // Update local storage
-      await storageService.setUser(user);
+      // Get avatar from local storage (avatar is stored locally, not on server)
+      const avatar = await storageService.getAvatar();
+      const userWithAvatar = { ...user, avatar: avatar || undefined };
 
-      return user;
+      // Update local storage
+      await storageService.setUser(userWithAvatar);
+
+      return userWithAvatar;
     } catch (error) {
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();

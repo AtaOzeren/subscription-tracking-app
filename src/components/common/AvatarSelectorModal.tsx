@@ -75,10 +75,12 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
       if (!result.canceled && result.assets[0]) {
         const asset = result.assets[0];
         
-        // Validate file size (max 5MB)
-        const fileInfo = await FileSystem.getInfoAsync(asset.uri);
-        if (fileInfo.exists && fileInfo.size) {
-          const fileSizeMB = fileInfo.size / (1024 * 1024);
+        // Create file instance for validation and conversion
+        const file = new FileSystem.File(asset.uri);
+        
+        // Validate file size (max 5MB) using new File API
+        if (file.exists && file.size) {
+          const fileSizeMB = file.size / (1024 * 1024);
           if (fileSizeMB > 5) {
             Alert.alert(
               t('common.error'),
@@ -89,8 +91,7 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
           }
         }
         
-        // Convert to base64 for storage using new File API
-        const file = new FileSystem.File(asset.uri);
+        // Convert to base64 for storage
         const base64 = await file.base64();
         
         const avatarData = `data:image/jpeg;base64,${base64}`;
