@@ -6,6 +6,8 @@ export interface User {
   currency?: string;
   region?: string;
   last_login_at?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface LoginRequest {
