@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Modal, Alert } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Modal, Alert, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { profileService } from '../../../services/profileService';
+import { storageService } from '../../../services/storageService';
 import FormField from '../../../components/subscription/FormField';
 import AppleButton from '../../../components/common/AppleButton';
+import AvatarSelectorModal from '../../../components/common/AvatarSelectorModal';
 
 interface ProfileUpdateModalProps {
   visible: boolean;
@@ -12,6 +14,7 @@ interface ProfileUpdateModalProps {
   currentName: string;
   currentRegion?: string;
   currentCurrency?: string;
+  currentAvatar?: string;
   onUpdateSuccess: () => void;
 }
 
@@ -21,18 +24,22 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
   currentName,
   currentRegion,
   currentCurrency,
+  currentAvatar,
   onUpdateSuccess,
 }) => {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const [editName, setEditName] = useState(currentName);
+  const [selectedAvatar, setSelectedAvatar] = useState(currentAvatar);
+  const [showAvatarSelector, setShowAvatarSelector] = useState(false);
   const [updating, setUpdating] = useState(false);
 
   React.useEffect(() => {
     if (visible) {
       setEditName(currentName);
+      setSelectedAvatar(currentAvatar);
     }
-  }, [visible, currentName]);
+  }, [visible, currentName, currentAvatar]);
 
   const handleUpdate = async () => {
     if (!editName.trim()) {
@@ -59,7 +66,15 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
                 name: editName.trim(),
                 region: currentRegion,
                 currency: currentCurrency,
+                avatar: selectedAvatar,
               });
+
+              // Save avatar to local storage
+              if (selectedAvatar) {
+                await storageService.setAvatar(selectedAvatar);
+              } else {
+                await storageService.removeAvatar();
+              }
 
               onClose();
               onUpdateSuccess();
@@ -115,6 +130,40 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
         </View>
 
         <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingTop: 16, paddingBottom: 32 }}>
+          {/* Avatar Section */}
+          <View className="mb-6">
+            <Text
+              className="text-lg font-semibold text-gray-900 mb-4"
+              style={{ fontFamily: 'SF Pro Display' }}
+            >
+              {t('profile.avatar', { defaultValue: 'Avatar' })}
+            </Text>
+            <View className="items-center mb-4">
+              {selectedAvatar ? (
+                <Image
+                  source={{ uri: selectedAvatar }}
+                  className="w-24 h-24 rounded-full mb-3"
+                  style={{ width: 96, height: 96 }}
+                />
+              ) : (
+                <View className="w-24 h-24 rounded-full bg-blue-100 items-center justify-center mb-3">
+                  <Text
+                    className="text-3xl font-bold text-blue-600"
+                    style={{ fontFamily: 'SF Pro Display' }}
+                  >
+                    {editName?.charAt(0).toUpperCase() || 'U'}
+                  </Text>
+                </View>
+              )}
+              <AppleButton
+                title={t('profile.changeAvatar', { defaultValue: 'Change Avatar' })}
+                onPress={() => setShowAvatarSelector(true)}
+                variant="secondary"
+                size="small"
+              />
+            </View>
+          </View>
+
           {/* Name Field */}
           <FormField
             label={t('profile.name', { defaultValue: 'Name' })}
@@ -134,6 +183,14 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
           />
         </ScrollView>
       </View>
+
+      {/* Avatar Selector Modal */}
+      <AvatarSelectorModal
+        visible={showAvatarSelector}
+        onClose={() => setShowAvatarSelector(false)}
+        onAvatarSelect={(avatar) => setSelectedAvatar(avatar)}
+        currentAvatar={selectedAvatar}
+      />
     </Modal>
   );
 };

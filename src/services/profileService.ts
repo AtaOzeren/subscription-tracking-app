@@ -87,6 +87,7 @@ class ProfileService {
     name?: string;
     region?: string;
     currency?: string;
+    avatar?: string;
   }): Promise<User> {
     try {
       const token = await storageService.getToken();

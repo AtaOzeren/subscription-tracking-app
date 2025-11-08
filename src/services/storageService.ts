@@ -5,6 +5,7 @@ import { User } from '../types/auth';
 const STORAGE_KEY = 'subscriptions';
 const TOKEN_KEY = 'auth_token';
 const USER_KEY = 'auth_user';
+const USER_AVATAR_KEY = 'user_avatar';
 const LANGUAGE_KEY = 'app_language';
 const LANGUAGE_SCREEN_KEY = 'has_seen_language_screen';
 const ONBOARDING_COMPLETE_KEY = 'onboarding_complete';
@@ -217,6 +218,34 @@ export const storageService = {
       await AsyncStorage.setItem(PROFILE_SETUP_KEY, setup.toString());
     } catch (error) {
       console.error('Error setting profile setup status:', error);
+      throw error;
+    }
+  },
+
+  // Avatar management
+  getAvatar: async (): Promise<string | null> => {
+    try {
+      return await AsyncStorage.getItem(USER_AVATAR_KEY);
+    } catch (error) {
+      console.error('Error getting avatar:', error);
+      return null;
+    }
+  },
+
+  setAvatar: async (avatar: string): Promise<void> => {
+    try {
+      await AsyncStorage.setItem(USER_AVATAR_KEY, avatar);
+    } catch (error) {
+      console.error('Error setting avatar:', error);
+      throw error;
+    }
+  },
+
+  removeAvatar: async (): Promise<void> => {
+    try {
+      await AsyncStorage.removeItem(USER_AVATAR_KEY);
+    } catch (error) {
+      console.error('Error removing avatar:', error);
       throw error;
     }
   },

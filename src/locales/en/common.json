@@ -231,6 +231,15 @@
     "updateRegionalTitle": "Update Regional Settings",
     "updateRegionalMessage": "Are you sure you want to update your regional settings?",
     "regionalUpdateSuccess": "Regional settings updated successfully",
+    "avatar": "Avatar",
+    "changeAvatar": "Change Avatar",
+    "selectAvatar": "Select Avatar",
+    "currentAvatar": "Current Avatar",
+    "sampleAvatars": "Sample Avatars",
+    "chooseFromGallery": "Choose from Gallery",
+    "avatarPermissionDenied": "Permission to access camera roll is required!",
+    "avatarPickError": "Failed to pick image from gallery",
+    "avatarSelectRequired": "Please select an avatar",
     "comingSoon": "Coming Soon"
   }
 }

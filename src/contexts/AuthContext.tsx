@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { AuthContextType, AuthState, User } from '../types/auth';
 import { authService } from '../services/authService';
+import { storageService } from '../services/storageService';
 
 const initialState: AuthState = {
   user: null,
@@ -92,7 +93,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const user = await authService.validateToken();
       if (user) {
-        setAuth(user, token);
+        // Load avatar from local storage
+        const avatar = await storageService.getAvatar();
+        const userWithAvatar = { ...user, avatar: avatar || undefined };
+        setAuth(userWithAvatar, token);
         await checkFirstTimeUser();
       } else {
         clearAuth();

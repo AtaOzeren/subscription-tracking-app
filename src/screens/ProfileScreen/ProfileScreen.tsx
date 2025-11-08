@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Modal, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
@@ -176,33 +176,41 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
           <>
             {/* Profile Header */}
             <View className="bg-white p-6 mb-3">
-              <View className="flex-row items-center">
-                {/* Avatar Circle - Left */}
-                <View className="w-20 h-20 rounded-full bg-blue-100 items-center justify-center mr-4">
-                  <Text
-                    className="text-3xl font-bold text-blue-600"
-                    style={{ fontFamily: 'SF Pro Display' }}
-                  >
-                    {user?.name?.charAt(0).toUpperCase() || 'U'}
-                  </Text>
-                </View>
+               <View className="flex-row items-center">
+                 {/* Avatar Circle - Left */}
+                 {user?.avatar ? (
+                   <Image
+                     source={{ uri: user.avatar }}
+                     className="w-20 h-20 rounded-full mr-4"
+                     style={{ width: 80, height: 80 }}
+                   />
+                 ) : (
+                   <View className="w-20 h-20 rounded-full bg-blue-100 items-center justify-center mr-4">
+                     <Text
+                       className="text-3xl font-bold text-blue-600"
+                       style={{ fontFamily: 'SF Pro Display' }}
+                     >
+                       {user?.name?.charAt(0).toUpperCase() || 'U'}
+                     </Text>
+                   </View>
+                 )}
 
-                {/* Name and Email - Right */}
-                <View className="flex-1">
-                  <Text
-                    className="text-xl font-bold text-gray-900 mb-1"
-                    style={{ fontFamily: 'SF Pro Display' }}
-                  >
-                    {user?.name || 'User'}
-                  </Text>
-                  <Text
-                    className="text-base text-gray-600"
-                    style={{ fontFamily: 'SF Pro Text' }}
-                  >
-                    {user?.email || 'No email'}
-                  </Text>
-                </View>
-              </View>
+                 {/* Name and Email - Right */}
+                 <View className="flex-1">
+                   <Text
+                     className="text-xl font-bold text-gray-900 mb-1"
+                     style={{ fontFamily: 'SF Pro Display' }}
+                   >
+                     {user?.name || 'User'}
+                   </Text>
+                   <Text
+                     className="text-base text-gray-600"
+                     style={{ fontFamily: 'SF Pro Text' }}
+                   >
+                     {user?.email || 'No email'}
+                   </Text>
+                 </View>
+               </View>
             </View>
 
             {/* Regional Settings */}
@@ -401,6 +409,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
         currentName={user?.name || ''}
         currentRegion={user?.region}
         currentCurrency={user?.currency}
+        currentAvatar={user?.avatar}
         onUpdateSuccess={handleUpdateSuccess}
       />
 

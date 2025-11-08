@@ -5,6 +5,7 @@ export interface User {
   role: string;
   currency?: string;
   region?: string;
+  avatar?: string;
   last_login_at?: string;
   created_at?: string;
   updated_at?: string;
