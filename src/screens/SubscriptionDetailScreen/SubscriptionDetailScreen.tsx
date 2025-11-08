@@ -228,19 +228,21 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
           </View>
 
           {/* Price Section */}
-          <View className="border-t border-gray-100 pt-4 items-center">
-            <Text 
-              className="text-sm text-gray-500 mb-1" 
-              style={{ fontFamily: 'SF Pro Text' }}
-            >
-              {getBillingCycleText(subscription.billingCycle)} {t("subscription.cost")}
-            </Text>
-            <Text 
-              className="text-2xl font-bold text-blue-600" 
-              style={{ fontFamily: 'SF Pro Display' }}
-            >
-              {formatPrice(subscription.price, subscription.currency)}
-            </Text>
+          <View className="border-t border-gray-100 pt-4">
+            <View className="flex-row items-center justify-between">
+              <Text 
+                className="text-base text-gray-500" 
+                style={{ fontFamily: 'SF Pro Text' }}
+              >
+                {getBillingCycleText(subscription.billingCycle)} {t("subscription.cost")}
+              </Text>
+              <Text 
+                className="text-xl font-bold text-blue-600" 
+                style={{ fontFamily: 'SF Pro Display' }}
+              >
+                {formatPrice(subscription.price, subscription.currency)}
+              </Text>
+            </View>
           </View>
         </View>
 
