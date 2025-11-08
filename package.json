@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "start": "expo start",
+    "start": "npm run update-ip && expo start",
+    "start:nocache": "npm run update-ip && expo start --clear",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "update-ip": "node update-ip.js",
     "gen": "swagger-typescript-api generate -p ./src/services/tracking/swagger.json -o ./src/services/tracking -n tracking-api.ts"
   },
   "dependencies": {
