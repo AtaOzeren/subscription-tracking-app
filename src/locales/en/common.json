@@ -16,7 +16,8 @@
     "error": "Error",
     "success": "Success",
     "settings": "Settings",
-    "somethingWentWrong": "Something went wrong"
+    "somethingWentWrong": "Something went wrong",
+    "comingSoon": "Coming Soon"
   },
   "auth": {
     "welcomeToApp": "Welcome Sub-Tracking",
@@ -198,5 +199,38 @@
     "resetConfirm": "Reset",
     "resetSuccess": "All data cleared. Please restart the app manually.",
     "resetError": "Failed to reset app data"
+  },
+  "profile": {
+    "title": "Profile",
+    "profileUpdate": "Profile Update",
+    "regionalSettings": "Regional Settings",
+    "settings": "Settings",
+    "accountInfo": "Account Information",
+    "activity": "Activity",
+    "name": "Name",
+    "email": "Email",
+    "userId": "User ID",
+    "role": "Role",
+    "region": "Region",
+    "currency": "Currency",
+    "lastLogin": "Last Login",
+    "createdAt": "Account Created",
+    "updatedAt": "Last Updated",
+    "logout": "Logout",
+    "logoutTitle": "Logout",
+    "logoutMessage": "Are you sure you want to logout?",
+    "logoutConfirm": "Logout",
+    "namePlaceholder": "Enter your name",
+    "selectRegion": "Select Region",
+    "selectCurrency": "Select Currency",
+    "updateNameDescription": "Update your name",
+    "updateRegionalDescription": "Update region and currency",
+    "updateProfileTitle": "Update Profile",
+    "updateProfileMessage": "Are you sure you want to update your profile?",
+    "updateSuccess": "Profile updated successfully",
+    "updateRegionalTitle": "Update Regional Settings",
+    "updateRegionalMessage": "Are you sure you want to update your regional settings?",
+    "regionalUpdateSuccess": "Regional settings updated successfully",
+    "comingSoon": "Coming Soon"
   }
 }
