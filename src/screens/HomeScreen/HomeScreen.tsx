@@ -124,9 +124,9 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps
 
         {/* Stats Cards */}
         <StatsCards
-          monthlySpending={stats.summary.monthly_spending}
+          monthlySpending={stats.summary.current_month_total}
           yearlySpending={stats.projected_annual_cost}
-          currency={stats.summary.currency}
+          currency={Object.keys(stats.summary.currency_breakdown)[0] || 'USD'}
           activeSubscriptions={stats.summary.active_subscriptions}
           totalSubscriptions={stats.summary.total_subscriptions}
         />
@@ -134,13 +134,13 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps
         {/* Top Subscriptions */}
         <TopSubscriptions
           breakdown={stats.current_month_breakdown}
-          userCurrency={stats.summary.currency}
+          userCurrency={Object.keys(stats.summary.currency_breakdown)[0] || 'USD'}
         />
 
         {/* Spending Trends */}
         <SpendingTrends
-          trends={stats.spending_trends}
-          currency={stats.summary.currency}
+          trends={stats.spending_trends.last_6_months}
+          currency={Object.keys(stats.summary.currency_breakdown)[0] || 'USD'}
         />
 
         {/* Quick Actions */}

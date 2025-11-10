@@ -51,13 +51,17 @@ class StatsService {
       console.log('📡 Stats - Response received:', response);
       
       // Extract the actual data from the response
+      // The response structure is: { data: { data: {...}, success: true } }
       let responseData: DetailedStatsResponse;
       
-      if (response.data) {
-        // If response has a nested data property
+      if (response.data && response.data.data) {
+        // Nested data structure: response.data.data
+        responseData = response.data.data;
+      } else if (response.data) {
+        // Single nested structure: response.data
         responseData = response.data;
       } else {
-        // If response is already the data object
+        // Direct structure
         responseData = response;
       }
       
