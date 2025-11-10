@@ -1,12 +1,17 @@
 import { Api, ContentType } from './tracking/tracking-api';
 import { storageService } from './storageService';
 import { UserSubscription, MySubscriptionsResponse, ApiSubscription } from '../types/subscription';
+import Constants from 'expo-constants';
 
 class MySubscriptionsService {
   private api: Api<string>;
 
   constructor() {
+    const apiBaseUrl = Constants.expoConfig?.extra?.apiBaseUrl || 'http://localhost:5001';
+    console.log('🌐 MySubscriptions - Initializing with baseUrl:', apiBaseUrl);
+    
     this.api = new Api<string>({
+      baseUrl: apiBaseUrl,
       securityWorker: (token) => {
         if (token) {
           return {
@@ -36,8 +41,10 @@ class MySubscriptionsService {
       console.log('🔄 MySubscriptions - Starting getMySubscriptions');
       await this.initializeApi();
       
-      console.log('📡 MySubscriptions - Making API call with secure: true, format: json');
-      const response = await this.api.api.getMySubscriptions({ 
+      console.log('📡 MySubscriptions - Making API call to /api/my-subscriptions');
+      const response = await this.api.request({
+        path: '/api/my-subscriptions',
+        method: 'GET',
         secure: true,
         format: 'json'
       }) as any;
