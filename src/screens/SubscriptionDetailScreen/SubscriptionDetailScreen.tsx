@@ -6,6 +6,7 @@ import { UserSubscription } from '../../types/subscription';
 import { mySubscriptionsService } from '../../services/mySubscriptionsService';
 import FormField from '../../components/subscription/FormField';
 import AppleButton from '../../components/common/AppleButton';
+import { formatPrice } from '../../utils/currency';
 
 interface SubscriptionDetailScreenProps {
   route: {
@@ -31,17 +32,6 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
   const [editStatus, setEditStatus] = useState<'active' | 'cancelled' | 'expired' | 'paused'>(subscription.status);
   const [editNotes, setEditNotes] = useState(subscription.notes || '');
   const [loading, setLoading] = useState(false);
-
-  const formatPrice = (price: number, currency: string) => {
-    const symbols: Record<string, string> = {
-      USD: '$',
-      EUR: '€',
-      GBP: '£',
-      TRY: '₺',
-      JPY: '¥',
-    };
-    return `${symbols[currency] || currency}${price.toFixed(2)}`;
-  };
 
   const getBillingCycleText = (cycle: string) => {
     return t(`subscription.${cycle}` as any);

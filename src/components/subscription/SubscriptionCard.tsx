@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Subscription } from '../../types/subscription';
+import { formatPrice } from '../../utils/currency';
 
 interface SubscriptionCardProps {
   subscription: Subscription;
@@ -15,17 +16,6 @@ const SubscriptionCard = ({
   onEdit,
   onDelete,
 }: SubscriptionCardProps) => {
-  const formatPrice = (price: number, currency: string) => {
-    const symbols: Record<string, string> = {
-      USD: '$',
-      EUR: '€',
-      GBP: '£',
-      TRY: '₺',
-      JPY: '¥',
-    };
-    return `${symbols[currency] || currency}${price.toFixed(2)}`;
-  };
-
   const getBillingCycleText = (cycle: string) => {
     const cycles: Record<string, string> = {
       daily: '/day',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Plan, Price } from '../../types/catalog';
+import { formatPrice } from '../../utils/currency';
 
 interface PlanSelectorProps {
   plans: Plan[];
@@ -72,7 +73,7 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
                     className="text-2xl font-bold text-black"
                     style={{ fontFamily: 'SF Pro Display' }}
                   >
-                    {price.currency} {price.price.toFixed(2)}
+                    {formatPrice(price.price, price.currency)}
                   </Text>
                 )}
               </View>

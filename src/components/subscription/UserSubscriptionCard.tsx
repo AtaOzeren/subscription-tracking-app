@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { UserSubscription } from '../../types/subscription';
+import { formatPrice } from '../../utils/currency';
 
 interface UserSubscriptionCardProps {
   subscription: UserSubscription;
@@ -13,16 +14,6 @@ const UserSubscriptionCard = ({
   onPress,
 }: UserSubscriptionCardProps) => {
   const { t } = useTranslation();
-  const formatPrice = (price: number, currency: string) => {
-    const symbols: Record<string, string> = {
-      USD: '$',
-      EUR: '€',
-      GBP: '£',
-      TRY: '₺',
-      JPY: '¥',
-    };
-    return `${symbols[currency] || currency}${price.toFixed(2)}`;
-  };
 
   const getBillingCycleText = (cycle: string) => {
     return t(`subscription.per${cycle.charAt(0).toUpperCase() + cycle.slice(1)}` as any) || '';
