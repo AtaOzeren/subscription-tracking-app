@@ -11,6 +11,14 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ onPress }) => {
   const avatar = user?.avatar;
   const userName = user?.name || '';
   const userInitial = userName.charAt(0).toUpperCase() || 'U';
+  const [imageError, setImageError] = React.useState(false);
+
+  // Reset error state when avatar changes
+  React.useEffect(() => {
+    setImageError(false);
+  }, [avatar]);
+
+  const showFallback = !avatar || imageError;
 
   return (
     <TouchableOpacity
@@ -19,13 +27,7 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ onPress }) => {
       activeOpacity={0.8}
       style={{ width: 40, height: 40 }}
     >
-      {avatar ? (
-        <Image
-          source={{ uri: avatar }}
-          className="w-full h-full"
-          style={{ width: 40, height: 40 }}
-        />
-      ) : (
+      {showFallback ? (
         <View className="w-full h-full bg-black rounded-full items-center justify-center">
           <Text
             className="text-sm font-bold text-white"
@@ -34,6 +36,16 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ onPress }) => {
             {userInitial}
           </Text>
         </View>
+      ) : (
+        <Image
+          source={{ uri: avatar }}
+          className="w-full h-full"
+          style={{ width: 40, height: 40 }}
+          onError={(error) => {
+            console.error('ProfileButton: Avatar image failed to load:', avatar, error.nativeEvent.error);
+            setImageError(true);
+          }}
+        />
       )}
     </TouchableOpacity>
   );

@@ -25,6 +25,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
   const [user, setUser] = useState<User | null>(contextUser);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
   
   // Menu state
   const [showMenu, setShowMenu] = useState(false);
@@ -65,6 +66,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
   useEffect(() => {
     if (contextUser) {
       setUser(contextUser);
+      setAvatarError(false); // Reset error state when user changes
     }
   }, [contextUser]);
 
@@ -185,11 +187,15 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
             <View className="bg-white p-6 mb-3">
                <View className="flex-row items-center">
                  {/* Avatar Circle - Left */}
-                 {user?.avatar ? (
+                 {user?.avatar && !avatarError ? (
                    <Image
                      source={{ uri: user.avatar }}
                      className="w-20 h-20 rounded-full mr-4"
                      style={{ width: 80, height: 80 }}
+                     onError={(error) => {
+                       console.error('ProfileScreen: Avatar image failed to load:', user.avatar, error.nativeEvent.error);
+                       setAvatarError(true);
+                     }}
                    />
                  ) : (
                    <View className="w-20 h-20 rounded-full bg-blue-100 items-center justify-center mr-4">

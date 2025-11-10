@@ -226,7 +226,13 @@ export const storageService = {
   // Avatar management
   getAvatar: async (): Promise<string | null> => {
     try {
-      return await AsyncStorage.getItem(USER_AVATAR_KEY);
+      const avatar = await AsyncStorage.getItem(USER_AVATAR_KEY);
+      if (avatar) {
+        console.log('Avatar loaded from storage:', avatar.substring(0, 100) + '...');
+      } else {
+        console.log('No avatar found in storage');
+      }
+      return avatar;
     } catch (error) {
       console.error('Error getting avatar:', error);
       return null;
@@ -235,7 +241,18 @@ export const storageService = {
 
   setAvatar: async (avatar: string): Promise<void> => {
     try {
+      if (!avatar) {
+        console.warn('Attempted to save empty avatar');
+        return;
+      }
+      
+      // Log avatar type and size for debugging
+      const isBase64 = avatar.startsWith('data:image');
+      const size = new Blob([avatar]).size;
+      console.log(`Saving avatar - Type: ${isBase64 ? 'base64' : 'URL'}, Size: ${(size / 1024).toFixed(2)}KB`);
+      
       await AsyncStorage.setItem(USER_AVATAR_KEY, avatar);
+      console.log('Avatar saved successfully to storage');
     } catch (error) {
       console.error('Error setting avatar:', error);
       throw error;
@@ -245,6 +262,7 @@ export const storageService = {
   removeAvatar: async (): Promise<void> => {
     try {
       await AsyncStorage.removeItem(USER_AVATAR_KEY);
+      console.log('Avatar removed from storage');
     } catch (error) {
       console.error('Error removing avatar:', error);
       throw error;

@@ -64,8 +64,15 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
 
               // Save avatar to local storage FIRST (avatar is not sent to API)
               if (selectedAvatar) {
-                await storageService.setAvatar(selectedAvatar);
+                // Validate avatar data before saving
+                if (typeof selectedAvatar === 'string' && selectedAvatar.length > 0) {
+                  console.log('ProfileUpdateModal: Saving avatar');
+                  await storageService.setAvatar(selectedAvatar);
+                } else {
+                  console.warn('ProfileUpdateModal: Invalid avatar data, skipping save');
+                }
               } else {
+                console.log('ProfileUpdateModal: Removing avatar');
                 await storageService.removeAvatar();
               }
 
