@@ -18,11 +18,19 @@ export interface ApiSubscription {
   deleted_at: string | null;
   plan: Plan | null;
   custom_category: CustomCategory | null;
+  // These fields are computed/included by the backend for convenience
+  price: number;
+  currency: string;
+  billing_cycle: string;
 }
 
 export interface Plan {
   id: number;
   name: string;
+  prices: Array<{
+    price: number;
+    currency: string;
+  }>;
   features: Record<string, any>;
   subscription: {
     id: number;

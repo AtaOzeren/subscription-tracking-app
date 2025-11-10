@@ -87,54 +87,69 @@ class MySubscriptionsService {
   }
 
   async transformApiSubscription(apiSub: ApiSubscription): Promise<UserSubscription> {
+    // The API now includes price, currency, and billing_cycle at the root level
+    // regardless of whether it's custom or preset subscription
+    console.log('💰 Transforming subscription:', {
+      id: apiSub.id,
+      type: apiSub.subscription_type,
+      price: apiSub.price,
+      currency: apiSub.currency,
+      billing_cycle: apiSub.billing_cycle
+    });
+    
     if (apiSub.subscription_type === 'custom') {
       return {
         id: apiSub.id,
         name: apiSub.custom_name!,
         category: apiSub.custom_category!,
-        price: apiSub.custom_price!,
-        currency: apiSub.custom_currency!,
-        billingCycle: apiSub.custom_billing_cycle as any,
+        price: apiSub.price || apiSub.custom_price || 0,
+        currency: apiSub.currency || apiSub.custom_currency || 'USD',
+        billingCycle: (apiSub.billing_cycle || apiSub.custom_billing_cycle) as any,
         nextBillingDate: apiSub.next_billing_date,
         status: apiSub.status as any,
         notes: apiSub.notes || undefined,
         isCustom: true,
       };
     } else {
-      // For preset subscriptions, try to get pricing from plan details
-      let price = 0;
-      let currency = 'USD';
+      // For preset subscriptions, prefer user's currency from plan.prices if available
+      let price = apiSub.price;
+      let currency = apiSub.currency;
       
-      try {
-        await this.initializeApi();
-        const planResponse = await this.api.request({
-          path: `/api/catalog/subscriptions/${apiSub.plan!.subscription.id}/plans`,
-          method: 'GET',
-          secure: true
-        }) as any;
+      // Always check if we can match user's preferred currency from plan.prices
+      if (apiSub.plan?.prices && apiSub.plan.prices.length > 0) {
+        // Try to get user's preferred currency
+        const userCurrency = await this.getUserPreferredCurrency();
+        console.log('👤 User preferred currency:', userCurrency);
+        console.log('📋 Available prices:', apiSub.plan.prices);
         
-        // Find the specific plan and get its price
-        if (planResponse && Array.isArray(planResponse)) {
-          const currentPlan = planResponse.find((plan: any) => plan.id === apiSub.plan!.id);
-          if (currentPlan && currentPlan.prices && currentPlan.prices.length > 0) {
-            // Get the first price or price for user's region
-            price = currentPlan.prices[0].price || 0;
-            currency = currentPlan.prices[0].currency || 'USD';
-          }
+        // Try to find price matching user's currency
+        const matchedPrice = apiSub.plan.prices.find(p => p.currency === userCurrency);
+        
+        if (matchedPrice) {
+          // Use the price in user's preferred currency
+          price = matchedPrice.price;
+          currency = matchedPrice.currency;
+          console.log('✅ Using user currency price:', price, currency);
+        } else if (!price || price === 0) {
+          // User's currency not available, use first available price as fallback
+          price = apiSub.plan.prices[0].price;
+          currency = apiSub.plan.prices[0].currency;
+          console.log('⚠️  User currency not available, using fallback:', price, currency);
+        } else {
+          // Keep the price from root level (backend's selection)
+          console.log('ℹ️  Using backend-provided price:', price, currency);
         }
-      } catch (error) {
-        console.warn('Could not fetch plan pricing, using default:', error);
-        // Use default price if we can't fetch actual pricing
-        price = 9.99; // Default fallback price
+      } else if (!price || price === 0) {
+        console.warn('⚠️  No price available for subscription:', apiSub.id);
       }
-
+      
       return {
         id: apiSub.id,
         name: apiSub.plan!.subscription.name,
         category: apiSub.plan!.subscription.category,
-        price,
-        currency,
-        billingCycle: apiSub.plan!.billing_cycle as any,
+        price: price || 0,
+        currency: currency || 'USD',
+        billingCycle: (apiSub.billing_cycle || apiSub.plan!.billing_cycle) as any,
         nextBillingDate: apiSub.next_billing_date,
         status: apiSub.status as any,
         notes: apiSub.notes || undefined,
@@ -143,6 +158,16 @@ class MySubscriptionsService {
         planName: apiSub.plan!.name,
         features: apiSub.plan!.features,
       };
+    }
+  }
+  
+  private async getUserPreferredCurrency(): Promise<string> {
+    try {
+      const user = await storageService.getUser();
+      return user?.currency || 'USD';
+    } catch (error) {
+      console.error('Error getting user currency:', error);
+      return 'USD';
     }
   }
 
