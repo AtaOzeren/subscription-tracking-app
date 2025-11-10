@@ -6,10 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { getGreetingMessage } from '../../utils/helpers';
 import ProfileButton from '../../components/common/ProfileButton';
 import { StatsCards } from '../../components/stats/StatsCards';
-import { TopSubscriptions } from '../../components/stats/TopSubscriptions';
-import { SpendingTrends } from '../../components/stats/SpendingTrends';
-import { statsService } from '../../services/statsService';
-import { DetailedStatsResponse } from '../../types/stats';
+import MinimalSubscriptionCard from '../../components/subscription/MinimalSubscriptionCard';
+import { mySubscriptionsService } from '../../services/mySubscriptionsService';
+import { UserSubscription } from '../../types/subscription';
 
 interface HomeScreenProps {
   tabBarHeight?: number;
@@ -21,7 +20,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [greetingMessage, setGreetingMessage] = useState('');
-  const [stats, setStats] = useState<DetailedStatsResponse | null>(null);
+  const [subscriptions, setSubscriptions] = useState<UserSubscription[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,17 +40,17 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps
   }, [user?.name, t]);
 
   useEffect(() => {
-    loadStats();
+    loadSubscriptions();
   }, []);
 
-  const loadStats = async () => {
+  const loadSubscriptions = async () => {
     try {
       setError(null);
-      const data = await statsService.getDetailedStats();
-      setStats(data);
+      const data = await mySubscriptionsService.getMySubscriptions();
+      setSubscriptions(data);
     } catch (error) {
-      console.error('Error loading stats:', error);
-      setError(t('stats.errorLoading'));
+      console.error('Error loading subscriptions:', error);
+      setError(t('common.errorLoading'));
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -60,7 +59,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps
 
   const handleRefresh = () => {
     setRefreshing(true);
-    loadStats();
+    loadSubscriptions();
   };
 
   const handleProfilePress = () => {
@@ -80,14 +79,14 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps
     );
   }
 
-  if (error || !stats) {
+  if (error) {
     return (
       <SafeAreaView className="flex-1 bg-gray-50">
         <View className="flex-1 items-center justify-center px-6">
           <Text className="text-red-500 text-center mb-4">
-            {error || t('stats.errorLoading')}
+            {error}
           </Text>
-          <TouchableOpacity onPress={loadStats}>
+          <TouchableOpacity onPress={loadSubscriptions}>
             <Text className="text-blue-500 font-semibold">
               {t('common.tryAgain')}
             </Text>
@@ -124,53 +123,28 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps
 
         {/* Stats Cards */}
         <StatsCards
-          monthlySpending={stats.summary.current_month_total}
-          yearlySpending={stats.projected_annual_cost}
-          currency={Object.keys(stats.summary.currency_breakdown)[0] || 'USD'}
-          activeSubscriptions={stats.summary.active_subscriptions}
-          totalSubscriptions={stats.summary.total_subscriptions}
+          monthlySpending={subscriptions
+            .filter(sub => sub.status === 'active')
+            .reduce((sum, sub) => sum + sub.price, 0)}
+          currency={subscriptions.length > 0 ? subscriptions[0].currency : 'USD'}
+          activeSubscriptions={subscriptions.filter(sub => sub.status === 'active').length}
+          totalSubscriptions={subscriptions.length}
         />
 
-        {/* Top Subscriptions */}
-        <TopSubscriptions
-          breakdown={stats.current_month_breakdown}
-        />
-
-        {/* Spending Trends */}
-        <SpendingTrends
-          trends={stats.spending_trends.last_6_months}
-          currency={Object.keys(stats.summary.currency_breakdown)[0] || 'USD'}
-        />
-
-        {/* Quick Actions */}
-        <View className="px-6 mt-2 mb-4">
+        {/* Active Subscriptions */}
+        <View className="px-6 mb-4">
           <Text className="text-gray-900 text-lg font-bold mb-3">
-            {t('home.quickActions')}
+            {t('home.activeSubscriptions')}
           </Text>
-          <View className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <TouchableOpacity 
-              className="p-4 border-b border-gray-100"
-              onPress={() => console.log('View all subscriptions')}
-            >
-              <View className="flex-row items-center justify-between">
-                <Text className="text-gray-900 font-medium">
-                  {t('home.viewAllSubscriptions')}
-                </Text>
-                <Text className="text-blue-500 font-semibold">→</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              className="p-4"
-              onPress={() => console.log('Add subscription')}
-            >
-              <View className="flex-row items-center justify-between">
-                <Text className="text-gray-900 font-medium">
-                  {t('home.addNewSubscription')}
-                </Text>
-                <Text className="text-blue-500 font-semibold">+</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+          {subscriptions
+            .filter(sub => sub.status === 'active')
+            .map((subscription) => (
+              <MinimalSubscriptionCard
+                key={subscription.id}
+                subscription={subscription}
+                onPress={(subscription) => console.log('Subscription pressed:', subscription.name)}
+              />
+            ))}
         </View>
       </ScrollView>
     </SafeAreaView>

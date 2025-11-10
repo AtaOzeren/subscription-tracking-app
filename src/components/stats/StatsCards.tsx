@@ -5,7 +5,6 @@ import { formatPrice } from '../../utils/currency';
 
 interface StatsCardsProps {
   monthlySpending: number;
-  yearlySpending: number;
   currency: string;
   activeSubscriptions: number;
   totalSubscriptions: number;
@@ -13,7 +12,6 @@ interface StatsCardsProps {
 
 export const StatsCards: React.FC<StatsCardsProps> = ({
   monthlySpending,
-  yearlySpending,
   currency,
   activeSubscriptions,
   totalSubscriptions,
@@ -42,18 +40,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({
         </Text>
       </View>
 
-      {/* Yearly Projection Card */}
-      <View className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-        <Text className="text-gray-500 text-sm font-medium mb-2">
-          {t('stats.yearlyProjection')}
-        </Text>
-        <Text className="text-gray-900 text-3xl font-bold">
-          {formatPrice(yearlySpending, currency)}
-        </Text>
-        <Text className="text-gray-400 text-xs mt-1">
-          {t('stats.perYear')}
-        </Text>
-      </View>
+
     </View>
   );
 };
