@@ -16,7 +16,8 @@
     "error": "Erreur",
     "success": "Succès",
     "settings": "Paramètres",
-    "somethingWentWrong": "Une erreur s'est produite"
+    "somethingWentWrong": "Une erreur s'est produite",
+    "tryAgain": "Réessayer"
   },
   "auth": {
     "welcomeToApp": "Bienvenue dans Sub-Tracking",
@@ -41,11 +42,14 @@
     "monthly": "Mensuel",
     "yearly": "Annuel",
     "activeSubscriptions": "Abonnements Actifs ({{count}})",
-    "noSubscriptions": "Aucun abonnement encore. Appuyez sur \"Ajouter\" pour créer votre premier abonnement.",
+    "noSubscriptions": "Aucun abonnement encore. Appuyez sur \"Ajouter\" pour créer votre premier Abonnement.",
     "goodMorning": "Bonjour {{name}}",
     "goodDay": "Bonne Journée {{name}}",
     "goodEvening": "Bonsoir {{name}}",
-    "goodNight": "Bonne Nuit {{name}}"
+    "goodNight": "Bonne Nuit {{name}}",
+    "quickActions": "Actions Rapides",
+    "viewAllSubscriptions": "Voir Tous les Abonnements",
+    "addNewSubscription": "Ajouter un Nouvel Abonnement"
   },
   "language": {
     "selectLanguage": "Sélectionner la Langue",
@@ -160,6 +164,20 @@
     "monthly": "Mensuel",
     "yearly": "Annuel",
     "noDataAvailable": "Aucune donnée disponible pour le moment. Commencez à ajouter des abonnements pour voir vos statistiques."
+  },
+  "stats": {
+    "monthlySpending": "Dépenses Mensuelles",
+    "yearlyProjection": "Projection Annuelle",
+    "perMonth": "par mois",
+    "perYear": "par an",
+    "topSubscriptions": "Abonnements Principaux",
+    "noSubscriptions": "Aucun abonnement encore",
+    "ofTotal": "du total",
+    "spendingTrends": "Tendances de Dépenses",
+    "last6Months": "6 derniers mois",
+    "average": "Moyenne",
+    "errorLoading": "Erreur lors du chargement des statistiques",
+    "tryAgain": "Réessayer"
   },
   "search": {
     "searchSubscriptions": "Rechercher des abonnements...",

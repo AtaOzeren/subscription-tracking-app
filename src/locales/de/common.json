@@ -16,7 +16,8 @@
     "error": "Fehler",
     "success": "Erfolg",
     "settings": "Einstellungen",
-    "somethingWentWrong": "Etwas ist schief gelaufen"
+    "somethingWentWrong": "Etwas ist schief gelaufen",
+    "tryAgain": "Erneut versuchen"
   },
   "auth": {
     "welcomeToApp": "Willkommen bei Sub-Tracking",
@@ -45,7 +46,10 @@
     "goodMorning": "Guten Morgen {{name}}",
     "goodDay": "Guten Tag {{name}}",
     "goodEvening": "Guten Abend {{name}}",
-    "goodNight": "Gute Nacht {{name}}"
+    "goodNight": "Gute Nacht {{name}}",
+    "quickActions": "Schnellaktionen",
+    "viewAllSubscriptions": "Alle Abonnements anzeigen",
+    "addNewSubscription": "Neues Abonnement hinzufügen"
   },
   "language": {
     "selectLanguage": "Sprache auswählen",
@@ -160,6 +164,20 @@
     "monthly": "Monatlich",
     "yearly": "Jährlich",
     "noDataAvailable": "Noch keine Daten verfügbar. Beginnen Sie mit dem Hinzufügen von Abonnements, um Ihre Statistiken zu sehen."
+  },
+  "stats": {
+    "monthlySpending": "Monatliche Ausgaben",
+    "yearlyProjection": "Jährliche Projektion",
+    "perMonth": "pro Monat",
+    "perYear": "pro Jahr",
+    "topSubscriptions": "Top-Abonnements",
+    "noSubscriptions": "Noch keine Abonnements",
+    "ofTotal": "des Gesamten",
+    "spendingTrends": "Ausgaben-Trends",
+    "last6Months": "Letzte 6 Monate",
+    "average": "Durchschnitt",
+    "errorLoading": "Fehler beim Laden der Statistiken",
+    "tryAgain": "Erneut versuchen"
   },
   "search": {
     "searchSubscriptions": "Abonnements suchen...",

@@ -16,7 +16,8 @@
     "error": "Ошибка",
     "success": "Успех",
     "settings": "Настройки",
-    "somethingWentWrong": "Что-то пошло не так"
+    "somethingWentWrong": "Что-то пошло не так",
+    "tryAgain": "Попробовать снова"
   },
   "auth": {
     "welcomeToApp": "Добро пожаловать в Sub-Tracking",
@@ -45,7 +46,10 @@
     "goodMorning": "Доброе утро {{name}}",
     "goodDay": "Добрый день {{name}}",
     "goodEvening": "Добрый вечер {{name}}",
-    "goodNight": "Доброй ночи {{name}}"
+    "goodNight": "Доброй ночи {{name}}",
+    "quickActions": "Быстрые действия",
+    "viewAllSubscriptions": "Посмотреть все подписки",
+    "addNewSubscription": "Добавить новую подписку"
   },
   "language": {
     "selectLanguage": "Выберите язык",
@@ -160,6 +164,20 @@
     "monthly": "Ежемесячно",
     "yearly": "Ежегодно",
     "noDataAvailable": "Данные пока недоступны. Начните добавлять подписки, чтобы увидеть свою статистику."
+  },
+  "stats": {
+    "monthlySpending": "Ежемесячные расходы",
+    "yearlyProjection": "Годовой прогноз",
+    "perMonth": "в месяц",
+    "perYear": "в год",
+    "topSubscriptions": "Топ подписки",
+    "noSubscriptions": "Подписок пока нет",
+    "ofTotal": "от общего",
+    "spendingTrends": "Тренды расходов",
+    "last6Months": "Последние 6 месяцев",
+    "average": "Среднее",
+    "errorLoading": "Ошибка загрузки статистики",
+    "tryAgain": "Попробовать снова"
   },
   "search": {
     "searchSubscriptions": "Поиск подписок...",
