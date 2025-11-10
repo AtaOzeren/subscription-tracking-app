@@ -13,24 +13,28 @@ export interface StatsSummary {
 }
 
 export interface CurrentMonthBreakdown {
+  subscription_id: number;
   subscription_name: string;
-  monthly_cost: number;
+  amount: number;
+  currency: string;
   percentage: number;
-  category: string;
-  logo_url?: string;
 }
 
 export interface SubscriptionDetail {
   id: number;
   name: string;
-  price: number;
+  type: string;
+  status: string;
+  price_per_cycle: number;
   currency: string;
   billing_cycle: 'daily' | 'weekly' | 'monthly' | 'yearly';
   monthly_equivalent: number;
   next_billing_date: string;
-  category: string;
-  logo_url?: string;
-  status: string;
+  start_date: string;
+  billing_cycles_completed: number;
+  total_spent: number;
+  duration_months: number;
+  current_month_percentage: number;
 }
 
 export interface SpendingTrend {

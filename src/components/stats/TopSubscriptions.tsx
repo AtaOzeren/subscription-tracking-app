@@ -1,17 +1,15 @@
 import React from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { CurrentMonthBreakdown } from '../../types/stats';
 import { formatPrice } from '../../utils/currency';
 
 interface TopSubscriptionsProps {
   breakdown: CurrentMonthBreakdown[];
-  userCurrency: string;
 }
 
 export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
   breakdown,
-  userCurrency,
 }) => {
   const { t } = useTranslation();
 
@@ -48,41 +46,30 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
       >
         {topThree.map((item, index) => (
           <View 
-            key={`${item.subscription_name}-${index}`}
+            key={`${item.subscription_id}-${index}`}
             className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100"
             style={{ width: 180 }}
           >
             {/* Logo and Name */}
             <View className="flex-row items-center mb-3">
-              {item.logo_url ? (
-                <Image 
-                  source={{ uri: item.logo_url }}
-                  className="w-10 h-10 rounded-lg mr-3"
-                  resizeMode="contain"
-                />
-              ) : (
-                <View className="w-10 h-10 rounded-lg bg-gray-100 mr-3 items-center justify-center">
-                  <Text className="text-gray-400 text-xs font-bold">
-                    {item.subscription_name.charAt(0).toUpperCase()}
-                  </Text>
-                </View>
-              )}
+              <View className="w-10 h-10 rounded-lg bg-blue-100 mr-3 items-center justify-center">
+                <Text className="text-blue-600 text-lg font-bold">
+                  {item.subscription_name.charAt(0).toUpperCase()}
+                </Text>
+              </View>
               <View className="flex-1">
                 <Text 
                   className="text-gray-900 text-sm font-semibold"
-                  numberOfLines={1}
+                  numberOfLines={2}
                 >
                   {item.subscription_name}
-                </Text>
-                <Text className="text-gray-400 text-xs" numberOfLines={1}>
-                  {item.category}
                 </Text>
               </View>
             </View>
 
             {/* Price */}
             <Text className="text-gray-900 text-xl font-bold mb-1">
-              {formatPrice(item.monthly_cost, userCurrency)}
+              {formatPrice(item.amount, item.currency)}
             </Text>
 
             {/* Percentage Bar */}

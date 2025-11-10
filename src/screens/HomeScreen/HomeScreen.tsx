@@ -134,7 +134,6 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps
         {/* Top Subscriptions */}
         <TopSubscriptions
           breakdown={stats.current_month_breakdown}
-          userCurrency={Object.keys(stats.summary.currency_breakdown)[0] || 'USD'}
         />
 
         {/* Spending Trends */}
