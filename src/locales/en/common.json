@@ -18,7 +18,8 @@
     "settings": "Settings",
     "somethingWentWrong": "Something went wrong",
     "comingSoon": "Coming Soon",
-    "or": "Or"
+    "or": "Or",
+    "tryAgain": "Try Again"
   },
   "auth": {
     "welcomeToApp": "Welcome Sub-Tracking",
@@ -47,7 +48,10 @@
     "goodMorning": "Good Morning {{name}}",
     "goodDay": "Good Day {{name}}",
     "goodEvening": "Good Evening {{name}}",
-    "goodNight": "Good Night {{name}}"
+    "goodNight": "Good Night {{name}}",
+    "quickActions": "Quick Actions",
+    "viewAllSubscriptions": "View All Subscriptions",
+    "addNewSubscription": "Add New Subscription"
   },
   "language": {
     "selectLanguage": "Select Language",
@@ -163,6 +167,20 @@
     "monthly": "Monthly",
     "yearly": "Yearly",
     "noDataAvailable": "No data available yet. Start adding subscriptions to see your statistics."
+  },
+  "stats": {
+    "monthlySpending": "Monthly Spending",
+    "yearlyProjection": "Yearly Projection",
+    "perMonth": "per month",
+    "perYear": "per year",
+    "topSubscriptions": "Top Subscriptions",
+    "noSubscriptions": "No subscriptions yet",
+    "ofTotal": "of total",
+    "spendingTrends": "Spending Trends",
+    "last6Months": "Last 6 months",
+    "average": "Average",
+    "errorLoading": "Failed to load statistics",
+    "tryAgain": "Try Again"
   },
   "search": {
     "searchSubscriptions": "Search subscriptions...",
