@@ -14,9 +14,11 @@
     "done": "Fatto",
     "loading": "Caricamento...",
     "error": "Errore",
+    "errorLoading": "Errore nel caricamento dei dati",
     "success": "Successo",
     "settings": "Impostazioni",
-    "somethingWentWrong": "Qualcosa è andato storto"
+    "somethingWentWrong": "Qualcosa è andato storto",
+    "tryAgain": "Riprova"
   },
   "auth": {
     "welcomeToApp": "Benvenuto in Sub-Tracking",
@@ -40,12 +42,15 @@
     "trackExpenses": "Traccia le tue spese ricorrenti",
     "monthly": "Mensile",
     "yearly": "Annuale",
-    "activeSubscriptions": "Abbonamenti Attivi ({{count}})",
+    "activeSubscriptions": "Abbonamenti Attivi",
     "noSubscriptions": "Nessun abbonamento ancora. Tocca \"Aggiungi\" per creare il tuo primo abbonamento.",
     "goodMorning": "Buongiorno {{name}}",
     "goodDay": "Buona Giornata {{name}}",
     "goodEvening": "Buonasera {{name}}",
-    "goodNight": "Buonanotte {{name}}"
+    "goodNight": "Buonanotte {{name}}",
+    "quickActions": "Azioni Rapide",
+    "viewAllSubscriptions": "Visualizza Tutti gli Abbonamenti",
+    "addNewSubscription": "Aggiungi Nuovo Abbonamento"
   },
   "language": {
     "selectLanguage": "Seleziona Lingua",
@@ -160,6 +165,20 @@
     "monthly": "Mensile",
     "yearly": "Annuale",
     "noDataAvailable": "Nessun dato disponibile ancora. Inizia ad aggiungere abbonamenti per vedere le tue statistiche."
+  },
+  "stats": {
+    "monthlySpending": "Spesa Mensile",
+    "yearlyProjection": "Proiezione Annuale",
+    "perMonth": "al mese",
+    "perYear": "all'anno",
+    "topSubscriptions": "Abbonamenti Principali",
+    "noSubscriptions": "Nessun abbonamento ancora",
+    "ofTotal": "del totale",
+    "spendingTrends": "Trend di Spesa",
+    "last6Months": "Ultimi 6 mesi",
+    "average": "Media",
+    "errorLoading": "Errore nel caricamento delle statistiche",
+    "tryAgain": "Riprova"
   },
   "search": {
     "searchSubscriptions": "Cerca abbonamenti...",

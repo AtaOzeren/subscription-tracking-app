@@ -14,9 +14,11 @@
     "done": "Tamam",
     "loading": "Yükleniyor...",
     "error": "Hata",
+    "errorLoading": "Veriler yüklenirken hata",
     "success": "Başarılı",
     "settings": "Ayarlar",
-    "somethingWentWrong": "Bir şeyler yanlış gitti"
+    "somethingWentWrong": "Bir şeyler yanlış gitti",
+    "tryAgain": "Tekrar Dene"
   },
   "auth": {
     "welcomeToApp": "Abone Takip'e Hoş Geldiniz",
@@ -40,12 +42,15 @@
     "trackExpenses": "Yinelenen harcamalarınızı takip edin",
     "monthly": "Aylık",
     "yearly": "Yıllık",
-    "activeSubscriptions": "Aktif Abonelikler ({{count}})",
+    "activeSubscriptions": "Aktif Abonelikler",
     "noSubscriptions": "Henüz abonelik yok. İlk aboneliğinizi oluşturmak için \"Ekle\"ye dokunun.",
     "goodMorning": "Günaydın {{name}}",
     "goodDay": "İyi Günler {{name}}",
     "goodEvening": "İyi Akşamlar {{name}}",
-    "goodNight": "İyi Geceler {{name}}"
+    "goodNight": "İyi Geceler {{name}}",
+    "quickActions": "Hızlı İşlemler",
+    "viewAllSubscriptions": "Tüm Abonelikleri Görüntüle",
+    "addNewSubscription": "Yeni Abonelik Ekle"
   },
   "language": {
     "selectLanguage": "Dil Seçin",
@@ -160,6 +165,20 @@
     "monthly": "Aylık",
     "yearly": "Yıllık",
     "noDataAvailable": "Henüz veri yok. İstatistiklerinizi görmek için abonelik eklemeye başlayın."
+  },
+  "stats": {
+    "monthlySpending": "Aylık Harcama",
+    "yearlyProjection": "Yıllık Projeksiyon",
+    "perMonth": "ay başına",
+    "perYear": "yıl başına",
+    "topSubscriptions": "En Popüler Abonelikler",
+    "noSubscriptions": "Henüz abonelik yok",
+    "ofTotal": "toplamın",
+    "spendingTrends": "Harcama Trendleri",
+    "last6Months": "Son 6 Ay",
+    "average": "Ortalama",
+    "errorLoading": "İstatistikler yüklenirken hata oluştu",
+    "tryAgain": "Tekrar Dene"
   },
   "search": {
     "searchSubscriptions": "Abonelikleri ara...",
