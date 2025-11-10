@@ -91,10 +91,12 @@ class MySubscriptionsService {
     // regardless of whether it's custom or preset subscription
     console.log('💰 Transforming subscription:', {
       id: apiSub.id,
+      name: apiSub.subscription_type === 'custom' ? apiSub.custom_name : apiSub.plan?.subscription?.name,
       type: apiSub.subscription_type,
       price: apiSub.price,
       currency: apiSub.currency,
-      billing_cycle: apiSub.billing_cycle
+      billing_cycle: apiSub.billing_cycle,
+      plan_billing_cycle: apiSub.plan?.billing_cycle
     });
     
     if (apiSub.subscription_type === 'custom') {

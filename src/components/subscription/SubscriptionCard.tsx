@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Subscription } from '../../types/subscription';
 import { formatPrice } from '../../utils/currency';
 
@@ -16,14 +17,16 @@ const SubscriptionCard = ({
   onEdit,
   onDelete,
 }: SubscriptionCardProps) => {
+  const { t } = useTranslation();
+  
   const getBillingCycleText = (cycle: string) => {
-    const cycles: Record<string, string> = {
-      daily: '/day',
-      weekly: '/week',
-      monthly: '/month',
-      yearly: '/year',
+    const cycleMap: Record<string, string> = {
+      'daily': 'subscription.perDay',
+      'weekly': 'subscription.perWeek',
+      'monthly': 'subscription.perMonth',
+      'yearly': 'subscription.perYear',
     };
-    return cycles[cycle] || '';
+    return t(cycleMap[cycle.toLowerCase()] || 'subscription.perMonth');
   };
 
   return (

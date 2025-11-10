@@ -16,7 +16,14 @@ const UserSubscriptionCard = ({
   const { t } = useTranslation();
 
   const getBillingCycleText = (cycle: string) => {
-    return t(`subscription.per${cycle.charAt(0).toUpperCase() + cycle.slice(1)}` as any) || '';
+    // Map billing cycle values to translation keys
+    const cycleMap: Record<string, string> = {
+      'daily': 'subscription.perDay',
+      'weekly': 'subscription.perWeek',
+      'monthly': 'subscription.perMonth',
+      'yearly': 'subscription.perYear',
+    };
+    return t(cycleMap[cycle.toLowerCase()] || 'subscription.perMonth');
   };
 
   const getStatusColor = (status: string) => {
