@@ -10,6 +10,7 @@ import AppleButton from '../../components/common/AppleButton';
 import MinimalLoader from '../../components/common/MinimalLoader';
 import ProfileUpdateModal from './modals/ProfileUpdateModal';
 import RegionalSettingsModal from './modals/RegionalSettingsModal';
+import SettingsScreen from '../SettingsScreen/SettingsScreen';
 
 interface ProfileScreenProps {
   route?: {
@@ -34,6 +35,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
   // Modal states
   const [showProfileUpdateModal, setShowProfileUpdateModal] = useState(false);
   const [showRegionalSettingsModal, setShowRegionalSettingsModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   const onBack = route?.params?.onBack;
 
@@ -111,6 +113,11 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
   const handleRegionalSettingsPress = () => {
     setShowMenu(false);
     setShowRegionalSettingsModal(true);
+  };
+
+  const handleSettingsPress = () => {
+    setShowMenu(false);
+    setShowSettingsModal(true);
   };
 
   return (
@@ -368,10 +375,10 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   </View>
                 </TouchableOpacity>
 
-                {/* Settings - Disabled */}
+                {/* Settings */}
                 <TouchableOpacity
-                  disabled
-                  className="flex-row items-center py-4 opacity-50"
+                  onPress={handleSettingsPress}
+                  className="flex-row items-center py-4"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
                     <Text className="text-xl text-gray-900">⚙</Text>
@@ -387,7 +394,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                       className="text-sm text-gray-500 mt-0.5"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
-                      {t('common.comingSoon', { defaultValue: 'Coming Soon' })}
+                      {t('profile.settingsDescription', { defaultValue: 'App settings and preferences' })}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -429,6 +436,15 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
         currentCurrency={user?.currency}
         onUpdateSuccess={handleUpdateSuccess}
       />
+
+      {/* Settings Modal */}
+      <Modal
+        visible={showSettingsModal}
+        animationType="slide"
+        presentationStyle="fullScreen"
+      >
+        <SettingsScreen onClose={() => setShowSettingsModal(false)} />
+      </Modal>
     </View>
   );
 };
