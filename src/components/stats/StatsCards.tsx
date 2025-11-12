@@ -27,7 +27,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({
             {t('stats.monthlySpending')}
           </Text>
           <View className="bg-blue-50 rounded-full px-3 py-1">
-            <Text className="text-blue-600 text-xs font-semibold">
+            <Text className="text-accent text-xs font-semibold">
               {activeSubscriptions}/{totalSubscriptions}
             </Text>
           </View>

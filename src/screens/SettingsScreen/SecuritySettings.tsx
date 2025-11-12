@@ -28,7 +28,7 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
           <View className="w-16 h-16 rounded-full bg-gray-100 items-center justify-center mb-4">
             <Text className="text-3xl">🔒</Text>
           </View>
-          <Text className="text-2xl font-bold text-gray-900 text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
+          <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
             {t('settings.securityTitle')}
           </Text>
         </View>
@@ -38,10 +38,10 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
             <View className="flex-row items-start mb-2">
               <Text className="text-xl mr-3 text-gray-700">●</Text>
               <View className="flex-1">
-                <Text className="text-base font-semibold text-gray-900 mb-1" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-lg text-text-primary font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('settings.securityPoint1Title')}
                 </Text>
-                <Text className="text-sm text-gray-600" style={{ fontFamily: 'SF Pro Text' }}>
+                <Text className="text-body-md text-text-tertiary" style={{ fontFamily: 'SF Pro Text' }}>
                   {t('settings.securityPoint1Text')}
                 </Text>
               </View>
@@ -52,10 +52,10 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
             <View className="flex-row items-start mb-2">
               <Text className="text-xl mr-3 text-gray-700">●</Text>
               <View className="flex-1">
-                <Text className="text-base font-semibold text-gray-900 mb-1" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-lg text-text-primary font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('settings.securityPoint2Title')}
                 </Text>
-                <Text className="text-sm text-gray-600" style={{ fontFamily: 'SF Pro Text' }}>
+                <Text className="text-body-md text-text-tertiary" style={{ fontFamily: 'SF Pro Text' }}>
                   {t('settings.securityPoint2Text')}
                 </Text>
               </View>
@@ -66,10 +66,10 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
             <View className="flex-row items-start mb-2">
               <Text className="text-xl mr-3 text-gray-700">●</Text>
               <View className="flex-1">
-                <Text className="text-base font-semibold text-gray-900 mb-1" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-lg text-text-primary font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('settings.securityPoint3Title')}
                 </Text>
-                <Text className="text-sm text-gray-600" style={{ fontFamily: 'SF Pro Text' }}>
+                <Text className="text-body-md text-text-tertiary" style={{ fontFamily: 'SF Pro Text' }}>
                   {t('settings.securityPoint3Text')}
                 </Text>
               </View>

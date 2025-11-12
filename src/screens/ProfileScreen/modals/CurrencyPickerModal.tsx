@@ -83,20 +83,20 @@ const CurrencyPickerModal: React.FC<CurrencyPickerModalProps> = ({
                 <View className="flex-row items-center justify-between">
                   <View className="flex-1">
                     <Text
-                      className="text-base font-semibold text-gray-900"
+                      className="text-body-lg text-text-primary font-semibold"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
                       {currency.name}
                     </Text>
                     <Text
-                      className="text-sm text-gray-500"
+                      className="text-body-md text-text-muted"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
                       {currency.code} ({currency.symbol})
                     </Text>
                   </View>
                   {selectedCurrency === currency.code && (
-                    <Text className="text-blue-600 text-xl">✓</Text>
+                    <Text className="text-accent text-xl">✓</Text>
                   )}
                 </View>
               </TouchableOpacity>

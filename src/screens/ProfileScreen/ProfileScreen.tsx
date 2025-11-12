@@ -131,7 +131,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
           {onBack && (
             <TouchableOpacity onPress={onBack}>
               <Text
-                className="text-base font-semibold text-gray-700"
+                className="text-body-lg text-text-secondary font-semibold"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
                 {t('common.back')}
@@ -140,8 +140,8 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
           )}
           {!onBack && <View style={{ width: 60 }} />}
           <Text
-            className="text-3xl font-bold text-gray-900 flex-1 text-center"
-            style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
+            className="text-heading-1 text-text-primary flex-1 text-center"
+            style={{ fontFamily: 'SF Pro Display' }}
           >
             {user?.name || t('profile.title', { defaultValue: 'Profile' })}
           </Text>
@@ -150,7 +150,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
             onPress={handleMenuPress}
             className="w-10 h-10 items-center justify-center"
           >
-            <Text className="text-2xl text-gray-700">⋮</Text>
+            <Text className="text-heading-2 text-text-secondary">⋮</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -166,7 +166,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
           <View className="flex-1 items-center justify-center p-8">
             <MinimalLoader size="large" color="#000000" />
             <Text
-              className="text-base text-gray-600 mt-6"
+              className="text-body-lg text-text-tertiary mt-6"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {t('common.loading', { defaultValue: 'Loading' })}
@@ -191,7 +191,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                  ) : (
                    <View className="w-20 h-20 rounded-full bg-blue-100 items-center justify-center mr-4">
                      <Text
-                       className="text-3xl font-bold text-blue-600"
+                       className="text-3xl font-bold text-accent"
                        style={{ fontFamily: 'SF Pro Display' }}
                      >
                        {user?.name?.charAt(0).toUpperCase() || 'U'}
@@ -202,13 +202,13 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                  {/* Name and Email - Right */}
                  <View className="flex-1">
                    <Text
-                     className="text-xl font-bold text-gray-900 mb-1"
+                     className="text-heading-3 text-text-primary mb-1"
                      style={{ fontFamily: 'SF Pro Display' }}
                    >
                      {user?.name || 'User'}
                    </Text>
                    <Text
-                     className="text-base text-gray-600"
+                     className="text-body-lg text-text-tertiary"
                      style={{ fontFamily: 'SF Pro Text' }}
                    >
                      {user?.email || 'No email'}
@@ -220,7 +220,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
             {/* Regional Settings */}
             <View className="bg-white px-6 py-5 mb-3">
               <Text
-                className="text-xl font-bold text-gray-900 mb-4"
+                className="text-heading-3 text-text-primary mb-4"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
                 {t('profile.regionalSettings', { defaultValue: 'Regional Settings' })}
@@ -229,7 +229,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
               {/* Region */}
               <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
                 <Text
-                  className="text-base text-gray-500"
+                  className="text-body-lg text-text-muted"
                   style={{ fontFamily: 'SF Pro Text' }}
                 >
                   {t('profile.region', { defaultValue: 'Region' })}
@@ -241,7 +241,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                     </View>
                   )}
                   <Text
-                    className="text-base font-semibold text-gray-900"
+                    className="text-body-lg text-text-primary font-semibold"
                     style={{ fontFamily: 'SF Pro Text' }}
                   >
                     {user?.region || 'N/A'}
@@ -252,13 +252,13 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
 {/* Currency */}
                <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
                  <Text
-                   className="text-base text-gray-500"
+                   className="text-body-lg text-text-muted"
                    style={{ fontFamily: 'SF Pro Text' }}
                  >
                    {t('profile.currency', { defaultValue: 'Currency' })}
                  </Text>
                  <Text
-                   className="text-base font-semibold text-gray-900"
+                   className="text-body-lg text-text-primary font-semibold"
                    style={{ fontFamily: 'SF Pro Text' }}
                  >
                    {user?.currency || 'N/A'}
@@ -268,13 +268,13 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                {/* Subscription Count */}
                <View className="flex-row items-center justify-between py-3">
                  <Text
-                   className="text-base text-gray-500"
+                   className="text-body-lg text-text-muted"
                    style={{ fontFamily: 'SF Pro Text' }}
                  >
                    {t('profile.subscriptionCount', { defaultValue: 'Subscriptions' })}
                  </Text>
                  <Text
-                   className="text-base font-semibold text-gray-900"
+                   className="text-body-lg text-text-primary font-semibold"
                    style={{ fontFamily: 'SF Pro Text' }}
                  >
                    {user?.subscription_count || 0}
@@ -293,13 +293,13 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
       >
         <View className="items-center">
           <Text
-            className="text-sm text-gray-500 mb-2"
+            className="text-body-md text-text-muted mb-2"
             style={{ fontFamily: 'SF Pro Text' }}
           >
             {t('profile.createdAt', { defaultValue: 'Account Created' })}
           </Text>
           <Text
-            className="text-sm text-gray-500"
+            className="text-body-md text-text-muted"
             style={{ fontFamily: 'SF Pro Text' }}
           >
             {formatDate(user?.created_at)}
@@ -333,17 +333,17 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-xl text-gray-900">✎</Text>
+                    <Text className="text-heading-3 text-text-primary">✎</Text>
                   </View>
                   <View className="flex-1">
                     <Text
-                      className="text-lg font-semibold text-gray-900"
+                      className="text-heading-4 text-text-primary"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t('profile.profileUpdate', { defaultValue: 'Profile Update' })}
                     </Text>
                     <Text
-                      className="text-sm text-gray-500 mt-0.5"
+                      className="text-body-md text-text-muted mt-0.5"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
                       {t('profile.updateNameDescription', { defaultValue: 'Update your name' })}
@@ -357,17 +357,17 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-xl text-gray-900">⚑</Text>
+                    <Text className="text-heading-3 text-text-primary">⚑</Text>
                   </View>
                   <View className="flex-1">
                     <Text
-                      className="text-lg font-semibold text-gray-900"
+                      className="text-heading-4 text-text-primary"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t('profile.regionalSettings', { defaultValue: 'Regional Settings' })}
                     </Text>
                     <Text
-                      className="text-sm text-gray-500 mt-0.5"
+                      className="text-body-md text-text-muted mt-0.5"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
                       {t('profile.updateRegionalDescription', { defaultValue: 'Update region and currency' })}
@@ -381,17 +381,17 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-xl text-gray-900">⚙</Text>
+                    <Text className="text-heading-3 text-text-primary">⚙</Text>
                   </View>
                   <View className="flex-1">
                     <Text
-                      className="text-lg font-semibold text-gray-900"
+                      className="text-heading-4 text-text-primary"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t('profile.settings', { defaultValue: 'Settings' })}
                     </Text>
                     <Text
-                      className="text-sm text-gray-500 mt-0.5"
+                      className="text-body-md text-text-muted mt-0.5"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
                       {t('profile.settingsDescription', { defaultValue: 'App settings and preferences' })}
@@ -404,7 +404,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="bg-gray-100 rounded-2xl py-4 mt-4"
                 >
                   <Text
-                    className="text-center text-base font-semibold text-gray-700"
+                    className="text-center text-body-lg text-text-secondary font-semibold"
                     style={{ fontFamily: 'SF Pro Display' }}
                   >
                     {t('common.cancel')}

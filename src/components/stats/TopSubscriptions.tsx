@@ -53,7 +53,7 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
             {/* Logo and Name */}
             <View className="flex-row items-center mb-3">
               <View className="w-10 h-10 rounded-lg bg-blue-100 mr-3 items-center justify-center">
-                <Text className="text-blue-600 text-lg font-bold">
+                <Text className="text-accent text-lg font-bold">
                   {item.subscription_name.charAt(0).toUpperCase()}
                 </Text>
               </View>

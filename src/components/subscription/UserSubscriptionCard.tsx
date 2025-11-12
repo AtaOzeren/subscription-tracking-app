@@ -71,7 +71,7 @@ const UserSubscriptionCard = ({
         <View className="flex-1">
           <View className="flex-row items-center justify-between mb-1">
             <Text
-              className="text-lg font-bold text-gray-900 flex-1"
+              className="text-heading-4 text-text-primary flex-1"
               style={{ fontFamily: 'SF Pro Display' }}
               numberOfLines={1}
             >
@@ -85,14 +85,14 @@ const UserSubscriptionCard = ({
           
           {subscription.planName && (
             <Text
-              className="text-sm text-gray-600 mb-1"
+              className="text-body-md text-text-tertiary mb-1"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {subscription.planName}
             </Text>
           )}
 
-          <Text className="text-xl font-bold text-blue-600 mt-1">
+          <Text className="text-xl font-bold text-accent mt-1">
             {formatPrice(subscription.price, subscription.currency)}
             <Text className="text-sm font-normal text-gray-500">
               {getBillingCycleText(subscription.billingCycle)}
@@ -103,7 +103,7 @@ const UserSubscriptionCard = ({
 
       {/* Footer */}
       <View className="mt-3 pt-3 border-t border-gray-100 flex-row justify-between items-center">
-        <Text className="text-xs text-gray-500" style={{ fontFamily: 'SF Pro Text' }}>
+        <Text className="text-body-sm text-text-muted" style={{ fontFamily: 'SF Pro Text' }}>
           {t('subscription.nextBilling')}: {new Date(subscription.nextBillingDate).toLocaleDateString()}
         </Text>
         <Text 

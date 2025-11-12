@@ -60,7 +60,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
           >
             <Text
               className={`text-center font-semibold ${
-                viewMode === 'monthly' ? 'text-black' : 'text-gray-500'
+                viewMode === 'monthly' ? 'text-text-primary' : 'text-text-muted'
               }`}
               style={{ fontFamily: 'SF Pro Display' }}
             >
@@ -74,7 +74,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
           >
             <Text
               className={`text-center font-semibold ${
-                viewMode === 'yearly' ? 'text-black' : 'text-gray-500'
+                viewMode === 'yearly' ? 'text-text-primary' : 'text-text-muted'
               }`}
               style={{ fontFamily: 'SF Pro Display' }}
             >
@@ -109,15 +109,15 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
           <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
             <View className="flex-row items-center">
               <Text
-                className="text-base text-gray-500"
+                className="text-body-lg text-text-muted"
                 style={{ fontFamily: 'SF Pro Text' }}
               >
                 {viewMode === 'monthly' ? t('stats.monthlySpending') : t('stats.yearlyProjection')}
               </Text>
               {viewMode === 'yearly' && (
                 <TouchableOpacity onPress={showYearlyInfo} className="ml-2">
-                  <View className="w-5 h-5 rounded-full border-2 border-blue-500 items-center justify-center">
-                    <Text className="text-blue-500 text-xs font-bold" style={{ fontFamily: 'SF Pro Display' }}>
+                  <View className="w-5 h-5 rounded-full border-2 border-accent items-center justify-center">
+                    <Text className="text-accent text-body-sm font-bold" style={{ fontFamily: 'SF Pro Display' }}>
                       !
                     </Text>
                   </View>
@@ -125,7 +125,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
               )}
             </View>
             <Text
-              className="text-base font-semibold text-gray-900"
+              className="text-body-lg text-text-primary font-semibold"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {formatPrice(amount, currency)}
@@ -174,14 +174,14 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
               }`}
             >
               <Text
-                className="text-base text-gray-500"
+                className="text-body-lg text-text-muted"
                 style={{ fontFamily: 'SF Pro Text' }}
               >
                 {status.label}
               </Text>
               <Text
-                className="text-base font-semibold"
-                style={{ fontFamily: 'SF Pro Text', color: status.color }}
+                className="text-body-lg text-text-primary font-semibold"
+                style={{ fontFamily: 'SF Pro Text' }}
               >
                 {status.count}
               </Text>
@@ -265,7 +265,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
 
     return (
       <View className="px-4 mb-4">
-        <Text className="text-lg font-bold text-gray-900 mb-3" style={{ fontFamily: 'SF Pro Display' }}>
+        <Text className="text-heading-4 text-text-primary mb-3" style={{ fontFamily: 'SF Pro Display' }}>
           {t('stats.topSubscriptions')}
         </Text>
         <View className="bg-white rounded-2xl p-4">
@@ -301,7 +301,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
                       style={{ backgroundColor: colors[index % colors.length] }}
                     />
                     <Text
-                      className="text-xs text-gray-900 flex-1"
+                      className="text-body-sm text-text-primary flex-1"
                       style={{ fontFamily: 'SF Pro Text' }}
                       numberOfLines={1}
                     >
@@ -309,10 +309,10 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
                     </Text>
                   </View>
                   <View className="items-end ml-2">
-                    <Text className="text-xs font-semibold text-gray-900" style={{ fontFamily: 'SF Pro Display' }}>
+                    <Text className="text-body-sm text-text-primary font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
                       {item.percentage.toFixed(1)}%
                     </Text>
-                    <Text className="text-xs text-gray-500" style={{ fontFamily: 'SF Pro Text' }}>
+                    <Text className="text-body-sm text-text-muted" style={{ fontFamily: 'SF Pro Text' }}>
                       {formatPrice(item.amount, item.currency)}
                     </Text>
                   </View>
@@ -342,7 +342,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
 
     return (
       <View className="px-4 mb-4">
-        <Text className="text-lg font-bold text-gray-900 mb-3" style={{ fontFamily: 'SF Pro Display' }}>
+        <Text className="text-heading-4 text-text-primary mb-3" style={{ fontFamily: 'SF Pro Display' }}>
           {t('stats.spendingTrends')}
         </Text>
         <View className="bg-white rounded-2xl p-4">
@@ -361,7 +361,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
                         {/* Amount label on top of bar */}
                         {height > 30 && (
                           <Text 
-                            className="text-xs font-semibold mb-1"
+                            className="text-body-sm font-semibold mb-1"
                             style={{ 
                               fontFamily: 'SF Pro Text',
                               color: isHighest ? '#10B981' : isLowest ? '#EF4444' : '#3B82F6'
@@ -383,7 +383,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
                     )}
                   </View>
                   <Text 
-                    className="text-xs mt-1"
+                    className="text-body-sm mt-1"
                     style={{ 
                       fontFamily: 'SF Pro Text',
                       color: isHighest || isLowest ? '#1F2937' : '#6B7280',
@@ -401,26 +401,26 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
           <View className="border-t border-gray-100 pt-4">
             <View className="flex-row justify-between mb-3">
               <View className="flex-1">
-                <Text className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'SF Pro Text' }}>
+                <Text className="text-body-sm text-text-muted mb-1" style={{ fontFamily: 'SF Pro Text' }}>
                   {t('stats.average')}
                 </Text>
-                <Text className="text-sm font-semibold text-gray-900" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-md text-text-primary font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
                   {formatPrice(average, currency)}
                 </Text>
               </View>
               <View className="flex-1 items-center">
-                <Text className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'SF Pro Text' }}>
+                <Text className="text-body-sm text-text-muted mb-1" style={{ fontFamily: 'SF Pro Text' }}>
                   {t('stats.highest')}
                 </Text>
-                <Text className="text-sm font-semibold text-green-600" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-md text-accent-success font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
                   {formatPrice(highest.amount, currency)}
                 </Text>
               </View>
               <View className="flex-1 items-end">
-                <Text className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'SF Pro Text' }}>
+                <Text className="text-body-sm text-text-muted mb-1" style={{ fontFamily: 'SF Pro Text' }}>
                   {t('stats.lowest')}
                 </Text>
-                <Text className="text-sm font-semibold text-red-600" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-md text-accent-error font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
                   {formatPrice(lowest.amount, currency)}
                 </Text>
               </View>
@@ -428,10 +428,10 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
             
             <View className="bg-gray-50 rounded-xl p-3">
               <View className="flex-row justify-between">
-                <Text className="text-xs text-gray-500" style={{ fontFamily: 'SF Pro Text' }}>
+                <Text className="text-body-sm text-text-muted" style={{ fontFamily: 'SF Pro Text' }}>
                   {t('stats.total6Months')}
                 </Text>
-                <Text className="text-base font-bold text-gray-900" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-lg text-text-primary font-bold" style={{ fontFamily: 'SF Pro Display' }}>
                   {formatPrice(total, currency)}
                 </Text>
               </View>
@@ -447,7 +447,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
       <SafeAreaView className="flex-1 bg-gray-50">
         <View className="flex-1 items-center justify-center">
           <MinimalLoader size="large" color="#000000" />
-          <Text className="text-gray-600 mt-4 text-base" style={{ fontFamily: 'SF Pro Text' }}>
+          <Text className="text-body-lg text-text-tertiary mt-4" style={{ fontFamily: 'SF Pro Text' }}>
             {t('common.loading')}
           </Text>
         </View>
@@ -459,11 +459,11 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
     return (
       <SafeAreaView className="flex-1 bg-gray-50">
         <View className="flex-1 items-center justify-center px-6">
-          <Text className="text-red-500 text-center mb-4">
+          <Text className="text-body-lg text-accent-error text-center mb-4">
             {error}
           </Text>
           <TouchableOpacity onPress={loadStats}>
-            <Text className="text-blue-500 font-semibold">
+            <Text className="text-body-lg text-accent font-semibold">
               {t('common.tryAgain')}
             </Text>
           </TouchableOpacity>
@@ -477,7 +477,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
       {/* Header - Top Bar Style */}
       <View className="bg-white border-b border-gray-200">
         <View className="px-4 py-4">
-          <Text className="text-3xl font-bold text-gray-900" style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}>
+          <Text className="text-heading-1 text-text-primary" style={{ fontFamily: 'SF Pro Display' }}>
             {t('navigation.statistics')}
           </Text>
         </View>

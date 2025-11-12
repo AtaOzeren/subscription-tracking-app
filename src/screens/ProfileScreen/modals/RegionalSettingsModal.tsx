@@ -148,7 +148,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
               </Text>
             </TouchableOpacity>
             <Text
-              className="text-3xl font-bold text-gray-900 flex-1 text-center"
+              className="text-heading-1 text-text-primary flex-1 text-center"
               style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
             >
               {t('profile.regionalSettings', { defaultValue: 'Regional Settings' })}
@@ -162,7 +162,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
             <View className="items-center justify-center p-8">
               <MinimalLoader size="medium" color="#000000" />
               <Text
-                className="text-base text-gray-600 mt-4"
+                className="text-body-lg text-text-tertiary mt-4"
                 style={{ fontFamily: 'SF Pro Text' }}
               >
                 {t('common.loading', { defaultValue: 'Loading' })}
@@ -183,7 +183,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
                   className="bg-gray-50 rounded-xl px-4 py-3 flex-row items-center justify-between"
                 >
                   <Text
-                    className="text-base text-gray-900"
+                    className="text-body-lg text-text-primary"
                     style={{ fontFamily: 'SF Pro Text' }}
                   >
                     {selectedCountry ? getCountryName(selectedCountry) : t('profile.selectRegion', { defaultValue: 'Select Region' })}
@@ -205,7 +205,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
                   className="bg-gray-50 rounded-xl px-4 py-3 flex-row items-center justify-between"
                 >
                   <Text
-                    className="text-base text-gray-900"
+                    className="text-body-lg text-text-primary"
                     style={{ fontFamily: 'SF Pro Text' }}
                   >
                     {selectedCurrency ? getCurrencyName(selectedCurrency) : t('profile.selectCurrency', { defaultValue: 'Select Currency' })}

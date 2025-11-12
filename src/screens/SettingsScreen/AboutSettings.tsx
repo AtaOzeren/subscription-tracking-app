@@ -28,49 +28,49 @@ const AboutSettings: React.FC<AboutSettingsProps> = ({ onClose }) => {
           <View className="w-16 h-16 rounded-full bg-gray-100 items-center justify-center mb-4">
             <Text className="text-3xl text-gray-700">ⓘ</Text>
           </View>
-          <Text className="text-2xl font-bold text-gray-900 text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
+          <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
             Sub-Tracking
           </Text>
-          <Text className="text-sm text-gray-500 text-center" style={{ fontFamily: 'SF Pro Text' }}>
+          <Text className="text-body-md text-text-muted text-center" style={{ fontFamily: 'SF Pro Text' }}>
             {t('settings.version')} 1.0.0
           </Text>
         </View>
 
         <View className="bg-white rounded-xl p-5 mb-4">
-          <Text className="text-base text-gray-700 leading-6 mb-4" style={{ fontFamily: 'SF Pro Text' }}>
+          <Text className="text-body-lg text-text-secondary leading-6 mb-4" style={{ fontFamily: 'SF Pro Text' }}>
             {t('settings.aboutText')}
           </Text>
-          <Text className="text-base text-gray-700 leading-6" style={{ fontFamily: 'SF Pro Text' }}>
+          <Text className="text-body-lg text-text-secondary leading-6" style={{ fontFamily: 'SF Pro Text' }}>
             {t('settings.aboutText2')}
           </Text>
         </View>
 
         <View className="bg-white rounded-xl p-5">
-          <Text className="text-base font-semibold text-gray-900 mb-3" style={{ fontFamily: 'SF Pro Display' }}>
+          <Text className="text-body-lg text-text-primary font-semibold mb-3" style={{ fontFamily: 'SF Pro Display' }}>
             {t('settings.features')}
           </Text>
           <View className="space-y-2">
             <View className="flex-row items-center mb-2">
               <Text className="text-base mr-2 text-gray-700">•</Text>
-              <Text className="text-sm text-gray-700 flex-1" style={{ fontFamily: 'SF Pro Text' }}>
+              <Text className="text-body-md text-text-secondary flex-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('settings.feature1')}
               </Text>
             </View>
             <View className="flex-row items-center mb-2">
               <Text className="text-base mr-2 text-gray-700">•</Text>
-              <Text className="text-sm text-gray-700 flex-1" style={{ fontFamily: 'SF Pro Text' }}>
+              <Text className="text-body-md text-text-secondary flex-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('settings.feature2')}
               </Text>
             </View>
             <View className="flex-row items-center mb-2">
               <Text className="text-base mr-2 text-gray-700">•</Text>
-              <Text className="text-sm text-gray-700 flex-1" style={{ fontFamily: 'SF Pro Text' }}>
+              <Text className="text-body-md text-text-secondary flex-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('settings.feature3')}
               </Text>
             </View>
             <View className="flex-row items-center">
               <Text className="text-base mr-2 text-gray-700">•</Text>
-              <Text className="text-sm text-gray-700 flex-1" style={{ fontFamily: 'SF Pro Text' }}>
+              <Text className="text-body-md text-text-secondary flex-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('settings.feature4')}
               </Text>
             </View>

@@ -30,7 +30,7 @@ const AppleInput: React.FC<AppleInputProps> = ({
         {...props}
       />
       {error && (
-        <Text className="text-sm text-red-500 mt-1" style={{ fontFamily: 'SF Pro Text' }}>
+        <Text className="text-sm text-accent-error mt-1" style={{ fontFamily: 'SF Pro Text' }}>
           {error}
         </Text>
       )}

@@ -29,7 +29,7 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
           <View className="mb-6">
             {title && (
               <Text
-                className="text-2xl font-bold text-gray-900 mb-2 text-center"
+                className="text-heading-2 text-text-primary mb-2 text-center"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
                 {title}
@@ -37,7 +37,7 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
             )}
             {subtitle && (
               <Text
-                className="text-base text-gray-500 text-center"
+                className="text-body-lg text-text-muted text-center"
                 style={{ fontFamily: 'SF Pro Text' }}
               >
                 {subtitle}
@@ -63,7 +63,7 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
             >
               <View className="flex-row items-center justify-between mb-3">
                 <Text
-                  className="text-xl font-bold text-gray-900"
+                  className="text-heading-3 text-text-primary"
                   style={{ fontFamily: 'SF Pro Display' }}
                 >
                   {plan.name}
@@ -79,7 +79,7 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
               </View>
 
               <Text
-                className="text-sm text-gray-600 mb-3"
+                className="text-body-md text-text-tertiary mb-3"
                 style={{ fontFamily: 'SF Pro Text' }}
               >
                 Billed {plan.billing_cycle}
@@ -91,7 +91,7 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
                     <View key={key} className="flex-row items-center mb-2">
                       <Text className="mr-2">✓</Text>
                       <Text
-                        className="text-sm text-gray-700"
+                        className="text-body-md text-text-secondary"
                         style={{ fontFamily: 'SF Pro Text' }}
                       >
                         {key}: {String(value)}

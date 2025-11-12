@@ -52,7 +52,7 @@ const MinimalSubscriptionCard = ({
         {/* Content */}
         <View className="flex-1">
           <Text
-            className="text-base font-semibold text-gray-900"
+            className="text-body-lg text-text-primary font-semibold"
             style={{ fontFamily: 'SF Pro Display' }}
             numberOfLines={1}
           >
@@ -61,7 +61,7 @@ const MinimalSubscriptionCard = ({
           
           {subscription.planName && (
             <Text
-              className="text-xs text-gray-500 mt-0.5"
+              className="text-body-sm text-text-muted mt-0.5"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {subscription.planName}
@@ -75,7 +75,7 @@ const MinimalSubscriptionCard = ({
             className="w-1.5 h-1.5 rounded-full mr-2"
             style={{ backgroundColor: getStatusColor(subscription.status) }}
           />
-          <Text className="text-base font-bold text-blue-600">
+          <Text className="text-base font-bold text-accent">
             {formatPrice(subscription.price, subscription.currency)}
           </Text>
         </View>

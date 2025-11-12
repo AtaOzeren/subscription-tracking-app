@@ -94,7 +94,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeSc
         <View className="px-6 pt-4 pb-6">
           <View className="flex-row justify-between items-center">
             <View className="flex-1">
-              <Text className="text-3xl font-bold text-gray-900">
+              <Text className="text-heading-1 text-text-primary">
                 {greetingMessage || t('home.mySubscriptions')}
               </Text>
             </View>
@@ -106,17 +106,17 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeSc
         {loading ? (
           <View className="flex-1 items-center justify-center py-20">
             <MinimalLoader size="large" color="#000000" />
-            <Text className="text-gray-600 mt-4 text-base" style={{ fontFamily: 'SF Pro Text' }}>
+            <Text className="text-body-lg text-text-tertiary mt-4" style={{ fontFamily: 'SF Pro Text' }}>
               {t('common.loading')}
             </Text>
           </View>
         ) : error ? (
           <View className="flex-1 items-center justify-center px-6 py-20">
-            <Text className="text-red-500 text-center mb-4">
+            <Text className="text-body-lg text-accent-error text-center mb-4">
               {error}
             </Text>
             <TouchableOpacity onPress={loadSubscriptions}>
-              <Text className="text-blue-500 font-semibold">
+              <Text className="text-body-lg text-accent font-semibold">
                 {t('common.tryAgain')}
               </Text>
             </TouchableOpacity>
@@ -135,7 +135,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeSc
 
             {/* Active Subscriptions */}
             <View className="px-6 mb-4">
-              <Text className="text-gray-900 text-lg font-bold mb-3">
+              <Text className="text-heading-4 text-text-primary mb-3">
                 {t('home.activeSubscriptions')}
               </Text>
               {subscriptions

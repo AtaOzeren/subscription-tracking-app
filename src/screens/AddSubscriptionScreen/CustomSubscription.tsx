@@ -98,7 +98,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
           <Text
-            className="text-3xl font-bold text-gray-900 flex-1"
+            className="text-heading-1 text-text-primary flex-1"
             style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
           >
             {t('customSubscription.title')}

@@ -254,13 +254,13 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
             <View className="bg-white rounded-2xl p-8 items-center mb-4">
               <Text className="text-5xl mb-4">🔍</Text>
               <Text
-                className="text-lg font-semibold text-gray-900 mb-2"
+                className="text-heading-4 text-text-primary mb-2"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
                  {t('addSubscription.noResults')}
               </Text>
               <Text
-                className="text-sm text-gray-500 text-center mb-4"
+                className="text-body-md text-text-muted text-center mb-4"
                 style={{ fontFamily: 'SF Pro Text' }}
               >
                  {t('addSubscription.noResultsMessage', { query: searchQuery })}
@@ -290,7 +290,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
                       <Text className="text-lg">{group.category.icon_url}</Text>
                     </View>
                     <Text
-                      className="text-xl font-bold text-gray-900"
+                      className="text-heading-3 text-text-primary"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {group.category.name}
@@ -326,13 +326,13 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
 
                         <View className="flex-1">
                           <Text
-                            className="text-lg font-bold text-gray-900 mb-1"
+                            className="text-heading-4 text-text-primary mb-1"
                             style={{ fontFamily: 'SF Pro Display' }}
                           >
                             {subscription.name}
                           </Text>
                           <Text
-                            className="text-sm text-gray-500"
+                            className="text-body-md text-text-muted"
                             style={{ fontFamily: 'SF Pro Text' }}
                             numberOfLines={2}
                           >
@@ -359,7 +359,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
           >
             <Text className="text-3xl mb-2">➕</Text>
             <Text
-              className="text-base font-semibold text-gray-900"
+              className="text-body-lg text-text-primary font-semibold"
               style={{ fontFamily: 'SF Pro Display' }}
             >
                {t('addSubscription.addCustomButton')}
@@ -388,7 +388,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
         {selectedSubscription && selectedPlan && (
           <View className="mb-4">
             <Text
-              className="text-base text-gray-500 text-center"
+              className="text-body-lg text-text-muted text-center"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {selectedSubscription.name} - {selectedPlan.name}
@@ -465,7 +465,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
           <Text
-            className="text-3xl font-bold text-gray-900 flex-1"
+            className="text-heading-1 text-text-primary flex-1"
             style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
           >
             {step === 'search' && t('addSubscription.title')}

@@ -40,10 +40,10 @@ const SubscriptionCard = ({
           <Text className="text-lg font-semibold text-gray-800 mb-1">
             {subscription.name}
           </Text>
-          <Text className="text-sm text-gray-500 mb-2">
+          <Text className="text-body-md text-text-muted mb-2">
             {subscription.category}
           </Text>
-          <Text className="text-xl font-bold text-blue-600">
+          <Text className="text-xl font-bold text-accent">
             {formatPrice(subscription.price, subscription.currency)}
             <Text className="text-sm font-normal text-gray-500">
               {getBillingCycleText(subscription.billingCycle)}
@@ -56,14 +56,14 @@ const SubscriptionCard = ({
             className="w-3 h-3 rounded-full mb-2"
             style={{ backgroundColor: subscription.isActive ? '#10B981' : '#EF4444' }}
           />
-          <Text className="text-xs text-gray-500">
+          <Text className="text-body-sm text-text-muted">
             {subscription.isActive ? 'Active' : 'Inactive'}
           </Text>
         </View>
       </View>
       
       <View className="mt-3 pt-3 border-t border-gray-100">
-        <Text className="text-xs text-gray-500">
+        <Text className="text-body-sm text-text-muted">
           Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString()}
         </Text>
       </View>

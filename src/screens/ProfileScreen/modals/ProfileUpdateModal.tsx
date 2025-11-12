@@ -127,7 +127,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
               </Text>
             </TouchableOpacity>
             <Text
-              className="text-3xl font-bold text-gray-900 flex-1 text-center"
+              className="text-heading-1 text-text-primary flex-1 text-center"
               style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
             >
               {t('profile.profileUpdate', { defaultValue: 'Profile Update' })}
@@ -140,7 +140,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
           {/* Avatar Section */}
           <View className="mb-6">
             <Text
-              className="text-lg font-semibold text-gray-900 mb-4"
+              className="text-heading-4 text-text-primary mb-4"
               style={{ fontFamily: 'SF Pro Display' }}
             >
               {t('profile.avatar', { defaultValue: 'Avatar' })}
@@ -155,7 +155,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
               ) : (
                 <View className="w-24 h-24 rounded-full bg-blue-100 items-center justify-center mb-3">
                   <Text
-                    className="text-3xl font-bold text-blue-600"
+                    className="text-3xl font-bold text-accent"
                     style={{ fontFamily: 'SF Pro Display' }}
                   >
                     {editName?.charAt(0).toUpperCase() || 'U'}

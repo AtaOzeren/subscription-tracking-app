@@ -174,13 +174,13 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
           <View className="flex-1">
             <Text
-              className="text-3xl font-bold text-gray-900"
+              className="text-heading-1 text-text-primary"
               style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
             >
               {t('subscriptions.mySubscriptions')}
             </Text>
             <Text
-              className="text-sm text-gray-500 mt-1"
+              className="text-body-md text-text-muted mt-1"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {t('subscriptions.activeSubscriptionsCount', { 
@@ -247,7 +247,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
               {selectedCategory ? t('subscriptions.noSubscriptionsInCategory') : t('subscriptions.noSubscriptionsYet')}
             </Text>
             <Text
-              className="text-sm text-gray-500 text-center"
+              className="text-body-md text-text-muted text-center"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {selectedCategory 

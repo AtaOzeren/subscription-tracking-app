@@ -28,16 +28,16 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
           <View className="w-16 h-16 rounded-full bg-gray-100 items-center justify-center mb-4">
             <Text className="text-3xl text-gray-700">✉</Text>
           </View>
-          <Text className="text-2xl font-bold text-gray-900 text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
+          <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
             {t('settings.contactTitle')}
           </Text>
         </View>
 
         <View className="bg-white rounded-xl p-6 items-center">
-          <Text className="text-base text-gray-600 text-center mb-4" style={{ fontFamily: 'SF Pro Text' }}>
+          <Text className="text-body-lg text-text-tertiary text-center mb-4" style={{ fontFamily: 'SF Pro Text' }}>
             {t('settings.contactComingSoon')}
           </Text>
-          <Text className="text-sm text-gray-500 text-center" style={{ fontFamily: 'SF Pro Text' }}>
+          <Text className="text-body-md text-text-muted text-center" style={{ fontFamily: 'SF Pro Text' }}>
             {t('settings.contactDescription')}
           </Text>
         </View>

@@ -75,7 +75,7 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
           {onClose && <BackButton onPress={onClose} />}
           {!onClose && <View style={{ width: 40 }} />}
           <Text
-            className="text-2xl font-bold text-gray-900 flex-1 ml-2"
+            className="text-heading-2 text-text-primary flex-1 ml-2"
             style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
           >
             {t('common.settings')}
@@ -97,13 +97,13 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
               </View>
               <View className="flex-1">
                 <Text
-                  className="text-base font-semibold text-gray-900"
+                  className="text-body-lg text-text-primary font-semibold"
                   style={{ fontFamily: 'SF Pro Display' }}
                 >
                   {item.title}
                 </Text>
                 <Text
-                  className="text-xs text-gray-500 mt-0.5"
+                  className="text-body-sm text-text-muted mt-0.5"
                   style={{ fontFamily: 'SF Pro Text' }}
                 >
                   {item.subtitle}

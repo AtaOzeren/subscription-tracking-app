@@ -73,14 +73,14 @@ const CountryPickerModal: React.FC<CountryPickerModalProps> = ({
                   <View className="flex-row items-center flex-1">
                     <CountryFlag countryCode={country.code} size={24} />
                     <Text
-                      className="text-base font-semibold text-gray-900 ml-3"
+                      className="text-body-lg text-text-primary font-semibold ml-3"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
                       {country.name}
                     </Text>
                   </View>
                   {selectedCountry === country.code && (
-                    <Text className="text-blue-600 text-xl">✓</Text>
+                    <Text className="text-accent text-xl">✓</Text>
                   )}
                 </View>
               </TouchableOpacity>
