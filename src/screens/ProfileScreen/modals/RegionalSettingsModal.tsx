@@ -141,7 +141,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
           <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
             <TouchableOpacity onPress={onClose}>
               <Text
-                className="text-base font-semibold text-gray-700"
+                className="text-body-lg text-text-secondary font-semibold"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
                 {t('common.cancel')}
@@ -173,7 +173,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
               {/* Country Selector */}
               <View className="bg-white rounded-2xl p-4 mb-4">
                 <Text
-                  className="text-sm font-semibold text-gray-700 mb-2"
+                  className="text-body-md text-text-secondary font-semibold mb-2"
                   style={{ fontFamily: 'SF Pro Display' }}
                 >
                   {t('profile.region', { defaultValue: 'Region' })}
@@ -188,14 +188,14 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
                   >
                     {selectedCountry ? getCountryName(selectedCountry) : t('profile.selectRegion', { defaultValue: 'Select Region' })}
                   </Text>
-                  <Text className="text-gray-400">›</Text>
+                  <Text className="text-text-subtle">›</Text>
                 </TouchableOpacity>
               </View>
 
               {/* Currency Selector */}
               <View className="bg-white rounded-2xl p-4 mb-4">
                 <Text
-                  className="text-sm font-semibold text-gray-700 mb-2"
+                  className="text-body-md text-text-secondary font-semibold mb-2"
                   style={{ fontFamily: 'SF Pro Display' }}
                 >
                   {t('profile.currency', { defaultValue: 'Currency' })}
@@ -210,7 +210,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
                   >
                     {selectedCurrency ? getCurrencyName(selectedCurrency) : t('profile.selectCurrency', { defaultValue: 'Select Currency' })}
                   </Text>
-                  <Text className="text-gray-400">›</Text>
+                  <Text className="text-text-subtle">›</Text>
                 </TouchableOpacity>
               </View>
 

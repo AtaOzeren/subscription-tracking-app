@@ -274,7 +274,7 @@ const ProfileSetupScreen = () => {
     return (
       <SafeAreaView className="flex-1 bg-ios-background justify-center items-center">
         <Text 
-          className="text-gray-600"
+          className="text-text-tertiary"
           style={{ 
             fontFamily: 'SF Pro Text',
             fontSize: 16,

@@ -176,7 +176,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
         {category.icon_url ? <Text className="text-xs mr-1">{category.icon_url}</Text> : null}
         <Text
           className={`text-sm font-semibold ${
-            selectedCategory === category.id ? 'text-white' : 'text-gray-700'
+            selectedCategory === category.id ? 'text-white' : 'text-text-secondary'
           }`}
           style={{ fontFamily: 'SF Pro Display' }}
         >
@@ -447,7 +447,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     return (
       <TouchableOpacity onPress={onPress}>
         <Text
-          className="text-base font-semibold text-gray-700"
+          className="text-body-lg text-text-secondary font-semibold"
           style={{ fontFamily: 'SF Pro Display' }}
         >
           {title}

@@ -191,7 +191,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                  ) : (
                    <View className="w-20 h-20 rounded-full bg-blue-100 items-center justify-center mr-4">
                      <Text
-                       className="text-3xl font-bold text-accent"
+                       className="text-heading-1 text-accent"
                        style={{ fontFamily: 'SF Pro Display' }}
                      >
                        {user?.name?.charAt(0).toUpperCase() || 'U'}

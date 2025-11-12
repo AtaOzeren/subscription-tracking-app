@@ -141,7 +141,7 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
               className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center"
               activeOpacity={0.7}
             >
-              <Text className="text-xl font-bold text-gray-600">✕</Text>
+              <Text className="text-heading-3 text-text-tertiary">✕</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -178,7 +178,7 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
                 className="rounded-full bg-gray-100 items-center justify-center"
                 style={{ width: 140, height: 140, borderWidth: 4, borderColor: '#E5E7EB' }}
               >
-                <Text className="text-6xl text-gray-400">👤</Text>
+                <Text className="text-display-lg text-text-subtle">👤</Text>
               </View>
             )}
           </View>
@@ -198,7 +198,7 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
           {/* Divider with Text */}
           <View className="flex-row items-center mb-6">
             <View className="flex-1 h-px bg-gray-200" />
-            <Text className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            <Text className="px-4 text-body-sm text-text-subtle font-semibold uppercase tracking-wider">
               {t('common.or', { defaultValue: 'Or' })}
             </Text>
             <View className="flex-1 h-px bg-gray-200" />

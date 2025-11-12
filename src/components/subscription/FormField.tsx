@@ -18,7 +18,7 @@ const FormField: React.FC<FormFieldProps> = ({
   return (
     <View className="bg-white rounded-2xl p-4 mb-4">
       <Text
-        className="text-sm font-semibold text-gray-700 mb-2"
+        className="text-body-md text-text-secondary font-semibold mb-2"
         style={{ fontFamily: 'SF Pro Display' }}
       >
         {label} {required && '*'}

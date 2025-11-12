@@ -92,9 +92,9 @@ const UserSubscriptionCard = ({
             </Text>
           )}
 
-          <Text className="text-xl font-bold text-accent mt-1">
+          <Text className="text-heading-3 text-accent mt-1">
             {formatPrice(subscription.price, subscription.currency)}
-            <Text className="text-sm font-normal text-gray-500">
+            <Text className="text-body-md font-normal text-text-muted">
               {getBillingCycleText(subscription.billingCycle)}
             </Text>
           </Text>

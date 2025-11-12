@@ -152,7 +152,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
           <TouchableOpacity onPress={onBack}>
             <Text
-              className="text-base font-semibold text-gray-700"
+              className="text-body-lg text-text-secondary font-semibold"
               style={{ fontFamily: 'SF Pro Display' }}
             >
               {t("common.back")}
@@ -164,7 +164,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
             onPress={() => setShowMenu(true)}
             className="w-10 h-10 items-center justify-center"
           >
-            <Text className="text-2xl text-gray-700">⋮</Text>
+            <Text className="text-heading-2 text-text-secondary">⋮</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -232,7 +232,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                 {getBillingCycleText(subscription.billingCycle)} {t("subscription.cost")}
               </Text>
               <Text 
-                className="text-xl font-bold text-accent" 
+                className="text-heading-3 text-accent" 
                 style={{ fontFamily: 'SF Pro Display' }}
               >
                 {formatPrice(subscription.price, subscription.currency)}
@@ -259,7 +259,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               {t("subscription.category")}
             </Text>
             <Text 
-              className="text-base font-semibold text-gray-900" 
+              className="text-body-lg text-text-primary font-semibold" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {subscription.category.name}
@@ -275,7 +275,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               {t("subscription.billingCycle")}
             </Text>
             <Text 
-              className="text-base font-semibold text-gray-900" 
+              className="text-body-lg text-text-primary font-semibold" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {getBillingCycleText(subscription.billingCycle)}
@@ -291,7 +291,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               {t("subscription.nextBillingDate")}
             </Text>
             <Text 
-              className="text-base font-semibold text-gray-900" 
+              className="text-body-lg text-text-primary font-semibold" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {new Date(subscription.nextBillingDate).toLocaleDateString('en-US', {
@@ -327,7 +327,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               {t("subscription.currency")}
             </Text>
             <Text 
-              className="text-base font-semibold text-gray-900" 
+              className="text-body-lg text-text-primary font-semibold" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {subscription.currency}
@@ -343,7 +343,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               {t("subscription.type")}
             </Text>
             <Text 
-              className="text-base font-semibold text-gray-900" 
+              className="text-body-lg text-text-primary font-semibold" 
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {subscription.isCustom ? 'Custom' : 'Preset'}
@@ -387,7 +387,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
             <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
               <TouchableOpacity onPress={() => setShowEditModal(false)}>
                 <Text
-                  className="text-base font-semibold text-gray-700"
+                  className="text-body-lg text-text-secondary font-semibold"
                   style={{ fontFamily: 'SF Pro Display' }}
                 >
                   {t("common.cancel")}
@@ -427,7 +427,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                 </Text>
                 {subscription.planName && (
                   <Text
-                    className="text-sm text-gray-600"
+                    className="text-sm text-text-tertiary"
                     style={{ fontFamily: 'SF Pro Text' }}
                   >
                     {subscription.planName}
@@ -458,7 +458,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
             {/* Status Selector */}
             <View className="bg-white rounded-2xl p-4 mb-4">
               <Text
-                className="text-sm font-semibold text-gray-700 mb-3"
+                className="text-body-md text-text-secondary font-semibold mb-3"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
                 {t("subscription.status")}
@@ -481,7 +481,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                   >
                     <Text
                       className={`text-center text-sm font-semibold ${
-                        editStatus === status.value ? 'text-white' : 'text-gray-700'
+                        editStatus === status.value ? 'text-white' : 'text-text-secondary'
                       }`}
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
@@ -495,7 +495,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
             {/* Notes */}
             <View className="bg-white rounded-2xl p-4 mb-4">
               <Text
-                className="text-sm font-semibold text-gray-700 mb-2"
+                className="text-body-md text-text-secondary font-semibold mb-2"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
                 {t("subscription.notesOptional")}
@@ -596,7 +596,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                   className="bg-gray-100 rounded-2xl py-4 mt-4"
                 >
                   <Text 
-                    className="text-center text-base font-semibold text-gray-700"
+                    className="text-center text-body-lg text-text-secondary font-semibold"
                     style={{ fontFamily: 'SF Pro Display' }}
                   >
                     {t("common.cancel")}

@@ -120,7 +120,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
           <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
             <TouchableOpacity onPress={onClose}>
               <Text
-                className="text-base font-semibold text-gray-700"
+                className="text-body-lg text-text-secondary font-semibold"
                 style={{ fontFamily: 'SF Pro Display' }}
               >
                 {t('common.cancel')}
@@ -155,7 +155,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
               ) : (
                 <View className="w-24 h-24 rounded-full bg-blue-100 items-center justify-center mb-3">
                   <Text
-                    className="text-3xl font-bold text-accent"
+                    className="text-heading-1 text-accent"
                     style={{ fontFamily: 'SF Pro Display' }}
                   >
                     {editName?.charAt(0).toUpperCase() || 'U'}

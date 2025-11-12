@@ -20,7 +20,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
   return (
     <View className="bg-white rounded-2xl p-4 mb-4">
       <Text
-        className="text-sm font-semibold text-gray-700 mb-2"
+        className="text-body-md text-text-secondary font-semibold mb-2"
         style={{ fontFamily: 'SF Pro Display' }}
       >
         {label} {required && '*'}
@@ -37,7 +37,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
             <Text className="text-xs mr-1">{category.icon_url}</Text>
             <Text
               className={`text-sm font-semibold ${
-                selectedCategoryId === category.id ? 'text-white' : 'text-gray-700'
+                selectedCategoryId === category.id ? 'text-white' : 'text-text-secondary'
               }`}
               style={{ fontFamily: 'SF Pro Display' }}
             >

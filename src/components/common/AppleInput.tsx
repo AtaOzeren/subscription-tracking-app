@@ -19,7 +19,7 @@ const AppleInput: React.FC<AppleInputProps> = ({
   return (
     <View className={`w-full ${containerClassName || ''}`} style={containerStyle}>
       {label && (
-        <Text className="text-base font-semibold text-black mb-2 text-center" style={{ fontFamily: 'SF Pro Display' }}>
+        <Text className="text-body-lg text-text-primary font-semibold mb-2 text-center" style={{ fontFamily: 'SF Pro Display' }}>
           {label}
         </Text>
       )}

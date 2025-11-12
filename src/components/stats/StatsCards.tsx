@@ -35,7 +35,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({
         <Text className="text-gray-900 text-3xl font-bold">
           {formatPrice(monthlySpending, currency)}
         </Text>
-        <Text className="text-gray-400 text-xs mt-1">
+        <Text className="text-text-subtle text-xs mt-1">
           {t('stats.perMonth')}
         </Text>
       </View>

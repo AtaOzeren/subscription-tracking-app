@@ -105,7 +105,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
           </Text>
           <TouchableOpacity onPress={onClose}>
             <Text
-              className="text-base font-semibold text-gray-700"
+              className="text-body-lg text-text-secondary font-semibold"
               style={{ fontFamily: 'SF Pro Display' }}
             >
               {t('common.cancel')}

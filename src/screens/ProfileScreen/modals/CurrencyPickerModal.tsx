@@ -55,7 +55,7 @@ const CurrencyPickerModal: React.FC<CurrencyPickerModalProps> = ({
           <View className="p-4 border-b border-gray-200">
             <View className="flex-row items-center justify-between">
               <TouchableOpacity onPress={onClose}>
-                <Text className="text-gray-600 text-base" style={{ fontFamily: 'SF Pro Text' }}>
+                <Text className="text-text-tertiary text-base" style={{ fontFamily: 'SF Pro Text' }}>
                   {t('common.cancel')}
                 </Text>
               </TouchableOpacity>
@@ -96,7 +96,7 @@ const CurrencyPickerModal: React.FC<CurrencyPickerModalProps> = ({
                     </Text>
                   </View>
                   {selectedCurrency === currency.code && (
-                    <Text className="text-accent text-xl">✓</Text>
+                    <Text className="text-accent text-heading-3">✓</Text>
                   )}
                 </View>
               </TouchableOpacity>

@@ -17,7 +17,7 @@ const AboutSettings: React.FC<AboutSettingsProps> = ({ onClose }) => {
       <View className="bg-white border-b border-gray-200" style={{ paddingTop: insets.top }}>
         <View className="px-4 pt-2 pb-3 flex-row items-center">
           <BackButton onPress={onClose} />
-          <Text className="text-xl font-bold flex-1 ml-2" style={{ fontFamily: 'SF Pro Display' }}>
+          <Text className="text-heading-3 flex-1 ml-2" style={{ fontFamily: 'SF Pro Display' }}>
             {t('settings.about')}
           </Text>
         </View>
@@ -26,7 +26,7 @@ const AboutSettings: React.FC<AboutSettingsProps> = ({ onClose }) => {
       <ScrollView className="flex-1 p-6">
         <View className="items-center mb-6">
           <View className="w-16 h-16 rounded-full bg-gray-100 items-center justify-center mb-4">
-            <Text className="text-3xl text-gray-700">ⓘ</Text>
+            <Text className="text-heading-1 text-text-secondary">ⓘ</Text>
           </View>
           <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
             Sub-Tracking
@@ -51,25 +51,25 @@ const AboutSettings: React.FC<AboutSettingsProps> = ({ onClose }) => {
           </Text>
           <View className="space-y-2">
             <View className="flex-row items-center mb-2">
-              <Text className="text-base mr-2 text-gray-700">•</Text>
+              <Text className="text-body-lg mr-2 text-text-secondary">•</Text>
               <Text className="text-body-md text-text-secondary flex-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('settings.feature1')}
               </Text>
             </View>
             <View className="flex-row items-center mb-2">
-              <Text className="text-base mr-2 text-gray-700">•</Text>
+              <Text className="text-body-lg mr-2 text-text-secondary">•</Text>
               <Text className="text-body-md text-text-secondary flex-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('settings.feature2')}
               </Text>
             </View>
             <View className="flex-row items-center mb-2">
-              <Text className="text-base mr-2 text-gray-700">•</Text>
+              <Text className="text-body-lg mr-2 text-text-secondary">•</Text>
               <Text className="text-body-md text-text-secondary flex-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('settings.feature3')}
               </Text>
             </View>
             <View className="flex-row items-center">
-              <Text className="text-base mr-2 text-gray-700">•</Text>
+              <Text className="text-body-lg mr-2 text-text-secondary">•</Text>
               <Text className="text-body-md text-text-secondary flex-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('settings.feature4')}
               </Text>

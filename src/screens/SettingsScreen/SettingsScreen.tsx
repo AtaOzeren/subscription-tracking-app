@@ -109,7 +109,7 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
                   {item.subtitle}
                 </Text>
               </View>
-              <Text className="text-gray-400 text-lg ml-2">›</Text>
+              <Text className="text-text-subtle text-lg ml-2">›</Text>
             </TouchableOpacity>
           </View>
         ))}

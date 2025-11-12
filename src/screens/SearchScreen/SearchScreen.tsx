@@ -28,14 +28,14 @@ const SearchScreen = ({ scrollY }: SearchScreenProps) => {
           scrollEventThrottle={16}
         >
           <View className="p-4">
-            <Text className="text-2xl font-bold text-gray-800 mb-4">
+            <Text className="text-heading-2 text-text-primary mb-4">
               {t('navigation.search')}
             </Text>
             
             {/* Search Input */}
             <View className="bg-white rounded-lg p-3 mb-4 shadow-sm">
               <TextInput
-                className="text-gray-800 text-base"
+                className="text-text-primary text-body-lg"
                 placeholder={t('search.searchSubscriptions')}
                 value={searchQuery}
                 onChangeText={setSearchQuery}
@@ -45,13 +45,13 @@ const SearchScreen = ({ scrollY }: SearchScreenProps) => {
           
             {searchQuery === '' ? (
               <View className="bg-white rounded-lg p-4 mb-3 shadow-sm">
-                <Text className="text-gray-500 text-center py-8">
+                <Text className="text-text-muted text-center py-8">
                   {t('search.startTypingToSearch')}
                 </Text>
               </View>
             ) : (
               <View className="bg-white rounded-lg p-4 mb-3 shadow-sm">
-                <Text className="text-gray-500 text-center py-8">
+                <Text className="text-text-muted text-center py-8">
                   {t('search.noResultsFound')}
                 </Text>
               </View>

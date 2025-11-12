@@ -16,11 +16,11 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
   if (!breakdown || breakdown.length === 0) {
     return (
       <View className="px-6 mb-4">
-        <Text className="text-gray-900 text-lg font-bold mb-3">
+        <Text className="text-text-primary text-heading-4 mb-3">
           {t('stats.topSubscriptions')}
         </Text>
         <View className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <Text className="text-gray-400 text-center">
+          <Text className="text-text-subtle text-center">
             {t('stats.noSubscriptions')}
           </Text>
         </View>
@@ -34,7 +34,7 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
   return (
     <View className="mb-4">
       <View className="px-6 mb-3">
-        <Text className="text-gray-900 text-lg font-bold">
+        <Text className="text-text-primary text-heading-4">
           {t('stats.topSubscriptions')}
         </Text>
       </View>
@@ -59,7 +59,7 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
               </View>
               <View className="flex-1">
                 <Text 
-                  className="text-gray-900 text-sm font-semibold"
+                  className="text-text-primary text-body-md font-semibold"
                   numberOfLines={2}
                 >
                   {item.subscription_name}
@@ -79,7 +79,7 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
                 style={{ width: `${Math.min(item.percentage, 100)}%` }}
               />
             </View>
-            <Text className="text-gray-500 text-xs">
+            <Text className="text-text-muted text-body-sm">
               {item.percentage.toFixed(1)}% {t('stats.ofTotal')}
             </Text>
           </View>

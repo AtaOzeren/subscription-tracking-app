@@ -17,7 +17,7 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
       <View className="bg-white border-b border-gray-200" style={{ paddingTop: insets.top }}>
         <View className="px-4 pt-2 pb-3 flex-row items-center">
           <BackButton onPress={onClose} />
-          <Text className="text-xl font-bold flex-1 ml-2" style={{ fontFamily: 'SF Pro Display' }}>
+          <Text className="text-heading-3 flex-1 ml-2" style={{ fontFamily: 'SF Pro Display' }}>
             {t('settings.security')}
           </Text>
         </View>
@@ -36,7 +36,7 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
         <View className="space-y-4">
           <View className="bg-white rounded-xl p-4 mb-3">
             <View className="flex-row items-start mb-2">
-              <Text className="text-xl mr-3 text-gray-700">●</Text>
+              <Text className="text-heading-3 mr-3 text-text-secondary">●</Text>
               <View className="flex-1">
                 <Text className="text-body-lg text-text-primary font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('settings.securityPoint1Title')}
@@ -50,7 +50,7 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
 
           <View className="bg-white rounded-xl p-4 mb-3">
             <View className="flex-row items-start mb-2">
-              <Text className="text-xl mr-3 text-gray-700">●</Text>
+              <Text className="text-heading-3 mr-3 text-text-secondary">●</Text>
               <View className="flex-1">
                 <Text className="text-body-lg text-text-primary font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('settings.securityPoint2Title')}
@@ -64,7 +64,7 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
 
           <View className="bg-white rounded-xl p-4 mb-3">
             <View className="flex-row items-start mb-2">
-              <Text className="text-xl mr-3 text-gray-700">●</Text>
+              <Text className="text-heading-3 mr-3 text-text-secondary">●</Text>
               <View className="flex-1">
                 <Text className="text-body-lg text-text-primary font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('settings.securityPoint3Title')}

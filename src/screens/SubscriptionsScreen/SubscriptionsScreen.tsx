@@ -137,7 +137,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
         {category.icon_url ? <Text className="text-xs mr-1">{category.icon_url}</Text> : null}
         <Text
           className={`text-sm font-semibold ${
-            selectedCategory === category.id ? 'text-white' : 'text-gray-700'
+            selectedCategory === category.id ? 'text-white' : 'text-text-secondary'
           }`}
           style={{ fontFamily: 'SF Pro Display' }}
         >
@@ -231,7 +231,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
           <View className="bg-white rounded-2xl p-12 items-center">
             <MinimalLoader size="medium" color="#000000" />
             <Text
-              className="text-gray-600 mt-4 text-sm"
+              className="text-text-tertiary mt-4 text-sm"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {t('common.loading')}
@@ -241,7 +241,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
           <View className="bg-white rounded-2xl p-8 items-center">
             <Text className="text-5xl mb-4">📱</Text>
             <Text
-              className="text-lg font-semibold text-gray-900 mb-2"
+              className="text-heading-4 text-text-primary mb-2"
               style={{ fontFamily: 'SF Pro Display' }}
             >
               {selectedCategory ? t('subscriptions.noSubscriptionsInCategory') : t('subscriptions.noSubscriptionsYet')}

@@ -21,7 +21,7 @@ const BillingCycleSelector: React.FC<BillingCycleSelectorProps> = ({
   return (
     <View className="bg-white rounded-2xl p-4 mb-4">
       <Text
-        className="text-sm font-semibold text-gray-700 mb-2"
+        className="text-body-md text-text-secondary font-semibold mb-2"
         style={{ fontFamily: 'SF Pro Display' }}
       >
         {label} {required && '*'}
@@ -37,7 +37,7 @@ const BillingCycleSelector: React.FC<BillingCycleSelectorProps> = ({
           >
             <Text
               className={`text-sm font-semibold ${
-                selectedCycle === cycle ? 'text-white' : 'text-gray-700'
+                selectedCycle === cycle ? 'text-white' : 'text-text-secondary'
               }`}
               style={{ fontFamily: 'SF Pro Display' }}
             >

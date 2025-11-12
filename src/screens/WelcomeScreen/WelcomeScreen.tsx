@@ -112,10 +112,10 @@ const WelcomeScreen = () => {
         </View>
 
         {/* Welcome Text */}
-        <Text className="text-4xl font-bold text-gray-800 text-center mb-2">
+        <Text className="text-heading-1 text-text-primary text-center mb-2">
           Welcome to
         </Text>
-        <Text className="text-4xl font-bold text-gray-800 text-center">
+        <Text className="text-heading-1 text-text-primary text-center">
           Subscription Tracker
         </Text>
       </Animated.View>

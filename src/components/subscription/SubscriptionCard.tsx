@@ -43,9 +43,9 @@ const SubscriptionCard = ({
           <Text className="text-body-md text-text-muted mb-2">
             {subscription.category}
           </Text>
-          <Text className="text-xl font-bold text-accent">
+          <Text className="text-heading-3 text-accent">
             {formatPrice(subscription.price, subscription.currency)}
-            <Text className="text-sm font-normal text-gray-500">
+            <Text className="text-body-md font-normal text-text-muted">
               {getBillingCycleText(subscription.billingCycle)}
             </Text>
           </Text>

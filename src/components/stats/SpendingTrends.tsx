@@ -29,10 +29,10 @@ export const SpendingTrends: React.FC<SpendingTrendsProps> = ({
   return (
     <View className="px-6 mb-4">
       <View className="flex-row items-center justify-between mb-3">
-        <Text className="text-gray-900 text-lg font-bold">
+        <Text className="text-text-primary text-heading-4">
           {t('stats.spendingTrends')}
         </Text>
-        <Text className="text-gray-500 text-xs">
+        <Text className="text-text-muted text-body-sm">
           {t('stats.last6Months')}
         </Text>
       </View>
@@ -61,7 +61,7 @@ export const SpendingTrends: React.FC<SpendingTrendsProps> = ({
                 </View>
                 
                 {/* Month Label */}
-                <Text className="text-gray-400 text-xs mt-2">
+                <Text className="text-text-subtle text-xs mt-2">
                   {trend.month.substring(0, 3)}
                 </Text>
               </View>
@@ -72,10 +72,10 @@ export const SpendingTrends: React.FC<SpendingTrendsProps> = ({
         {/* Summary */}
         <View className="border-t border-gray-100 pt-3">
           <View className="flex-row items-center justify-between">
-            <Text className="text-gray-500 text-xs">
+            <Text className="text-text-muted text-body-sm">
               {t('stats.average')}
             </Text>
-            <Text className="text-gray-900 text-sm font-semibold">
+            <Text className="text-text-primary text-body-md font-semibold">
               {formatPrice(
                 trends.reduce((sum, t) => sum + t.total_spending, 0) / trends.length,
                 currency
