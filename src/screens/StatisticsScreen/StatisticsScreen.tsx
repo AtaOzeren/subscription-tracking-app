@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, Animated, RefreshControl, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import Svg, { Circle, Path, G } from 'react-native-svg';
+import Svg, { Circle, Path, G, Text as SvgText } from 'react-native-svg';
 import { statsService } from '../../services/statsService';
 import { DetailedStatsResponse } from '../../types/stats';
 import MinimalLoader from '../../components/common/MinimalLoader';
@@ -142,34 +142,33 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
 
     return (
       <View className="px-4 mb-4">
-        <View className="bg-white rounded-2xl p-4">
-          <View className="flex-row items-center justify-between mb-3">
-            <Text className="text-sm text-gray-500" style={{ fontFamily: 'SF Pro Text' }}>
-              {t('stats.totalSubscriptions')}
-            </Text>
-            <Text className="text-2xl font-bold text-gray-900" style={{ fontFamily: 'SF Pro Display' }}>
-              {stats.summary.total_subscriptions}
-            </Text>
-          </View>
-          <View className="flex-row justify-between">
-            {statusData.map((status, index) => (
-              <View
-                key={index}
-                className="flex-1 rounded-xl p-3 mx-1"
-                style={{ backgroundColor: status.bgColor }}
+        <View className="bg-white rounded-2xl p-5">
+          <Text className="text-lg font-bold text-gray-900 mb-4" style={{ fontFamily: 'SF Pro Display' }}>
+            {t('stats.totalSubscriptions')}
+          </Text>
+          
+          {/* Table format like ProfileScreen */}
+          {statusData.map((status, index) => (
+            <View
+              key={index}
+              className={`flex-row items-center justify-between py-3 ${
+                index < statusData.length - 1 ? 'border-b border-gray-100' : ''
+              }`}
+            >
+              <Text
+                className="text-base text-gray-500"
+                style={{ fontFamily: 'SF Pro Text' }}
               >
-                <Text className="text-xs text-gray-600 mb-1" style={{ fontFamily: 'SF Pro Text' }}>
-                  {status.label}
-                </Text>
-                <Text
-                  className="text-xl font-bold"
-                  style={{ fontFamily: 'SF Pro Display', color: status.color }}
-                >
-                  {status.count}
-                </Text>
-              </View>
-            ))}
-          </View>
+                {status.label}
+              </Text>
+              <Text
+                className="text-base font-semibold"
+                style={{ fontFamily: 'SF Pro Text', color: status.color }}
+              >
+                {status.count}
+              </Text>
+            </View>
+          ))}
         </View>
       </View>
     );
@@ -228,12 +227,21 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
         'Z',
       ].join(' ');
 
+      // Calculate label position (in the middle of the slice)
+      const labelAngle = startAngle + angle / 2;
+      const labelRad = (labelAngle * Math.PI) / 180;
+      const labelRadius = radius * 0.65; // Position at 65% of radius
+      const labelX = centerX + labelRadius * Math.cos(labelRad);
+      const labelY = centerY + labelRadius * Math.sin(labelRad);
+
       currentAngle = endAngle;
 
       return {
         path: pathData,
         color: colors[index % colors.length],
         item,
+        labelX,
+        labelY,
       };
     });
 
@@ -243,52 +251,56 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
           {t('stats.topSubscriptions')}
         </Text>
         <View className="bg-white rounded-2xl p-4">
-          <View className="items-center mb-4">
-            <Svg width={size} height={size}>
-              <G>
-                {paths.map((pathItem, index) => (
-                  <Path
-                    key={index}
-                    d={pathItem.path}
-                    fill={pathItem.color}
-                  />
-                ))}
-              </G>
-            </Svg>
-          </View>
+          {/* Pie Chart and Legend side by side */}
+          <View className="flex-row">
+            {/* Pie Chart - Left Side */}
+            <View className="items-center justify-center" style={{ width: size }}>
+              <Svg width={size} height={size}>
+                <G>
+                  {paths.map((pathItem, index) => (
+                    <Path
+                      key={index}
+                      d={pathItem.path}
+                      fill={pathItem.color}
+                    />
+                  ))}
+                </G>
+              </Svg>
+            </View>
 
-          {/* Legend */}
-          <View>
-            {chartData.map((item, index) => (
-              <View
-                key={index}
-                className={`flex-row items-center justify-between py-2 ${
-                  index < chartData.length - 1 ? 'border-b border-gray-100' : ''
-                }`}
-              >
-                <View className="flex-row items-center flex-1">
-                  <View
-                    className="w-3 h-3 rounded-full mr-2"
-                    style={{ backgroundColor: colors[index % colors.length] }}
-                  />
-                  <Text
-                    className="text-sm text-gray-900 flex-1"
-                    style={{ fontFamily: 'SF Pro Text' }}
-                    numberOfLines={1}
-                  >
-                    {item.subscription_name}
-                  </Text>
+            {/* Legend - Right Side */}
+            <View className="flex-1 ml-4 justify-center">
+              {chartData.map((item, index) => (
+                <View
+                  key={index}
+                  className={`flex-row items-center justify-between py-2 ${
+                    index < chartData.length - 1 ? 'border-b border-gray-100' : ''
+                  }`}
+                >
+                  <View className="flex-row items-center flex-1">
+                    <View
+                      className="w-3 h-3 rounded-full mr-2"
+                      style={{ backgroundColor: colors[index % colors.length] }}
+                    />
+                    <Text
+                      className="text-xs text-gray-900 flex-1"
+                      style={{ fontFamily: 'SF Pro Text' }}
+                      numberOfLines={1}
+                    >
+                      {item.subscription_name}
+                    </Text>
+                  </View>
+                  <View className="items-end ml-2">
+                    <Text className="text-xs font-semibold text-gray-900" style={{ fontFamily: 'SF Pro Display' }}>
+                      {item.percentage.toFixed(1)}%
+                    </Text>
+                    <Text className="text-xs text-gray-500" style={{ fontFamily: 'SF Pro Text' }}>
+                      {formatPrice(item.amount, item.currency)}
+                    </Text>
+                  </View>
                 </View>
-                <View className="items-end ml-2">
-                  <Text className="text-sm font-semibold text-gray-900" style={{ fontFamily: 'SF Pro Display' }}>
-                    {item.percentage.toFixed(1)}%
-                  </Text>
-                  <Text className="text-xs text-gray-500" style={{ fontFamily: 'SF Pro Text' }}>
-                    {formatPrice(item.amount, item.currency)}
-                  </Text>
-                </View>
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         </View>
       </View>
@@ -300,6 +312,15 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
 
     const trends = stats.spending_trends.last_6_months;
     const maxAmount = Math.max(...trends.map(t => t.amount), 1);
+    const currency = Object.keys(stats.summary.currency_breakdown)[0] || 'USD';
+    
+    // Calculate average and total
+    const total = trends.reduce((sum, t) => sum + t.amount, 0);
+    const average = total / trends.length;
+    
+    // Find highest and lowest spending months
+    const highest = trends.reduce((max, t) => t.amount > max.amount ? t : max, trends[0]);
+    const lowest = trends.reduce((min, t) => (t.amount > 0 && t.amount < min.amount) ? t : min, trends[0]);
 
     return (
       <View className="px-4 mb-4">
@@ -307,30 +328,96 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
           {t('stats.spendingTrends')}
         </Text>
         <View className="bg-white rounded-2xl p-4">
-          <View className="flex-row items-end justify-between" style={{ height: 120 }}>
+          {/* Bar Chart */}
+          <View className="flex-row items-end justify-between mb-4" style={{ height: 140 }}>
             {trends.map((trend, index) => {
               const height = maxAmount > 0 ? (trend.amount / maxAmount) * 100 : 0;
-              const barWidth = 100 / trends.length - 2;
+              const isHighest = trend.month === highest.month;
+              const isLowest = trend.month === lowest.month && trend.amount > 0;
+              
               return (
                 <View key={index} className="items-center flex-1">
                   <View className="flex-1 justify-end items-center mb-2 w-full">
                     {trend.amount > 0 && (
-                      <View
-                        className="bg-blue-500 rounded-t-lg"
-                        style={{
-                          height: `${height}%`,
-                          width: '80%',
-                          minHeight: height > 0 ? 4 : 0,
-                        }}
-                      />
+                      <>
+                        {/* Amount label on top of bar */}
+                        {height > 30 && (
+                          <Text 
+                            className="text-xs font-semibold mb-1"
+                            style={{ 
+                              fontFamily: 'SF Pro Text',
+                              color: isHighest ? '#10B981' : isLowest ? '#EF4444' : '#3B82F6'
+                            }}
+                          >
+                            {formatPrice(trend.amount, currency).replace(/\.\d+/, '')}
+                          </Text>
+                        )}
+                        <View
+                          className="rounded-t-lg"
+                          style={{
+                            height: `${height}%`,
+                            width: '80%',
+                            minHeight: height > 0 ? 8 : 0,
+                            backgroundColor: isHighest ? '#10B981' : isLowest ? '#EF4444' : '#3B82F6',
+                          }}
+                        />
+                      </>
                     )}
                   </View>
-                  <Text className="text-xs text-gray-600 mt-1" style={{ fontFamily: 'SF Pro Text' }}>
+                  <Text 
+                    className="text-xs mt-1"
+                    style={{ 
+                      fontFamily: 'SF Pro Text',
+                      color: isHighest || isLowest ? '#1F2937' : '#6B7280',
+                      fontWeight: isHighest || isLowest ? '600' : '400'
+                    }}
+                  >
                     {getMonthName(trend.month)}
                   </Text>
                 </View>
               );
             })}
+          </View>
+
+          {/* Statistics Summary */}
+          <View className="border-t border-gray-100 pt-4">
+            <View className="flex-row justify-between mb-3">
+              <View className="flex-1">
+                <Text className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'SF Pro Text' }}>
+                  {t('stats.average')}
+                </Text>
+                <Text className="text-sm font-semibold text-gray-900" style={{ fontFamily: 'SF Pro Display' }}>
+                  {formatPrice(average, currency)}
+                </Text>
+              </View>
+              <View className="flex-1 items-center">
+                <Text className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'SF Pro Text' }}>
+                  {t('stats.highest')}
+                </Text>
+                <Text className="text-sm font-semibold text-green-600" style={{ fontFamily: 'SF Pro Display' }}>
+                  {formatPrice(highest.amount, currency)}
+                </Text>
+              </View>
+              <View className="flex-1 items-end">
+                <Text className="text-xs text-gray-500 mb-1" style={{ fontFamily: 'SF Pro Text' }}>
+                  {t('stats.lowest')}
+                </Text>
+                <Text className="text-sm font-semibold text-red-600" style={{ fontFamily: 'SF Pro Display' }}>
+                  {formatPrice(lowest.amount, currency)}
+                </Text>
+              </View>
+            </View>
+            
+            <View className="bg-gray-50 rounded-xl p-3">
+              <View className="flex-row justify-between">
+                <Text className="text-xs text-gray-500" style={{ fontFamily: 'SF Pro Text' }}>
+                  {t('stats.total6Months')}
+                </Text>
+                <Text className="text-base font-bold text-gray-900" style={{ fontFamily: 'SF Pro Display' }}>
+                  {formatPrice(total, currency)}
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
       </View>

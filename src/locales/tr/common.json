@@ -182,6 +182,9 @@
     "spendingTrends": "Harcama Trendleri",
     "last6Months": "Son 6 ay",
     "average": "Ortalama",
+    "highest": "En Yüksek",
+    "lowest": "En Düşük",
+    "total6Months": "6 Aylık Toplam",
     "errorLoading": "İstatistikler yüklenemedi",
     "tryAgain": "Tekrar Dene",
     "others": "Diğerleri"

@@ -185,6 +185,9 @@
     "spendingTrends": "Spending Trends",
     "last6Months": "Last 6 months",
     "average": "Average",
+    "highest": "Highest",
+    "lowest": "Lowest",
+    "total6Months": "6-Month Total",
     "errorLoading": "Failed to load statistics",
     "tryAgain": "Try Again",
     "others": "Others"
