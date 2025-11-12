@@ -99,18 +99,18 @@ const MainNavigator = () => {
       isActive: activeTab === 'home',
     },
     {
-      key: 'subscriptions',
-      iconName: 'list',
-      label: t('navigation.subscriptions'),
-      onPress: () => setActiveTab('subscriptions'),
-      isActive: activeTab === 'subscriptions',
-    },
-    {
       key: 'statistics',
       iconName: 'bar-chart',
       label: t('navigation.statistics'),
       onPress: () => setActiveTab('statistics'),
       isActive: activeTab === 'statistics',
+    },
+    {
+      key: 'subscriptions',
+      iconName: 'list',
+      label: t('navigation.subscriptions'),
+      onPress: () => setActiveTab('subscriptions'),
+      isActive: activeTab === 'subscriptions',
     },
     {
       key: 'search',
