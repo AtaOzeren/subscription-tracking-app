@@ -39,7 +39,10 @@ export interface SubscriptionDetail {
 
 export interface SpendingTrend {
   month: string;
-  total_spending: number;
+  amount: number;
+  currency_breakdown: {
+    [currency: string]: number;
+  };
 }
 
 export interface DetailedStatsResponse {

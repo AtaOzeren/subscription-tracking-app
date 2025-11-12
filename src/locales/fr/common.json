@@ -167,17 +167,20 @@
     "noDataAvailable": "Aucune donnée disponible pour le moment. Commencez à ajouter des abonnements pour voir vos statistiques."
   },
   "stats": {
-    "monthlySpending": "Dépenses Mensuelles",
-    "yearlyProjection": "Projection Annuelle",
+    "monthlySpending": "Dépenses mensuelles",
+    "yearlyProjection": "Projection annuelle",
     "perMonth": "par mois",
     "perYear": "par an",
-    "topSubscriptions": "Abonnements Principaux",
-    "noSubscriptions": "Aucun abonnement encore",
+    "thisMonth": "ce mois",
+    "totalSubscriptions": "Total des abonnements",
+    "active": "actif",
+    "topSubscriptions": "Meilleurs abonnements",
+    "noSubscriptions": "Pas encore d'abonnements",
     "ofTotal": "du total",
-    "spendingTrends": "Tendances de Dépenses",
+    "spendingTrends": "Tendances des dépenses",
     "last6Months": "6 derniers mois",
     "average": "Moyenne",
-    "errorLoading": "Erreur lors du chargement des statistiques",
+    "errorLoading": "Échec du chargement des statistiques",
     "tryAgain": "Réessayer"
   },
   "search": {
