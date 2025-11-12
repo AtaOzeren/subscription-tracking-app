@@ -7,6 +7,7 @@ import { profileService } from '../../services/profileService';
 import { User } from '../../types/auth';
 import CountryFlag from '../../components/common/CountryFlag';
 import AppleButton from '../../components/common/AppleButton';
+import MinimalLoader from '../../components/common/MinimalLoader';
 import ProfileUpdateModal from './modals/ProfileUpdateModal';
 import RegionalSettingsModal from './modals/RegionalSettingsModal';
 
@@ -156,11 +157,12 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
       >
         {loading && !user ? (
           <View className="flex-1 items-center justify-center p-8">
+            <MinimalLoader size="large" color="#000000" />
             <Text
-              className="text-base text-gray-500"
+              className="text-base text-gray-600 mt-6"
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              {t('common.loading', { defaultValue: 'Loading...' })}
+              {t('common.loading', { defaultValue: 'Loading' })}
             </Text>
           </View>
         ) : (

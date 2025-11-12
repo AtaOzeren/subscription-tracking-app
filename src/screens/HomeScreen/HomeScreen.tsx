@@ -7,6 +7,7 @@ import { getGreetingMessage } from '../../utils/helpers';
 import ProfileButton from '../../components/common/ProfileButton';
 import { StatsCards } from '../../components/stats/StatsCards';
 import MinimalSubscriptionCard from '../../components/subscription/MinimalSubscriptionCard';
+import MinimalLoader from '../../components/common/MinimalLoader';
 import { mySubscriptionsService } from '../../services/mySubscriptionsService';
 import { UserSubscription } from '../../types/subscription';
 
@@ -73,8 +74,10 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeSc
     return (
       <SafeAreaView className="flex-1 bg-gray-50">
         <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color="#3B82F6" />
-          <Text className="text-gray-500 mt-4">{t('common.loading')}</Text>
+          <MinimalLoader size="large" color="#000000" />
+          <Text className="text-gray-600 mt-6 text-base" style={{ fontFamily: 'SF Pro Text' }}>
+            {t('common.loading')}
+          </Text>
         </View>
       </SafeAreaView>
     );

@@ -6,6 +6,7 @@ import { profileService } from '../../../services/profileService';
 import { referenceService } from '../../../services/referenceService';
 import { Country, Currency } from '../../../types/reference';
 import AppleButton from '../../../components/common/AppleButton';
+import MinimalLoader from '../../../components/common/MinimalLoader';
 import CountryPickerModal from './CountryPickerModal';
 import CurrencyPickerModal from './CurrencyPickerModal';
 
@@ -159,11 +160,12 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
         <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingTop: 16, paddingBottom: 32 }}>
           {loadingReference ? (
             <View className="items-center justify-center p-8">
+              <MinimalLoader size="medium" color="#000000" />
               <Text
-                className="text-base text-gray-500"
+                className="text-base text-gray-600 mt-4"
                 style={{ fontFamily: 'SF Pro Text' }}
               >
-                {t('common.loading', { defaultValue: 'Loading...' })}
+                {t('common.loading', { defaultValue: 'Loading' })}
               </Text>
             </View>
           ) : (

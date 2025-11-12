@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { mySubscriptionsService } from '../../services/mySubscriptionsService';
 import { UserSubscription } from '../../types/subscription';
 import UserSubscriptionCard from '../../components/subscription/UserSubscriptionCard';
+import MinimalLoader from '../../components/common/MinimalLoader';
 import AddSubscriptionScreen from '../AddSubscriptionScreen/AddSubscriptionScreen';
 import SubscriptionDetailScreen from '../SubscriptionDetailScreen/SubscriptionDetailScreen';
 
@@ -227,12 +228,13 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
         scrollEventThrottle={16}
       >
         {loading ? (
-          <View className="bg-white rounded-2xl p-8 items-center">
+          <View className="bg-white rounded-2xl p-12 items-center">
+            <MinimalLoader size="medium" color="#000000" />
             <Text
-              className="text-gray-500"
+              className="text-gray-600 mt-4 text-sm"
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              {t('common.loading')}...
+              {t('common.loading')}
             </Text>
           </View>
         ) : filteredSubscriptions.length === 0 ? (
