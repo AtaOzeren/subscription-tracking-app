@@ -86,7 +86,7 @@ const MainNavigator = () => {
       case 'search':
         return <SearchScreen scrollY={scrollY} />;
       default:
-        return <HomeScreen scrollY={scrollY} onNavigateToProfile={handleNavigateToProfile} />;
+        return <HomeScreen scrollY={scrollY} tabBarHeight={tabBarHeight} onNavigateToProfile={handleNavigateToProfile} />;
     }
   };
 

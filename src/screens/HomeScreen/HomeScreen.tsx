@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, ActivityIndicator, Animated } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -13,10 +13,10 @@ import { UserSubscription } from '../../types/subscription';
 interface HomeScreenProps {
   tabBarHeight?: number;
   onNavigateToProfile?: () => void;
-  scrollY?: any;
+  scrollY?: Animated.Value;
 }
 
-const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps) => {
+const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeScreenProps) => {
   const { user } = useAuth();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -109,6 +109,11 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps
           />
         }
         contentContainerStyle={{ paddingBottom: tabBarHeight + insets.bottom + 25 }}
+        onScroll={scrollY ? Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        ) : undefined}
+        scrollEventThrottle={16}
       >
         {/* Header */}
         <View className="px-6 pt-4 pb-6">

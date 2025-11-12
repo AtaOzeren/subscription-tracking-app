@@ -33,41 +33,45 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
 
   useEffect(() => {
     if (scrollY) {
-      const listener = scrollY.addListener(({ value }) => {
+      const listenerId = scrollY.addListener(({ value }) => {
         // Label'lar 50px scroll sonra kaybolmaya başlar, 100px'de tamamen kaybolur
         if (value > 50) {
           const progress = Math.min((value - 50) / 50, 1);
-          Animated.parallel([
-            Animated.timing(labelOpacity, {
-              toValue: 1 - progress,
-              duration: 0,
-              useNativeDriver: true,
-            }),
-            Animated.timing(labelHeight, {
-              toValue: 1 - progress,
-              duration: 0,
-              useNativeDriver: false,
-            }),
-          ]).start();
+          // Opacity animasyonu - useNativeDriver: false (scrollY ile uyumlu olması için)
+          Animated.timing(labelOpacity, {
+            toValue: 1 - progress,
+            duration: 0,
+            useNativeDriver: false,
+          }).start();
+          
+          // Height animasyonu - useNativeDriver: false
+          Animated.timing(labelHeight, {
+            toValue: 1 - progress,
+            duration: 0,
+            useNativeDriver: false,
+          }).start();
         } else {
           // Yukarı çıkınca label'lar tekrar görünür
-          Animated.parallel([
-            Animated.timing(labelOpacity, {
-              toValue: 1,
-              duration: 200,
-              useNativeDriver: true,
-            }),
-            Animated.timing(labelHeight, {
-              toValue: 1,
-              duration: 200,
-              useNativeDriver: false,
-            }),
-          ]).start();
+          // Opacity animasyonu - useNativeDriver: false (scrollY ile uyumlu olması için)
+          Animated.timing(labelOpacity, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: false,
+          }).start();
+          
+          // Height animasyonu - useNativeDriver: false
+          Animated.timing(labelHeight, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: false,
+          }).start();
         }
       });
 
       return () => {
-        scrollY.removeListener(listener);
+        if (scrollY && listenerId) {
+          scrollY.removeListener(listenerId);
+        }
       };
     }
   }, [scrollY, labelOpacity, labelHeight]);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Modal, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
@@ -10,7 +10,7 @@ import AddSubscriptionScreen from '../AddSubscriptionScreen/AddSubscriptionScree
 import SubscriptionDetailScreen from '../SubscriptionDetailScreen/SubscriptionDetailScreen';
 
 interface SubscriptionsScreenProps {
-  scrollY?: any;
+  scrollY?: Animated.Value;
 }
 
 const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
@@ -220,6 +220,11 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 12 }}
+        onScroll={scrollY ? Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        ) : undefined}
+        scrollEventThrottle={16}
       >
         {loading ? (
           <View className="bg-white rounded-2xl p-8 items-center">
