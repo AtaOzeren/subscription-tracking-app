@@ -230,6 +230,7 @@
     "role": "Роль",
     "region": "Регион",
     "currency": "Валюта",
+    "subscriptionCount": "Подписки",
     "lastLogin": "Последний вход",
     "createdAt": "Аккаунт создан",
     "updatedAt": "Последнее обновление",

@@ -233,6 +233,7 @@
     "role": "Role",
     "region": "Region",
     "currency": "Currency",
+    "subscriptionCount": "Subscriptions",
     "lastLogin": "Last Login",
     "createdAt": "Account Created",
     "updatedAt": "Last Updated",

@@ -230,6 +230,7 @@
     "role": "Ruolo",
     "region": "Regione",
     "currency": "Valuta",
+    "subscriptionCount": "Abbonamenti",
     "lastLogin": "Ultimo accesso",
     "createdAt": "Account creato",
     "updatedAt": "Ultimo aggiornamento",

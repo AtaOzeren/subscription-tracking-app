@@ -230,6 +230,7 @@
     "role": "Rol",
     "region": "Bölge",
     "currency": "Para Birimi",
+    "subscriptionCount": "Abonelikler",
     "lastLogin": "Son Giriş",
     "createdAt": "Hesap Oluşturulma",
     "updatedAt": "Son Güncelleme",
