@@ -173,7 +173,9 @@
     "perYear": "all'anno",
     "thisMonth": "questo mese",
     "totalSubscriptions": "Abbonamenti totali",
-    "active": "attivo",
+    "active": "Attivo",
+    "cancelled": "Annullato",
+    "inactive": "Inattivo",
     "topSubscriptions": "Abbonamenti principali",
     "noSubscriptions": "Nessun abbonamento ancora",
     "ofTotal": "del totale",
@@ -181,7 +183,8 @@
     "last6Months": "Ultimi 6 mesi",
     "average": "Media",
     "errorLoading": "Impossibile caricare le statistiche",
-    "tryAgain": "Riprova"
+    "tryAgain": "Riprova",
+    "others": "Altri"
   },
   "search": {
     "searchSubscriptions": "Cerca abbonamenti...",

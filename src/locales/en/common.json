@@ -176,7 +176,9 @@
     "perYear": "per year",
     "thisMonth": "this month",
     "totalSubscriptions": "Total Subscriptions",
-    "active": "active",
+    "active": "Active",
+    "cancelled": "Cancelled",
+    "inactive": "Inactive",
     "topSubscriptions": "Top Subscriptions",
     "noSubscriptions": "No subscriptions yet",
     "ofTotal": "of total",
@@ -184,7 +186,8 @@
     "last6Months": "Last 6 months",
     "average": "Average",
     "errorLoading": "Failed to load statistics",
-    "tryAgain": "Try Again"
+    "tryAgain": "Try Again",
+    "others": "Others"
   },
   "search": {
     "searchSubscriptions": "Search subscriptions...",

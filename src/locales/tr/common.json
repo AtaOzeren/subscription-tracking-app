@@ -173,7 +173,9 @@
     "perYear": "yıllık",
     "thisMonth": "bu ay",
     "totalSubscriptions": "Toplam Abonelik",
-    "active": "aktif",
+    "active": "Aktif",
+    "cancelled": "İptal Edilmiş",
+    "inactive": "Pasif",
     "topSubscriptions": "En Çok Harcama Yapılan Abonelikler",
     "noSubscriptions": "Henüz abonelik yok",
     "ofTotal": "toplamın",
@@ -181,7 +183,8 @@
     "last6Months": "Son 6 ay",
     "average": "Ortalama",
     "errorLoading": "İstatistikler yüklenemedi",
-    "tryAgain": "Tekrar Dene"
+    "tryAgain": "Tekrar Dene",
+    "others": "Diğerleri"
   },
   "search": {
     "searchSubscriptions": "Abonelikleri ara...",

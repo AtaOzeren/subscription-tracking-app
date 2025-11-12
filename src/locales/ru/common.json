@@ -173,7 +173,9 @@
     "perYear": "в год",
     "thisMonth": "в этом месяце",
     "totalSubscriptions": "Всего подписок",
-    "active": "активно",
+    "active": "Активно",
+    "cancelled": "Отменено",
+    "inactive": "Неактивно",
     "topSubscriptions": "Топ подписок",
     "noSubscriptions": "Пока нет подписок",
     "ofTotal": "от общей суммы",
@@ -181,7 +183,8 @@
     "last6Months": "Последние 6 месяцев",
     "average": "Среднее",
     "errorLoading": "Не удалось загрузить статистику",
-    "tryAgain": "Попробовать снова"
+    "tryAgain": "Попробовать снова",
+    "others": "Другие"
   },
   "search": {
     "searchSubscriptions": "Поиск подписок...",

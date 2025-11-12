@@ -173,7 +173,9 @@
     "perYear": "pro Jahr",
     "thisMonth": "diesen Monat",
     "totalSubscriptions": "Gesamt Abonnements",
-    "active": "aktiv",
+    "active": "Aktiv",
+    "cancelled": "Gekündigt",
+    "inactive": "Inaktiv",
     "topSubscriptions": "Top-Abonnements",
     "noSubscriptions": "Noch keine Abonnements",
     "ofTotal": "vom Gesamt",
@@ -181,7 +183,8 @@
     "last6Months": "Letzte 6 Monate",
     "average": "Durchschnitt",
     "errorLoading": "Fehler beim Laden der Statistiken",
-    "tryAgain": "Erneut versuchen"
+    "tryAgain": "Erneut versuchen",
+    "others": "Andere"
   },
   "search": {
     "searchSubscriptions": "Abonnements suchen...",
