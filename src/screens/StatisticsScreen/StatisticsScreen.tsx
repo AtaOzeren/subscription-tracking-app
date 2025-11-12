@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Animated, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Animated, RefreshControl, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import Svg, { Circle, Path, G, Text as SvgText } from 'react-native-svg';
@@ -94,23 +94,43 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
       : stats.projected_annual_cost;
     
     const currency = Object.keys(stats.summary.currency_breakdown)[0] || 'USD';
-    const label = viewMode === 'monthly' ? t('stats.thisMonth') : t('stats.perYear');
+
+    const showYearlyInfo = () => {
+      Alert.alert(
+        t('stats.yearlyProjectionInfo'),
+        t('stats.yearlyProjectionDescription'),
+        [{ text: t('common.done'), style: 'default' }]
+      );
+    };
 
     return (
       <View className="px-4 mb-4">
-        <View className="bg-white rounded-2xl p-6">
-          <Text className="text-sm text-gray-500 mb-2" style={{ fontFamily: 'SF Pro Text' }}>
-            {viewMode === 'monthly' ? t('stats.monthlySpending') : t('stats.yearlyProjection')}
-          </Text>
-          <Text
-            className="text-4xl font-bold text-gray-900 mb-1"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
-            {formatPrice(amount, currency)}
-          </Text>
-          <Text className="text-sm text-gray-400" style={{ fontFamily: 'SF Pro Text' }}>
-            {label}
-          </Text>
+        <View className="bg-white rounded-2xl p-5">
+          <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
+            <View className="flex-row items-center">
+              <Text
+                className="text-base text-gray-500"
+                style={{ fontFamily: 'SF Pro Text' }}
+              >
+                {viewMode === 'monthly' ? t('stats.monthlySpending') : t('stats.yearlyProjection')}
+              </Text>
+              {viewMode === 'yearly' && (
+                <TouchableOpacity onPress={showYearlyInfo} className="ml-2">
+                  <View className="w-5 h-5 rounded-full border-2 border-blue-500 items-center justify-center">
+                    <Text className="text-blue-500 text-xs font-bold" style={{ fontFamily: 'SF Pro Display' }}>
+                      !
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            </View>
+            <Text
+              className="text-base font-semibold text-gray-900"
+              style={{ fontFamily: 'SF Pro Text' }}
+            >
+              {formatPrice(amount, currency)}
+            </Text>
+          </View>
         </View>
       </View>
     );
@@ -121,32 +141,30 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
 
     const statusData = [
       {
+        label: t('stats.totalSubscriptions'),
+        count: stats.summary.total_subscriptions,
+        color: '#1F2937',
+      },
+      {
         label: t('stats.active'),
         count: stats.summary.active_subscriptions,
-        color: '#10B981',
-        bgColor: '#D1FAE5',
+        color: '#1F2937',
       },
       {
         label: t('stats.cancelled'),
         count: stats.summary.cancelled_subscriptions,
-        color: '#EF4444',
-        bgColor: '#FEE2E2',
+        color: '#1F2937',
       },
       {
         label: t('stats.inactive'),
         count: stats.summary.inactive_subscriptions,
-        color: '#6B7280',
-        bgColor: '#F3F4F6',
+        color: '#1F2937',
       },
     ];
 
     return (
       <View className="px-4 mb-4">
         <View className="bg-white rounded-2xl p-5">
-          <Text className="text-lg font-bold text-gray-900 mb-4" style={{ fontFamily: 'SF Pro Display' }}>
-            {t('stats.totalSubscriptions')}
-          </Text>
-          
           {/* Table format like ProfileScreen */}
           {statusData.map((status, index) => (
             <View
@@ -456,6 +474,15 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
+      {/* Header - Top Bar Style */}
+      <View className="bg-white border-b border-gray-200">
+        <View className="px-4 py-4">
+          <Text className="text-3xl font-bold text-gray-900" style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}>
+            {t('navigation.statistics')}
+          </Text>
+        </View>
+      </View>
+
       <ScrollView
         className="flex-1"
         contentContainerStyle={{ paddingBottom: 125 }}
@@ -472,18 +499,10 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
         ) : undefined}
         scrollEventThrottle={16}
       >
-        {/* Header */}
-        <View className="px-4 pt-4 pb-2">
-          <Text className="text-2xl font-bold text-gray-800 mb-1" style={{ fontFamily: 'SF Pro Display' }}>
-            {t('navigation.statistics')}
-          </Text>
-          <Text className="text-base text-gray-500" style={{ fontFamily: 'SF Pro Text' }}>
-            {t('statistics.viewYourSpending')}
-          </Text>
-        </View>
-
         {/* Toggle Buttons */}
-        {renderToggleButtons()}
+        <View className="mt-4">
+          {renderToggleButtons()}
+        </View>
 
         {/* Spending Card (Monthly or Yearly) */}
         {renderSpendingCard()}

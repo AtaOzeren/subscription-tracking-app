@@ -188,6 +188,8 @@
     "highest": "Highest",
     "lowest": "Lowest",
     "total6Months": "6-Month Total",
+    "yearlyProjectionInfo": "Yearly Projection Info",
+    "yearlyProjectionDescription": "This is an estimate based on your current active subscriptions. As subscription prices change or you add new subscriptions, this projection will automatically update.",
     "errorLoading": "Failed to load statistics",
     "tryAgain": "Try Again",
     "others": "Others"

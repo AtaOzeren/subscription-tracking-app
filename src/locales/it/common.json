@@ -182,6 +182,11 @@
     "spendingTrends": "Tendenze di spesa",
     "last6Months": "Ultimi 6 mesi",
     "average": "Media",
+    "highest": "Più alto",
+    "lowest": "Più basso",
+    "total6Months": "Totale 6 mesi",
+    "yearlyProjectionInfo": "Info proiezione annuale",
+    "yearlyProjectionDescription": "Questa è una stima basata sui tuoi abbonamenti attualmente attivi. Man mano che i prezzi degli abbonamenti cambiano o aggiungi nuovi abbonamenti, questa proiezione verrà automaticamente aggiornata.",
     "errorLoading": "Impossibile caricare le statistiche",
     "tryAgain": "Riprova",
     "others": "Altri"
