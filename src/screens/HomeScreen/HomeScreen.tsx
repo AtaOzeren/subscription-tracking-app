@@ -70,36 +70,6 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeSc
     }
   };
 
-  if (loading) {
-    return (
-      <SafeAreaView className="flex-1 bg-gray-50">
-        <View className="flex-1 items-center justify-center">
-          <MinimalLoader size="large" color="#000000" />
-          <Text className="text-gray-600 mt-6 text-base" style={{ fontFamily: 'SF Pro Text' }}>
-            {t('common.loading')}
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  if (error) {
-    return (
-      <SafeAreaView className="flex-1 bg-gray-50">
-        <View className="flex-1 items-center justify-center px-6">
-          <Text className="text-red-500 text-center mb-4">
-            {error}
-          </Text>
-          <TouchableOpacity onPress={loadSubscriptions}>
-            <Text className="text-blue-500 font-semibold">
-              {t('common.tryAgain')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <ScrollView 
@@ -130,31 +100,54 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeSc
           </View>
         </View>
 
-        {/* Stats Cards */}
-        <StatsCards
-          monthlySpending={subscriptions
-            .filter(sub => sub.status === 'active')
-            .reduce((sum, sub) => sum + sub.price, 0)}
-          currency={subscriptions.length > 0 ? subscriptions[0].currency : 'USD'}
-          activeSubscriptions={subscriptions.filter(sub => sub.status === 'active').length}
-          totalSubscriptions={subscriptions.length}
-        />
+        {/* Content Area - Loading/Error/Content */}
+        {loading ? (
+          <View className="flex-1 items-center justify-center py-20">
+            <MinimalLoader size="large" color="#000000" />
+            <Text className="text-gray-600 mt-4 text-base" style={{ fontFamily: 'SF Pro Text' }}>
+              {t('common.loading')}
+            </Text>
+          </View>
+        ) : error ? (
+          <View className="flex-1 items-center justify-center px-6 py-20">
+            <Text className="text-red-500 text-center mb-4">
+              {error}
+            </Text>
+            <TouchableOpacity onPress={loadSubscriptions}>
+              <Text className="text-blue-500 font-semibold">
+                {t('common.tryAgain')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <>
+            {/* Stats Cards */}
+            <StatsCards
+              monthlySpending={subscriptions
+                .filter(sub => sub.status === 'active')
+                .reduce((sum, sub) => sum + sub.price, 0)}
+              currency={subscriptions.length > 0 ? subscriptions[0].currency : 'USD'}
+              activeSubscriptions={subscriptions.filter(sub => sub.status === 'active').length}
+              totalSubscriptions={subscriptions.length}
+            />
 
-        {/* Active Subscriptions */}
-        <View className="px-6 mb-4">
-          <Text className="text-gray-900 text-lg font-bold mb-3">
-            {t('home.activeSubscriptions')}
-          </Text>
-          {subscriptions
-            .filter(sub => sub.status === 'active')
-            .map((subscription) => (
-              <MinimalSubscriptionCard
-                key={subscription.id}
-                subscription={subscription}
-                onPress={(subscription) => console.log('Subscription pressed:', subscription.name)}
-              />
-            ))}
-        </View>
+            {/* Active Subscriptions */}
+            <View className="px-6 mb-4">
+              <Text className="text-gray-900 text-lg font-bold mb-3">
+                {t('home.activeSubscriptions')}
+              </Text>
+              {subscriptions
+                .filter(sub => sub.status === 'active')
+                .map((subscription) => (
+                  <MinimalSubscriptionCard
+                    key={subscription.id}
+                    subscription={subscription}
+                    onPress={(subscription) => console.log('Subscription pressed:', subscription.name)}
+                  />
+                ))}
+            </View>
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

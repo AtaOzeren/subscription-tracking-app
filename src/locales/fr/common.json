@@ -12,7 +12,7 @@
     "back": "Retour",
     "next": "Suivant",
     "done": "Terminé",
-    "loading": "Chargement...",
+    "loading": "Chargement",
     "error": "Erreur",
     "errorLoading": "Erreur lors du chargement des données",
     "success": "Succès",

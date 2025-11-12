@@ -12,7 +12,7 @@
     "back": "Back",
     "next": "Next",
     "done": "Done",
-    "loading": "Loading...",
+    "loading": "Loading",
     "error": "Error",
     "errorLoading": "Error loading data",
     "success": "Success",
