@@ -9,7 +9,11 @@ import UserSubscriptionCard from '../../components/subscription/UserSubscription
 import AddSubscriptionScreen from '../AddSubscriptionScreen/AddSubscriptionScreen';
 import SubscriptionDetailScreen from '../SubscriptionDetailScreen/SubscriptionDetailScreen';
 
-const SubscriptionsScreen = () => {
+interface SubscriptionsScreenProps {
+  scrollY?: any;
+}
+
+const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
   const [selectedSubscription, setSelectedSubscription] = useState<UserSubscription | null>(null);
   const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();

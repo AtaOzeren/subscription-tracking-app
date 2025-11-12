@@ -13,6 +13,7 @@ import { UserSubscription } from '../../types/subscription';
 interface HomeScreenProps {
   tabBarHeight?: number;
   onNavigateToProfile?: () => void;
+  scrollY?: any;
 }
 
 const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile }: HomeScreenProps) => {

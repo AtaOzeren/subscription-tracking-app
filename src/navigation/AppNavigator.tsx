@@ -34,7 +34,7 @@ const HomeStack = () => {
       <Stack.Screen
         name="SubscriptionDetail"
         component={SubscriptionDetailScreen}
-        options={{ title: 'Subscription Details' }}
+        options={{ title: 'Subscription Details', headerShown: false }}
       />
       <Stack.Screen
         name="Profile"

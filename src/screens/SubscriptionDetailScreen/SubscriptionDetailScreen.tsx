@@ -9,8 +9,8 @@ import AppleButton from '../../components/common/AppleButton';
 import { formatPrice } from '../../utils/currency';
 
 interface SubscriptionDetailScreenProps {
-  route: {
-    params: {
+  route?: {
+    params?: {
       subscription: UserSubscription;
       onDelete: (id: number) => void;
       onBack: () => void;
@@ -20,7 +20,12 @@ interface SubscriptionDetailScreenProps {
 }
 
 const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
-  const { subscription, onDelete, onBack, onUpdate } = route.params;
+  const { subscription, onDelete, onBack, onUpdate } = route?.params || {};
+  
+  if (!subscription) {
+    return null;
+  }
+  
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const [showMenu, setShowMenu] = useState(false);
@@ -75,8 +80,8 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
           text: t('subscriptionAlerts.deleteConfirm'),
           style: 'destructive',
           onPress: () => {
-            onDelete(subscription.id);
-            onBack();
+            onDelete?.(subscription.id);
+            onBack?.();
           }
         }
       ]
@@ -122,7 +127,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               if (onUpdate) {
                 onUpdate();
               }
-              onBack();
+              onBack?.();
             } catch (error) {
               Alert.alert(
                 t('common.error'),
