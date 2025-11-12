@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, ActivityIndicator, Animated } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, ActivityIndicator, Animated, Modal } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import ProfileButton from '../../components/common/ProfileButton';
 import { StatsCards } from '../../components/stats/StatsCards';
 import MinimalSubscriptionCard from '../../components/subscription/MinimalSubscriptionCard';
 import MinimalLoader from '../../components/common/MinimalLoader';
+import SubscriptionDetailScreen from '../SubscriptionDetailScreen/SubscriptionDetailScreen';
 import { mySubscriptionsService } from '../../services/mySubscriptionsService';
 import { UserSubscription } from '../../types/subscription';
 
@@ -26,6 +27,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeSc
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedSubscription, setSelectedSubscription] = useState<UserSubscription | null>(null);
 
   useEffect(() => {
     // Update greeting message when user changes or every minute
@@ -142,13 +144,39 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeSc
                   <MinimalSubscriptionCard
                     key={subscription.id}
                     subscription={subscription}
-                    onPress={(subscription) => console.log('Subscription pressed:', subscription.name)}
+                    onPress={() => setSelectedSubscription(subscription)}
                   />
                 ))}
             </View>
           </>
         )}
       </ScrollView>
+
+      {/* Subscription Detail Modal */}
+      {selectedSubscription && (
+        <Modal
+          visible={selectedSubscription !== null}
+          animationType="slide"
+          presentationStyle="fullScreen"
+        >
+          <SubscriptionDetailScreen
+            route={{
+              params: {
+                subscription: selectedSubscription,
+                onDelete: async (id: number) => {
+                  await mySubscriptionsService.deleteSubscription(id);
+                  setSelectedSubscription(null);
+                  loadSubscriptions();
+                },
+                onBack: () => setSelectedSubscription(null),
+                onUpdate: async () => {
+                  await loadSubscriptions();
+                },
+              },
+            }}
+          />
+        </Modal>
+      )}
     </SafeAreaView>
   );
 };
