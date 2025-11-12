@@ -21,7 +21,7 @@ interface ProfileScreenProps {
 const ProfileScreen = ({ route }: ProfileScreenProps) => {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
-  const { user: contextUser, logout, checkAuth } = useAuth();
+  const { user: contextUser, checkAuth } = useAuth();
   const [user, setUser] = useState<User | null>(contextUser);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -86,25 +86,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
     }
   };
 
-  const handleLogout = () => {
-    Alert.alert(
-      t('profile.logoutTitle', { defaultValue: 'Logout' }),
-      t('profile.logoutMessage', { defaultValue: 'Are you sure you want to logout?' }),
-      [
-        {
-          text: t('common.cancel'),
-          style: 'cancel',
-        },
-        {
-          text: t('profile.logoutConfirm', { defaultValue: 'Logout' }),
-          style: 'destructive',
-          onPress: async () => {
-            await logout();
-          },
-        },
-      ]
-    );
-  };
+  
 
   const handleUpdateSuccess = async () => {
     await checkAuth();
@@ -258,53 +240,63 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                 </View>
               </View>
 
-              {/* Currency */}
-              <View className="flex-row items-center justify-between py-3">
-                <Text
-                  className="text-base text-gray-500"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {t('profile.currency', { defaultValue: 'Currency' })}
-                </Text>
-                <Text
-                  className="text-base font-semibold text-gray-900"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {user?.currency || 'N/A'}
-                </Text>
-              </View>
-            </View>
+{/* Currency */}
+               <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
+                 <Text
+                   className="text-base text-gray-500"
+                   style={{ fontFamily: 'SF Pro Text' }}
+                 >
+                   {t('profile.currency', { defaultValue: 'Currency' })}
+                 </Text>
+                 <Text
+                   className="text-base font-semibold text-gray-900"
+                   style={{ fontFamily: 'SF Pro Text' }}
+                 >
+                   {user?.currency || 'N/A'}
+                 </Text>
+               </View>
 
-            {/* Account Created - Centered */}
-            <View className="bg-white px-6 py-5 mb-3">
-              <View className="items-center">
-                <Text
-                  className="text-base text-gray-500 mb-2"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
-                  {t('profile.createdAt', { defaultValue: 'Account Created' })}
-                </Text>
-                <Text
-                  className="text-lg font-semibold text-gray-900"
-                  style={{ fontFamily: 'SF Pro Display' }}
-                >
-                  {formatDate(user?.created_at)}
-                </Text>
-              </View>
-            </View>
+               {/* Subscription Count */}
+               <View className="flex-row items-center justify-between py-3">
+                 <Text
+                   className="text-base text-gray-500"
+                   style={{ fontFamily: 'SF Pro Text' }}
+                 >
+                   {t('profile.subscriptionCount', { defaultValue: 'Subscriptions' })}
+                 </Text>
+                 <Text
+                   className="text-base font-semibold text-gray-900"
+                   style={{ fontFamily: 'SF Pro Text' }}
+                 >
+                   {user?.subscription_count || 0}
+                 </Text>
+               </View>
+             </View>
 
-            {/* Logout Button */}
-            <View className="px-4">
-              <AppleButton
-                title={t('profile.logout', { defaultValue: 'Logout' })}
-                onPress={handleLogout}
-                variant="danger"
-                size="large"
-              />
-            </View>
-          </>
+                      </>
         )}
       </ScrollView>
+
+      {/* Account Created - Fixed Bottom */}
+      <View 
+        className="bg-gray-50 px-6 py-4"
+        style={{ paddingBottom: insets.bottom + 16 }}
+      >
+        <View className="items-center">
+          <Text
+            className="text-sm text-gray-500 mb-2"
+            style={{ fontFamily: 'SF Pro Text' }}
+          >
+            {t('profile.createdAt', { defaultValue: 'Account Created' })}
+          </Text>
+          <Text
+            className="text-sm text-gray-500"
+            style={{ fontFamily: 'SF Pro Text' }}
+          >
+            {formatDate(user?.created_at)}
+          </Text>
+        </View>
+      </View>
 
       {/* Menu Modal */}
       <Modal

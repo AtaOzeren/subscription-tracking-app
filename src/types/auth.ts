@@ -9,6 +9,7 @@ export interface User {
   last_login_at?: string;
   created_at?: string;
   updated_at?: string;
+  subscription_count?: number;
 }
 
 export interface LoginRequest {
