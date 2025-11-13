@@ -50,7 +50,10 @@
     "goodNight": "İyi Geceler {{name}}",
     "quickActions": "Hızlı İşlemler",
     "viewAllSubscriptions": "Tüm Abonelikleri Görüntüle",
-    "addNewSubscription": "Yeni Abonelik Ekle"
+    "addNewSubscription": "Yeni Abonelik Ekle",
+    "viewAll": "Tümünü Gör",
+    "addSubscription": "Abonelik Ekle",
+    "support": "Destek Ver"
   },
   "language": {
     "selectLanguage": "Dil Seçin",

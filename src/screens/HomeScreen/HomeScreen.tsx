@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { getGreetingMessage } from '../../utils/helpers';
 import ProfileButton from '../../components/common/ProfileButton';
+import Button from '../../components/common/Button';
 import { StatsCards } from '../../components/stats/StatsCards';
 import MinimalSubscriptionCard from '../../components/subscription/MinimalSubscriptionCard';
 import MinimalLoader from '../../components/common/MinimalLoader';
@@ -15,10 +16,12 @@ import { UserSubscription } from '../../types/subscription';
 interface HomeScreenProps {
   tabBarHeight?: number;
   onNavigateToProfile?: () => void;
+  onNavigateToSubscriptions?: () => void;
+  onNavigateToAddSubscription?: () => void;
   scrollY?: Animated.Value;
 }
 
-const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeScreenProps) => {
+const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubscriptions, onNavigateToAddSubscription, scrollY }: HomeScreenProps) => {
   const { user } = useAuth();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -133,13 +136,46 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, scrollY }: HomeSc
               totalSubscriptions={subscriptions.length}
             />
 
+            {/* Action Buttons */}
+            <View className="px-6 mb-6 flex-row gap-3">
+              <View className="flex-1">
+                <Button
+                  title={t('home.addSubscription')}
+                  onPress={() => onNavigateToAddSubscription?.()}
+                  variant="primary"
+                  size="large"
+                  className="rounded-xl"
+                />
+              </View>
+              <View className="flex-1">
+                <Button
+                  title={t('home.support')}
+                  onPress={() => {}}
+                  variant="secondary"
+                  size="large"
+                  className="rounded-xl"
+                />
+              </View>
+            </View>
+
             {/* Active Subscriptions */}
             <View className="px-6 mb-4">
-              <Text className="text-heading-4 text-text-primary mb-3">
-                {t('home.activeSubscriptions')}
-              </Text>
+              <View className="flex-row justify-between items-center mb-3">
+                <Text className="text-heading-4 text-text-primary">
+                  {t('home.activeSubscriptions')}
+                </Text>
+                <TouchableOpacity 
+                  onPress={onNavigateToSubscriptions}
+                  activeOpacity={0.7}
+                >
+                  <Text className="text-body-md font-semibold text-accent">
+                    {t('home.viewAll')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
               {subscriptions
                 .filter(sub => sub.status === 'active')
+                .slice(0, 4)
                 .map((subscription) => (
                   <MinimalSubscriptionCard
                     key={subscription.id}

@@ -50,7 +50,10 @@
     "goodNight": "Доброй ночи {{name}}",
     "quickActions": "Быстрые действия",
     "viewAllSubscriptions": "Посмотреть все подписки",
-    "addNewSubscription": "Добавить новую подписку"
+    "addNewSubscription": "Добавить новую подписку",
+    "viewAll": "Посмотреть все",
+    "addSubscription": "Добавить подписку",
+    "support": "Поддержка"
   },
   "language": {
     "selectLanguage": "Выберите язык",

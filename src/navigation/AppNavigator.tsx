@@ -71,6 +71,14 @@ const MainNavigator = () => {
     setActiveScreen('main');
   };
 
+  const handleNavigateToSubscriptions = () => {
+    setActiveTab('subscriptions');
+  };
+
+  const handleNavigateToAddSubscription = () => {
+    setActiveTab('search');
+  };
+
   const renderScreen = () => {
     if (activeScreen === 'profile') {
       return <ProfileScreen route={{ params: { onBack: handleBackToMain } }} />;
@@ -78,7 +86,13 @@ const MainNavigator = () => {
 
     switch (activeTab) {
       case 'home':
-        return <HomeScreen scrollY={scrollY} tabBarHeight={tabBarHeight} onNavigateToProfile={handleNavigateToProfile} />;
+        return <HomeScreen 
+          scrollY={scrollY} 
+          tabBarHeight={tabBarHeight} 
+          onNavigateToProfile={handleNavigateToProfile}
+          onNavigateToSubscriptions={handleNavigateToSubscriptions}
+          onNavigateToAddSubscription={handleNavigateToAddSubscription}
+        />;
       case 'subscriptions':
         return <SubscriptionsScreen scrollY={scrollY} />;
       case 'statistics':
@@ -86,7 +100,13 @@ const MainNavigator = () => {
       case 'search':
         return <SearchScreen scrollY={scrollY} />;
       default:
-        return <HomeScreen scrollY={scrollY} tabBarHeight={tabBarHeight} onNavigateToProfile={handleNavigateToProfile} />;
+        return <HomeScreen 
+          scrollY={scrollY} 
+          tabBarHeight={tabBarHeight} 
+          onNavigateToProfile={handleNavigateToProfile}
+          onNavigateToSubscriptions={handleNavigateToSubscriptions}
+          onNavigateToAddSubscription={handleNavigateToAddSubscription}
+        />;
     }
   };
 

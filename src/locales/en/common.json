@@ -52,7 +52,10 @@
     "goodNight": "Good Night {{name}}",
     "quickActions": "Quick Actions",
     "viewAllSubscriptions": "View All Subscriptions",
-    "addNewSubscription": "Add New Subscription"
+    "addNewSubscription": "Add New Subscription",
+    "viewAll": "View All",
+    "addSubscription": "Add Subscription",
+    "support": "Support"
   },
   "language": {
     "selectLanguage": "Select Language",

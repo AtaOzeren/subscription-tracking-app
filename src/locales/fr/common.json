@@ -50,7 +50,10 @@
     "goodNight": "Bonne Nuit {{name}}",
     "quickActions": "Actions Rapides",
     "viewAllSubscriptions": "Voir Tous les Abonnements",
-    "addNewSubscription": "Ajouter un Nouvel Abonnement"
+    "addNewSubscription": "Ajouter un Nouvel Abonnement",
+    "viewAll": "Voir tout",
+    "addSubscription": "Ajouter un abonnement",
+    "support": "Soutien"
   },
   "language": {
     "selectLanguage": "Sélectionner la Langue",

@@ -25,8 +25,8 @@ const Button = ({
   };
 
   const variantClasses = {
-    primary: 'bg-blue-500',
-    secondary: 'bg-gray-500 border border-gray-300',
+    primary: 'bg-black',
+    secondary: 'bg-white border border-black',
     danger: 'bg-red-500',
   };
 
@@ -36,6 +36,12 @@ const Button = ({
     large: 'text-lg',
   };
 
+  const textColorClasses = {
+    primary: 'text-white',
+    secondary: 'text-black',
+    danger: 'text-white',
+  };
+
   return (
     <TouchableOpacity
       className={`rounded-lg items-center justify-center ${sizeClasses[size]} ${variantClasses[variant]} ${disabled ? 'opacity-50' : ''} ${className}`}
@@ -43,7 +49,7 @@ const Button = ({
       disabled={disabled}
       activeOpacity={0.8}
     >
-      <Text className={`font-semibold text-white ${textSizeClasses[size]}`}>
+      <Text className={`font-semibold ${textColorClasses[variant]} ${textSizeClasses[size]}`}>
         {title}
       </Text>
     </TouchableOpacity>
