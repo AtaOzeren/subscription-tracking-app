@@ -128,29 +128,25 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
-          {onBack && (
-            <TouchableOpacity onPress={onBack}>
-              <Text
-                className="text-body-lg text-text-secondary font-semibold"
-                style={{ fontFamily: 'SF Pro Display' }}
-              >
-                {t('common.back')}
-              </Text>
+          {/* Back button on left */}
+          {onBack ? (
+            <TouchableOpacity onPress={onBack} className="w-10">
+              <Text className="text-2xl text-text-secondary font-display">←</Text>
             </TouchableOpacity>
+          ) : (
+            <View className="w-10" />
           )}
-          {!onBack && <View style={{ width: 60 }} />}
-          <Text
-            className="text-heading-1 text-text-primary flex-1 text-center"
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
+          
+          <Text className="text-heading-1 text-text-primary flex-1 text-center font-display">
             {user?.name || t('profile.title', { defaultValue: 'Profile' })}
           </Text>
-          {/* Three Dots Menu */}
+          
+          {/* Three Dots Menu on right */}
           <TouchableOpacity
             onPress={handleMenuPress}
             className="w-10 h-10 items-center justify-center"
           >
-            <Text className="text-heading-2 text-text-secondary">⋮</Text>
+            <Text className="text-heading-2 text-text-secondary font-display">⋮</Text>
           </TouchableOpacity>
         </View>
       </View>
