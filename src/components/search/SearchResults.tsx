@@ -47,18 +47,6 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
     );
   }
 
-  // No results at all (empty catalog or not loaded yet)
-  if (results.length === 0) {
-    return (
-      <View className="flex-1 items-center justify-center px-6">
-        <Text className="text-6xl mb-4">📦</Text>
-        <Text className="text-heading-3 text-text-primary mb-2 font-display text-center">
-          {t('search.noSubscriptionsAvailable')}
-        </Text>
-      </View>
-    );
-  }
-
   return (
     <Animated.View 
       className="flex-1"

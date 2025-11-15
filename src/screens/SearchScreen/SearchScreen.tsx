@@ -118,6 +118,7 @@ const SearchScreen = ({ onNavigateToProfile, searchQuery: externalSearchQuery = 
           presentationStyle="fullScreen"
         >
           <AddSubscriptionScreen
+            initialSubscription={selectedSubscription}
             onClose={() => {
               setShowAddModal(false);
               setSelectedSubscription(null);

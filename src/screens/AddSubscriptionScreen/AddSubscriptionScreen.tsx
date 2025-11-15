@@ -14,15 +14,18 @@ import RegionalSettingsPrompt from '../../components/common/RegionalSettingsProm
 
 interface AddSubscriptionScreenProps {
   onClose: () => void;
+  initialSubscription?: CatalogSubscription;
 }
 
-const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
+const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscriptionScreenProps) => {
   const { t } = useTranslation();
   const { user, checkAuth } = useAuth();
   const insets = useSafeAreaInsets();
   
-  // Step states
-  const [step, setStep] = useState<'search' | 'select-plan' | 'details'>('search');
+  // Step states - Start at select-plan if initialSubscription is provided
+  const [step, setStep] = useState<'search' | 'select-plan' | 'details'>(
+    initialSubscription ? 'select-plan' : 'search'
+  );
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [customSearchQuery, setCustomSearchQuery] = useState('');
   
@@ -33,8 +36,10 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   
-  // Selection states
-  const [selectedSubscription, setSelectedSubscription] = useState<CatalogSubscription | null>(null);
+  // Selection states - Use initialSubscription if provided
+  const [selectedSubscription, setSelectedSubscription] = useState<CatalogSubscription | null>(
+    initialSubscription || null
+  );
   const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   
@@ -51,6 +56,33 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     checkRegionalSettings();
     loadData();
   }, []);
+
+  // Load plans if initialSubscription is provided
+  useEffect(() => {
+    if (initialSubscription) {
+      loadInitialSubscriptionPlans();
+    }
+  }, [initialSubscription]);
+
+  const loadInitialSubscriptionPlans = async () => {
+    if (!initialSubscription) return;
+    
+    try {
+      setLoading(true);
+      const subscriptionDetails = await catalogService.getSubscriptionDetails(initialSubscription.id);
+      
+      if (subscriptionDetails.plans && subscriptionDetails.plans.length > 0) {
+        setPlans(subscriptionDetails.plans);
+      }
+    } catch (error) {
+      Alert.alert(
+        t('common.error'),
+        error instanceof Error ? error.message : t('common.somethingWentWrong')
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const checkRegionalSettings = async () => {
     try {
