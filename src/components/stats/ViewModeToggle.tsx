@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, TouchableOpacity, Animated } from 'react-native';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Animated, LayoutChangeEvent } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 interface ViewModeToggleProps {
@@ -14,23 +14,35 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
   slideAnim,
 }) => {
   const { t } = useTranslation();
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const { width } = event.nativeEvent.layout;
+    setContainerWidth(width);
+  };
+
+  // Calculate button width (accounting for padding)
+  const buttonWidth = containerWidth > 0 ? (containerWidth - 8) / 2 : 0;
 
   return (
     <View className="px-4 mb-4">
-      <View className="bg-gray-200 rounded-full p-1 flex-row relative">
-        {/* Animated background slider */}
+      <View 
+        className="bg-white rounded-full p-1 flex-row relative shadow-sm"
+        onLayout={handleLayout}
+      >
+        {/* Animated flat white slider */}
         <Animated.View
-          className="absolute bg-white rounded-full shadow-sm"
+          className="absolute bg-black rounded-full"
           style={{
             top: 4,
             bottom: 4,
             left: 4,
-            width: '48%',
+            width: buttonWidth,
             transform: [
               {
                 translateX: slideAnim.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [0, 170],
+                  outputRange: [0, buttonWidth],
                 }),
               },
             ],
@@ -45,7 +57,7 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
           <Animated.Text
             className="text-center font-semibold font-display"
             style={{ 
-              color: viewMode === 'monthly' ? '#1F2937' : '#9CA3AF',
+              color: viewMode === 'monthly' ? '#FFFFFF' : '#1F2937',
             }}
           >
             {t('statistics.monthly')}
@@ -60,7 +72,7 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
           <Animated.Text
             className="text-center font-semibold font-display"
             style={{ 
-              color: viewMode === 'yearly' ? '#1F2937' : '#9CA3AF',
+              color: viewMode === 'yearly' ? '#FFFFFF' : '#1F2937',
             }}
           >
             {t('statistics.yearly')}
