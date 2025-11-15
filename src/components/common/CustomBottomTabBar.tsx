@@ -165,7 +165,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
 
             {/* Search Input - Slides in from right */}
             <Animated.View
-              className="absolute left-0 right-16 overflow-hidden rounded-[28px] shadow-modal bg-gray-100/80"
+              className="absolute left-0 right-20 overflow-hidden rounded-[28px] shadow-modal bg-gray-100/80"
               style={{
                 opacity: searchSlideAnim.interpolate({
                   inputRange: [0, 1],
