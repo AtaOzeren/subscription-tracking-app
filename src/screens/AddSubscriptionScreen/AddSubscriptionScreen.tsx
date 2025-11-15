@@ -465,17 +465,17 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center">
-          {/* Back button on left for select-plan and details steps */}
-          {(step === 'select-plan' || step === 'details') ? (
-            <TouchableOpacity 
-              onPress={step === 'select-plan' ? () => setStep('search') : () => setStep('select-plan')}
-              className="w-10"
-            >
-              <Text className="text-2xl text-text-secondary font-display">←</Text>
-            </TouchableOpacity>
-          ) : (
-            <View className="w-10" />
-          )}
+          {/* Back button on left - Always */}
+          <TouchableOpacity 
+            onPress={
+              step === 'search' ? onClose : 
+              step === 'select-plan' ? () => setStep('search') : 
+              () => setStep('select-plan')
+            }
+            className="w-10"
+          >
+            <Text className="text-2xl text-text-secondary font-display">←</Text>
+          </TouchableOpacity>
           
           {/* Title - Centered */}
           <View className="flex-1 items-center">
@@ -486,14 +486,8 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
             </Text>
           </View>
           
-          {/* Back/Close button on left for search step */}
-          {step === 'search' ? (
-            <TouchableOpacity onPress={onClose} className="w-10">
-              <Text className="text-2xl text-text-secondary font-display">←</Text>
-            </TouchableOpacity>
-          ) : (
-            <View className="w-10" />
-          )}
+          {/* Empty space on right for balance */}
+          <View className="w-10" />
         </View>
       </View>
 

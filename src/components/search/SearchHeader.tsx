@@ -14,9 +14,9 @@ export const SearchHeader: React.FC<SearchHeaderProps> = ({
 
   return (
     <View className="bg-white border-b border-gray-200">
-      <View className="px-4 py-4 flex-row items-center justify-between">
+      <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
         {/* Search Title - Aligned to left */}
-        <Text className="text-heading-2 text-text-primary font-display">
+        <Text className="text-heading-1 text-text-primary font-display">
           {t('navigation.search')}
         </Text>
 

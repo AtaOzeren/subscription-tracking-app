@@ -69,31 +69,32 @@ const UserSubscriptionCard = ({
 
         {/* Content */}
         <View className="flex-1">
-          <View className="flex-row items-center justify-between mb-0.5">
-            <Text
-              className="text-heading-4 text-text-primary flex-1 font-display"
-              numberOfLines={1}
-            >
-              {subscription.name}
-            </Text>
-            <View 
-              className="w-2 h-2 rounded-full ml-2"
-              style={{ backgroundColor: getStatusColor(subscription.status) }}
-            />
-          </View>
-          
-          {subscription.planName && (
-            <Text className="text-body-md text-text-tertiary mb-0.5 font-text">
-              {subscription.planName}
-            </Text>
-          )}
+          <View className="flex-row items-start justify-between mb-0.5">
+            <View className="flex-1 mr-2">
+              <Text
+                className="text-heading-4 text-text-primary font-display"
+                numberOfLines={1}
+              >
+                {subscription.name}
+              </Text>
+              
+              {subscription.planName && (
+                <Text className="text-body-md text-text-tertiary mb-0.5 font-text">
+                  {subscription.planName}
+                </Text>
+              )}
+            </View>
 
-          <Text className="text-heading-3 text-accent mt-0.5">
-            {formatPrice(subscription.price, subscription.currency)}
-            <Text className="text-body-md font-normal text-text-muted">
-              {getBillingCycleText(subscription.billingCycle)}
-            </Text>
-          </Text>
+            {/* Price on top right */}
+            <View className="items-end">
+              <Text className="text-heading-3 text-accent">
+                {formatPrice(subscription.price, subscription.currency)}
+              </Text>
+              <Text className="text-body-sm text-text-muted font-text">
+                {getBillingCycleText(subscription.billingCycle)}
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
 
