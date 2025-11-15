@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Subscription } from '../../types/subscription';
 import { formatPrice } from '../../utils/currency';
@@ -14,8 +14,6 @@ interface SubscriptionCardProps {
 const SubscriptionCard = ({
   subscription,
   onPress,
-  onEdit,
-  onDelete,
 }: SubscriptionCardProps) => {
   const { t } = useTranslation();
   
@@ -37,15 +35,15 @@ const SubscriptionCard = ({
     >
       <View className="flex-row justify-between items-start">
         <View className="flex-1">
-          <Text className="text-lg font-semibold text-gray-800 mb-1">
+          <Text className="text-lg font-semibold text-gray-800 mb-1 font-display">
             {subscription.name}
           </Text>
-          <Text className="text-body-md text-text-muted mb-2">
+          <Text className="text-body-md text-text-muted mb-2 font-text">
             {subscription.category}
           </Text>
-          <Text className="text-heading-3 text-accent">
+          <Text className="text-heading-3 text-accent font-display">
             {formatPrice(subscription.price, subscription.currency)}
-            <Text className="text-body-md font-normal text-text-muted">
+            <Text className="text-body-md font-normal text-text-muted font-text">
               {getBillingCycleText(subscription.billingCycle)}
             </Text>
           </Text>
@@ -56,14 +54,14 @@ const SubscriptionCard = ({
             className="w-3 h-3 rounded-full mb-2"
             style={{ backgroundColor: subscription.isActive ? '#10B981' : '#EF4444' }}
           />
-          <Text className="text-body-sm text-text-muted">
+          <Text className="text-body-sm text-text-muted font-text">
             {subscription.isActive ? 'Active' : 'Inactive'}
           </Text>
         </View>
       </View>
       
       <View className="mt-3 pt-3 border-t border-gray-100">
-        <Text className="text-body-sm text-text-muted">
+        <Text className="text-body-sm text-text-muted font-text">
           Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString()}
         </Text>
       </View>

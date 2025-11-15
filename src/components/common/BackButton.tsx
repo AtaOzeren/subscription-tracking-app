@@ -19,7 +19,6 @@ const BackButton: React.FC<BackButtonProps> = ({ onPress, style }) => {
     if (onPress) {
       onPress();
     } else {
-      // Check if we can go back before calling goBack()
       if (navigation.canGoBack()) {
         navigation.goBack();
       } else {
@@ -32,23 +31,10 @@ const BackButton: React.FC<BackButtonProps> = ({ onPress, style }) => {
     <TouchableOpacity
       onPress={handlePress}
       activeOpacity={0.6}
-      style={[
-        {
-          width: 40,
-          height: 40,
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        style,
-      ]}
+      className="w-10 h-10 items-center justify-center"
+      style={style}
     >
-      <Text
-        style={{
-          fontSize: 28,
-          fontWeight: '300',
-          color: '#000000',
-        }}
-      >
+      <Text className="text-[28px] font-light text-black">
         ←
       </Text>
     </TouchableOpacity>

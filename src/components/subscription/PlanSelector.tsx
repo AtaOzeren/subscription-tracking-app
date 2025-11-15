@@ -28,18 +28,12 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
         {(title || subtitle) && (
           <View className="mb-6">
             {title && (
-              <Text
-                className="text-heading-2 text-text-primary mb-2 text-center"
-                style={{ fontFamily: 'SF Pro Display' }}
-              >
+              <Text className="text-heading-2 text-text-primary mb-2 text-center font-display">
                 {title}
               </Text>
             )}
             {subtitle && (
-              <Text
-                className="text-body-lg text-text-muted text-center"
-                style={{ fontFamily: 'SF Pro Text' }}
-              >
+              <Text className="text-body-lg text-text-muted text-center font-text">
                 {subtitle}
               </Text>
             )}
@@ -52,36 +46,20 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
             <TouchableOpacity
               key={plan.id}
               onPress={() => onSelectPlan(plan)}
-              className="bg-white rounded-2xl p-6 mb-4"
-              style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 4,
-                elevation: 3,
-              }}
+              className="bg-white rounded-2xl p-6 mb-4 shadow-card"
             >
               <View className="flex-row items-center justify-between mb-3">
-                <Text
-                  className="text-heading-3 text-text-primary"
-                  style={{ fontFamily: 'SF Pro Display' }}
-                >
+                <Text className="text-heading-3 text-text-primary font-display">
                   {plan.name}
                 </Text>
                 {price && (
-                  <Text
-                    className="text-2xl font-bold text-black"
-                    style={{ fontFamily: 'SF Pro Display' }}
-                  >
+                  <Text className="text-2xl font-bold text-black font-display">
                     {formatPrice(price.price, price.currency)}
                   </Text>
                 )}
               </View>
 
-              <Text
-                className="text-body-md text-text-tertiary mb-3"
-                style={{ fontFamily: 'SF Pro Text' }}
-              >
+              <Text className="text-body-md text-text-tertiary mb-3 font-text">
                 Billed {plan.billing_cycle}
               </Text>
 
@@ -90,10 +68,7 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
                   {Object.entries(plan.features).map(([key, value]) => (
                     <View key={key} className="flex-row items-center mb-2">
                       <Text className="mr-2">✓</Text>
-                      <Text
-                        className="text-body-md text-text-secondary"
-                        style={{ fontFamily: 'SF Pro Text' }}
-                      >
+                      <Text className="text-body-md text-text-secondary font-text">
                         {key}: {String(value)}
                       </Text>
                     </View>

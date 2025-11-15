@@ -14,15 +14,11 @@ interface CountryFlagProps {
  * @param style - Additional text styles
  */
 const CountryFlag: React.FC<CountryFlagProps> = ({ countryCode, size = 24, style }) => {
-  // Convert country code to flag emoji using Regional Indicator Symbols
   const getCountryFlag = (code: string): string => {
     if (!code || code.length !== 2) {
-      return '🏳️'; // Return white flag for invalid codes
+      return '🏳️';
     }
 
-    // Unicode flag emoji: Regional Indicator Symbol Letters
-    // A = U+1F1E6, B = U+1F1E7, ..., Z = U+1F1FF
-    // Formula: 127397 + charCode gives us the regional indicator
     const codePoints = code
       .toUpperCase()
       .split('')
@@ -32,7 +28,10 @@ const CountryFlag: React.FC<CountryFlagProps> = ({ countryCode, size = 24, style
   };
 
   return (
-    <Text style={[{ fontSize: size }, style]}>
+    <Text 
+      className="font-text"
+      style={[{ fontSize: size }, style]}
+    >
       {getCountryFlag(countryCode)}
     </Text>
   );

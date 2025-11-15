@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Animated, Easing, StyleSheet } from 'react-native';
+import { View, Animated, Easing } from 'react-native';
 
 interface MinimalLoaderProps {
   size?: 'small' | 'medium' | 'large';
@@ -50,54 +50,36 @@ const MinimalLoader: React.FC<MinimalLoaderProps> = ({
   const dotSize = dotSizes[size];
 
   return (
-    <View style={styles.container}>
+    <View className="items-center justify-center">
       {/* Pulsing dots */}
-      <View style={styles.dotsContainer}>
+      <View className="flex-row items-center justify-center">
         {[dot1, dot2, dot3].map((dot, index) => (
           <Animated.View
             key={index}
-            style={[
-              styles.dot,
-              {
-                width: dotSize,
-                height: dotSize,
-                borderRadius: dotSize / 2,
-                backgroundColor: color,
-                opacity: dot.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0.3, 1],
-                }),
-                transform: [
-                  {
-                    scale: dot.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.8, 1.2],
-                    }),
-                  },
-                ],
-                marginHorizontal: dotSize / 2,
-              },
-            ]}
+            style={{
+              width: dotSize,
+              height: dotSize,
+              borderRadius: dotSize / 2,
+              backgroundColor: color,
+              opacity: dot.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0.3, 1],
+              }),
+              transform: [
+                {
+                  scale: dot.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0.8, 1.2],
+                  }),
+                },
+              ],
+              marginHorizontal: dotSize / 2,
+            }}
           />
         ))}
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  dotsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  dot: {
-    // Dynamic styles applied inline
-  },
-});
 
 export default MinimalLoader;

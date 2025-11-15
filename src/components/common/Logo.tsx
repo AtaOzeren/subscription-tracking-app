@@ -11,10 +11,10 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', style, animated = true }) 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
 
-  const sizeStyles = {
-    small: { width: 80, height: 80 },
-    medium: { width: 120, height: 120 },
-    large: { width: 160, height: 160 },
+  const sizeClasses = {
+    small: 'w-20 h-20',
+    medium: 'w-30 h-30',
+    large: 'w-40 h-40',
   };
 
   useEffect(() => {
@@ -39,34 +39,22 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', style, animated = true }) 
   }, [animated, fadeAnim, scaleAnim]);
 
   return (
-    <View style={[{ alignItems: 'center', justifyContent: 'center' }, style]}>
+    <View className="items-center justify-center" style={style}>
       <Animated.View
-        style={[
-          sizeStyles[size],
-          {
-            borderRadius: 24,
-            backgroundColor: '#F8F9FA',
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 8,
-            elevation: 4,
-            overflow: 'hidden',
-            opacity: fadeAnim,
-            transform: [{ scale: scaleAnim }],
-          },
-        ]}
+        className={`
+          ${sizeClasses[size]}
+          rounded-3xl bg-gray-50 items-center justify-center
+          shadow-card overflow-hidden
+        `}
+        style={{
+          opacity: fadeAnim,
+          transform: [{ scale: scaleAnim }],
+        }}
       >
         <Image
           source={require('../../../assets/logo/subscription-tracking-black.webp')}
-          style={[
-            sizeStyles[size],
-            {
-              resizeMode: 'cover',
-            }
-          ]}
+          className={sizeClasses[size]}
+          resizeMode="cover"
         />
       </Animated.View>
     </View>

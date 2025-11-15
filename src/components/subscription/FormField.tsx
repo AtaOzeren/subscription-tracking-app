@@ -17,17 +17,13 @@ const FormField: React.FC<FormFieldProps> = ({
 }) => {
   return (
     <View className="bg-white rounded-2xl p-4 mb-4">
-      <Text
-        className="text-body-md text-text-secondary font-semibold mb-2"
-        style={{ fontFamily: 'SF Pro Display' }}
-      >
+      <Text className="text-body-md text-text-secondary font-semibold mb-2 font-display">
         {label} {required && '*'}
       </Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
-        className="bg-gray-50 rounded-xl px-4 py-3 text-base"
-        style={{ fontFamily: 'SF Pro Text' }}
+        className="bg-gray-50 rounded-xl px-4 py-3 text-base font-text"
         {...textInputProps}
       />
     </View>

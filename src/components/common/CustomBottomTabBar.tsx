@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { View, TouchableOpacity, Animated, StyleSheet, Text, LayoutChangeEvent } from 'react-native';
+import { View, TouchableOpacity, Animated, Text, LayoutChangeEvent } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
@@ -34,32 +34,26 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
   useEffect(() => {
     if (scrollY) {
       const listenerId = scrollY.addListener(({ value }) => {
-        // Label'lar 50px scroll sonra kaybolmaya başlar, 100px'de tamamen kaybolur
         if (value > 50) {
           const progress = Math.min((value - 50) / 50, 1);
-          // Opacity animasyonu - useNativeDriver: false (scrollY ile uyumlu olması için)
           Animated.timing(labelOpacity, {
             toValue: 1 - progress,
             duration: 0,
             useNativeDriver: false,
           }).start();
           
-          // Height animasyonu - useNativeDriver: false
           Animated.timing(labelHeight, {
             toValue: 1 - progress,
             duration: 0,
             useNativeDriver: false,
           }).start();
         } else {
-          // Yukarı çıkınca label'lar tekrar görünür
-          // Opacity animasyonu - useNativeDriver: false (scrollY ile uyumlu olması için)
           Animated.timing(labelOpacity, {
             toValue: 1,
             duration: 200,
             useNativeDriver: false,
           }).start();
           
-          // Height animasyonu - useNativeDriver: false
           Animated.timing(labelHeight, {
             toValue: 1,
             duration: 200,
@@ -80,21 +74,21 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
   const mainTabs = tabs.filter(tab => tab.key !== 'search');
 
   return (
-    <View style={styles.container} onLayout={handleLayout}>
-      <SafeAreaView edges={['bottom']} style={styles.safeArea}>
+    <View 
+      className="absolute -bottom-6 left-1 right-1 bg-transparent z-50"
+      onLayout={handleLayout}
+    >
+      <SafeAreaView edges={['bottom']} className="bg-transparent">
         <View className="px-2 pb-1 pt-1">
           <View className="flex-row items-center justify-between">
-            {/* Sol taraf - 3 ikon tek blur box'ta */}
-            <View 
-              className="flex-1 mr-3 overflow-hidden"
-              style={styles.blurContainer}
-            >
+            {/* Left side - 3 icons in one blur box */}
+            <View className="flex-1 mr-3 overflow-hidden rounded-[28px] shadow-modal bg-gray-100/80">
               <BlurView
                 intensity={150}
                 tint="light"
-                style={styles.blurView}
+                className="rounded-[28px] overflow-hidden bg-gray-100/60"
               >
-                 <View className="flex-row items-center justify-around px-1 py-1">
+                <View className="flex-row items-center justify-around px-1 py-1">
                   {mainTabs.map((tab) => (
                     <TouchableOpacity
                       key={tab.key}
@@ -102,12 +96,12 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
                       className="flex-1 items-center justify-center"
                       activeOpacity={0.7}
                     >
-                       <View className="items-center justify-center px-2 py-1">
+                      <View className="items-center justify-center px-2 py-1">
                         <Ionicons 
                           name={tab.iconName as any}
                           size={26}
                           color="#000000"
-                          style={{ marginBottom: 4 }}
+                          className="mb-1"
                         />
                         <Animated.View
                           style={{
@@ -119,10 +113,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
                             overflow: 'hidden',
                           }}
                         >
-                          <Text 
-                            className="text-black text-xs text-center"
-                            style={styles.label}
-                          >
+                          <Text className="text-black text-xs text-center font-text font-medium">
                             {tab.label}
                           </Text>
                         </Animated.View>
@@ -133,13 +124,21 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
               </BlurView>
             </View>
             
-            {/* Sağ taraf - Arama butonu yuvarlak blur box'ta */}
+            {/* Right side - Search button in round blur box */}
             {searchTab && (
-              <View style={styles.searchContainer}>
+              <View 
+                className="overflow-hidden shadow-modal bg-gray-100/80"
+                style={{ 
+                  width: SEARCH_BUTTON_SIZE, 
+                  height: SEARCH_BUTTON_SIZE, 
+                  borderRadius: SEARCH_BUTTON_SIZE / 2 
+                }}
+              >
                 <BlurView
                   intensity={150}
                   tint="light"
-                  style={styles.searchBlurView}
+                  className="w-full h-full bg-gray-100/60"
+                  style={{ borderRadius: SEARCH_BUTTON_SIZE / 2 }}
                 >
                   <TouchableOpacity
                     onPress={searchTab.onPress}
@@ -161,55 +160,5 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    bottom: -25,
-    left: 5,
-    right: 5,
-    backgroundColor: 'transparent',
-    zIndex: 999,
-  },
-  safeArea: {
-    backgroundColor: 'transparent',
-  },
-  blurContainer: {
-    borderRadius: 28,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.12,
-    shadowRadius: 16,
-    elevation: 6,
-    backgroundColor: 'rgba(245, 245, 245, 0.8)',
-  },
-  blurView: {
-    borderRadius: 28,
-    overflow: 'hidden',
-    backgroundColor: 'rgba(245, 245, 245, 0.6)',
-  },
-  searchContainer: {
-    width: SEARCH_BUTTON_SIZE,
-    height: SEARCH_BUTTON_SIZE,
-    borderRadius: SEARCH_BUTTON_SIZE / 2,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.12,
-    shadowRadius: 16,
-    elevation: 6,
-    backgroundColor: 'rgba(245, 245, 245, 0.8)',
-  },
-  searchBlurView: {
-    width: '100%',
-    height: '100%',
-    borderRadius: SEARCH_BUTTON_SIZE / 2,
-    backgroundColor: 'rgba(245, 245, 245, 0.6)',
-  },
-  label: {
-    fontFamily: 'SF Pro Text',
-    fontWeight: '500',
-  },
-});
 
 export default CustomBottomTabBar;

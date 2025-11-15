@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, ViewStyle, TextStyle, Animated } from 'react-native';
+import { TouchableOpacity, Text, ActivityIndicator, ViewStyle, Animated } from 'react-native';
 
 interface AppleButtonProps {
   title: string;
@@ -9,7 +9,6 @@ interface AppleButtonProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'danger';
   size?: 'small' | 'medium' | 'large';
   style?: ViewStyle;
-  textStyle?: TextStyle;
   containerClassName?: string;
 }
 
@@ -21,7 +20,6 @@ const AppleButton: React.FC<AppleButtonProps> = ({
   variant = 'primary',
   size = 'medium',
   style,
-  textStyle,
   containerClassName,
 }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -40,80 +38,50 @@ const AppleButton: React.FC<AppleButtonProps> = ({
       useNativeDriver: true,
     }).start();
   };
-  const getButtonStyle = (): ViewStyle => {
-    const baseStyle: ViewStyle = {
-      borderRadius: 16,
-      alignItems: 'center',
-      justifyContent: 'center',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.1,
-      shadowRadius: 2,
-      elevation: 2,
-    };
 
-    const sizeStyles = {
-      small: { paddingHorizontal: 16, paddingVertical: 8, minHeight: 36 },
-      medium: { paddingHorizontal: 24, paddingVertical: 12, minHeight: 44 },
-      large: { paddingHorizontal: 32, paddingVertical: 16, minHeight: 52 },
-    };
-
-    const variantStyles: Record<'primary' | 'secondary' | 'outline' | 'danger', ViewStyle> = {
-      primary: {
-        backgroundColor: disabled ? '#C6C6C8' : '#000000',
-      },
-      secondary: {
-        backgroundColor: disabled ? '#F2F2F7' : '#8E8E93',
-      },
-      outline: {
-        backgroundColor: 'transparent',
-        borderWidth: 1,
-        borderColor: disabled ? '#C6C6C8' : '#000000',
-      },
-      danger: {
-        backgroundColor: disabled ? '#C6C6C8' : '#DC2626',
-      },
-    };
-
-    return {
-      ...baseStyle,
-      ...sizeStyles[size],
-      ...variantStyles[variant],
-      ...style,
-    };
+  // Size classes
+  const sizeClasses = {
+    small: 'px-4 py-2 min-h-[36px]',
+    medium: 'px-6 py-3 min-h-[44px]',
+    large: 'px-8 py-4 min-h-[52px]',
   };
 
-  const getTextStyle = (): TextStyle => {
-    const baseStyle: TextStyle = {
-      fontFamily: 'SF Pro Display',
-      fontWeight: '600',
-    };
+  // Variant classes
+  const variantClasses = {
+    primary: disabled ? 'bg-gray-300' : 'bg-black',
+    secondary: disabled ? 'bg-gray-100' : 'bg-gray-400',
+    outline: disabled ? 'bg-transparent border-2 border-gray-300' : 'bg-transparent border-2 border-black',
+    danger: disabled ? 'bg-gray-300' : 'bg-red-600',
+  };
 
-    const sizeStyles = {
-      small: { fontSize: 14 },
-      medium: { fontSize: 16 },
-      large: { fontSize: 18 },
-    };
+  // Text size classes
+  const textSizeClasses = {
+    small: 'text-sm',
+    medium: 'text-base',
+    large: 'text-lg',
+  };
 
-    const variantStyles: Record<'primary' | 'secondary' | 'outline' | 'danger', TextStyle> = {
-      primary: { color: '#FFFFFF' },
-      secondary: { color: '#FFFFFF' },
-      outline: { color: disabled ? '#C6C6C8' : '#000000' },
-      danger: { color: '#FFFFFF' },
-    };
-
-    return {
-      ...baseStyle,
-      ...sizeStyles[size],
-      ...variantStyles[variant],
-      ...textStyle,
-    };
+  // Text color classes
+  const textColorClasses = {
+    primary: 'text-white',
+    secondary: 'text-white',
+    outline: disabled ? 'text-gray-300' : 'text-black',
+    danger: 'text-white',
   };
 
   return (
-    <Animated.View style={{ transform: [{ scale: scaleAnim }] }} className={containerClassName || ''}>
+    <Animated.View 
+      style={{ transform: [{ scale: scaleAnim }] }} 
+      className={containerClassName || ''}
+    >
       <TouchableOpacity
-        style={getButtonStyle()}
+        className={`
+          rounded-2xl items-center justify-center
+          shadow-button
+          ${sizeClasses[size]}
+          ${variantClasses[variant]}
+        `}
+        style={style}
         onPress={onPress}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
@@ -126,7 +94,11 @@ const AppleButton: React.FC<AppleButtonProps> = ({
             size="small" 
           />
         ) : (
-          <Text style={getTextStyle()}>{title}</Text>
+          <Text 
+            className={`font-display font-semibold ${textSizeClasses[size]} ${textColorClasses[variant]}`}
+          >
+            {title}
+          </Text>
         )}
       </TouchableOpacity>
     </Animated.View>
