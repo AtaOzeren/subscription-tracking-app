@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { View, TouchableOpacity, Animated, Text, LayoutChangeEvent } from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import { View, TouchableOpacity, Animated, Text, LayoutChangeEvent, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,13 +16,26 @@ interface CustomBottomTabBarProps {
   tabs: TabItem[];
   scrollY?: Animated.Value;
   onLayout?: (height: number) => void;
+  searchMode?: boolean;
+  searchQuery?: string;
+  onSearchChange?: (text: string) => void;
+  onSearchClose?: () => void;
 }
 
 const SEARCH_BUTTON_SIZE = 60;
 
-const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, onLayout }) => {
+const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ 
+  tabs, 
+  scrollY, 
+  onLayout,
+  searchMode = false,
+  searchQuery = '',
+  onSearchChange,
+  onSearchClose,
+}) => {
   const labelOpacity = useRef(new Animated.Value(1)).current;
   const labelHeight = useRef(new Animated.Value(1)).current;
+  const searchSlideAnim = useRef(new Animated.Value(0)).current;
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout;
@@ -30,6 +43,16 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
       onLayout(height);
     }
   };
+
+  // Animate search mode
+  useEffect(() => {
+    Animated.spring(searchSlideAnim, {
+      toValue: searchMode ? 1 : 0,
+      friction: 8,
+      tension: 40,
+      useNativeDriver: true,
+    }).start();
+  }, [searchMode]);
 
   useEffect(() => {
     if (scrollY) {
@@ -81,8 +104,24 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
       <SafeAreaView edges={['bottom']} className="bg-transparent">
         <View className="px-2 pb-1 pt-1">
           <View className="flex-row items-center justify-between">
-            {/* Left side - 3 icons in one blur box */}
-            <View className="flex-1 mr-3 overflow-hidden rounded-[28px] shadow-modal bg-gray-100/80">
+            {/* Left side - 3 tabs or search input */}
+            <Animated.View 
+              className="flex-1 mr-3 overflow-hidden rounded-[28px] shadow-modal bg-gray-100/80"
+              style={{
+                opacity: searchSlideAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 0],
+                }),
+                transform: [
+                  {
+                    translateX: searchSlideAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, -400],
+                    }),
+                  },
+                ],
+              }}
+            >
               <BlurView
                 intensity={150}
                 tint="light"
@@ -122,9 +161,52 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
                   ))}
                 </View>
               </BlurView>
-            </View>
+            </Animated.View>
+
+            {/* Search Input - Slides in from right */}
+            <Animated.View
+              className="absolute left-0 right-20 overflow-hidden rounded-[28px] shadow-modal bg-gray-100/80"
+              style={{
+                opacity: searchSlideAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 1],
+                }),
+                transform: [
+                  {
+                    translateX: searchSlideAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [400, 0],
+                    }),
+                  },
+                ],
+              }}
+              pointerEvents={searchMode ? 'auto' : 'none'}
+            >
+              <BlurView
+                intensity={150}
+                tint="light"
+                className="rounded-[28px] overflow-hidden bg-gray-100/60"
+              >
+                <View className="flex-row items-center px-4 py-3">
+                  <Ionicons name="search" size={20} color="#000000" />
+                  <TextInput
+                    value={searchQuery}
+                    onChangeText={onSearchChange}
+                    placeholder="Search subscriptions..."
+                    placeholderTextColor="#9CA3AF"
+                    className="flex-1 ml-3 text-base text-black font-text"
+                    autoFocus={searchMode}
+                  />
+                  {searchQuery.length > 0 && (
+                    <TouchableOpacity onPress={() => onSearchChange?.('')}>
+                      <Ionicons name="close-circle" size={20} color="#9CA3AF" />
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </BlurView>
+            </Animated.View>
             
-            {/* Right side - Search button in round blur box */}
+            {/* Right side - Search button or close button */}
             {searchTab && (
               <View 
                 className="overflow-hidden shadow-modal bg-gray-100/80"
@@ -141,12 +223,12 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ tabs, scrollY, 
                   style={{ borderRadius: SEARCH_BUTTON_SIZE / 2 }}
                 >
                   <TouchableOpacity
-                    onPress={searchTab.onPress}
+                    onPress={searchMode ? onSearchClose : searchTab.onPress}
                     className="items-center justify-center w-full h-full"
                     activeOpacity={0.7}
                   >
                     <Ionicons 
-                      name={searchTab.iconName as any}
+                      name={searchMode ? 'close' : searchTab.iconName as any}
                       size={26}
                       color="#000000"
                     />

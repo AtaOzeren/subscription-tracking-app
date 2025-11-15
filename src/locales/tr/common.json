@@ -197,7 +197,15 @@
   "search": {
     "searchSubscriptions": "Abonelikleri ara...",
     "startTypingToSearch": "Aboneliklerinizi aramak için yazmaya başlayın",
-    "noResultsFound": "Aramanız için sonuç bulunamadı"
+    "noResultsFound": "Aramanız için sonuç bulunamadı",
+    "searching": "Aranıyor...",
+    "startSearching": "Aramaya Başla",
+    "startSearchingDescription": "Abonelikleri bulmak için arama kutusuna yazın",
+    "noResults": "Sonuç Bulunamadı",
+    "tryDifferentKeywords": "Farklı anahtar kelimeler deneyin",
+    "foundResults": "{{count}} sonuç bulundu",
+    "allSubscriptions": "Tüm abonelikler ({{count}})",
+    "noSubscriptionsAvailable": "Kullanılabilir abonelik yok"
   },
   "onboarding": {
     "welcomeToApp": "Abonelik Takip'e Hoş Geldiniz",

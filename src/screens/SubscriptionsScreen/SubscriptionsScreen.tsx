@@ -130,16 +130,15 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
         key={category.id || 'all'}
         onPress={() => setSelectedCategory(category.id)}
         className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${
-          selectedCategory === category.id ? 'bg-black' : 'bg-gray-200'
+          selectedCategory === category.id ? 'bg-black' : 'bg-white border border-gray-200'
         }`}
         style={{ height: 32 }}
       >
         {category.icon_url ? <Text className="text-xs mr-1">{category.icon_url}</Text> : null}
         <Text
-          className={`text-sm font-semibold ${
+          className={`text-sm font-semibold font-display ${
             selectedCategory === category.id ? 'text-white' : 'text-text-secondary'
           }`}
-          style={{ fontFamily: 'SF Pro Display' }}
         >
           {category.name} ({category.count})
         </Text>
@@ -162,6 +161,13 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
         >
           {secondRow.map(renderCategoryChip)}
         </ScrollView>
+        {/* Active Subscriptions Count */}
+        <Text className="text-body-md text-text-muted mt-1 font-text">
+          {t('subscriptions.activeSubscriptionsCount', { 
+            count: subscriptions.length,
+            plural: subscriptions.length !== 1 ? 's' : ''
+          })}
+        </Text>
       </View>
     );
   };
@@ -173,20 +179,8 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
         {/* Header */}
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
           <View className="flex-1">
-            <Text
-              className="text-heading-1 text-text-primary"
-              style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
-            >
+            <Text className="text-heading-1 text-text-primary font-display">
               {t('subscriptions.mySubscriptions')}
-            </Text>
-            <Text
-              className="text-body-md text-text-muted mt-1"
-              style={{ fontFamily: 'SF Pro Text' }}
-            >
-              {t('subscriptions.activeSubscriptionsCount', { 
-                count: subscriptions.length,
-                plural: subscriptions.length !== 1 ? 's' : ''
-              })}
             </Text>
           </View>
           <TouchableOpacity
@@ -201,10 +195,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
             }}
           >
             <Text className="text-white text-lg font-bold mr-1">+</Text>
-            <Text
-              className="text-white font-semibold"
-              style={{ fontFamily: 'SF Pro Display' }}
-            >
+            <Text className="text-white font-semibold font-display">
               {t('common.add')}
             </Text>
           </TouchableOpacity>

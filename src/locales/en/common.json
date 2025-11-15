@@ -200,7 +200,15 @@
   "search": {
     "searchSubscriptions": "Search subscriptions...",
     "startTypingToSearch": "Start typing to search your subscriptions",
-    "noResultsFound": "No results found for your search"
+    "noResultsFound": "No results found for your search",
+    "searching": "Searching...",
+    "startSearching": "Start Searching",
+    "startSearchingDescription": "Type in the search box to find subscriptions",
+    "noResults": "No Results Found",
+    "tryDifferentKeywords": "Try using different keywords",
+    "foundResults": "Found {{count}} result(s)",
+    "allSubscriptions": "All subscriptions ({{count}})",
+    "noSubscriptionsAvailable": "No subscriptions available"
   },
   "onboarding": {
     "welcomeToApp": "Welcome to Subscription Tracker",

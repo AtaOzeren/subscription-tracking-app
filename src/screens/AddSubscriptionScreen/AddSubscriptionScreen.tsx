@@ -14,15 +14,18 @@ import RegionalSettingsPrompt from '../../components/common/RegionalSettingsProm
 
 interface AddSubscriptionScreenProps {
   onClose: () => void;
+  initialSubscription?: CatalogSubscription;
 }
 
-const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
+const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscriptionScreenProps) => {
   const { t } = useTranslation();
   const { user, checkAuth } = useAuth();
   const insets = useSafeAreaInsets();
   
-  // Step states
-  const [step, setStep] = useState<'search' | 'select-plan' | 'details'>('search');
+  // Step states - Start at select-plan if initialSubscription is provided
+  const [step, setStep] = useState<'search' | 'select-plan' | 'details'>(
+    initialSubscription ? 'select-plan' : 'search'
+  );
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [customSearchQuery, setCustomSearchQuery] = useState('');
   
@@ -33,8 +36,10 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   
-  // Selection states
-  const [selectedSubscription, setSelectedSubscription] = useState<CatalogSubscription | null>(null);
+  // Selection states - Use initialSubscription if provided
+  const [selectedSubscription, setSelectedSubscription] = useState<CatalogSubscription | null>(
+    initialSubscription || null
+  );
   const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   
@@ -51,6 +56,33 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     checkRegionalSettings();
     loadData();
   }, []);
+
+  // Load plans if initialSubscription is provided
+  useEffect(() => {
+    if (initialSubscription) {
+      loadInitialSubscriptionPlans();
+    }
+  }, [initialSubscription]);
+
+  const loadInitialSubscriptionPlans = async () => {
+    if (!initialSubscription) return;
+    
+    try {
+      setLoading(true);
+      const subscriptionDetails = await catalogService.getSubscriptionDetails(initialSubscription.id);
+      
+      if (subscriptionDetails.plans && subscriptionDetails.plans.length > 0) {
+        setPlans(subscriptionDetails.plans);
+      }
+    } catch (error) {
+      Alert.alert(
+        t('common.error'),
+        error instanceof Error ? error.message : t('common.somethingWentWrong')
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const checkRegionalSettings = async () => {
     try {
@@ -193,10 +225,9 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
       >
         {category.icon_url ? <Text className="text-xs mr-1">{category.icon_url}</Text> : null}
         <Text
-          className={`text-sm font-semibold ${
+          className={`text-sm font-semibold font-display ${
             selectedCategory === category.id ? 'text-white' : 'text-text-secondary'
           }`}
-          style={{ fontFamily: 'SF Pro Display' }}
         >
           {category.name}
         </Text>
@@ -260,8 +291,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
               placeholder={t('addSubscription.searchPlaceholder')}
               value={searchQuery}
               onChangeText={setSearchQuery}
-              className="flex-1 text-base"
-              style={{ fontFamily: 'SF Pro Text' }}
+              className="flex-1 text-base font-text"
             />
           </View>
         </View>
@@ -271,16 +301,10 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
           {filteredSubscriptions.length === 0 && searchQuery.trim() !== '' ? (
             <View className="bg-white rounded-2xl p-8 items-center mb-4">
               <Text className="text-5xl mb-4">🔍</Text>
-              <Text
-                className="text-heading-4 text-text-primary mb-2"
-                style={{ fontFamily: 'SF Pro Display' }}
-              >
+              <Text className="text-heading-4 text-text-primary mb-2 font-display">
                  {t('addSubscription.noResults')}
               </Text>
-              <Text
-                className="text-body-md text-text-muted text-center mb-4"
-                style={{ fontFamily: 'SF Pro Text' }}
-              >
+              <Text className="text-body-md text-text-muted text-center mb-4 font-text">
                  {t('addSubscription.noResultsMessage', { query: searchQuery })}
               </Text>
               <TouchableOpacity
@@ -290,10 +314,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
                 }}
                 className="bg-black rounded-full px-6 py-3"
               >
-                <Text
-                  className="text-white font-semibold"
-                  style={{ fontFamily: 'SF Pro Display' }}
-                >
+                <Text className="text-white font-semibold font-display">
                    {t('addSubscription.addCustomButton')}
                 </Text>
               </TouchableOpacity>
@@ -307,10 +328,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
                     <View className="w-8 h-8 rounded-lg bg-gray-100 items-center justify-center mr-2">
                       <Text className="text-lg">{group.category.icon_url}</Text>
                     </View>
-                    <Text
-                      className="text-heading-3 text-text-primary"
-                      style={{ fontFamily: 'SF Pro Display' }}
-                    >
+                    <Text className="text-heading-3 text-text-primary font-display">
                       {group.category.name}
                     </Text>
                   </View>
@@ -343,15 +361,11 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
                         </View>
 
                         <View className="flex-1">
-                          <Text
-                            className="text-heading-4 text-text-primary mb-1"
-                            style={{ fontFamily: 'SF Pro Display' }}
-                          >
+                          <Text className="text-heading-4 text-text-primary mb-1 font-display">
                             {subscription.name}
                           </Text>
                           <Text
-                            className="text-body-md text-text-muted"
-                            style={{ fontFamily: 'SF Pro Text' }}
+                            className="text-body-md text-text-muted font-text"
                             numberOfLines={2}
                           >
                             {subscription.description}
@@ -376,10 +390,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
             className="bg-gray-100 rounded-2xl p-6 items-center mb-6"
           >
             <Text className="text-3xl mb-2">➕</Text>
-            <Text
-              className="text-body-lg text-text-primary font-semibold"
-              style={{ fontFamily: 'SF Pro Display' }}
-            >
+            <Text className="text-body-lg text-text-primary font-semibold font-display">
                {t('addSubscription.addCustomButton')}
             </Text>
           </TouchableOpacity>
@@ -394,7 +405,6 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
       plans={plans}
       onSelectPlan={handleSelectPlan}
       userRegion={user?.region}
-      title={t('addSubscription.selectPlanTitle')}
       subtitle={t('addSubscription.selectPlanSubtitle')}
     />
   );
@@ -405,10 +415,7 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
       <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingTop: 16 }}>
         {selectedSubscription && selectedPlan && (
           <View className="mb-4">
-            <Text
-              className="text-body-lg text-text-muted text-center"
-              style={{ fontFamily: 'SF Pro Text' }}
-            >
+            <Text className="text-body-lg text-text-muted text-center font-text">
               {selectedSubscription.name} - {selectedPlan.name}
             </Text>
           </View>
@@ -450,30 +457,6 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
     </View>
   );
 
-  const renderBackButton = () => {
-    let onPress = onClose;
-    let title = t('common.cancel');
-
-    if (step === 'select-plan') {
-      onPress = () => setStep('search');
-      title = `← ${t('common.back')}`;
-    } else if (step === 'details') {
-      onPress = () => setStep('select-plan');
-      title = `← ${t('common.back')}`;
-    }
-
-    return (
-      <TouchableOpacity onPress={onPress}>
-        <Text
-          className="text-body-lg text-text-secondary font-semibold"
-          style={{ fontFamily: 'SF Pro Display' }}
-        >
-          {title}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <View className="flex-1 bg-gray-50">
       {/* Header - Fixed at top with status bar */}
@@ -481,16 +464,30 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
         className="bg-white border-b border-gray-200"
         style={{ paddingTop: insets.top }}
       >
-        <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
-          <Text
-            className="text-heading-1 text-text-primary flex-1"
-            style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
+        <View className="px-4 pt-4 pb-3 flex-row items-center">
+          {/* Back button on left - Always */}
+          <TouchableOpacity 
+            onPress={
+              step === 'search' ? onClose : 
+              step === 'select-plan' ? () => setStep('search') : 
+              () => setStep('select-plan')
+            }
+            className="w-10"
           >
-            {step === 'search' && t('addSubscription.title')}
-            {step === 'select-plan' && t('addSubscription.selectPlanTitle')}
-            {step === 'details' && t('addSubscription.detailsTitle')}
-          </Text>
-          {renderBackButton()}
+            <Text className="text-2xl text-text-secondary font-display">←</Text>
+          </TouchableOpacity>
+          
+          {/* Title - Centered */}
+          <View className="flex-1 items-center">
+            <Text className="text-heading-2 text-text-primary font-display">
+              {step === 'search' && t('addSubscription.title')}
+              {step === 'select-plan' && selectedSubscription?.name}
+              {step === 'details' && t('addSubscription.detailsTitle')}
+            </Text>
+          </View>
+          
+          {/* Empty space on right for balance */}
+          <View className="w-10" />
         </View>
       </View>
 

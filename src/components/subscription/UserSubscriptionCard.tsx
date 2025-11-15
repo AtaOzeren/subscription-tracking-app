@@ -42,7 +42,7 @@ const UserSubscriptionCard = ({
 
   return (
     <TouchableOpacity
-      className="bg-white rounded-2xl p-4 mb-3 shadow-sm"
+      className="bg-white rounded-2xl p-3 mb-2 shadow-sm"
       style={{
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
@@ -55,61 +55,57 @@ const UserSubscriptionCard = ({
     >
       <View className="flex-row items-center">
         {/* Logo/Icon */}
-        <View className="w-16 h-16 rounded-xl bg-gray-100 items-center justify-center mr-4">
+        <View className="w-14 h-14 rounded-xl bg-gray-100 items-center justify-center mr-3">
           {subscription.logoUrl ? (
             <Image
               source={{ uri: subscription.logoUrl }}
-              className="w-12 h-12 rounded-lg"
+              className="w-10 h-10 rounded-lg"
               resizeMode="contain"
             />
           ) : (
-            <Text className="text-2xl">{subscription.category.icon_url}</Text>
+            <Text className="text-xl">{subscription.category.icon_url}</Text>
           )}
         </View>
 
         {/* Content */}
         <View className="flex-1">
-          <View className="flex-row items-center justify-between mb-1">
-            <Text
-              className="text-heading-4 text-text-primary flex-1"
-              style={{ fontFamily: 'SF Pro Display' }}
-              numberOfLines={1}
-            >
-              {subscription.name}
-            </Text>
-            <View 
-              className="w-2 h-2 rounded-full ml-2"
-              style={{ backgroundColor: getStatusColor(subscription.status) }}
-            />
-          </View>
-          
-          {subscription.planName && (
-            <Text
-              className="text-body-md text-text-tertiary mb-1"
-              style={{ fontFamily: 'SF Pro Text' }}
-            >
-              {subscription.planName}
-            </Text>
-          )}
+          <View className="flex-row items-start justify-between mb-0.5">
+            <View className="flex-1 mr-2">
+              <Text
+                className="text-heading-4 text-text-primary font-display"
+                numberOfLines={1}
+              >
+                {subscription.name}
+              </Text>
+              
+              {subscription.planName && (
+                <Text className="text-body-md text-text-tertiary mb-0.5 font-text">
+                  {subscription.planName}
+                </Text>
+              )}
+            </View>
 
-          <Text className="text-heading-3 text-accent mt-1">
-            {formatPrice(subscription.price, subscription.currency)}
-            <Text className="text-body-md font-normal text-text-muted">
-              {getBillingCycleText(subscription.billingCycle)}
-            </Text>
-          </Text>
+            {/* Price on top right */}
+            <View className="items-end">
+              <Text className="text-heading-3 text-accent">
+                {formatPrice(subscription.price, subscription.currency)}
+              </Text>
+              <Text className="text-body-sm text-text-muted font-text">
+                {getBillingCycleText(subscription.billingCycle)}
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
 
       {/* Footer */}
-      <View className="mt-3 pt-3 border-t border-gray-100 flex-row justify-between items-center">
-        <Text className="text-body-sm text-text-muted" style={{ fontFamily: 'SF Pro Text' }}>
+      <View className="mt-2 pt-2 border-t border-gray-100 flex-row justify-between items-center">
+        <Text className="text-body-sm text-text-muted font-text">
           {t('subscription.nextBilling')}: {new Date(subscription.nextBillingDate).toLocaleDateString()}
         </Text>
         <Text 
-          className="text-xs"
+          className="text-xs font-text"
           style={{ 
-            fontFamily: 'SF Pro Text', 
             color: getStatusColor(subscription.status) 
           }}
         >

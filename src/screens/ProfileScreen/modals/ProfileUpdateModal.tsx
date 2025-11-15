@@ -117,34 +117,27 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
           className="bg-white border-b border-gray-200"
           style={{ paddingTop: insets.top }}
         >
-          <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
-            <TouchableOpacity onPress={onClose}>
-              <Text
-                className="text-body-lg text-text-secondary font-semibold"
-                style={{ fontFamily: 'SF Pro Display' }}
-              >
-                {t('common.cancel')}
-              </Text>
+          <View className="px-4 pt-4 pb-3 flex-row items-center">
+            {/* Back button on left */}
+            <TouchableOpacity onPress={onClose} className="w-10">
+              <Text className="text-2xl text-text-secondary font-display">←</Text>
             </TouchableOpacity>
-            <Text
-              className="text-heading-1 text-text-primary flex-1 text-center"
-              style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
-            >
-              {t('profile.profileUpdate', { defaultValue: 'Profile Update' })}
-            </Text>
-            <View style={{ width: 60 }} />
+            
+            {/* Title - Centered */}
+            <View className="flex-1 items-center">
+              <Text className="text-heading-2 text-text-primary font-display">
+                {t('profile.profileUpdate', { defaultValue: 'Profile Update' })}
+              </Text>
+            </View>
+            
+            {/* Empty space on right for balance */}
+            <View className="w-10" />
           </View>
         </View>
 
         <ScrollView className="flex-1 px-4" contentContainerStyle={{ paddingTop: 16, paddingBottom: 32 }}>
           {/* Avatar Section */}
           <View className="mb-6">
-            <Text
-              className="text-heading-4 text-text-primary mb-4"
-              style={{ fontFamily: 'SF Pro Display' }}
-            >
-              {t('profile.avatar', { defaultValue: 'Avatar' })}
-            </Text>
             <View className="items-center mb-4">
               {selectedAvatar ? (
                 <Image
@@ -154,10 +147,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
                 />
               ) : (
                 <View className="w-24 h-24 rounded-full bg-blue-100 items-center justify-center mb-3">
-                  <Text
-                    className="text-heading-1 text-accent"
-                    style={{ fontFamily: 'SF Pro Display' }}
-                  >
+                  <Text className="text-heading-1 text-accent font-display">
                     {editName?.charAt(0).toUpperCase() || 'U'}
                   </Text>
                 </View>
