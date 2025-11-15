@@ -6,19 +6,66 @@ import Svg, { Circle, Path, G, Text as SvgText } from 'react-native-svg';
 import { statsService } from '../../services/statsService';
 import { DetailedStatsResponse } from '../../types/stats';
 import MinimalLoader from '../../components/common/MinimalLoader';
+import ProfileButton from '../../components/common/ProfileButton';
 import { formatPrice } from '../../utils/currency';
 
 interface StatisticsScreenProps {
   scrollY?: Animated.Value;
+  onNavigateToProfile?: () => void;
 }
 
-const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
+const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProps) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [stats, setStats] = useState<DetailedStatsResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'monthly' | 'yearly'>('monthly');
+  
+  // Animation values for toggle slider
+  const slideAnim = React.useRef(new Animated.Value(0)).current;
+  // Animation values for content fade
+  const fadeAnim = React.useRef(new Animated.Value(1)).current;
+
+  const handleProfilePress = () => {
+    if (onNavigateToProfile) {
+      onNavigateToProfile();
+    }
+  };
+
+  const handleViewModeChange = (mode: 'monthly' | 'yearly') => {
+    if (mode === viewMode) return;
+
+    // Fade out content
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 150,
+      useNativeDriver: true,
+    }).start(() => {
+      // Change mode after fade out
+      setViewMode(mode);
+      
+      // Fade in content
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }).start();
+    });
+
+    // Slide animation for toggle background
+    Animated.spring(slideAnim, {
+      toValue: mode === 'yearly' ? 1 : 0,
+      friction: 8,
+      tension: 100,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  React.useEffect(() => {
+    // Initialize slide position
+    slideAnim.setValue(viewMode === 'yearly' ? 1 : 0);
+  }, []);
 
   useEffect(() => {
     loadStats();
@@ -52,34 +99,56 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
   const renderToggleButtons = () => {
     return (
       <View className="px-4 mb-4">
-        <View className="bg-gray-200 rounded-full p-1 flex-row">
+        <View className="bg-gray-200 rounded-full p-1 flex-row relative">
+          {/* Animated background slider */}
+          <Animated.View
+            className="absolute bg-white rounded-full shadow-sm"
+            style={{
+              top: 4,
+              bottom: 4,
+              left: 4,
+              width: '48%',
+              transform: [
+                {
+                  translateX: slideAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 170], // Adjust based on container width
+                  }),
+                },
+              ],
+            }}
+          />
+          
           <TouchableOpacity
-            className={`flex-1 py-2 rounded-full ${viewMode === 'monthly' ? 'bg-white' : ''}`}
-            onPress={() => setViewMode('monthly')}
+            className="flex-1 py-2 rounded-full z-10"
+            onPress={() => handleViewModeChange('monthly')}
             activeOpacity={0.7}
           >
-            <Text
-              className={`text-center font-semibold ${
-                viewMode === 'monthly' ? 'text-text-primary' : 'text-text-muted'
-              }`}
-              style={{ fontFamily: 'SF Pro Display' }}
+            <Animated.Text
+              className="text-center font-semibold"
+              style={{ 
+                fontFamily: 'SF Pro Display',
+                color: viewMode === 'monthly' ? '#1F2937' : '#9CA3AF',
+              }}
             >
               {t('statistics.monthly')}
-            </Text>
+            </Animated.Text>
           </TouchableOpacity>
+          
           <TouchableOpacity
-            className={`flex-1 py-2 rounded-full ${viewMode === 'yearly' ? 'bg-white' : ''}`}
-            onPress={() => setViewMode('yearly')}
+            className="flex-1 py-2 rounded-full z-10"
+            onPress={() => handleViewModeChange('yearly')}
             activeOpacity={0.7}
           >
-            <Text
-              className={`text-center font-semibold ${
-                viewMode === 'yearly' ? 'text-text-primary' : 'text-text-muted'
-              }`}
-              style={{ fontFamily: 'SF Pro Display' }}
+            <Animated.Text
+              className="text-center font-semibold"
+              style={{ 
+                fontFamily: 'SF Pro Display',
+                color: viewMode === 'yearly' ? '#1F2937' : '#9CA3AF',
+              }}
             >
               {t('statistics.yearly')}
-            </Text>
+            </Animated.Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -106,7 +175,10 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
     return (
       <View className="px-4 mb-4">
         <View className="bg-white rounded-2xl p-5">
-          <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
+          <Animated.View 
+            className="flex-row items-center justify-between py-3 border-b border-gray-100"
+            style={{ opacity: fadeAnim }}
+          >
             <View className="flex-row items-center">
               <Text
                 className="text-body-lg text-text-muted"
@@ -130,7 +202,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
             >
               {formatPrice(amount, currency)}
             </Text>
-          </View>
+          </Animated.View>
         </View>
       </View>
     );
@@ -196,7 +268,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
     if (!stats || stats.current_month_breakdown.length === 0) return null;
 
     const size = 200;
-    const radius = 80;
+    const radius = 85; // Increased radius for larger pie
     const centerX = size / 2;
     const centerY = size / 2;
 
@@ -230,7 +302,7 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
       const startRad = (startAngle * Math.PI) / 180;
       const endRad = (endAngle * Math.PI) / 180;
 
-      // Calculate arc points
+      // Calculate arc points - outer edge
       const x1 = centerX + radius * Math.cos(startRad);
       const y1 = centerY + radius * Math.sin(startRad);
       const x2 = centerX + radius * Math.cos(endRad);
@@ -238,11 +310,12 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
 
       const largeArc = angle > 180 ? 1 : 0;
 
+      // Create path with rounded edges using quadratic curves
       const pathData = [
         `M ${centerX} ${centerY}`,
         `L ${x1} ${y1}`,
         `A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2}`,
-        'Z',
+        `Z`,
       ].join(' ');
 
       // Calculate label position (in the middle of the slice)
@@ -280,6 +353,9 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
                       key={index}
                       d={pathItem.path}
                       fill={pathItem.color}
+                      stroke={pathItem.color}
+                      strokeWidth={0.5}
+                      strokeLinejoin="round"
                     />
                   ))}
                 </G>
@@ -474,12 +550,17 @@ const StatisticsScreen = ({ scrollY }: StatisticsScreenProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Header - Top Bar Style */}
+      {/* Header - Top Bar Style with Profile Button */}
       <View className="bg-white border-b border-gray-200">
-        <View className="px-4 py-4">
-          <Text className="text-heading-1 text-text-primary" style={{ fontFamily: 'SF Pro Display' }}>
-            {t('navigation.statistics')}
-          </Text>
+        <View className="px-6 py-4">
+          <View className="flex-row justify-between items-center">
+            <View className="flex-1">
+              <Text className="text-heading-1 text-text-primary" style={{ fontFamily: 'SF Pro Display' }}>
+                {t('navigation.statistics')}
+              </Text>
+            </View>
+            <ProfileButton onPress={handleProfilePress} />
+          </View>
         </View>
       </View>
 

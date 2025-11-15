@@ -91,7 +91,7 @@ const MainNavigator = () => {
       case 'subscriptions':
         return <SubscriptionsScreen scrollY={scrollY} />;
       case 'statistics':
-        return <StatisticsScreen scrollY={scrollY} />;
+        return <StatisticsScreen scrollY={scrollY} onNavigateToProfile={handleNavigateToProfile} />;
       case 'search':
         return <SearchScreen scrollY={scrollY} />;
       default:
