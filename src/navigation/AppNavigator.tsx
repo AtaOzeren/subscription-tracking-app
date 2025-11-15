@@ -55,6 +55,7 @@ const MainNavigator = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [activeScreen, setActiveScreen] = useState<'main' | 'profile'>('main');
   const [tabBarHeight, setTabBarHeight] = useState(100);
+  const [searchQuery, setSearchQuery] = useState('');
   const scrollY = useRef(new Animated.Value(0)).current;
   const { t } = useTranslation();
 
@@ -72,6 +73,18 @@ const MainNavigator = () => {
 
   const handleNavigateToAddSubscription = () => {
     setActiveTab('search');
+  };
+
+  const handleSearchChange = (text: string) => {
+    setSearchQuery(text);
+  };
+
+  const handleSearchClose = () => {
+    setSearchQuery('');
+    // Navigate back to previous tab or home
+    if (activeTab === 'search') {
+      setActiveTab('home');
+    }
   };
 
   const renderScreen = () => {
@@ -93,7 +106,10 @@ const MainNavigator = () => {
       case 'statistics':
         return <StatisticsScreen scrollY={scrollY} onNavigateToProfile={handleNavigateToProfile} />;
       case 'search':
-        return <SearchScreen scrollY={scrollY} />;
+        return <SearchScreen 
+          searchQuery={searchQuery} 
+          onNavigateToProfile={handleNavigateToProfile} 
+        />;
       default:
         return <HomeScreen 
           scrollY={scrollY} 
@@ -150,6 +166,10 @@ const MainNavigator = () => {
           tabs={tabs} 
           scrollY={scrollY} 
           onLayout={setTabBarHeight}
+          searchMode={activeTab === 'search'}
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+          onSearchClose={handleSearchClose}
         />
       )}
     </View>
