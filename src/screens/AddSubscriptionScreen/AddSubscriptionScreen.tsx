@@ -486,12 +486,10 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
             </Text>
           </View>
           
-          {/* Cancel/Close button on right */}
+          {/* Back/Close button on left for search step */}
           {step === 'search' ? (
-            <TouchableOpacity onPress={onClose} className="w-10 items-end">
-              <Text className="text-body-lg text-text-secondary font-semibold font-text">
-                {t('common.cancel')}
-              </Text>
+            <TouchableOpacity onPress={onClose} className="w-10">
+              <Text className="text-2xl text-text-secondary font-display">←</Text>
             </TouchableOpacity>
           ) : (
             <View className="w-10" />
