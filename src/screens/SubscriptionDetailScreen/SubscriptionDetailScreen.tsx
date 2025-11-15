@@ -150,21 +150,19 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
-          <TouchableOpacity onPress={onBack}>
-            <Text
-              className="text-body-lg text-text-secondary font-semibold"
-              style={{ fontFamily: 'SF Pro Display' }}
-            >
-              {t("common.back")}
-            </Text>
+          {/* Back button on left */}
+          <TouchableOpacity onPress={onBack} className="w-10">
+            <Text className="text-2xl text-text-secondary font-display">←</Text>
           </TouchableOpacity>
+          
           <View className="flex-1" />
-          {/* Three Dots Menu */}
+          
+          {/* Three Dots Menu on right */}
           <TouchableOpacity
             onPress={() => setShowMenu(true)}
             className="w-10 h-10 items-center justify-center"
           >
-            <Text className="text-heading-2 text-text-secondary">⋮</Text>
+            <Text className="text-heading-2 text-text-secondary font-display">⋮</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -189,18 +187,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
             {/* Info - Right */}
             <View className="flex-1 justify-center">
               <Text
-                className="text-heading-2 text-text-primary mb-1"
-                style={{ fontFamily: 'SF Pro Display' }}
+                className="text-heading-2 text-text-primary mb-1 font-display"
                 numberOfLines={2}
               >
                 {subscription.name}
               </Text>
 
               {subscription.planName && (
-                <Text
-                  className="text-body-lg text-text-tertiary mb-2"
-                  style={{ fontFamily: 'SF Pro Text' }}
-                >
+                <Text className="text-body-lg text-text-tertiary mb-2 font-text">
                   {subscription.planName}
                 </Text>
               )}
@@ -210,9 +204,8 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                 style={{ backgroundColor: getStatusBackground(subscription.status) }}
               >
                 <Text
-                  className="text-sm font-semibold"
+                  className="text-sm font-semibold font-text"
                   style={{ 
-                    fontFamily: 'SF Pro Text',
                     color: getStatusColor(subscription.status)
                   }}
                 >
@@ -225,16 +218,10 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
           {/* Price Section */}
           <View className="border-t border-gray-100 pt-4">
             <View className="flex-row items-center justify-between">
-              <Text 
-                className="text-body-lg text-text-muted" 
-                style={{ fontFamily: 'SF Pro Text' }}
-              >
+              <Text className="text-body-lg text-text-muted font-text">
                 {getBillingCycleText(subscription.billingCycle)} {t("subscription.cost")}
               </Text>
-              <Text 
-                className="text-heading-3 text-accent" 
-                style={{ fontFamily: 'SF Pro Display' }}
-              >
+              <Text className="text-heading-3 text-accent font-display">
                 {formatPrice(subscription.price, subscription.currency)}
               </Text>
             </View>
@@ -243,10 +230,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
         {/* Subscription Information */}
         <View className="bg-white px-6 py-5 mb-3">
-          <Text 
-            className="text-heading-3 text-text-primary mb-4" 
-            style={{ fontFamily: 'SF Pro Display' }}
-          >
+          <Text className="text-heading-3 text-text-primary mb-4 font-display">
             {t("subscription.subscriptionInformation")}
           </Text>
 
@@ -384,22 +368,21 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
             className="bg-white border-b border-gray-200"
             style={{ paddingTop: insets.top }}
           >
-            <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
-              <TouchableOpacity onPress={() => setShowEditModal(false)}>
-                <Text
-                  className="text-body-lg text-text-secondary font-semibold"
-                  style={{ fontFamily: 'SF Pro Display' }}
-                >
-                  {t("common.cancel")}
-                </Text>
+            <View className="px-4 pt-4 pb-3 flex-row items-center">
+              {/* Back button on left */}
+              <TouchableOpacity onPress={() => setShowEditModal(false)} className="w-10">
+                <Text className="text-2xl text-text-secondary font-display">←</Text>
               </TouchableOpacity>
-              <Text
-                className="text-heading-1 text-text-primary flex-1 text-center"
-                style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
-              >
-                {t("subscriptionActions.edit")}
-              </Text>
-              <View style={{ width: 60 }} />
+              
+              {/* Title - Centered */}
+              <View className="flex-1 items-center">
+                <Text className="text-heading-2 text-text-primary font-display">
+                  {t("subscriptionActions.edit")}
+                </Text>
+              </View>
+              
+              {/* Empty space on right for balance */}
+              <View className="w-10" />
             </View>
           </View>
 
@@ -419,8 +402,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               </View>
               <View className="flex-1">
                 <Text
-                  className="text-heading-4 text-text-primary"
-                  style={{ fontFamily: 'SF Pro Display' }}
+                  className="text-heading-4 text-text-primary font-display"
                   numberOfLines={1}
                 >
                   {subscription.name}

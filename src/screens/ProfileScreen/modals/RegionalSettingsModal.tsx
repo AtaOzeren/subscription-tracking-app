@@ -138,22 +138,21 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
           className="bg-white border-b border-gray-200"
           style={{ paddingTop: insets.top }}
         >
-          <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
-            <TouchableOpacity onPress={onClose}>
-              <Text
-                className="text-body-lg text-text-secondary font-semibold"
-                style={{ fontFamily: 'SF Pro Display' }}
-              >
-                {t('common.cancel')}
-              </Text>
+          <View className="px-4 pt-4 pb-3 flex-row items-center">
+            {/* Back button on left */}
+            <TouchableOpacity onPress={onClose} className="w-10">
+              <Text className="text-2xl text-text-secondary font-display">←</Text>
             </TouchableOpacity>
-            <Text
-              className="text-heading-1 text-text-primary flex-1 text-center"
-              style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
-            >
-              {t('profile.regionalSettings', { defaultValue: 'Regional Settings' })}
-            </Text>
-            <View style={{ width: 60 }} />
+            
+            {/* Title - Centered */}
+            <View className="flex-1 items-center">
+              <Text className="text-heading-2 text-text-primary font-display">
+                {t('profile.regionalSettings', { defaultValue: 'Regional Settings' })}
+              </Text>
+            </View>
+            
+            {/* Empty space on right for balance */}
+            <View className="w-10" />
           </View>
         </View>
 
@@ -161,10 +160,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
           {loadingReference ? (
             <View className="items-center justify-center p-8">
               <MinimalLoader size="medium" color="#000000" />
-              <Text
-                className="text-body-lg text-text-tertiary mt-4"
-                style={{ fontFamily: 'SF Pro Text' }}
-              >
+              <Text className="text-body-lg text-text-tertiary mt-4 font-text">
                 {t('common.loading', { defaultValue: 'Loading' })}
               </Text>
             </View>
