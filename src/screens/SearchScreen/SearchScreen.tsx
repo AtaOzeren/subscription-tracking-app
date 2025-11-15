@@ -22,24 +22,15 @@ const SearchScreen = ({ onNavigateToProfile, searchQuery: externalSearchQuery = 
   const [showAddModal, setShowAddModal] = useState(false);
 
   // Animation values
-  const slideAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Trigger animations on mount
-    Animated.parallel([
-      Animated.spring(slideAnim, {
-        toValue: 1,
-        friction: 8,
-        tension: 40,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start();
+    // Trigger fade animation on mount
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
 
     // Load catalog subscriptions
     loadCatalog();
@@ -86,19 +77,11 @@ const SearchScreen = ({ onNavigateToProfile, searchQuery: externalSearchQuery = 
     setShowAddModal(true);
   };
 
-  const handleBack = () => {
-    // Clear search when going back
-    setSearchQuery('');
-    setResults([]);
-  };
-
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Header with Back Button and Profile */}
+      {/* Header with Profile Button */}
       <SearchHeader
-        onBack={handleBack}
         onProfilePress={onNavigateToProfile}
-        slideAnim={slideAnim}
       />
 
       {/* Search Results */}
