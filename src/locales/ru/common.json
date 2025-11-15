@@ -197,7 +197,15 @@
   "search": {
     "searchSubscriptions": "Поиск подписок...",
     "startTypingToSearch": "Начните вводить для поиска ваших подписок",
-    "noResultsFound": "Результаты для вашего запроса не найдены"
+    "noResultsFound": "Результаты для вашего запроса не найдены",
+    "searching": "Поиск...",
+    "startSearching": "Начать поиск",
+    "startSearchingDescription": "Введите текст в поле поиска, чтобы найти подписки",
+    "noResults": "Результаты не найдены",
+    "tryDifferentKeywords": "Попробуйте другие ключевые слова",
+    "foundResults": "Найдено результатов: {{count}}",
+    "allSubscriptions": "Все подписки ({{count}})",
+    "noSubscriptionsAvailable": "Нет доступных подписок"
   },
   "onboarding": {
     "welcomeToApp": "Добро пожаловать в Subscription Tracker",

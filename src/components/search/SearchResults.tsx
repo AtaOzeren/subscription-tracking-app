@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Animated, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { CatalogSubscription } from '../../types/catalog';
 import MinimalLoader from '../common/MinimalLoader';
@@ -32,20 +32,8 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
     );
   }
 
-  if (searchQuery === '') {
-    return (
-      <View className="flex-1 items-center justify-center px-6">
-        <Text className="text-heading-3 text-text-primary mb-2 font-display text-center">
-          {t('search.startSearching')}
-        </Text>
-        <Text className="text-body-md text-text-muted text-center font-text">
-          {t('search.startSearchingDescription')}
-        </Text>
-      </View>
-    );
-  }
-
-  if (results.length === 0) {
+  // No results found for active search
+  if (results.length === 0 && searchQuery !== '') {
     return (
       <View className="flex-1 items-center justify-center px-6">
         <Text className="text-6xl mb-4">🔍</Text>
@@ -54,6 +42,18 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
         </Text>
         <Text className="text-body-md text-text-muted text-center font-text">
           {t('search.tryDifferentKeywords')}
+        </Text>
+      </View>
+    );
+  }
+
+  // No results at all (empty catalog or not loaded yet)
+  if (results.length === 0) {
+    return (
+      <View className="flex-1 items-center justify-center px-6">
+        <Text className="text-6xl mb-4">📦</Text>
+        <Text className="text-heading-3 text-text-primary mb-2 font-display text-center">
+          {t('search.noSubscriptionsAvailable')}
         </Text>
       </View>
     );
@@ -75,7 +75,10 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
         showsVerticalScrollIndicator={false}
       >
         <Text className="text-body-sm text-text-muted mb-3 mt-2 font-text">
-          {t('search.foundResults', { count: results.length })}
+          {searchQuery === '' 
+            ? t('search.allSubscriptions', { count: results.length })
+            : t('search.foundResults', { count: results.length })
+          }
         </Text>
         
         {results.map((subscription, index) => (
@@ -86,11 +89,19 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
             activeOpacity={0.7}
           >
             <View className="flex-row items-center">
-              {/* Subscription Icon/Logo placeholder */}
-              <View className="w-12 h-12 rounded-xl bg-blue-100 items-center justify-center mr-3">
-                <Text className="text-xl font-bold text-blue-600 font-display">
-                  {subscription.name.charAt(0).toUpperCase()}
-                </Text>
+              {/* Subscription Logo */}
+              <View className="w-12 h-12 rounded-xl bg-gray-100 items-center justify-center mr-3 overflow-hidden">
+                {subscription.logo_url ? (
+                  <Image
+                    source={{ uri: subscription.logo_url }}
+                    className="w-full h-full"
+                    resizeMode="contain"
+                  />
+                ) : (
+                  <Text className="text-xl font-bold text-gray-600 font-display">
+                    {subscription.name.charAt(0).toUpperCase()}
+                  </Text>
+                )}
               </View>
               
               {/* Subscription Info */}

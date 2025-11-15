@@ -197,7 +197,15 @@
   "search": {
     "searchSubscriptions": "Abonnements suchen...",
     "startTypingToSearch": "Beginnen Sie mit der Eingabe, um Ihre Abonnements zu durchsuchen",
-    "noResultsFound": "Keine Ergebnisse für Ihre Suche gefunden"
+    "noResultsFound": "Keine Ergebnisse für Ihre Suche gefunden",
+    "searching": "Suchen...",
+    "startSearching": "Suche starten",
+    "startSearchingDescription": "Geben Sie in das Suchfeld ein, um Abonnements zu finden",
+    "noResults": "Keine Ergebnisse gefunden",
+    "tryDifferentKeywords": "Versuchen Sie andere Suchbegriffe",
+    "foundResults": "{{count}} Ergebnis(se) gefunden",
+    "allSubscriptions": "Alle Abonnements ({{count}})",
+    "noSubscriptionsAvailable": "Keine Abonnements verfügbar"
   },
   "onboarding": {
     "welcomeToApp": "Willkommen beim Subscription Tracker",

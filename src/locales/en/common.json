@@ -206,7 +206,9 @@
     "startSearchingDescription": "Type in the search box to find subscriptions",
     "noResults": "No Results Found",
     "tryDifferentKeywords": "Try using different keywords",
-    "foundResults": "Found {{count}} result(s)"
+    "foundResults": "Found {{count}} result(s)",
+    "allSubscriptions": "All subscriptions ({{count}})",
+    "noSubscriptionsAvailable": "No subscriptions available"
   },
   "onboarding": {
     "welcomeToApp": "Welcome to Subscription Tracker",

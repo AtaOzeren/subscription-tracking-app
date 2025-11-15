@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { View, Animated, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { catalogService } from '../../services/catalogService';
@@ -15,7 +15,7 @@ interface SearchScreenProps {
 
 const SearchScreen = ({ onNavigateToProfile, searchQuery: externalSearchQuery = '' }: SearchScreenProps) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Start with loading true
   const [results, setResults] = useState<CatalogSubscription[]>([]);
   const [allSubscriptions, setAllSubscriptions] = useState<CatalogSubscription[]>([]);
   const [selectedSubscription, setSelectedSubscription] = useState<CatalogSubscription | null>(null);
@@ -47,7 +47,6 @@ const SearchScreen = ({ onNavigateToProfile, searchQuery: externalSearchQuery = 
 
   const loadCatalog = async () => {
     try {
-      setLoading(true);
       const subscriptions = await catalogService.getCatalogSubscriptions();
       setAllSubscriptions(subscriptions || []);
     } catch (error) {
@@ -60,18 +59,10 @@ const SearchScreen = ({ onNavigateToProfile, searchQuery: externalSearchQuery = 
   // Use external search query if provided (from bottom nav), otherwise use internal state
   const activeSearchQuery = externalSearchQuery || searchQuery;
 
-  // Debounced search
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      performSearch(activeSearchQuery);
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-  }, [activeSearchQuery]);
-
-  const performSearch = (query: string) => {
+  const performSearch = useCallback((query: string) => {
     if (query.trim() === '') {
-      setResults([]);
+      // Show all subscriptions when search is empty
+      setResults(allSubscriptions);
       return;
     }
 
@@ -79,7 +70,16 @@ const SearchScreen = ({ onNavigateToProfile, searchQuery: externalSearchQuery = 
       sub.name.toLowerCase().includes(query.toLowerCase())
     );
     setResults(filtered);
-  };
+  }, [allSubscriptions]);
+
+  // Debounced search
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      performSearch(activeSearchQuery);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [activeSearchQuery, performSearch]);
 
   const handleSelectSubscription = (subscription: CatalogSubscription) => {
     setSelectedSubscription(subscription);
