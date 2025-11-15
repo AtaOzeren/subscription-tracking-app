@@ -1,24 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Animated, KeyboardAvoidingView, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTranslation } from 'react-i18next';
-import { storageService } from '../services/storageService';
 import LoadingScreen from '../screens/LoadingScreen/LoadingScreen';
 import AuthNavigator from './AuthNavigator';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import SubscriptionsScreen from '../screens/SubscriptionsScreen/SubscriptionsScreen';
 import StatisticsScreen from '../screens/StatisticsScreen/StatisticsScreen';
 import SearchScreen from '../screens/SearchScreen/SearchScreen';
-import AddSubscriptionScreen from '../screens/AddSubscriptionScreen/AddSubscriptionScreen';
-import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import SubscriptionDetailScreen from '../screens/SubscriptionDetailScreen/SubscriptionDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import WelcomeScreen from '../screens/WelcomeScreen/WelcomeScreen';
 import LanguageSelectionScreen from '../screens/LanguageSelectionScreen/LanguageSelectionScreen';
-import ProfileSetupScreen from '../screens/ProfileSetupScreen/ProfileSetupScreen';
 import CustomBottomTabBar from '../components/common/CustomBottomTabBar';
 
 const Stack = createStackNavigator();
@@ -51,7 +47,6 @@ const OnboardingNavigator = () => {
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="LanguageSelection" component={LanguageSelectionScreen} />
       <Stack.Screen name="Auth" component={AuthNavigator} />
-      <Stack.Screen name="ProfileSetup" component={ProfileSetupScreen} />
     </Stack.Navigator>
   );
 };
@@ -164,23 +159,6 @@ const MainNavigator = () => {
 const AppNavigator = () => {
   const { isAuthenticated, isLoading, isFirstTimeUser } = useAuth();
   const { isLoading: languageLoading } = useLanguage();
-  const [needsProfileSetup, setNeedsProfileSetup] = React.useState(false);
-
-  useEffect(() => {
-    const checkProfileSetup = async () => {
-      if (isAuthenticated && !isFirstTimeUser) {
-        const profileSetup = await storageService.getProfileSetup();
-        console.log('🔍 Profile setup check:', profileSetup);
-        setNeedsProfileSetup(!profileSetup);
-      } else {
-        setNeedsProfileSetup(false);
-      }
-    };
-    
-    if (!isLoading && !languageLoading) {
-      checkProfileSetup();
-    }
-  }, [isAuthenticated, isFirstTimeUser, isLoading, languageLoading]);
 
   if (isLoading || languageLoading) {
     return <LoadingScreen />;
@@ -190,10 +168,6 @@ const AppNavigator = () => {
     <NavigationContainer>
       {isFirstTimeUser ? (
         <OnboardingNavigator />
-      ) : needsProfileSetup ? (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="ProfileSetup" component={ProfileSetupScreen} />
-        </Stack.Navigator>
       ) : isAuthenticated ? (
         <MainNavigator />
       ) : (

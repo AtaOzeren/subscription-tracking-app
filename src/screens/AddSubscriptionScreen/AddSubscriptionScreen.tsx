@@ -3,12 +3,14 @@ import { View, Text, ScrollView, TouchableOpacity, TextInput, Image, Alert, Moda
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { catalogService } from '../../services/catalogService';
-import { Category, CatalogSubscription, Plan, Price } from '../../types/catalog';
+import { Category, CatalogSubscription, Plan } from '../../types/catalog';
 import { useAuth } from '../../contexts/AuthContext';
+import { storageService } from '../../services/storageService';
 import CustomSubscription from './CustomSubscription';
 import FormField from '../../components/subscription/FormField';
 import AppleButton from '../../components/common/AppleButton';
 import PlanSelector from '../../components/subscription/PlanSelector';
+import RegionalSettingsPrompt from '../../components/common/RegionalSettingsPrompt';
 
 interface AddSubscriptionScreenProps {
   onClose: () => void;
@@ -16,7 +18,7 @@ interface AddSubscriptionScreenProps {
 
 const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, checkAuth } = useAuth();
   const insets = useSafeAreaInsets();
   
   // Step states
@@ -42,10 +44,26 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
   const [notes, setNotes] = useState('');
   
   const [loading, setLoading] = useState(false);
+  const [showRegionalPrompt, setShowRegionalPrompt] = useState(false);
+  const [hasCheckedRegionalSettings, setHasCheckedRegionalSettings] = useState(false);
 
   useEffect(() => {
+    checkRegionalSettings();
     loadData();
   }, []);
+
+  const checkRegionalSettings = async () => {
+    try {
+      const profileSetup = await storageService.getProfileSetup();
+      if (!profileSetup) {
+        setShowRegionalPrompt(true);
+      }
+      setHasCheckedRegionalSettings(true);
+    } catch (error) {
+      console.error('Error checking regional settings:', error);
+      setHasCheckedRegionalSettings(true);
+    }
+  };
 
   useEffect(() => {
     let filtered = subscriptions;
@@ -496,6 +514,20 @@ const AddSubscriptionScreen = ({ onClose }: AddSubscriptionScreenProps) => {
           categories={categories}
         />
       </Modal>
+
+      {/* Regional Settings Prompt */}
+      <RegionalSettingsPrompt
+        visible={showRegionalPrompt}
+        onComplete={() => {
+          setShowRegionalPrompt(false);
+          // Refresh auth context to update user profile
+          checkAuth();
+        }}
+        onCancel={() => {
+          setShowRegionalPrompt(false);
+          onClose(); // Close the add subscription screen if user cancels
+        }}
+      />
     </View>
   );
 };

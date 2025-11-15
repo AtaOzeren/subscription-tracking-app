@@ -58,12 +58,8 @@ const LoginScreen: React.FC = () => {
       // Mark onboarding as complete (Welcome -> Language -> Login completed)
       await storageService.setOnboardingComplete(true);
       
-      // Check if profile setup is needed
-      const profileSetup = await storageService.getProfileSetup();
-      if (!profileSetup) {
-        // Navigate to ProfileSetup screen
-        navigation.navigate('ProfileSetup' as never);
-      }
+      // User will be navigated to main app
+      // Regional settings will be prompted when adding first subscription
     } catch (error) {
       Alert.alert(t('auth.loginFailed'), error instanceof Error ? error.message : 'An error occurred');
     } finally {
