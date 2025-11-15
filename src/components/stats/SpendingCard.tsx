@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Alert, Animated } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { formatPrice } from '../../utils/currency';
+import Svg, { Polygon, Path } from 'react-native-svg';
 
 interface SpendingCardProps {
   viewMode: 'monthly' | 'yearly';
@@ -32,9 +33,9 @@ export const SpendingCard: React.FC<SpendingCardProps> = ({
 
   return (
     <View className="px-4 mb-4">
-      <View className="bg-white rounded-2xl p-5">
+      <View className="bg-white rounded-2xl p-4">
         <Animated.View 
-          className="flex-row items-center justify-between py-3 border-b border-gray-100"
+          className="flex-row items-center justify-between"
           style={{ opacity: fadeAnim }}
         >
           <View className="flex-row items-center">
@@ -43,10 +44,23 @@ export const SpendingCard: React.FC<SpendingCardProps> = ({
             </Text>
             {viewMode === 'yearly' && (
               <TouchableOpacity onPress={showYearlyInfo} className="ml-2">
-                <View className="w-5 h-5 rounded-full border-2 border-accent items-center justify-center">
-                  <Text className="text-accent text-body-sm font-bold font-display">
-                    !
-                  </Text>
+                <View className="w-6 h-6 items-center justify-center" style={{ opacity: 0.5 }}>
+                  <Svg width="24" height="24" viewBox="0 0 24 24">
+                    {/* Empty yellow triangle outline */}
+                    <Polygon
+                      points="12,3 22,21 2,21"
+                      fill="none"
+                      stroke="#F59E0B"
+                      strokeWidth="2"
+                    />
+                    {/* Yellow exclamation mark (smaller) */}
+                    <Path
+                      d="M12 10 L12 14 M12 16.5 L12 17"
+                      stroke="#F59E0B"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                    />
+                  </Svg>
                 </View>
               </TouchableOpacity>
             )}

@@ -38,11 +38,11 @@ export const SubscriptionStatus: React.FC<SubscriptionStatusProps> = ({
 
   return (
     <View className="px-4 mb-4">
-      <View className="bg-white rounded-2xl p-5">
+      <View className="bg-white rounded-2xl p-4">
         {statusData.map((status, index) => (
           <View
             key={index}
-            className={`flex-row items-center justify-between py-3 ${
+            className={`flex-row items-center justify-between py-2 ${
               index < statusData.length - 1 ? 'border-b border-gray-100' : ''
             }`}
           >
