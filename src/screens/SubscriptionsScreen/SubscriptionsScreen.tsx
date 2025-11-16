@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Modal,
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
+import { useError } from '../../contexts/ErrorContext';
 import { useMySubscriptions, useDeleteSubscription } from '../../hooks/useQueries';
 import { UserSubscription } from '../../types/subscription';
 import UserSubscriptionCard from '../../components/subscription/UserSubscriptionCard';
@@ -17,7 +18,7 @@ interface SubscriptionsScreenProps {
 const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
   const [selectedSubscription, setSelectedSubscription] = useState<UserSubscription | null>(null);
   const { t } = useTranslation();
-  const { user, isAuthenticated } = useAuth();
+  const { showError } = useError();
   
   // Use React Query hook - same data as HomeScreen, shared cache!
   const { data: subscriptions = [], isLoading: loading, refetch, isRefetching } = useMySubscriptions();
@@ -78,7 +79,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
               try {
                 await deleteSubscriptionMutation.mutateAsync(id);
               } catch (error) {
-                Alert.alert(t('common.error'), t('subscriptionAlerts.deleteError'));
+                showError(error, 'DeleteSubscription');
               }
             }
           }

@@ -5,7 +5,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './src/contexts/AuthContext';
 import { LanguageProvider } from './src/contexts/LanguageContext';
+import { ErrorProvider } from './src/contexts/ErrorContext';
 import AppNavigator from './src/navigation/AppNavigator';
+import ErrorModal from './src/components/common/ErrorModal';
 
 // Create a client with optimized cache settings
 const queryClient = new QueryClient({
@@ -28,10 +30,13 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
         <LanguageProvider>
-          <AuthProvider>
-            <AppNavigator />
-            <StatusBar style="auto" />
-          </AuthProvider>
+          <ErrorProvider>
+            <AuthProvider>
+              <AppNavigator />
+              <ErrorModal />
+              <StatusBar style="auto" />
+            </AuthProvider>
+          </ErrorProvider>
         </LanguageProvider>
       </SafeAreaProvider>
     </QueryClientProvider>

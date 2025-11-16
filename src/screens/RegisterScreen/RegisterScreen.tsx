@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
+import { useError } from '../../contexts/ErrorContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { storageService } from '../../services/storageService';
@@ -19,6 +20,7 @@ const RegisterScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string; confirmPassword?: string }>({});
   const { register } = useAuth();
+  const { showError } = useError();
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -98,8 +100,8 @@ const RegisterScreen: React.FC = () => {
         // console.log('✅ Profile already setup, proceeding to main app');
       }
     } catch (error) {
-      console.error('[Register]] Registration error:', error);
-      Alert.alert(t('auth.registerFailed'), error instanceof Error ? error.message : 'An error occurred');
+      console.error('[Register] Registration error:', error);
+      showError(error, 'Registration');
     } finally {
       setIsLoading(false);
     }
