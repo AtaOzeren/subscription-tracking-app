@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { catalogService } from '../../services/catalogService';
+import { useAddCustomSubscription } from '../../hooks/useQueries';
 import { Category } from '../../types/catalog';
 import { useAuth } from '../../contexts/AuthContext';
 import FormField from '../../components/subscription/FormField';
@@ -20,6 +20,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
   const { t } = useTranslation();
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
+  const addCustomMutation = useAddCustomSubscription();
   
   // Form states
   const [customName, setCustomName] = useState(initialSearchQuery);
@@ -63,7 +64,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
 
     try {
       setLoading(true);
-      await catalogService.addCustomSubscription({
+      await addCustomMutation.mutateAsync({
         custom_name: customName,
         custom_category_id: customCategoryId,
         custom_price: parseFloat(customPrice),

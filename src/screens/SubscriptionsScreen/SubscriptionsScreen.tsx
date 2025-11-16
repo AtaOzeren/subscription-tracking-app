@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Alert, Modal,
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
-import { mySubscriptionsService } from '../../services/mySubscriptionsService';
+import { useMySubscriptions, useDeleteSubscription } from '../../hooks/useQueries';
 import { UserSubscription } from '../../types/subscription';
 import UserSubscriptionCard from '../../components/subscription/UserSubscriptionCard';
 import MinimalLoader from '../../components/common/MinimalLoader';
@@ -18,83 +18,51 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
   const [selectedSubscription, setSelectedSubscription] = useState<UserSubscription | null>(null);
   const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
-  const [subscriptions, setSubscriptions] = useState<UserSubscription[]>([]);
+  
+  // Use React Query hook - same data as HomeScreen, shared cache!
+  const { data: subscriptions = [], isLoading: loading, refetch, isRefetching } = useMySubscriptions();
+  const deleteSubscriptionMutation = useDeleteSubscription();
+  
   const [filteredSubscriptions, setFilteredSubscriptions] = useState<UserSubscription[]>([]);
   const [categories, setCategories] = useState<Array<{id: number, name: string, icon_url: string, count: number}>>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
-
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      loadSubscriptions();
-    }
-  }, [isAuthenticated, user]);
 
   useEffect(() => {
     filterSubscriptions();
   }, [subscriptions, selectedCategory]);
 
-  const loadSubscriptions = async () => {
-    try {
-      // Check if user is authenticated
-      if (!isAuthenticated || !user) {
-        console.log('❌ User not authenticated, cannot load subscriptions');
-        Alert.alert(
-          t('auth.loginRequired'),
-          t('auth.loginToViewSubscriptions')
-        );
-        return;
+  useEffect(() => {
+    // Extract unique categories with counts whenever subscriptions change
+    const categoryMap = new Map();
+    subscriptions.forEach((sub: UserSubscription) => {
+      const key = sub.category.id;
+      if (!categoryMap.has(key)) {
+        categoryMap.set(key, {
+          id: sub.category.id,
+          name: sub.category.name,
+          icon_url: sub.category.icon_url,
+          count: 0
+        });
       }
-
-      setLoading(true);
-      console.log('🔄 Loading subscriptions for user:', user.email);
-      const data = await mySubscriptionsService.getMySubscriptions();
-      setSubscriptions(data);
-      
-      // Extract unique categories with counts
-      const categoryMap = new Map();
-      data.forEach(sub => {
-        const key = sub.category.id;
-        if (!categoryMap.has(key)) {
-          categoryMap.set(key, {
-            id: sub.category.id,
-            name: sub.category.name,
-            icon_url: sub.category.icon_url,
-            count: 0
-          });
-        }
-        categoryMap.get(key).count++;
-      });
-      
-      setCategories(Array.from(categoryMap.values()));
-      console.log('✅ Subscriptions loaded successfully:', data.length);
-    } catch (error) {
-      console.error('❌ Error in loadSubscriptions:', error);
-      Alert.alert(
-        t('common.error'),
-        error instanceof Error ? error.message : t('common.somethingWentWrong')
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+      categoryMap.get(key).count++;
+    });
+    
+    setCategories(Array.from(categoryMap.values()));
+  }, [subscriptions]);
 
   const filterSubscriptions = () => {
     if (selectedCategory === null) {
       setFilteredSubscriptions(subscriptions);
     } else {
       setFilteredSubscriptions(
-        subscriptions.filter(sub => sub.category.id === selectedCategory)
+        subscriptions.filter((sub: UserSubscription) => sub.category.id === selectedCategory)
       );
     }
   };
 
   const onRefresh = async () => {
-    setRefreshing(true);
-    await loadSubscriptions();
-    setRefreshing(false);
+    await refetch();
   };
 
   const handleDeleteSubscription = async (id: number) => {
@@ -108,8 +76,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
             style: 'destructive',
             onPress: async () => {
               try {
-                await mySubscriptionsService.deleteSubscription(id);
-                await loadSubscriptions();
+                await deleteSubscriptionMutation.mutateAsync(id);
               } catch (error) {
                 Alert.alert(t('common.error'), t('subscriptionAlerts.deleteError'));
               }
@@ -209,7 +176,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
       <ScrollView
         className="flex-1 px-4"
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} />
         }
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 12 }}
         onScroll={scrollY ? Animated.event(
@@ -287,7 +254,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
                 },
                 onBack: () => setSelectedSubscription(null),
                 onUpdate: async () => {
-                  await loadSubscriptions();
+                  await refetch();
                 },
               },
             }}

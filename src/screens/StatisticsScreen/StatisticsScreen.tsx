@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, Animated, RefreshControl, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { statsService } from '../../services/statsService';
-import { DetailedStatsResponse } from '../../types/stats';
+import { useDetailedStats } from '../../hooks/useQueries';
 import MinimalLoader from '../../components/common/MinimalLoader';
 import ProfileButton from '../../components/common/ProfileButton';
 import { ViewModeToggle } from '../../components/stats/ViewModeToggle';
@@ -19,11 +18,10 @@ interface StatisticsScreenProps {
 
 const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProps) => {
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [stats, setStats] = useState<DetailedStatsResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'monthly' | 'yearly'>('monthly');
+  
+  // Use React Query hook for stats - automatic caching!
+  const { data: stats, isLoading: loading, error, refetch, isRefetching } = useDetailedStats();
   
   // Animation values for toggle slider
   const slideAnim = React.useRef(new Animated.Value(0)).current;
@@ -70,27 +68,8 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
     slideAnim.setValue(viewMode === 'yearly' ? 1 : 0);
   }, []);
 
-  useEffect(() => {
-    loadStats();
-  }, []);
-
-  const loadStats = async () => {
-    try {
-      setError(null);
-      const data = await statsService.getDetailedStats();
-      setStats(data);
-    } catch (error) {
-      console.error('Error loading stats:', error);
-      setError(t('stats.errorLoading'));
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-
   const handleRefresh = () => {
-    setRefreshing(true);
-    loadStats();
+    refetch();
   };
 
   if (loading) {
@@ -111,9 +90,9 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
       <SafeAreaView className="flex-1 bg-gray-50">
         <View className="flex-1 items-center justify-center px-6">
           <Text className="text-body-lg text-accent-error text-center mb-4">
-            {error}
+            {error.message || t('stats.errorLoading')}
           </Text>
-          <TouchableOpacity onPress={loadStats}>
+          <TouchableOpacity onPress={handleRefresh}>
             <Text className="text-body-lg text-accent font-semibold">
               {t('common.tryAgain')}
             </Text>
@@ -146,7 +125,7 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
         contentContainerStyle={{ paddingBottom: 125 }}
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
+            refreshing={isRefetching}
             onRefresh={handleRefresh}
             tintColor="#3B82F6"
           />

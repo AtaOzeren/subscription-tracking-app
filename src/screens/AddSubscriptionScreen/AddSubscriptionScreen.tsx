@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, TextInput, Image, Alert, Moda
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { catalogService } from '../../services/catalogService';
+import { useCategories, useCatalogSubscriptions, useSubscriptionDetails, useAddPresetSubscription } from '../../hooks/useQueries';
 import { Category, CatalogSubscription, Plan } from '../../types/catalog';
 import { useAuth } from '../../contexts/AuthContext';
 import { storageService } from '../../services/storageService';
@@ -29,12 +30,14 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [customSearchQuery, setCustomSearchQuery] = useState('');
   
-  // Data states
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [subscriptions, setSubscriptions] = useState<CatalogSubscription[]>([]);
+  // Data states - Use React Query hooks for caching
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const { data: categories = [], isLoading: categoriesLoading } = useCategories();
+  const { data: subscriptions = [], isLoading: subscriptionsLoading } = useCatalogSubscriptions(selectedCategory || undefined);
+  const addPresetMutation = useAddPresetSubscription();
+  
   const [filteredSubscriptions, setFilteredSubscriptions] = useState<CatalogSubscription[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   
   // Selection states - Use initialSubscription if provided
   const [selectedSubscription, setSelectedSubscription] = useState<CatalogSubscription | null>(
@@ -54,7 +57,6 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
 
   useEffect(() => {
     checkRegionalSettings();
-    loadData();
   }, []);
 
   // Load plans if initialSubscription is provided
@@ -116,25 +118,8 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
     setFilteredSubscriptions(filtered);
   }, [searchQuery, subscriptions, selectedCategory]);
 
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      const [categoriesData, subscriptionsData] = await Promise.all([
-        catalogService.getCategories(),
-        catalogService.getCatalogSubscriptions(),
-      ]);
-      setCategories(categoriesData);
-      setSubscriptions(subscriptionsData);
-      setFilteredSubscriptions(subscriptionsData);
-    } catch (error) {
-      Alert.alert(
-        t('common.error'),
-        error instanceof Error ? error.message : t('common.somethingWentWrong')
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  // No longer needed - data comes from React Query hooks
+  // Categories and subscriptions are now cached and shared across the app
 
   const handleSelectSubscription = async (subscription: CatalogSubscription) => {
     try {
@@ -185,7 +170,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
 
     try {
       setLoading(true);
-      await catalogService.addPresetSubscription({
+      await addPresetMutation.mutateAsync({
         plan_id: selectedPlan.id,
         start_date: startDate,
         next_billing_date: nextBillingDate,
