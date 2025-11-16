@@ -79,7 +79,7 @@ class AuthService {
       // Test connection first (non-blocking)
       const isConnected = await this.testConnection();
       if (!isConnected) {
-        console.warn('Health check failed, attempting login anyway');
+        console.warn('[Auth] Health check failed, attempting login anyway');
       }
       
       const response = await this.fetchWithTimeout(`${this.baseUrl}/api/auth/login`, {
@@ -133,9 +133,9 @@ class AuthService {
       return { user, token };
       
     } catch (error) {
-      console.error('❌ Login error:', error);
-      console.error('❌ Error type:', typeof error);
-      console.error('❌ Error message:', error instanceof Error ? error.message : 'Unknown error');
+      console.error('[Auth] Login error:', error);
+      console.error('[Auth] Error type:', typeof error);
+      console.error('[Auth] Error message:', error instanceof Error ? error.message : 'Unknown error');
       
       // Handle different types of errors with user-friendly messages
       if (error instanceof Error) {

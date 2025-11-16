@@ -66,13 +66,11 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
               if (selectedAvatar) {
                 // Validate avatar data before saving
                 if (typeof selectedAvatar === 'string' && selectedAvatar.length > 0) {
-                  console.log('ProfileUpdateModal: Saving avatar');
                   await storageService.setAvatar(selectedAvatar);
                 } else {
-                  console.warn('ProfileUpdateModal: Invalid avatar data, skipping save');
+                  console.warn('[ProfileUpdate] Invalid avatar data, skipping save');
                 }
               } else {
-                console.log('ProfileUpdateModal: Removing avatar');
                 await storageService.removeAvatar();
               }
 
@@ -91,7 +89,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
                 t('profile.updateSuccess', { defaultValue: 'Profile updated successfully' })
               );
             } catch (error) {
-              console.error('Error updating profile:', error);
+              console.error('[ProfileUpdate] Error updating profile:', error);
               Alert.alert(
                 t('common.error'),
                 error instanceof Error ? error.message : t('profile.updateFailed', { defaultValue: 'Failed to update profile' })

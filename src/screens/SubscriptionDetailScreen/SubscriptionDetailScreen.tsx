@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, Image, Alert, Modal, TextInpu
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { UserSubscription } from '../../types/subscription';
-import { mySubscriptionsService } from '../../services/mySubscriptionsService';
+import { useUpdateSubscription } from '../../hooks/useQueries';
 import FormField from '../../components/subscription/FormField';
 import AppleButton from '../../components/common/AppleButton';
 import { formatPrice } from '../../utils/currency';
@@ -28,6 +28,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
   
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
+  const updateSubscriptionMutation = useUpdateSubscription();
   const [showMenu, setShowMenu] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   
@@ -120,7 +121,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                 updates.custom_price = parseFloat(editPrice);
               }
 
-              await mySubscriptionsService.updateSubscription(subscription.id, updates);
+              await updateSubscriptionMutation.mutateAsync({ id: subscription.id, updates });
               
               setShowEditModal(false);
               

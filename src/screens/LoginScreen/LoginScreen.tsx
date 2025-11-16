@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
+import { useError } from '../../contexts/ErrorContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { storageService } from '../../services/storageService';
@@ -18,6 +19,7 @@ const LoginScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const { login } = useAuth();
+  const { showError } = useError();
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -61,7 +63,10 @@ const LoginScreen: React.FC = () => {
       // User will be navigated to main app
       // Regional settings will be prompted when adding first subscription
     } catch (error) {
-      Alert.alert(t('auth.loginFailed'), error instanceof Error ? error.message : 'An error occurred');
+      showError(error, 'Login', [{
+        label: t('error.retry'),
+        onPress: () => handleLogin()
+      }]);
     } finally {
       setIsLoading(false);
     }

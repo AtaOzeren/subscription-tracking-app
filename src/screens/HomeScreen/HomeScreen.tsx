@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, ActivityIndicator, Animated, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Animated, Modal } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ import { StatsCards } from '../../components/stats/StatsCards';
 import MinimalSubscriptionCard from '../../components/subscription/MinimalSubscriptionCard';
 import MinimalLoader from '../../components/common/MinimalLoader';
 import SubscriptionDetailScreen from '../SubscriptionDetailScreen/SubscriptionDetailScreen';
-import { mySubscriptionsService } from '../../services/mySubscriptionsService';
+import { useMySubscriptions, useDeleteSubscription } from '../../hooks/useQueries';
 import { UserSubscription } from '../../types/subscription';
 
 interface HomeScreenProps {
@@ -26,11 +26,11 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [greetingMessage, setGreetingMessage] = useState('');
-  const [subscriptions, setSubscriptions] = useState<UserSubscription[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [selectedSubscription, setSelectedSubscription] = useState<UserSubscription | null>(null);
+
+  // Use React Query hook for subscriptions - automatic caching!
+  const { data: subscriptions = [], isLoading: loading, error, refetch, isRefetching } = useMySubscriptions();
+  const deleteSubscriptionMutation = useDeleteSubscription();
 
   useEffect(() => {
     // Update greeting message when user changes or every minute
@@ -46,27 +46,8 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
     return () => clearInterval(interval);
   }, [user?.name, t]);
 
-  useEffect(() => {
-    loadSubscriptions();
-  }, []);
-
-  const loadSubscriptions = async () => {
-    try {
-      setError(null);
-      const data = await mySubscriptionsService.getMySubscriptions();
-      setSubscriptions(data);
-    } catch (error) {
-      console.error('Error loading subscriptions:', error);
-      setError(t('common.errorLoading'));
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-
   const handleRefresh = () => {
-    setRefreshing(true);
-    loadSubscriptions();
+    refetch();
   };
 
   const handleProfilePress = () => {
@@ -81,7 +62,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
         className="flex-1"
         refreshControl={
           <RefreshControl 
-            refreshing={refreshing} 
+            refreshing={isRefetching} 
             onRefresh={handleRefresh}
             tintColor="#3B82F6"
           />
@@ -116,9 +97,9 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
         ) : error ? (
           <View className="flex-1 items-center justify-center px-6 py-20">
             <Text className="text-body-lg text-accent-error text-center mb-4">
-              {error}
+              {error.message || t('common.errorLoading')}
             </Text>
-            <TouchableOpacity onPress={loadSubscriptions}>
+            <TouchableOpacity onPress={handleRefresh}>
               <Text className="text-body-lg text-accent font-semibold">
                 {t('common.tryAgain')}
               </Text>
@@ -200,13 +181,12 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
               params: {
                 subscription: selectedSubscription,
                 onDelete: async (id: number) => {
-                  await mySubscriptionsService.deleteSubscription(id);
+                  await deleteSubscriptionMutation.mutateAsync(id);
                   setSelectedSubscription(null);
-                  loadSubscriptions();
                 },
                 onBack: () => setSelectedSubscription(null),
                 onUpdate: async () => {
-                  await loadSubscriptions();
+                  await refetch();
                 },
               },
             }}

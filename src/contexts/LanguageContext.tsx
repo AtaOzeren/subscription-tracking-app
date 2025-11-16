@@ -82,7 +82,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         }
       }
     } catch (error) {
-      console.error('Error loading language:', error);
+      console.error('[Language] Error loading language:', error);
     } finally {
       setIsLoading(false);
     }
@@ -110,7 +110,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       setIsFirstTime(false);
       
     } catch (error) {
-      console.error('Error changing language:', error);
+      console.error('[Language] Error changing language:', error);
     } finally {
       // setIsLoading(false);
     }

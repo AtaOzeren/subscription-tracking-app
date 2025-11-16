@@ -324,5 +324,31 @@
     "notificationsTitle": "Manage Notifications",
     "notificationsComingSoon": "Notifications coming soon",
     "notificationsDescription": "We're building a smart notification system to remind you about upcoming payments and renewals."
+  },
+  "error": {
+    "title": "Oops!",
+    "invalidCredentials": "Invalid email or password",
+    "invalidCredentialsDetails": "Please check your login credentials and try again",
+    "emailAlreadyExists": "Email already registered",
+    "emailAlreadyExistsDetails": "This email is already associated with an account. Please sign in instead",
+    "sessionExpired": "Session expired",
+    "sessionExpiredDetails": "Your session has expired. Please sign in again",
+    "unauthorized": "Access denied",
+    "unauthorizedDetails": "You don't have permission to access this resource",
+    "networkError": "Connection problem",
+    "networkErrorDetails": "Unable to connect to the server. Please check your internet connection",
+    "networkTimeout": "Request timed out",
+    "networkTimeoutDetails": "The request took too long. Please try again",
+    "networkOffline": "No internet connection",
+    "networkOfflineDetails": "Please check your internet connection and try again",
+    "serverError": "Server error",
+    "serverErrorDetails": "Something went wrong on our end. We're working on it!",
+    "serverUnavailable": "Service unavailable",
+    "serverUnavailableDetails": "Our servers are temporarily unavailable. Please try again in a moment",
+    "validationFailed": "Validation failed",
+    "unknownError": "Something went wrong",
+    "retry": "Retry",
+    "dismiss": "Dismiss",
+    "contactSupport": "Contact Support"
   }
 }

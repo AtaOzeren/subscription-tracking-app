@@ -50,7 +50,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
       const profileData = await profileService.getProfile();
       setUser(profileData);
     } catch (error) {
-      console.error('Error fetching profile:', error);
+      console.error('[Profile] Error fetching profile:', error);
       Alert.alert(
         t('common.error'),
         error instanceof Error ? error.message : 'Failed to fetch profile'
@@ -180,7 +180,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                      className="w-20 h-20 rounded-full mr-4"
                      style={{ width: 80, height: 80 }}
                      onError={(error) => {
-                       console.error('ProfileScreen: Avatar image failed to load:', user.avatar, error.nativeEvent.error);
+                       console.error('[Profile] Avatar image failed to load:', user.avatar, error.nativeEvent.error);
                        setAvatarError(true);
                      }}
                    />

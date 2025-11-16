@@ -46,7 +46,7 @@ class ReferenceService {
       
       return countries;
     } catch (error) {
-      console.error('❌ Countries fetch error:', error);
+      console.error('[Reference] Countries fetch error:', error);
       
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
@@ -96,7 +96,7 @@ class ReferenceService {
       
       return currencies;
     } catch (error) {
-      console.error('❌ Currencies fetch error:', error);
+      console.error('[Reference] Currencies fetch error:', error);
       
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
@@ -146,7 +146,7 @@ class ReferenceService {
       
       return countries;
     } catch (error) {
-      console.error('❌ Countries by region fetch error:', error);
+      console.error('[Reference] Countries by region fetch error:', error);
       
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
