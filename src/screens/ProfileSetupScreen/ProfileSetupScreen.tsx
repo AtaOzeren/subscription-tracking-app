@@ -136,7 +136,7 @@ const ProfileSetupScreen = () => {
       setFilteredCountries(sortedCountries);
       setFilteredCurrencies(sortedCurrencies);
     } catch (error) {
-      console.error('[ ProfileSetup: Error loading reference data:', error);]
+      console.error('[ProfileSetup] Error loading reference data:', error);
       Alert.alert(
         t('common.error'),
         error instanceof Error ? error.message : t('onboarding.loadError')
@@ -171,7 +171,7 @@ const ProfileSetupScreen = () => {
       await checkAuth();
       
     } catch (error) {
-      console.error('[ Error saving profile:', error);]
+      console.error('[ProfileSetup] Error saving profile:', error);
       Alert.alert(
         t('common.error'),
         error instanceof Error ? error.message : t('onboarding.saveError')

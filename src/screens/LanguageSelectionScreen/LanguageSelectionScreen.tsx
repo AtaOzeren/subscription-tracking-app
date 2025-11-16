@@ -93,7 +93,7 @@ const LanguageSelectionScreen: React.FC = () => {
       // Navigate to Auth navigator after language selection
       navigation.navigate('Auth' as never);
     } catch (error) {
-      console.error('[ Error selecting language:', error);]
+      console.error('[LanguageSelection] Error selecting language:', error);
     }
   };
 

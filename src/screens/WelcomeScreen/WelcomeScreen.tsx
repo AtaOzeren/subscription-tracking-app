@@ -44,7 +44,7 @@ const WelcomeScreen = () => {
           // console.log('✅ Onboarding already complete, skipping reset');
         }
       } catch (error) {
-        console.error('[ Error resetting app:', error);]
+        console.error('[Welcome] Error resetting app:', error);
       }
     };
 
