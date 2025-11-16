@@ -57,7 +57,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
       setCountries(countriesData.filter(c => c.deleted_at === null));
       setCurrencies(currenciesData.filter(c => c.deleted_at === null));
     } catch (error) {
-      console.error('Error fetching reference data:', error);
+      console.error('[RegionalSettings] Error fetching reference data:', error);
       Alert.alert(
         t('common.error'),
         error instanceof Error ? error.message : 'Failed to fetch reference data'
@@ -102,7 +102,7 @@ const RegionalSettingsModal: React.FC<RegionalSettingsModalProps> = ({
                 t('profile.regionalUpdateSuccess', { defaultValue: 'Regional settings updated successfully' })
               );
             } catch (error) {
-              console.error('Error updating regional settings:', error);
+              console.error('[RegionalSettings] Error updating regional settings:', error);
               Alert.alert(
                 t('common.error'),
                 error instanceof Error ? error.message : 'Failed to update regional settings'

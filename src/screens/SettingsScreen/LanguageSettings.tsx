@@ -88,7 +88,7 @@ const LanguageSettings: React.FC<LanguageSettingsProps> = ({ onClose }) => {
       await changeLanguage(selectedLanguage);
       onClose();
     } catch (error) {
-      console.error('Error changing language:', error);
+      console.error('[LanguageSettings] Error changing language:', error);
     }
   };
 

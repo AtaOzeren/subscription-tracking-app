@@ -80,25 +80,25 @@ const RegisterScreen: React.FC = () => {
 
     try {
       setIsLoading(true);
-      console.log('🔐 Starting registration for:', email);
+      // console.log('🔐 Starting registration for:', email);
       await register(email, password, name);
-      console.log('✅ Registration successful');
+      // console.log('✅ Registration successful');
 
       // Mark onboarding as complete (Welcome -> Language -> Register completed)
       await storageService.setOnboardingComplete(true);
-      console.log('✅ Onboarding marked as complete');
+      // console.log('✅ Onboarding marked as complete');
 
       // Check if profile setup is needed
       const profileSetup = await storageService.getProfileSetup();
       if (!profileSetup) {
-        console.log('🔄 Redirecting to ProfileSetup...');
+        // console.log('🔄 Redirecting to ProfileSetup...');
         // Navigate to ProfileSetup screen
         navigation.navigate('ProfileSetup' as never);
       } else {
-        console.log('✅ Profile already setup, proceeding to main app');
+        // console.log('✅ Profile already setup, proceeding to main app');
       }
     } catch (error) {
-      console.error('❌ Registration error:', error);
+      console.error('[Register]] Registration error:', error);
       Alert.alert(t('auth.registerFailed'), error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setIsLoading(false);

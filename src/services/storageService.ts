@@ -18,7 +18,7 @@ export const storageService = {
       const data = await AsyncStorage.getItem(STORAGE_KEY);
       return data ? JSON.parse(data) : [];
     } catch (error) {
-      console.error('Error getting subscriptions:', error);
+      console.error('[Storage] Error getting subscriptions:', error);
       return [];
     }
   },
@@ -37,7 +37,7 @@ export const storageService = {
       
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(subscriptions));
     } catch (error) {
-      console.error('Error saving subscription:', error);
+      console.error('[Storage] Error saving subscription:', error);
       throw error;
     }
   },
@@ -49,7 +49,7 @@ export const storageService = {
       const filteredSubscriptions = subscriptions.filter(sub => sub.id !== id);
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(filteredSubscriptions));
     } catch (error) {
-      console.error('Error deleting subscription:', error);
+      console.error('[Storage] Error deleting subscription:', error);
       throw error;
     }
   },
@@ -59,7 +59,7 @@ export const storageService = {
     try {
       await AsyncStorage.removeItem(STORAGE_KEY);
     } catch (error) {
-      console.error('Error clearing subscriptions:', error);
+      console.error('[Storage] Error clearing subscriptions:', error);
       throw error;
     }
   },
@@ -69,7 +69,7 @@ export const storageService = {
     try {
       return await AsyncStorage.getItem(TOKEN_KEY);
     } catch (error) {
-      console.error('Error getting token:', error);
+      console.error('[Storage] Error getting token:', error);
       return null;
     }
   },
@@ -78,7 +78,7 @@ export const storageService = {
     try {
       await AsyncStorage.setItem(TOKEN_KEY, token);
     } catch (error) {
-      console.error('Error setting token:', error);
+      console.error('[Storage] Error setting token:', error);
       throw error;
     }
   },
@@ -87,7 +87,7 @@ export const storageService = {
     try {
       await AsyncStorage.removeItem(TOKEN_KEY);
     } catch (error) {
-      console.error('Error removing token:', error);
+      console.error('[Storage] Error removing token:', error);
       throw error;
     }
   },
@@ -98,7 +98,7 @@ export const storageService = {
       const data = await AsyncStorage.getItem(USER_KEY);
       return data ? JSON.parse(data) : null;
     } catch (error) {
-      console.error('Error getting user:', error);
+      console.error('[Storage] Error getting user:', error);
       return null;
     }
   },
@@ -107,7 +107,7 @@ export const storageService = {
     try {
       await AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
     } catch (error) {
-      console.error('Error setting user:', error);
+      console.error('[Storage] Error setting user:', error);
       throw error;
     }
   },
@@ -116,7 +116,7 @@ export const storageService = {
     try {
       await AsyncStorage.removeItem(USER_KEY);
     } catch (error) {
-      console.error('Error removing user:', error);
+      console.error('[Storage] Error removing user:', error);
       throw error;
     }
   },
@@ -130,7 +130,7 @@ export const storageService = {
         AsyncStorage.removeItem(USER_AVATAR_KEY),
       ]);
     } catch (error) {
-      console.error('Error clearing auth data:', error);
+      console.error('[Storage] Error clearing auth data:', error);
       throw error;
     }
   },
@@ -140,7 +140,7 @@ export const storageService = {
     try {
       return await AsyncStorage.getItem(LANGUAGE_KEY);
     } catch (error) {
-      console.error('Error getting language:', error);
+      console.error('[Storage] Error getting language:', error);
       return null;
     }
   },
@@ -149,7 +149,7 @@ export const storageService = {
     try {
       await AsyncStorage.setItem(LANGUAGE_KEY, language);
     } catch (error) {
-      console.error('Error setting language:', error);
+      console.error('[Storage] Error setting language:', error);
       throw error;
     }
   },
@@ -158,7 +158,7 @@ export const storageService = {
     try {
       await AsyncStorage.removeItem(LANGUAGE_KEY);
     } catch (error) {
-      console.error('Error removing language:', error);
+      console.error('[Storage] Error removing language:', error);
       throw error;
     }
   },
@@ -169,7 +169,7 @@ export const storageService = {
       const value = await AsyncStorage.getItem(LANGUAGE_SCREEN_KEY);
       return value === 'true';
     } catch (error) {
-      console.error('Error getting language screen status:', error);
+      console.error('[Storage] Error getting language screen status:', error);
       return false;
     }
   },
@@ -178,7 +178,7 @@ export const storageService = {
     try {
       await AsyncStorage.setItem(LANGUAGE_SCREEN_KEY, hasSeen.toString());
     } catch (error) {
-      console.error('Error setting language screen status:', error);
+      console.error('[Storage] Error setting language screen status:', error);
       throw error;
     }
   },
@@ -189,7 +189,7 @@ export const storageService = {
       const value = await AsyncStorage.getItem(ONBOARDING_COMPLETE_KEY);
       return value === 'true';
     } catch (error) {
-      console.error('Error getting onboarding status:', error);
+      console.error('[Storage] Error getting onboarding status:', error);
       return false;
     }
   },
@@ -198,7 +198,7 @@ export const storageService = {
     try {
       await AsyncStorage.setItem(ONBOARDING_COMPLETE_KEY, complete.toString());
     } catch (error) {
-      console.error('Error setting onboarding status:', error);
+      console.error('[Storage] Error setting onboarding status:', error);
       throw error;
     }
   },
@@ -209,7 +209,7 @@ export const storageService = {
       const value = await AsyncStorage.getItem(PROFILE_SETUP_KEY);
       return value === 'true';
     } catch (error) {
-      console.error('Error getting profile setup status:', error);
+      console.error('[Storage] Error getting profile setup status:', error);
       return false;
     }
   },
@@ -218,7 +218,7 @@ export const storageService = {
     try {
       await AsyncStorage.setItem(PROFILE_SETUP_KEY, setup.toString());
     } catch (error) {
-      console.error('Error setting profile setup status:', error);
+      console.error('[Storage] Error setting profile setup status:', error);
       throw error;
     }
   },
@@ -228,13 +228,13 @@ export const storageService = {
     try {
       const avatar = await AsyncStorage.getItem(USER_AVATAR_KEY);
       if (avatar) {
-        console.log('Avatar loaded from storage:', avatar.substring(0, 100) + '...');
+        // console.log('Avatar loaded from storage:', avatar.substring(0, 100) + '...');
       } else {
-        console.log('No avatar found in storage');
+        // console.log('No avatar found in storage');
       }
       return avatar;
     } catch (error) {
-      console.error('Error getting avatar:', error);
+      console.error('[Storage] Error getting avatar:', error);
       return null;
     }
   },
@@ -242,19 +242,19 @@ export const storageService = {
   setAvatar: async (avatar: string): Promise<void> => {
     try {
       if (!avatar) {
-        console.warn('Attempted to save empty avatar');
+        console.warn('[Storage] Attempted to save empty avatar');
         return;
       }
       
       // Log avatar type and size for debugging
       const isBase64 = avatar.startsWith('data:image');
       const size = new Blob([avatar]).size;
-      console.log(`Saving avatar - Type: ${isBase64 ? 'base64' : 'URL'}, Size: ${(size / 1024).toFixed(2)}KB`);
+      // console.log(`Saving avatar - Type: ${isBase64 ? 'base64' : 'URL'}, Size: ${(size / 1024).toFixed(2)}KB`);
       
       await AsyncStorage.setItem(USER_AVATAR_KEY, avatar);
-      console.log('Avatar saved successfully to storage');
+      // console.log('Avatar saved successfully to storage');
     } catch (error) {
-      console.error('Error setting avatar:', error);
+      console.error('[Storage] Error setting avatar:', error);
       throw error;
     }
   },
@@ -262,9 +262,9 @@ export const storageService = {
   removeAvatar: async (): Promise<void> => {
     try {
       await AsyncStorage.removeItem(USER_AVATAR_KEY);
-      console.log('Avatar removed from storage');
+      // console.log('Avatar removed from storage');
     } catch (error) {
-      console.error('Error removing avatar:', error);
+      console.error('[Storage] Error removing avatar:', error);
       throw error;
     }
   },
@@ -274,7 +274,7 @@ export const storageService = {
     try {
       await AsyncStorage.clear();
     } catch (error) {
-      console.error('Error clearing all data:', error);
+      console.error('[Storage] Error clearing all data:', error);
       throw error;
     }
   },

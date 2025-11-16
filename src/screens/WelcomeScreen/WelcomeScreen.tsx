@@ -25,26 +25,26 @@ const WelcomeScreen = () => {
     // Reset app only if onboarding is not complete
     const resetAppForFirstTime = async () => {
       try {
-        console.log('🔄 Checking onboarding status...');
+        // console.log('🔄 Checking onboarding status...');
         const onboardingComplete = await storageService.getOnboardingComplete();
         
         if (!onboardingComplete) {
-          console.log('🔄 Onboarding not complete, checking for existing session...');
+          // console.log('🔄 Onboarding not complete, checking for existing session...');
           const token = await authService.getToken();
           
           if (token) {
-            console.log('🗑️ Found existing token, clearing all data...');
+            // console.log('🗑️ Found existing token, clearing all data...');
             // Force logout and clear all data for fresh onboarding
             await authService.forceLogout();
-            console.log('✅ App reset completed for fresh onboarding');
+            // console.log('✅ App reset completed for fresh onboarding');
           } else {
-            console.log('✅ No existing session found, fresh start');
+            // console.log('✅ No existing session found, fresh start');
           }
         } else {
-          console.log('✅ Onboarding already complete, skipping reset');
+          // console.log('✅ Onboarding already complete, skipping reset');
         }
       } catch (error) {
-        console.error('❌ Error resetting app:', error);
+        console.error('[ Error resetting app:', error);]
       }
     };
 

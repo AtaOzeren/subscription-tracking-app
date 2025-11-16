@@ -92,7 +92,7 @@ class CatalogService {
 
       return apiResponse.data;
     } catch (error) {
-      console.error('Failed to fetch categories:', error);
+      console.error('[Catalog] Failed to fetch categories:', error);
       throw new Error('Failed to fetch categories. Please try again.');
     }
   }
@@ -123,7 +123,7 @@ class CatalogService {
 
       return apiResponse.data;
     } catch (error) {
-      console.error('Failed to fetch catalog subscriptions:', error);
+      console.error('[Catalog] Failed to fetch catalog subscriptions:', error);
       throw new Error('Failed to fetch subscriptions. Please try again.');
     }
   }
@@ -153,7 +153,7 @@ class CatalogService {
 
       return apiResponse.data;
     } catch (error) {
-      console.error('Failed to fetch subscription details:', error);
+      console.error('[Catalog] Failed to fetch subscription details:', error);
       throw new Error('Failed to fetch subscription details. Please try again.');
     }
   }
@@ -183,7 +183,7 @@ class CatalogService {
 
       return apiResponse.data;
     } catch (error) {
-      console.error('Failed to fetch subscription plans:', error);
+      console.error('[Catalog] Failed to fetch subscription plans:', error);
       throw new Error('Failed to fetch subscription plans. Please try again.');
     }
   }
@@ -209,7 +209,7 @@ class CatalogService {
 
       return apiResponse.data;
     } catch (error) {
-      console.error('Failed to fetch my subscriptions:', error);
+      console.error('[Catalog] Failed to fetch my subscriptions:', error);
       throw new Error('Failed to fetch your subscriptions. Please try again.');
     }
   }
@@ -237,7 +237,7 @@ class CatalogService {
 
       return apiResponse.data;
     } catch (error) {
-      console.error('Failed to add preset subscription:', error);
+      console.error('[Catalog] Failed to add preset subscription:', error);
       if (error instanceof Error) {
         throw error;
       }
@@ -268,7 +268,7 @@ class CatalogService {
 
       return apiResponse.data;
     } catch (error) {
-      console.error('Failed to add custom subscription:', error);
+      console.error('[Catalog] Failed to add custom subscription:', error);
       if (error instanceof Error) {
         throw error;
       }
@@ -299,7 +299,7 @@ class CatalogService {
 
       return apiResponse.data;
     } catch (error) {
-      console.error('Failed to update subscription:', error);
+      console.error('[Catalog] Failed to update subscription:', error);
       if (error instanceof Error) {
         throw error;
       }
@@ -327,7 +327,7 @@ class CatalogService {
         throw new Error('Failed to delete subscription');
       }
     } catch (error) {
-      console.error('Failed to delete subscription:', error);
+      console.error('[Catalog] Failed to delete subscription:', error);
       if (error instanceof Error) {
         throw error;
       }

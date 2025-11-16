@@ -94,7 +94,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
       }
       setHasCheckedRegionalSettings(true);
     } catch (error) {
-      console.error('Error checking regional settings:', error);
+      console.error('[AddSubscription] Error checking regional settings:', error);
       setHasCheckedRegionalSettings(true);
     }
   };

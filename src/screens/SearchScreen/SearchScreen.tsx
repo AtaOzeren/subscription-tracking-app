@@ -41,7 +41,7 @@ const SearchScreen = ({ onNavigateToProfile, searchQuery: externalSearchQuery = 
       const subscriptions = await catalogService.getCatalogSubscriptions();
       setAllSubscriptions(subscriptions || []);
     } catch (error) {
-      console.error('Error loading catalog:', error);
+      console.error('[Search] Error loading catalog:', error);
     } finally {
       setLoading(false);
     }

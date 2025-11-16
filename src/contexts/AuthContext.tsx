@@ -95,7 +95,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (user) {
         // Load avatar from local storage
         const avatar = await storageService.getAvatar();
-        console.log('AuthContext: Loading avatar for user:', user.email, 'Avatar exists:', !!avatar);
+        // console.log('AuthContext: Loading avatar for user:', user.email, 'Avatar exists:', !!avatar);
         
         // Validate avatar data before using it
         let validAvatar: string | undefined = undefined;
@@ -106,9 +106,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           
           if (isValidUrl || isValidBase64) {
             validAvatar = avatar;
-            console.log('AuthContext: Avatar validated successfully');
+            // console.log('AuthContext: Avatar validated successfully');
           } else {
-            console.warn('AuthContext: Invalid avatar format detected, removing from storage');
+            console.warn('[Auth]  Invalid avatar format detected, removing from storage');
             await storageService.removeAvatar();
           }
         }
