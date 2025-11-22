@@ -124,33 +124,6 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
 
           <View className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
             <AppleInput
-              label={t('contact.username')}
-              value={formData.username}
-              onChangeText={(text) => {
-                setFormData({ ...formData, username: text });
-                if (errors.username) setErrors({ ...errors, username: '' });
-              }}
-              placeholder="John Doe"
-              error={errors.username}
-              autoCapitalize="words"
-              containerClassName="mb-1"
-            />
-
-            <AppleInput
-              label={t('contact.email')}
-              value={formData.email}
-              onChangeText={(text) => {
-                setFormData({ ...formData, email: text });
-                if (errors.email) setErrors({ ...errors, email: '' });
-              }}
-              placeholder="john@example.com"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              error={errors.email}
-              containerClassName="mb-1"
-            />
-
-            <AppleInput
               label={t('contact.subject')}
               value={formData.subject}
               onChangeText={(text) => {
