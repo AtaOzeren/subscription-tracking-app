@@ -20,8 +20,8 @@ export const SpendingTrends: React.FC<SpendingTrendsProps> = ({
   }
 
   // Calculate max value for scaling
-  const maxValue = Math.max(...trends.map(t => t.total_spending), 1);
-  
+  const maxValue = Math.max(...trends.map(t => t.amount), 1);
+
   // Get screen width for chart sizing
   const chartWidth = Dimensions.get('window').width - 48; // 24px padding on each side
   const barWidth = (chartWidth - (trends.length - 1) * 8) / trends.length; // 8px gap between bars
@@ -41,25 +41,25 @@ export const SpendingTrends: React.FC<SpendingTrendsProps> = ({
         {/* Chart */}
         <View className="flex-row items-end justify-between h-32 mb-3">
           {trends.map((trend, index) => {
-            const height = (trend.total_spending / maxValue) * 100;
-            
+            const height = (trend.amount / maxValue) * 100;
+
             return (
-              <View 
+              <View
                 key={`${trend.month}-${index}`}
                 className="items-center"
                 style={{ width: barWidth }}
               >
                 {/* Bar */}
                 <View className="flex-1 w-full justify-end items-center">
-                  <View 
+                  <View
                     className="bg-blue-500 rounded-t-lg w-full"
-                    style={{ 
+                    style={{
                       height: `${height}%`,
-                      minHeight: trend.total_spending > 0 ? 4 : 0 
+                      minHeight: trend.amount > 0 ? 4 : 0
                     }}
                   />
                 </View>
-                
+
                 {/* Month Label */}
                 <Text className="text-text-subtle text-xs mt-2">
                   {trend.month.substring(0, 3)}
@@ -77,7 +77,7 @@ export const SpendingTrends: React.FC<SpendingTrendsProps> = ({
             </Text>
             <Text className="text-text-primary text-body-md font-semibold">
               {formatPrice(
-                trends.reduce((sum, t) => sum + t.total_spending, 0) / trends.length,
+                trends.reduce((sum, t) => sum + t.amount, 0) / trends.length,
                 currency
               )}
             </Text>

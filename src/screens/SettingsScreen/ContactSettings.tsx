@@ -105,7 +105,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
       <View className="bg-white border-b border-gray-200 shadow-sm z-10" style={{ paddingTop: insets.top }}>
         <View className="px-4 pt-2 pb-3 flex-row items-center">
           <BackButton onPress={onClose} />
-          <Text className="text-heading-3 flex-1 ml-2 font-display text-center pr-8">
+          <Text className="text-heading-3 flex-1 ml-2 text-center pr-8" style={{ fontFamily: 'SF Pro Display' }}>
             {t('contact.title')}
           </Text>
         </View>
@@ -126,17 +126,17 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
             <View className="w-20 h-20 rounded-full bg-blue-50 items-center justify-center mb-4 shadow-sm">
               <Text className="text-4xl">✉️</Text>
             </View>
-            <Text className="text-heading-2 text-text-primary text-center mb-2 font-display">
+            <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
               {t('contact.subtitle')}
             </Text>
-            <Text className="text-body-md text-text-muted text-center px-4 font-text">
+            <Text className="text-body-md text-text-muted text-center px-4" style={{ fontFamily: 'SF Pro Text' }}>
               {t('settings.contactDescription')}
             </Text>
           </View>
 
-          <View className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+          <View className="bg-white rounded-2xl p-6 shadow-sm space-y-5 mb-6">
             <View className="mb-1 relative z-50">
-              <Text className="text-body-lg text-text-primary font-semibold mb-2 text-center font-display">
+              <Text className="text-body-lg text-text-primary font-semibold mb-2 text-center" style={{ fontFamily: 'SF Pro Display' }}>
                 {t('contact.subject')}
               </Text>
 
@@ -169,7 +169,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
                     className={`w-full border rounded-2xl px-4 py-3 bg-white flex-row justify-between items-center ${errors.subject ? 'border-red-500' : 'border-gray-300'
                       }`}
                   >
-                    <Text className={`text-base font-text ${selectedSubjectType ? 'text-black' : 'text-gray-400'}`}>
+                    <Text className={`text-base ${selectedSubjectType ? 'text-black' : 'text-gray-400'}`} style={{ fontFamily: 'SF Pro Text' }}>
                       {selectedSubjectType
                         ? t(`contact.subjects.${selectedSubjectType}`)
                         : t('contact.subjectPlaceholder')}
@@ -178,7 +178,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
                   </TouchableOpacity>
 
                   {errors.subject && (
-                    <Text className="text-sm text-accent-error mt-1 font-text text-center">
+                    <Text className="text-sm text-accent-error mt-1 text-center" style={{ fontFamily: 'SF Pro Text' }}>
                       {errors.subject}
                     </Text>
                   )}
@@ -195,7 +195,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
                           className={`px-4 py-3 border-gray-100 ${index !== 3 ? 'border-b' : ''
                             } active:bg-gray-50`}
                         >
-                          <Text className="text-base font-text text-text-primary">
+                          <Text className="text-base text-text-primary" style={{ fontFamily: 'SF Pro Text' }}>
                             {t(`contact.subjects.${type}`)}
                           </Text>
                         </TouchableOpacity>
@@ -227,29 +227,29 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
               className="mt-2 shadow-md"
               size="large"
             />
+          </View>
 
-            <View className="mt-8 space-y-6 border-t border-gray-100 pt-6">
-              <View className="items-center">
-                <Text className="text-body-sm text-text-muted mb-1 font-text">
-                  {t('contact.supportEmailLabel')}
+          <View className="bg-white rounded-2xl p-6 shadow-sm space-y-6">
+            <View className="items-center">
+              <Text className="text-body-sm text-text-muted mb-1" style={{ fontFamily: 'SF Pro Text' }}>
+                {t('contact.supportEmailLabel')}
+              </Text>
+              <TouchableOpacity onPress={() => Linking.openURL('mailto:info@sub-traking.com')}>
+                <Text className="text-body-lg text-text-primary font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
+                  info@sub-traking.com
                 </Text>
-                <TouchableOpacity onPress={() => Linking.openURL('mailto:info@sub-traking.com')}>
-                  <Text className="text-body-lg text-text-primary font-semibold font-display">
-                    info@sub-traking.com
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
+            </View>
 
-              <View className="items-center">
-                <Text className="text-body-sm text-text-muted mb-1 font-text">
-                  {t('contact.moreEmailLabel')}
+            <View className="items-center border-t border-gray-100 pt-6">
+              <Text className="text-body-sm text-text-muted mb-1" style={{ fontFamily: 'SF Pro Text' }}>
+                {t('contact.moreEmailLabel')}
+              </Text>
+              <TouchableOpacity onPress={() => Linking.openURL('mailto:ataozeren@icloud.com')}>
+                <Text className="text-body-lg text-text-primary font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
+                  ataozeren@icloud.com
                 </Text>
-                <TouchableOpacity onPress={() => Linking.openURL('mailto:ataozeren@icloud.com')}>
-                  <Text className="text-body-lg text-text-primary font-semibold font-display">
-                    ataozeren@icloud.com
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>

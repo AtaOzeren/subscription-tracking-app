@@ -74,7 +74,6 @@
   },
   "subscriptions": {
     "manageYourSubscriptions": "Manage all your subscriptions in one place",
-    "noSubscriptionsYet": "No subscriptions yet. Tap \"Add\" to create your first subscription.",
     "mySubscriptions": "My Subscriptions",
     "activeSubscriptionsCount": "{{count}} active subscription{{plural}}",
     "noSubscriptionsInCategory": "No Subscriptions in This Category",
