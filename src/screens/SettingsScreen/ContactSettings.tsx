@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Alert } from 'react-native';
+import { View, Text, ScrollView, Alert, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import BackButton from '../../components/common/BackButton';
@@ -47,20 +47,20 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.username || formData.username.length < 2 || formData.username.length > 100) {
-      newErrors.username = t('validation.usernameLength') || 'Username must be between 2 and 100 characters';
+      newErrors.username = t('contact.validation.usernameLength');
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email || !emailRegex.test(formData.email)) {
-      newErrors.email = t('validation.invalidEmail') || 'Please enter a valid email address';
+      newErrors.email = t('auth.validEmail');
     }
 
     if (!formData.subject || formData.subject.length < 5 || formData.subject.length > 200) {
-      newErrors.subject = t('validation.subjectLength') || 'Subject must be between 5 and 200 characters';
+      newErrors.subject = t('contact.validation.subjectLength');
     }
 
     if (!formData.message || formData.message.length < 10 || formData.message.length > 5000) {
-      newErrors.message = t('validation.messageLength') || 'Message must be between 10 and 5000 characters';
+      newErrors.message = t('contact.validation.messageLength');
     }
 
     setErrors(newErrors);
@@ -74,14 +74,14 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
     try {
       await contactService.submitContactForm(formData);
       Alert.alert(
-        t('common.success') || 'Success',
-        t('settings.contactSuccess') || 'Your message has been sent successfully.',
+        t('common.success'),
+        t('contact.successMessage'),
         [{ text: 'OK', onPress: onClose }]
       );
     } catch (error) {
       Alert.alert(
-        t('common.error') || 'Error',
-        error instanceof Error ? error.message : 'Failed to send message'
+        t('common.error'),
+        error instanceof Error ? error.message : t('contact.errorMessage')
       );
     } finally {
       setLoading(false);
@@ -90,78 +90,102 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
 
   return (
     <View className="flex-1 bg-gray-50">
-      <View className="bg-white border-b border-gray-200" style={{ paddingTop: insets.top }}>
+      <View className="bg-white border-b border-gray-200 shadow-sm z-10" style={{ paddingTop: insets.top }}>
         <View className="px-4 pt-2 pb-3 flex-row items-center">
           <BackButton onPress={onClose} />
-          <Text className="text-heading-3 flex-1 ml-2" style={{ fontFamily: 'SF Pro Display' }}>
-            {t('settings.contact')}
+          <Text className="text-heading-3 flex-1 ml-2 font-display text-center pr-8">
+            {t('contact.title')}
           </Text>
         </View>
       </View>
 
-      <ScrollView className="flex-1 p-6" keyboardShouldPersistTaps="handled">
-        <View className="items-center mb-6">
-          <View className="w-16 h-16 rounded-full bg-gray-100 items-center justify-center mb-4">
-            <Text className="text-heading-1 text-text-secondary">✉</Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      >
+        <ScrollView
+          className="flex-1 p-6"
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 40 }}
+        >
+          <View className="items-center mb-8">
+            <View className="w-20 h-20 rounded-full bg-blue-50 items-center justify-center mb-4 shadow-sm">
+              <Text className="text-4xl">✉️</Text>
+            </View>
+            <Text className="text-heading-2 text-text-primary text-center mb-2 font-display">
+              {t('contact.subtitle')}
+            </Text>
+            <Text className="text-body-md text-text-muted text-center px-4 font-text">
+              {t('settings.contactDescription')}
+            </Text>
           </View>
-          <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
-            {t('settings.contactTitle')}
-          </Text>
-          <Text className="text-body-md text-text-muted text-center px-4" style={{ fontFamily: 'SF Pro Text' }}>
-            {t('settings.contactDescription')}
-          </Text>
-        </View>
 
-        <View className="space-y-4 mb-8">
-          <AppleInput
-            label={t('settings.username') || 'Name'}
-            value={formData.username}
-            onChangeText={(text) => setFormData({ ...formData, username: text })}
-            placeholder="John Doe"
-            error={errors.username}
-            autoCapitalize="words"
-            style={{ textAlign: 'left' }}
-          />
+          <View className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
+            <AppleInput
+              label={t('contact.username')}
+              value={formData.username}
+              onChangeText={(text) => {
+                setFormData({ ...formData, username: text });
+                if (errors.username) setErrors({ ...errors, username: '' });
+              }}
+              placeholder="John Doe"
+              error={errors.username}
+              autoCapitalize="words"
+              containerClassName="mb-1"
+            />
 
-          <AppleInput
-            label={t('settings.email') || 'Email'}
-            value={formData.email}
-            onChangeText={(text) => setFormData({ ...formData, email: text })}
-            placeholder="john@example.com"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            error={errors.email}
-            style={{ textAlign: 'left' }}
-          />
+            <AppleInput
+              label={t('contact.email')}
+              value={formData.email}
+              onChangeText={(text) => {
+                setFormData({ ...formData, email: text });
+                if (errors.email) setErrors({ ...errors, email: '' });
+              }}
+              placeholder="john@example.com"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              error={errors.email}
+              containerClassName="mb-1"
+            />
 
-          <AppleInput
-            label={t('settings.subject') || 'Subject'}
-            value={formData.subject}
-            onChangeText={(text) => setFormData({ ...formData, subject: text })}
-            placeholder={t('settings.subjectPlaceholder') || 'How can we help?'}
-            error={errors.subject}
-            style={{ textAlign: 'left' }}
-          />
+            <AppleInput
+              label={t('contact.subject')}
+              value={formData.subject}
+              onChangeText={(text) => {
+                setFormData({ ...formData, subject: text });
+                if (errors.subject) setErrors({ ...errors, subject: '' });
+              }}
+              placeholder={t('contact.subjectPlaceholder')}
+              error={errors.subject}
+              containerClassName="mb-1"
+            />
 
-          <AppleInput
-            label={t('settings.message') || 'Message'}
-            value={formData.message}
-            onChangeText={(text) => setFormData({ ...formData, message: text })}
-            placeholder={t('settings.messagePlaceholder') || 'Tell us more about your inquiry...'}
-            multiline
-            numberOfLines={5}
-            error={errors.message}
-            style={{ textAlign: 'left', height: 120, textAlignVertical: 'top' }}
-          />
+            <AppleInput
+              label={t('contact.message')}
+              value={formData.message}
+              onChangeText={(text) => {
+                setFormData({ ...formData, message: text });
+                if (errors.message) setErrors({ ...errors, message: '' });
+              }}
+              placeholder={t('contact.messagePlaceholder')}
+              multiline
+              numberOfLines={5}
+              error={errors.message}
+              style={{ height: 120, textAlignVertical: 'top', paddingTop: 12 }}
+            />
 
-          <Button
-            title={loading ? (t('common.sending') || 'Sending...') : (t('common.send') || 'Send Message')}
-            onPress={handleSubmit}
-            disabled={loading}
-            className="mt-4"
-          />
-        </View>
-      </ScrollView>
+            <Button
+              title={loading ? t('contact.sending') : t('contact.send')}
+              onPress={handleSubmit}
+              disabled={loading}
+              className="mt-2 shadow-md"
+              size="large"
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };

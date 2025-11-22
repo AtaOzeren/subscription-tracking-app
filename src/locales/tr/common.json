@@ -322,5 +322,24 @@
     "notificationsTitle": "Bildirimleri Yönet",
     "notificationsComingSoon": "Bildirimler yakında gelecek",
     "notificationsDescription": "Yaklaşan ödemeler ve yenilemeler hakkında sizi uyaracak akıllı bir bildirim sistemi oluşturuyoruz."
+  },
+  "contact": {
+    "title": "Bize Ulaşın",
+    "subtitle": "Bizimle iletişime geçin",
+    "username": "İsim",
+    "email": "E-posta",
+    "subject": "Konu",
+    "message": "Mesaj",
+    "subjectPlaceholder": "Nasıl yardımcı olabiliriz?",
+    "messagePlaceholder": "Sorunuz hakkında daha fazla bilgi verin...",
+    "send": "Mesaj Gönder",
+    "sending": "Gönderiliyor...",
+    "successMessage": "Mesajınız başarıyla gönderildi.",
+    "errorMessage": "Mesaj gönderilemedi",
+    "validation": {
+      "usernameLength": "Kullanıcı adı 2 ile 100 karakter arasında olmalıdır",
+      "subjectLength": "Konu 5 ile 200 karakter arasında olmalıdır",
+      "messageLength": "Mesaj 10 ile 5000 karakter arasında olmalıdır"
+    }
   }
 }

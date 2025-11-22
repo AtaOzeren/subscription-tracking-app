@@ -322,5 +322,24 @@
     "notificationsTitle": "Gestisci Notifiche",
     "notificationsComingSoon": "Notifiche in arrivo",
     "notificationsDescription": "Stiamo costruendo un sistema di notifiche intelligente per ricordarti pagamenti e rinnovi in arrivo."
+  },
+  "contact": {
+    "title": "Contattaci",
+    "subtitle": "Mettiti in contatto con noi",
+    "username": "Nome",
+    "email": "Email",
+    "subject": "Oggetto",
+    "message": "Messaggio",
+    "subjectPlaceholder": "Come possiamo aiutare?",
+    "messagePlaceholder": "Dicci di più sulla tua richiesta...",
+    "send": "Invia Messaggio",
+    "sending": "Invio...",
+    "successMessage": "Il tuo messaggio è stato inviato con successo.",
+    "errorMessage": "Impossibile inviare il messaggio",
+    "validation": {
+      "usernameLength": "Il nome utente deve essere compreso tra 2 e 100 caratteri",
+      "subjectLength": "L'oggetto deve essere compreso tra 5 e 200 caratteri",
+      "messageLength": "Il messaggio deve essere compreso tra 10 e 5000 caratteri"
+    }
   }
 }

@@ -322,5 +322,24 @@
     "notificationsTitle": "Benachrichtigungen verwalten",
     "notificationsComingSoon": "Benachrichtigungen demnächst verfügbar",
     "notificationsDescription": "Wir entwickeln ein intelligentes Benachrichtigungssystem, um Sie an bevorstehende Zahlungen und Verlängerungen zu erinnern."
+  },
+  "contact": {
+    "title": "Kontaktieren Sie uns",
+    "subtitle": "Treten Sie mit uns in Kontakt",
+    "username": "Name",
+    "email": "E-Mail",
+    "subject": "Betreff",
+    "message": "Nachricht",
+    "subjectPlaceholder": "Wie können wir helfen?",
+    "messagePlaceholder": "Erzählen Sie uns mehr über Ihre Anfrage...",
+    "send": "Nachricht Senden",
+    "sending": "Senden...",
+    "successMessage": "Ihre Nachricht wurde erfolgreich versendet.",
+    "errorMessage": "Nachricht konnte nicht gesendet werden",
+    "validation": {
+      "usernameLength": "Benutzername muss zwischen 2 und 100 Zeichen lang sein",
+      "subjectLength": "Betreff muss zwischen 5 und 200 Zeichen lang sein",
+      "messageLength": "Nachricht muss zwischen 10 und 5000 Zeichen lang sein"
+    }
   }
 }

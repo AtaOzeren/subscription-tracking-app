@@ -350,5 +350,24 @@
     "retry": "Retry",
     "dismiss": "Dismiss",
     "contactSupport": "Contact Support"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us",
+    "username": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "subjectPlaceholder": "How can we help?",
+    "messagePlaceholder": "Tell us more about your inquiry...",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "successMessage": "Your message has been sent successfully.",
+    "errorMessage": "Failed to send message",
+    "validation": {
+      "usernameLength": "Username must be between 2 and 100 characters",
+      "subjectLength": "Subject must be between 5 and 200 characters",
+      "messageLength": "Message must be between 10 and 5000 characters"
+    }
   }
 }
