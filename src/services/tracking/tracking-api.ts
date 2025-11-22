@@ -266,172 +266,53 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title WebinarMaker API Collection
+ * @title Subscription Tracking API
  * @version 1.0.0
  * @baseUrl http://localhost:5001
  * @contact
  *
- * Clerk-based authentication API collection for WebinarMaker backend. Authentication flow: 1) Register via Clerk API, 2) Accept tenant invitation, 3) Login via Clerk API to get session token
+ * Complete subscription tracking API with automatic token management
  */
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
-  /**
-   * @description API Info
-   *
-   * @tags System
-   * @name ApiInfo
-   * @summary API Info
-   * @request GET:/
-   */
-  apiInfo = (params: RequestParams = {}) =>
-    this.request<void, any>({
-      path: `/`,
-      method: "GET",
-      ...params,
-    });
-
   api = {
     /**
-     * @description DEPRECATED: This endpoint is kept for backward compatibility but should not be used for new implementations. Use 'Register User (Clerk API)' instead.
+     * @description Get all categories in the system (admin only)
      *
-     * @tags Authentication
-     * @name ClerkCallbackDeprecated
-     * @summary Clerk Callback (Deprecated)
-     * @request POST:/api/auth/clerk-callback
+     * @tags Admin, Categories1
+     * @name GetAllCategories1
+     * @summary Get All Categories
+     * @request GET:/api/admin/categories
      */
-    clerkCallbackDeprecated: (
-      body: {
-        /** @example "" */
-        clerkUserId?: string;
-        /** @example "" */
-        email?: string;
-        /** @example "" */
-        firstName?: string;
-        /** @example "" */
-        lastName?: string;
-        /** @example "" */
-        tenant?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    getAllCategories1: (params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/api/auth/clerk-callback`,
-        method: "POST",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * @description Step 2: Login with Clerk credentials. Returns a Clerk session token that should be used for all authenticated requests. Note: User must have accepted a tenant invitation first.
-     *
-     * @tags Authentication
-     * @name 2LoginUserClerkApi
-     * @summary 2. Login User (Clerk API)
-     * @request POST:/api/auth/clerk-login
-     */
-    "2LoginUserClerkApi": (
-      body: {
-        /** @example "john.doe@example.com" */
-        email?: string;
-        /** @example "SecurePassword123!" */
-        password?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: `/api/auth/clerk-login`,
-        method: "POST",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * @description Step 1: Register as tenant owner. If tenant doesn't exist, it will be created and you become the owner. If tenant exists, you must be invited by the owner.
-     *
-     * @tags Authentication
-     * @name 1RegisterUserClerkApi
-     * @summary 1. Register User (Clerk API)
-     * @request POST:/api/auth/clerk-register
-     */
-    "1RegisterUserClerkApi": (
-      body: {
-        /** @example "john.doe@example.com" */
-        email?: string;
-        /** @example "John" */
-        firstName?: string;
-        /** @example "Doe" */
-        lastName?: string;
-        /** @example "SecurePassword123!" */
-        password?: string;
-        /** @example "Acme Corp" */
-        tenant?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: `/api/auth/clerk-register`,
-        method: "POST",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * @description 🔍 **Flexible Employees API**\n\nThis single request supports all filtering, sorting, and pagination options. Use environment variables to customize the query.\n\n**📋 Available Parameters:**\n- `role`: Filter by role (owner, admin, editor)\n- `isActive`: Filter by active status (true, false)\n- `search`: Search across firstName, lastName, and email\n- `sortBy`: Sort field (firstName, lastName, email, role, isActive, createdAt, updatedAt)\n- `sortOrder`: Sort direction (asc, desc)\n- `page`: Page number (default: 1)\n- `limit`: Items per page (default: 20, max: 100)\n\n**💡 Usage Examples:**\n```\n// Filter by admin role\nSet employeeRole = "admin"\n\n// Search for users\nSet searchTerm = "john"\n\n// Sort by name\nSet sortBy = "firstName", sortOrder = "asc"\n\n// Combine everything\nSet employeeRole = "admin", searchTerm = "john", sortBy = "lastName", sortOrder = "desc", page = "1", limit = "10"\n```\n\n**🔧 Environment Variables:**\n- `employeeRole`: Role filter\n- `employeeStatus`: Active status filter\n- `searchTerm`: Search term\n- `sortBy`: Sort field\n- `sortOrder`: Sort direction\n- `page`: Page number\n- `limit`: Page limit
-     *
-     * @tags Employee Management
-     * @name GetEmployeesFlexible
-     * @summary Get Employees (Flexible)
-     * @request GET:/api/employees
-     */
-    getEmployeesFlexible: (
-      query?: {
-        /** Filter by role (owner, admin, editor) */
-        role?: string;
-        /** Filter by active status (true, false) */
-        isActive?: string;
-        /** Search across firstName, lastName, and email */
-        search?: string;
-        /** Sort field (firstName, lastName, email, role, isActive, createdAt, updatedAt) */
-        sortBy?: string;
-        /** Sort direction (asc, desc) */
-        sortOrder?: string;
-        /** Page number */
-        page?: string;
-        /** Items per page */
-        limit?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: `/api/employees`,
+        path: `/api/admin/categories`,
         method: "GET",
-        query: query,
         ...params,
       }),
 
     /**
-     * @description Invite Employee
+     * @description Create new category (admin only)
      *
-     * @tags Employee Management
-     * @name InviteEmployee
-     * @summary Invite Employee
-     * @request POST:/api/employees/invite
+     * @tags Admin, Categories1
+     * @name CreateCategory
+     * @summary Create Category
+     * @request POST:/api/admin/categories
      */
-    inviteEmployee: (
+    createCategory: (
       body: {
-        /** @example "new.employee@example.com" */
-        email?: string;
-        /** @example "editor" */
-        role?: string;
+        /** @example "Description of new category" */
+        description?: string;
+        /** @example "category-icon" */
+        icon?: string;
+        /** @example "New Category" */
+        name?: string;
       },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/api/employees/invite`,
+        path: `/api/admin/categories`,
         method: "POST",
         body: body,
         type: ContentType.Json,
@@ -439,121 +320,56 @@ export class Api<
       }),
 
     /**
-     * @description Delete Employee
+     * @description Delete category from system (admin only)
      *
-     * @tags Employee Management
-     * @name DeleteEmployee
-     * @summary Delete Employee
-     * @request DELETE:/api/employees/{employeeId}
+     * @tags Admin, Categories1
+     * @name DeleteCategory
+     * @summary Delete Category
+     * @request DELETE:/api/admin/categories/1
      */
-    deleteEmployee: (employeeId: string, params: RequestParams = {}) =>
+    deleteCategory: (params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/api/employees/${employeeId}`,
+        path: `/api/admin/categories/1`,
         method: "DELETE",
         ...params,
       }),
 
     /**
-     * @description Update Employee Role
+     * @description Get specific category details (admin only)
      *
-     * @tags Employee Management
-     * @name UpdateEmployeeRole
-     * @summary Update Employee Role
-     * @request PUT:/api/employees/{employeeId}/role
+     * @tags Admin, Categories1
+     * @name GetCategoryById1
+     * @summary Get Category by ID
+     * @request GET:/api/admin/categories/1
      */
-    updateEmployeeRole: (
-      employeeId: string,
-      body: {
-        /** @example "admin" */
-        role?: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    getCategoryById1: (params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/api/employees/${employeeId}/role`,
-        method: "PUT",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * @description Accept a tenant invitation. The invitation token is provided in the invitation link sent by the tenant owner. After accepting, the user can login using the Clerk Login endpoint.
-     *
-     * @tags Invitations
-     * @name AcceptInvitation
-     * @summary Accept Invitation
-     * @request POST:/api/invitations/{invitationToken}/accept
-     */
-    acceptInvitation: (
-      invitationToken: string,
-      body: {
-        /** @example "" */
-        clerkUserId?: string;
-        /** @example "" */
-        firstName?: string;
-        /** @example "" */
-        lastName?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: `/api/invitations/${invitationToken}/accept`,
-        method: "POST",
-        body: body,
-        type: ContentType.Json,
-        ...params,
-      }),
-
-    /**
-     * @description Decline a tenant invitation. This will remove the invitation from the system.
-     *
-     * @tags Invitations
-     * @name DeclineInvitation
-     * @summary Decline Invitation
-     * @request POST:/api/invitations/{invitationToken}/decline
-     */
-    declineInvitation: (invitationToken: string, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/api/invitations/${invitationToken}/decline`,
-        method: "POST",
-        ...params,
-      }),
-
-    /**
-     * @description Get Profile
-     *
-     * @tags Profile
-     * @name GetProfile
-     * @summary Get Profile
-     * @request GET:/api/profile
-     */
-    getProfile: (params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/api/profile`,
+        path: `/api/admin/categories/1`,
         method: "GET",
         ...params,
       }),
 
     /**
-     * @description Update Profile
+     * @description Update category details (admin only)
      *
-     * @tags Profile
-     * @name UpdateProfile
-     * @summary Update Profile
-     * @request PUT:/api/profile
+     * @tags Admin, Categories1
+     * @name UpdateCategory
+     * @summary Update Category
+     * @request PUT:/api/admin/categories/1
      */
-    updateProfile: (
+    updateCategory: (
       body: {
-        /** @example "John Updated" */
-        firstName?: string;
-        /** @example "Doe Updated" */
-        lastName?: string;
+        /** @example "Updated description" */
+        description?: string;
+        /** @example "updated-icon" */
+        icon?: string;
+        /** @example "Updated Category Name" */
+        name?: string;
       },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/api/profile`,
+        path: `/api/admin/categories/1`,
         method: "PUT",
         body: body,
         type: ContentType.Json,
@@ -561,73 +377,1352 @@ export class Api<
       }),
 
     /**
-     * @description 🏢 **Flexible Tenant API**\n\nGets tenant information with flexible filtering and sorting for embedded employees. Uses the same environment variables as the Employees API.\n\n**📋 Available Parameters:**\n- `role`: Filter employees by role (owner, admin, editor)\n- `isActive`: Filter employees by active status (true, false)\n- `search`: Search across employee firstName, lastName, and email\n- `sortBy`: Sort employees by field (firstName, lastName, email, role, isActive, createdAt, updatedAt)\n- `sortOrder`: Sort direction (asc, desc)\n- `page`: Page number for employee pagination (default: 1)\n- `limit`: Items per page for employee pagination (default: 20, max: 100)\n\n**💡 Usage Examples:**\n```\n// Get tenant with only admin employees\nSet employeeRole = "admin"\n\n// Get tenant with active employees sorted by name\nSet employeeStatus = "true", sortBy = "firstName", sortOrder = "asc"\n\n// Search tenant employees\nSet searchTerm = "john"\n```\n\n**🔧 Response:**\nReturns tenant object with employees array and employeePagination metadata when pagination is used.
+     * @description Upload category icon image file (admin only)
      *
-     * @tags Tenant Management
-     * @name GetTenantFlexible
-     * @summary Get Tenant (Flexible)
-     * @request GET:/api/tenants
+     * @tags Admin, Categories1
+     * @name UploadCategoryIcon
+     * @summary Upload Category Icon
+     * @request POST:/api/admin/categories/1/icon
      */
-    getTenantFlexible: (
-      query?: {
-        /** Filter employees by role (owner, admin, editor) */
-        role?: string;
-        /** Filter employees by active status (true, false) */
-        isActive?: string;
-        /** Search across employee firstName, lastName, and email */
-        search?: string;
-        /** Sort field (firstName, lastName, email, role, isActive, createdAt, updatedAt) */
-        sortBy?: string;
-        /** Sort direction (asc, desc) */
-        sortOrder?: string;
-        /** Page number for pagination */
-        page?: string;
-        /** Items per page for pagination */
-        limit?: string;
+    uploadCategoryIcon: (
+      data: {
+        /** @format binary */
+        icon?: File;
       },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/api/tenants`,
+        path: `/api/admin/categories/1/icon`,
+        method: "POST",
+        body: data,
+        type: ContentType.FormData,
+        ...params,
+      }),
+
+    /**
+     * @description Get all countries in the system (admin only)
+     *
+     * @tags Admin, Reference Data1, Countries
+     * @name GetAllCountries
+     * @summary Get All Countries
+     * @request GET:/api/admin/countries
+     */
+    getAllCountries: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/countries`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Create new country (admin only)
+     *
+     * @tags Admin, Reference Data1, Countries
+     * @name CreateCountry
+     * @summary Create Country
+     * @request POST:/api/admin/countries
+     */
+    createCountry: (
+      body: {
+        /** @example "JP" */
+        code?: string;
+        /** @example "Japan" */
+        name?: string;
+        /** @example "Asia" */
+        region?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/countries`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Delete country from system (admin only)
+     *
+     * @tags Admin, Reference Data1, Countries
+     * @name DeleteCountry
+     * @summary Delete Country
+     * @request DELETE:/api/admin/countries/JP
+     */
+    deleteCountry: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/countries/JP`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Update country details (admin only)
+     *
+     * @tags Admin, Reference Data1, Countries
+     * @name UpdateCountry
+     * @summary Update Country
+     * @request PUT:/api/admin/countries/JP
+     */
+    updateCountry: (
+      body: {
+        /** @example "Updated Country Name" */
+        name?: string;
+        /** @example "Updated Region" */
+        region?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/countries/JP`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Get specific country details (admin only)
+     *
+     * @tags Admin, Reference Data1, Countries
+     * @name GetCountryByCode
+     * @summary Get Country by Code
+     * @request GET:/api/admin/countries/US
+     */
+    getCountryByCode: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/countries/US`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get all currencies in the system (admin only)
+     *
+     * @tags Admin, Reference Data1, Currencies
+     * @name GetAllCurrencies
+     * @summary Get All Currencies
+     * @request GET:/api/admin/currencies
+     */
+    getAllCurrencies: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/currencies`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Create new currency (admin only)
+     *
+     * @tags Admin, Reference Data1, Currencies
+     * @name CreateCurrency
+     * @summary Create Currency
+     * @request POST:/api/admin/currencies
+     */
+    createCurrency: (
+      body: {
+        /** @example "KRW" */
+        code?: string;
+        /** @example "South Korean Won" */
+        name?: string;
+        /** @example "₩" */
+        symbol?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/currencies`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Delete currency from system (admin only)
+     *
+     * @tags Admin, Reference Data1, Currencies
+     * @name DeleteCurrency
+     * @summary Delete Currency
+     * @request DELETE:/api/admin/currencies/KRW
+     */
+    deleteCurrency: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/currencies/KRW`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Update currency details (admin only)
+     *
+     * @tags Admin, Reference Data1, Currencies
+     * @name UpdateCurrency
+     * @summary Update Currency
+     * @request PUT:/api/admin/currencies/KRW
+     */
+    updateCurrency: (
+      body: {
+        /** @example "Updated Currency Name" */
+        name?: string;
+        /** @example "Updated Symbol" */
+        symbol?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/currencies/KRW`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Get specific currency details (admin only)
+     *
+     * @tags Admin, Reference Data1, Currencies
+     * @name GetCurrencyByCode
+     * @summary Get Currency by Code
+     * @request GET:/api/admin/currencies/USD
+     */
+    getCurrencyByCode: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/currencies/USD`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get all contact form submissions (Admin only) **Features:** - Pagination support - Filter by read/unread status - Search by email - Sorted by newest first
+     *
+     * @tags Admin, Contact Forms1
+     * @name GetAllForms
+     * @summary Get All Forms
+     * @request GET:/api/admin/forms
+     */
+    getAllForms: (
+      query?: {
+        /** Page number (default: 1) */
+        page?: string;
+        /** Items per page (default: 20) */
+        limit?: string;
+        /** Filter by read status (true/false) */
+        isRead?: string;
+        /** Search by email */
+        searchEmail?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/forms`,
         method: "GET",
         query: query,
         ...params,
       }),
 
     /**
-     * @description Update Tenant
+     * @description Delete a contact form (Admin only) **Note:** This is a soft delete - data is preserved with deleted_at timestamp
      *
-     * @tags Tenant Management
-     * @name UpdateTenant
-     * @summary Update Tenant
-     * @request PUT:/api/tenants
+     * @tags Admin, Contact Forms1
+     * @name DeleteForm
+     * @summary Delete Form
+     * @request DELETE:/api/admin/forms/1
      */
-    updateTenant: (
+    deleteForm: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/forms/1`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Get specific form details (Admin only) **Note:** Automatically marks the form as read when viewed
+     *
+     * @tags Admin, Contact Forms1
+     * @name GetFormById
+     * @summary Get Form by ID
+     * @request GET:/api/admin/forms/1
+     */
+    getFormById: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/forms/1`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Mark form as read or unread (Admin only) Set isRead to: - true: Mark as read - false: Mark as unread
+     *
+     * @tags Admin, Contact Forms1
+     * @name MarkFormAsReadUnread
+     * @summary Mark Form as Read/Unread
+     * @request PATCH:/api/admin/forms/1/read
+     */
+    markFormAsReadUnread: (
       body: {
-        /** @example "acme.com" */
-        domain?: string;
-        /** @example "https://example.com/logo.png" */
-        logo?: string;
-        /** @example "Acme Corp Updated" */
-        name?: string;
-        /** @example "{"theme": "dark", "timezone": "UTC"}" */
-        settings?: string;
+        /** @example true */
+        isRead?: boolean;
       },
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/api/tenants`,
+        path: `/api/admin/forms/1/read`,
+        method: "PATCH",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Block a user from submitting forms (Admin only) **Options:** - Block by email - Block by IP address - Block by both **Note:** At least one (email or IP) must be provided
+     *
+     * @tags Admin, Contact Forms1
+     * @name BlockUser
+     * @summary Block User
+     * @request POST:/api/admin/forms/block-user
+     */
+    blockUser: (
+      body: {
+        /** @example "spammer@example.com" */
+        email?: string;
+        /** @example "192.168.1.100" */
+        ipAddress?: string;
+        /** @example "Repeated spam submissions" */
+        reason?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/forms/block-user`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Unblock a user (Admin only) Use the block ID from the blocked users list
+     *
+     * @tags Admin, Contact Forms1
+     * @name UnblockUser
+     * @summary Unblock User
+     * @request DELETE:/api/admin/forms/block-user/1
+     */
+    unblockUser: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/forms/block-user/1`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Get all blocked users list (Admin only) **Includes:** - Email and IP address - Block reason - Who blocked the user - When they were blocked
+     *
+     * @tags Admin, Contact Forms1
+     * @name GetBlockedUsers
+     * @summary Get Blocked Users
+     * @request GET:/api/admin/forms/blocked-users
+     */
+    getBlockedUsers: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/forms/blocked-users`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get contact form statistics dashboard (Admin only) **Includes:** - Total forms count - Unread forms count - Recent forms (last 7 days) - Blocked users count
+     *
+     * @tags Admin, Contact Forms1
+     * @name GetFormStatistics
+     * @summary Get Form Statistics
+     * @request GET:/api/admin/forms/stats
+     */
+    getFormStatistics: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/forms/stats`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get all admin logs with pagination (admin only)
+     *
+     * @tags Admin, Admin Logs
+     * @name GetAllLogs
+     * @summary Get All Logs
+     * @request GET:/api/admin/logs
+     */
+    getAllLogs: (
+      query?: {
+        page?: string;
+        limit?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/logs`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Get logs for specific admin user (admin only)
+     *
+     * @tags Admin, Admin Logs
+     * @name GetLogsByAdminId
+     * @summary Get Logs by Admin ID
+     * @request GET:/api/admin/logs/admin/1
+     */
+    getLogsByAdminId: (
+      query?: {
+        page?: string;
+        limit?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/logs/admin/1`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Get admin log statistics and recent activities (admin only)
+     *
+     * @tags Admin, Admin Logs
+     * @name GetLogStatistics
+     * @summary Get Log Statistics
+     * @request GET:/api/admin/logs/stats
+     */
+    getLogStatistics: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/logs/stats`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get all subscription plans in the system (admin only)
+     *
+     * @tags Admin, Plans
+     * @name GetAllPlans
+     * @summary Get All Plans
+     * @request GET:/api/admin/plans
+     */
+    getAllPlans: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/plans`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Create new subscription plan (admin only)
+     *
+     * @tags Admin, Plans
+     * @name CreatePlan
+     * @summary Create Plan
+     * @request POST:/api/admin/plans
+     */
+    createPlan: (
+      body: {
+        /** @example "monthly" */
+        billing_cycle?: string;
+        features?: {
+          /** @example 6 */
+          downloads?: number;
+          /** @example "4K" */
+          quality?: string;
+          /** @example 4 */
+          screens?: number;
+        };
+        /** @example true */
+        is_active?: boolean;
+        /** @example "Premium Plan" */
+        name?: string;
+        /** @example "premium" */
+        slug?: string;
+        /** @example 1 */
+        subscription_id?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/plans`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Delete plan from system (admin only)
+     *
+     * @tags Admin, Plans
+     * @name DeletePlan
+     * @summary Delete Plan
+     * @request DELETE:/api/admin/plans/1
+     */
+    deletePlan: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/plans/1`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Get specific plan details (admin only)
+     *
+     * @tags Admin, Plans
+     * @name GetPlanById
+     * @summary Get Plan by ID
+     * @request GET:/api/admin/plans/1
+     */
+    getPlanById: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/plans/1`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Update plan details (admin only)
+     *
+     * @tags Admin, Plans
+     * @name UpdatePlan
+     * @summary Update Plan
+     * @request PUT:/api/admin/plans/1
+     */
+    updatePlan: (
+      body: {
+        /** @example "yearly" */
+        billing_cycle?: string;
+        features?: {
+          /** @example 10 */
+          downloads?: number;
+          /** @example "8K" */
+          quality?: string;
+          /** @example 6 */
+          screens?: number;
+        };
+        /** @example false */
+        is_active?: boolean;
+        /** @example "Updated Premium Plan" */
+        name?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/plans/1`,
         method: "PUT",
         body: body,
         type: ContentType.Json,
         ...params,
       }),
+
+    /**
+     * @description Get all price records in the system (admin only)
+     *
+     * @tags Admin, Prices
+     * @name GetAllPrices
+     * @summary Get All Prices
+     * @request GET:/api/admin/prices
+     */
+    getAllPrices: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/prices`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Create new price record (admin only)
+     *
+     * @tags Admin, Prices
+     * @name CreatePrice
+     * @summary Create Price
+     * @request POST:/api/admin/prices
+     */
+    createPrice: (
+      body: {
+        /** @example "US" */
+        country_code?: string;
+        /** @example "USD" */
+        currency?: string;
+        /** @example 1 */
+        plan_id?: number;
+        /** @example 12.99 */
+        price?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/prices`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Delete price record from system (admin only)
+     *
+     * @tags Admin, Prices
+     * @name DeletePrice
+     * @summary Delete Price
+     * @request DELETE:/api/admin/prices/1
+     */
+    deletePrice: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/prices/1`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Get specific price record (admin only)
+     *
+     * @tags Admin, Prices
+     * @name GetPriceById
+     * @summary Get Price by ID
+     * @request GET:/api/admin/prices/1
+     */
+    getPriceById: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/prices/1`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Update price record (admin only)
+     *
+     * @tags Admin, Prices
+     * @name UpdatePrice
+     * @summary Update Price
+     * @request PUT:/api/admin/prices/1
+     */
+    updatePrice: (
+      body: {
+        /** @example "EUR" */
+        currency?: string;
+        /** @example 15.99 */
+        price?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/prices/1`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Get all subscriptions in the system (admin only)
+     *
+     * @tags Admin, Subscriptions
+     * @name GetAllSubscriptions1
+     * @summary Get All Subscriptions
+     * @request GET:/api/admin/subscriptions
+     */
+    getAllSubscriptions1: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/subscriptions`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Create new subscription (admin only)
+     *
+     * @tags Admin, Subscriptions
+     * @name CreateSubscription
+     * @summary Create Subscription
+     * @request POST:/api/admin/subscriptions
+     */
+    createSubscription: (
+      body: {
+        /** @example 1 */
+        category_id?: number;
+        /** @example 9.99 */
+        default_price?: number;
+        /** @example "Description of new subscription" */
+        description?: string;
+        /** @example "https://example.com/logo.png" */
+        logo_url?: string;
+        /** @example "New Subscription" */
+        name?: string;
+        /** @example "https://example.com" */
+        website_url?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/subscriptions`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Delete subscription from system (admin only)
+     *
+     * @tags Admin, Subscriptions
+     * @name DeleteSubscription
+     * @summary Delete Subscription
+     * @request DELETE:/api/admin/subscriptions/1
+     */
+    deleteSubscription: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/subscriptions/1`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Get specific subscription details (admin only)
+     *
+     * @tags Admin, Subscriptions
+     * @name GetSubscriptionById
+     * @summary Get Subscription by ID
+     * @request GET:/api/admin/subscriptions/1
+     */
+    getSubscriptionById: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/subscriptions/1`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Update subscription details (admin only)
+     *
+     * @tags Admin, Subscriptions
+     * @name UpdateSubscription
+     * @summary Update Subscription
+     * @request PUT:/api/admin/subscriptions/1
+     */
+    updateSubscription: (
+      body: {
+        /** @example 2 */
+        category_id?: number;
+        /** @example 12.99 */
+        default_price?: number;
+        /** @example "Updated description" */
+        description?: string;
+        /** @example "https://example.com/updated-logo.png" */
+        logo_url?: string;
+        /** @example "Updated Subscription Name" */
+        name?: string;
+        /** @example "https://updated-example.com" */
+        website_url?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/subscriptions/1`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Get all users in the system (admin only)
+     *
+     * @tags Admin, Users
+     * @name GetAllUsers
+     * @summary Get All Users
+     * @request GET:/api/admin/users
+     */
+    getAllUsers: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/users`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Delete user from system (admin only)
+     *
+     * @tags Admin, Users
+     * @name DeleteUser
+     * @summary Delete User
+     * @request DELETE:/api/admin/users/1
+     */
+    deleteUser: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/users/1`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Get specific user details (admin only)
+     *
+     * @tags Admin, Users
+     * @name GetUserById
+     * @summary Get User by ID
+     * @request GET:/api/admin/users/1
+     */
+    getUserById: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/users/1`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Update user details (admin only)
+     *
+     * @tags Admin, Users
+     * @name UpdateUser
+     * @summary Update User
+     * @request PUT:/api/admin/users/1
+     */
+    updateUser: (
+      body: {
+        /** @example "TRY" */
+        currency?: string;
+        /** @example "updated@example.com" */
+        email?: string;
+        /** @example "Updated Name" */
+        name?: string;
+        /** @example "TR" */
+        region?: string;
+        /** @example "customer" */
+        role?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/users/1`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Get most popular custom subscriptions (admin only)
+     *
+     * @tags Analytics
+     * @name TopCustomSubscriptions
+     * @summary Top Custom Subscriptions
+     * @request GET:/api/analytics/custom-subscriptions
+     */
+    topCustomSubscriptions: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/analytics/custom-subscriptions`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get complete analytics dashboard with all statistics (admin only)
+     *
+     * @tags Analytics
+     * @name CompleteDashboard
+     * @summary Complete Dashboard
+     * @request GET:/api/analytics/dashboard
+     */
+    completeDashboard: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/analytics/dashboard`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get dashboard overview statistics (admin only)
+     *
+     * @tags Analytics
+     * @name DashboardOverview
+     * @summary Dashboard Overview
+     * @request GET:/api/analytics/overview
+     */
+    dashboardOverview: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/analytics/overview`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get most popular subscription plans (admin only)
+     *
+     * @tags Analytics
+     * @name MostPopularPlans
+     * @summary Most Popular Plans
+     * @request GET:/api/analytics/popular-plans
+     */
+    mostPopularPlans: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/analytics/popular-plans`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get most popular preset subscriptions (admin only)
+     *
+     * @tags Analytics
+     * @name MostPopularSubscriptions
+     * @summary Most Popular Subscriptions
+     * @request GET:/api/analytics/popular-subscriptions
+     */
+    mostPopularSubscriptions: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/analytics/popular-subscriptions`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get revenue breakdown by category (admin only)
+     *
+     * @tags Analytics
+     * @name RevenueByCategory
+     * @summary Revenue by Category
+     * @request GET:/api/analytics/revenue-by-category
+     */
+    revenueByCategory: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/analytics/revenue-by-category`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get user segmentation by billing cycle, currency, and region (admin only)
+     *
+     * @tags Analytics
+     * @name UserSegmentation
+     * @summary User Segmentation
+     * @request GET:/api/analytics/user-segmentation
+     */
+    userSegmentation: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/analytics/user-segmentation`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Login - Token auto-saved
+     *
+     * @tags Auth
+     * @name Login
+     * @summary Login
+     * @request POST:/api/auth/login
+     */
+    login: (
+      body: {
+        /** @example "john@example.com" */
+        email?: string;
+        /** @example "123456" */
+        password?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/auth/login`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Get profile - Token auto-used (Collection Auth)
+     *
+     * @tags Customer, Profile
+     * @name GetProfile
+     * @summary Get Profile
+     * @request GET:/api/auth/profile
+     */
+    getProfile: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/auth/profile`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Update user profile (region, currency, name)
+     *
+     * @tags Customer, Profile
+     * @name UpdateProfile
+     * @summary Update Profile
+     * @request PUT:/api/auth/profile
+     */
+    updateProfile: (
+      body: {
+        /** @example "TRY" */
+        currency?: string;
+        /** @example "John Doe Updated" */
+        name?: string;
+        /** @example "TR" */
+        region?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/auth/profile`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Register a new user - Token auto-saved
+     *
+     * @tags Auth
+     * @name Register
+     * @summary Register
+     * @request POST:/api/auth/register
+     */
+    register: (
+      body: {
+        /** @example "john@example.com" */
+        email?: string;
+        /** @example "John Doe" */
+        name?: string;
+        /** @example "123456" */
+        password?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/auth/register`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Filter subscriptions by category (1=Streaming, 2=Music, etc.)
+     *
+     * @tags Customer, Subscription Catalog
+     * @name GetSubscriptionsByCategory
+     * @summary Get Subscriptions by Category
+     * @request GET:/api/catalog/subscriptions
+     */
+    getSubscriptionsByCategory: (
+      query?: {
+        category_id?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/catalog/subscriptions`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Get subscription details with plans and prices (filtered by user's region)
+     *
+     * @tags Customer, Subscription Catalog
+     * @name GetSubscriptionDetails
+     * @summary Get Subscription Details
+     * @request GET:/api/catalog/subscriptions/1
+     */
+    getSubscriptionDetails: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/catalog/subscriptions/1`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get all plans for a subscription (Basic, Standard, Premium)
+     *
+     * @tags Customer, Subscription Catalog
+     * @name GetSubscriptionPlans
+     * @summary Get Subscription Plans
+     * @request GET:/api/catalog/subscriptions/1/plans
+     */
+    getSubscriptionPlans: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/catalog/subscriptions/1/plans`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get all subscription categories (Streaming, Music, AI, etc.)
+     *
+     * @tags Customer, Categories
+     * @name GetAllCategories
+     * @summary Get All Categories
+     * @request GET:/api/categories
+     */
+    getAllCategories: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/categories`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get single category details
+     *
+     * @tags Customer, Categories
+     * @name GetCategoryById
+     * @summary Get Category by ID
+     * @request GET:/api/categories/1
+     */
+    getCategoryById: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/categories/1`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Submit a contact form (Public endpoint - No auth required) **Features:** - Spam protection with rate limiting (3 submissions/hour) - Automatic blocking check - IP and user agent tracking **Validation:** - Username: 2-100 chars - Email: Valid email format - Subject: 5-200 chars - Message: 10-5000 chars
+     *
+     * @tags Customer, Contact Forms
+     * @name SubmitContactForm
+     * @summary Submit Contact Form
+     * @request POST:/api/contact/submit
+     */
+    submitContactForm: (
+      body: {
+        /** @example "john@example.com" */
+        email?: string;
+        /** @example "I would like to know more about the premium features and how they can help me manage my subscriptions better." */
+        message?: string;
+        /** @example "Question about subscription tracking" */
+        subject?: string;
+        /** @example "John Doe" */
+        username?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/contact/submit`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Get all my active subscriptions
+     *
+     * @tags Customer, My Subscriptions
+     * @name GetMySubscriptions
+     * @summary Get My Subscriptions
+     * @request GET:/api/my-subscriptions
+     */
+    getMySubscriptions: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/my-subscriptions`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Delete subscription from my list
+     *
+     * @tags Customer, My Subscriptions
+     * @name DeleteMySubscription
+     * @summary Delete My Subscription
+     * @request DELETE:/api/my-subscriptions/1
+     */
+    deleteMySubscription: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/my-subscriptions/1`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Update subscription details (price, billing date, status)
+     *
+     * @tags Customer, My Subscriptions
+     * @name UpdateMySubscription
+     * @summary Update My Subscription
+     * @request PUT:/api/my-subscriptions/1
+     */
+    updateMySubscription: (
+      body: {
+        /** @example 250 */
+        custom_price?: number;
+        /** @example "2024-03-01" */
+        next_billing_date?: string;
+        /** @example "Updated gym membership price" */
+        notes?: string;
+        /** @example "active" */
+        status?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/my-subscriptions/1`,
+        method: "PUT",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Add custom subscription (not in catalog)
+     *
+     * @tags Customer, My Subscriptions
+     * @name AddCustomSubscription
+     * @summary Add Custom Subscription
+     * @request POST:/api/my-subscriptions/custom
+     */
+    addCustomSubscription: (
+      body: {
+        /** @example "monthly" */
+        custom_billing_cycle?: string;
+        /** @example 11 */
+        custom_category_id?: number;
+        /** @example "TRY" */
+        custom_currency?: string;
+        /** @example "Local Gym Membership" */
+        custom_name?: string;
+        /** @example 200 */
+        custom_price?: number;
+        /** @example "2024-02-01" */
+        next_billing_date?: string;
+        /** @example "Fitness center membership" */
+        notes?: string;
+        /** @example "2024-01-01" */
+        start_date?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/my-subscriptions/custom`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Get comprehensive subscription statistics including: - Total lifetime spending - Most expensive subscription - Per-subscription spending details - 6-month spending trends - Projected annual costs - Currency breakdowns
+     *
+     * @tags Customer, My Subscriptions
+     * @name GetDetailedSubscriptionStats
+     * @summary Get Detailed Subscription Stats
+     * @request GET:/api/my-subscriptions/detailed-stats
+     */
+    getDetailedSubscriptionStats: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/my-subscriptions/detailed-stats`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Add subscription from catalog (Netflix, Spotify, etc.)
+     *
+     * @tags Customer, My Subscriptions
+     * @name AddPresetSubscription
+     * @summary Add Preset Subscription
+     * @request POST:/api/my-subscriptions/preset
+     */
+    addPresetSubscription: (
+      body: {
+        /** @example "2024-02-01" */
+        next_billing_date?: string;
+        /** @example "Netflix Premium plan" */
+        notes?: string;
+        /** @example 3 */
+        plan_id?: number;
+        /** @example "2024-01-01" */
+        start_date?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/my-subscriptions/preset`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Get subscription statistics and monthly costs
+     *
+     * @tags Customer, My Subscriptions
+     * @name GetMySubscriptionStats
+     * @summary Get My Subscription Stats
+     * @request GET:/api/my-subscriptions/stats
+     */
+    getMySubscriptionStats: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/my-subscriptions/stats`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get all countries list
+     *
+     * @tags Customer, Reference Data
+     * @name GetCountries
+     * @summary Get Countries
+     * @request GET:/api/reference/countries
+     */
+    getCountries: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/reference/countries`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get countries filtered by region (e.g., Europe, Asia, North America)
+     *
+     * @tags Customer, Reference Data
+     * @name GetCountriesByRegion
+     * @summary Get Countries by Region
+     * @request GET:/api/reference/countries/region/Europe
+     */
+    getCountriesByRegion: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/reference/countries/region/Europe`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get all currencies list
+     *
+     * @tags Customer, Reference Data
+     * @name GetCurrencies
+     * @summary Get Currencies
+     * @request GET:/api/reference/currencies
+     */
+    getCurrencies: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/reference/currencies`,
+        method: "GET",
+        ...params,
+      }),
   };
   health = {
     /**
-     * @description Health Check
+     * @description Check if server is running
      *
-     * @tags System
      * @name HealthCheck
      * @summary Health Check
      * @request GET:/health
