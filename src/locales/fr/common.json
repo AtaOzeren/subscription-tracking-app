@@ -346,6 +346,8 @@
       "feature": "Demande de fonctionnalité",
       "pricing": "Tarification et abonnement",
       "other": "Autre"
-    }
+    },
+    "supportEmailLabel": "Pour toute assistance concernant l'application",
+    "moreEmailLabel": "Pour plus de demandes"
   }
 }

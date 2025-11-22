@@ -374,6 +374,8 @@
       "feature": "Feature Request",
       "pricing": "Pricing & Subscription",
       "other": "Other"
-    }
+    },
+    "supportEmailLabel": "For all application support",
+    "moreEmailLabel": "For more inquiries"
   }
 }

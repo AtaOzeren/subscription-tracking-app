@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Alert, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Alert, KeyboardAvoidingView, Platform, TouchableOpacity, Linking } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import BackButton from '../../components/common/BackButton';
@@ -227,6 +227,30 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
               className="mt-2 shadow-md"
               size="large"
             />
+
+            <View className="mt-8 space-y-6 border-t border-gray-100 pt-6">
+              <View className="items-center">
+                <Text className="text-body-sm text-text-muted mb-1 font-text">
+                  {t('contact.supportEmailLabel')}
+                </Text>
+                <TouchableOpacity onPress={() => Linking.openURL('mailto:info@sub-traking.com')}>
+                  <Text className="text-body-lg text-text-primary font-semibold font-display">
+                    info@sub-traking.com
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <View className="items-center">
+                <Text className="text-body-sm text-text-muted mb-1 font-text">
+                  {t('contact.moreEmailLabel')}
+                </Text>
+                <TouchableOpacity onPress={() => Linking.openURL('mailto:ataozeren@icloud.com')}>
+                  <Text className="text-body-lg text-text-primary font-semibold font-display">
+                    ataozeren@icloud.com
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

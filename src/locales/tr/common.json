@@ -346,6 +346,8 @@
       "feature": "İstek ve Öneri",
       "pricing": "Fiyat ve Abonelik Düzenleme",
       "other": "Diğer"
-    }
+    },
+    "supportEmailLabel": "Uygulama ile ilgili tüm destekler için",
+    "moreEmailLabel": "Daha fazlası için"
   }
 }
