@@ -368,6 +368,12 @@
       "usernameLength": "Username must be between 2 and 100 characters",
       "subjectLength": "Subject must be between 5 and 200 characters",
       "messageLength": "Message must be between 10 and 5000 characters"
+    },
+    "subjects": {
+      "bug": "Bug Report",
+      "feature": "Feature Request",
+      "pricing": "Pricing & Subscription",
+      "other": "Other"
     }
   }
 }

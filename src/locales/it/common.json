@@ -340,6 +340,12 @@
       "usernameLength": "Il nome utente deve essere compreso tra 2 e 100 caratteri",
       "subjectLength": "L'oggetto deve essere compreso tra 5 e 200 caratteri",
       "messageLength": "Il messaggio deve essere compreso tra 10 e 5000 caratteri"
+    },
+    "subjects": {
+      "bug": "Segnalazione Bug",
+      "feature": "Richiesta Funzionalità",
+      "pricing": "Prezzi e Abbonamento",
+      "other": "Altro"
     }
   }
 }

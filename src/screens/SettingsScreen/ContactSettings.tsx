@@ -23,6 +23,18 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
     message: '',
   });
   const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
+  const [selectedSubjectType, setSelectedSubjectType] = React.useState<string>('');
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+
+  const handleSubjectTypeSelect = (type: string) => {
+    setSelectedSubjectType(type);
+    if (type !== 'other') {
+      setFormData(prev => ({ ...prev, subject: t(`contact.subjects.${type}`) }));
+      if (errors.subject) setErrors(prev => ({ ...prev, subject: '' }));
+    } else {
+      setFormData(prev => ({ ...prev, subject: '' }));
+    }
+  };
 
   React.useEffect(() => {
     loadUserData();
@@ -123,17 +135,76 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
           </View>
 
           <View className="bg-white rounded-2xl p-6 shadow-sm space-y-5">
-            <AppleInput
-              label={t('contact.subject')}
-              value={formData.subject}
-              onChangeText={(text) => {
-                setFormData({ ...formData, subject: text });
-                if (errors.subject) setErrors({ ...errors, subject: '' });
-              }}
-              placeholder={t('contact.subjectPlaceholder')}
-              error={errors.subject}
-              containerClassName="mb-1"
-            />
+            <View className="mb-1 relative z-50">
+              <Text className="text-body-lg text-text-primary font-semibold mb-2 text-center font-display">
+                {t('contact.subject')}
+              </Text>
+
+              {selectedSubjectType === 'other' ? (
+                <View>
+                  <AppleInput
+                    value={formData.subject}
+                    onChangeText={(text) => {
+                      setFormData({ ...formData, subject: text });
+                      if (errors.subject) setErrors({ ...errors, subject: '' });
+                    }}
+                    placeholder={t('contact.subjectPlaceholder')}
+                    error={errors.subject}
+                    containerClassName="mb-1"
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSelectedSubjectType('');
+                      setFormData(prev => ({ ...prev, subject: '' }));
+                    }}
+                    className="absolute right-4 top-4"
+                  >
+                    <Text className="text-gray-400 text-lg">✕</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View>
+                  <TouchableOpacity
+                    onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className={`w-full border rounded-2xl px-4 py-3 bg-white flex-row justify-between items-center ${errors.subject ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                  >
+                    <Text className={`text-base font-text ${selectedSubjectType ? 'text-black' : 'text-gray-400'}`}>
+                      {selectedSubjectType
+                        ? t(`contact.subjects.${selectedSubjectType}`)
+                        : t('contact.subjectPlaceholder')}
+                    </Text>
+                    <Text className="text-gray-400">{isDropdownOpen ? '▲' : '▼'}</Text>
+                  </TouchableOpacity>
+
+                  {errors.subject && (
+                    <Text className="text-sm text-accent-error mt-1 font-text text-center">
+                      {errors.subject}
+                    </Text>
+                  )}
+
+                  {isDropdownOpen && (
+                    <View className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border border-gray-200 shadow-lg z-50 overflow-hidden">
+                      {['bug', 'feature', 'pricing', 'other'].map((type, index) => (
+                        <TouchableOpacity
+                          key={type}
+                          onPress={() => {
+                            handleSubjectTypeSelect(type);
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`px-4 py-3 border-gray-100 ${index !== 3 ? 'border-b' : ''
+                            } active:bg-gray-50`}
+                        >
+                          <Text className="text-base font-text text-text-primary">
+                            {t(`contact.subjects.${type}`)}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  )}
+                </View>
+              )}
+            </View>
 
             <AppleInput
               label={t('contact.message')}

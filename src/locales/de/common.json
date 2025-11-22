@@ -340,6 +340,12 @@
       "usernameLength": "Benutzername muss zwischen 2 und 100 Zeichen lang sein",
       "subjectLength": "Betreff muss zwischen 5 und 200 Zeichen lang sein",
       "messageLength": "Nachricht muss zwischen 10 und 5000 Zeichen lang sein"
+    },
+    "subjects": {
+      "bug": "Fehlerbericht",
+      "feature": "Funktionsanfrage",
+      "pricing": "Preise & Abonnement",
+      "other": "Sonstiges"
     }
   }
 }

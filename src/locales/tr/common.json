@@ -340,6 +340,12 @@
       "usernameLength": "Kullanıcı adı 2 ile 100 karakter arasında olmalıdır",
       "subjectLength": "Konu 5 ile 200 karakter arasında olmalıdır",
       "messageLength": "Mesaj 10 ile 5000 karakter arasında olmalıdır"
+    },
+    "subjects": {
+      "bug": "Hata ve Bug Bildirimi",
+      "feature": "İstek ve Öneri",
+      "pricing": "Fiyat ve Abonelik Düzenleme",
+      "other": "Diğer"
     }
   }
 }
