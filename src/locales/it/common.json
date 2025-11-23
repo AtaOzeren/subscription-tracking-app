@@ -321,7 +321,10 @@
     "contactDescription": "Stiamo lavorando a un modo per raggiungerci direttamente dall'app. Resta sintonizzato!",
     "notificationsTitle": "Gestisci Notifiche",
     "notificationsComingSoon": "Notifiche in arrivo",
-    "notificationsDescription": "Stiamo costruendo un sistema di notifiche intelligente per ricordarti pagamenti e rinnovi in arrivo."
+    "notificationsDescription": "Stiamo costruendo un sistema di notifiche intelligente per ricordarti pagamenti e rinnovi in arrivo.",
+    "deleteLocalData": "Elimina dati SQL locali",
+    "deleteLocalDataTitle": "Elimina dati locali",
+    "deleteLocalDataMessage": "Sei sicuro di voler eliminare tutti i dati locali? Questo ti disconnetterà e reimposterà l'app."
   },
   "contact": {
     "title": "Contattaci",

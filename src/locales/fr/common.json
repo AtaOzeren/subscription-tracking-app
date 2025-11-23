@@ -321,7 +321,10 @@
     "contactDescription": "Nous travaillons sur un moyen de nous joindre directement depuis l'application. Restez à l'écoute !",
     "notificationsTitle": "Gérer les Notifications",
     "notificationsComingSoon": "Notifications bientôt disponibles",
-    "notificationsDescription": "Nous développons un système de notification intelligent pour vous rappeler les paiements et renouvellements à venir."
+    "notificationsDescription": "Nous développons un système de notification intelligent pour vous rappeler les paiements et renouvellements à venir.",
+    "deleteLocalData": "Supprimer les données SQL locales",
+    "deleteLocalDataTitle": "Supprimer les données locales",
+    "deleteLocalDataMessage": "Êtes-vous sûr de vouloir supprimer toutes les données locales ? Cela vous déconnectera et réinitialisera l'application."
   },
   "contact": {
     "title": "Contactez-nous",

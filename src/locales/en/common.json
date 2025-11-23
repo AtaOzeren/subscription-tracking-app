@@ -322,7 +322,10 @@
     "contactDescription": "We're working on a way for you to reach us directly from the app. Stay tuned!",
     "notificationsTitle": "Manage Notifications",
     "notificationsComingSoon": "Notifications coming soon",
-    "notificationsDescription": "We're building a smart notification system to remind you about upcoming payments and renewals."
+    "notificationsDescription": "We're building a smart notification system to remind you about upcoming payments and renewals.",
+    "deleteLocalData": "Delete Local SQL Data",
+    "deleteLocalDataTitle": "Delete Local Data",
+    "deleteLocalDataMessage": "Are you sure you want to delete all local data? This will log you out and reset the app."
   },
   "error": {
     "title": "Oops!",

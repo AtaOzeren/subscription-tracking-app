@@ -321,7 +321,10 @@
     "contactDescription": "Uygulama içinden bize doğrudan ulaşabileceğiniz bir yol üzerinde çalışıyoruz. Takipte kalın!",
     "notificationsTitle": "Bildirimleri Yönet",
     "notificationsComingSoon": "Bildirimler yakında gelecek",
-    "notificationsDescription": "Yaklaşan ödemeler ve yenilemeler hakkında sizi uyaracak akıllı bir bildirim sistemi oluşturuyoruz."
+    "notificationsDescription": "Yaklaşan ödemeler ve yenilemeler hakkında sizi uyaracak akıllı bir bildirim sistemi oluşturuyoruz.",
+    "deleteLocalData": "Yerel SQL Verilerini Sil",
+    "deleteLocalDataTitle": "Yerel Verileri Sil",
+    "deleteLocalDataMessage": "Tüm yerel verileri silmek istediğinize emin misiniz? Bu işlem sizi çıkışa yönlendirecek ve uygulamayı sıfırlayacaktır."
   },
   "contact": {
     "title": "Bize Ulaşın",
