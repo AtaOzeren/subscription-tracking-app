@@ -58,5 +58,6 @@ export interface AuthContextType extends AuthState {
   register: (email: string, password: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
+  refreshUser: () => Promise<void>;
   isFirstTimeUser: boolean;
 }

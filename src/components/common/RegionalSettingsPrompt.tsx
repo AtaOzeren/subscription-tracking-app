@@ -52,7 +52,7 @@ interface RegionalSettingsPromptProps {
 const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible, onComplete, onCancel }) => {
   const { currentLanguage } = useLanguage();
   const { t } = useTranslation();
-  
+
   const [countries, setCountries] = useState<Country[]>([]);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
@@ -61,8 +61,6 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
   const [showCountryModal, setShowCountryModal] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [searchText, setSearchText] = useState('');
-  const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
-  const [filteredCurrencies, setFilteredCurrencies] = useState<Currency[]>([]);
 
   useEffect(() => {
     if (visible) {
@@ -70,28 +68,24 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
     }
   }, [visible]);
 
-  useEffect(() => {
+  const filteredCountries = React.useMemo(() => {
     if (searchText === '') {
-      setFilteredCountries(countries);
-    } else {
-      const filtered = countries.filter(country => 
-        country.name.toLowerCase().includes(searchText.toLowerCase())
-      );
-      setFilteredCountries(filtered);
+      return countries;
     }
-  }, [searchText, countries]);
+    return countries.filter(country =>
+      country.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [countries, searchText]);
 
-  useEffect(() => {
+  const filteredCurrencies = React.useMemo(() => {
     if (searchText === '') {
-      setFilteredCurrencies(currencies);
-    } else {
-      const filtered = currencies.filter(currency => 
-        currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        currency.code.toLowerCase().includes(searchText.toLowerCase())
-      );
-      setFilteredCurrencies(filtered);
+      return currencies;
     }
-  }, [searchText, currencies]);
+    return currencies.filter(currency =>
+      currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
+      currency.code.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [currencies, searchText]);
 
   const sortByPreferredCountry = (countries: Country[]): Country[] => {
     const preferredCountryCode = languageToCountryMap[currentLanguage.code];
@@ -105,10 +99,10 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
   };
 
   const sortByPreferredCurrency = (currencies: Currency[], countryCode?: string): Currency[] => {
-    const preferredCurrencyCode = countryCode 
-      ? countryToCurrencyMap[countryCode] 
+    const preferredCurrencyCode = countryCode
+      ? countryToCurrencyMap[countryCode]
       : countryToCurrencyMap[languageToCountryMap[currentLanguage.code]];
-    
+
     if (!preferredCurrencyCode) return currencies;
 
     const preferredCurrency = currencies.find(c => c.code === preferredCurrencyCode);
@@ -121,20 +115,18 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
   const loadData = async () => {
     try {
       setLoading(true);
-      
+
       const [countriesData, currenciesData] = await Promise.all([
         referenceService.getCountries(),
         referenceService.getCurrencies()
       ]);
-      
+
       // Sort countries by user's language preference
       const sortedCountries = sortByPreferredCountry(countriesData);
       const sortedCurrencies = sortByPreferredCurrency(currenciesData);
-      
+
       setCountries(sortedCountries);
       setCurrencies(sortedCurrencies);
-      setFilteredCountries(sortedCountries);
-      setFilteredCurrencies(sortedCurrencies);
     } catch (error) {
       console.error('❌ RegionalSettingsPrompt: Error loading reference data:', error);
       Alert.alert(
@@ -157,7 +149,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
 
     try {
       setLoading(true);
-      
+
       // Update user profile with selected country and currency
       await authService.updateProfile({
         region: selectedCountry.code,
@@ -169,7 +161,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
 
       // Call onComplete callback
       onComplete();
-      
+
     } catch (error) {
       console.error('❌ Error saving regional settings:', error);
       Alert.alert(
@@ -189,10 +181,9 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
           setSelectedCountry(item);
           setShowCountryModal(false);
           setSearchText('');
-          
+
           // Auto-sort currencies based on selected country
           const sortedCurrencies = sortByPreferredCurrency(currencies, item.code);
-          setFilteredCurrencies(sortedCurrencies);
           setCurrencies(sortedCurrencies);
         }}
         style={{
@@ -206,8 +197,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
         }}
       >
         <View style={{ flex: 1 }}>
-          <Text 
-            style={{ 
+          <Text
+            style={{
               fontFamily: 'SF Pro Display',
               fontSize: 16,
               fontWeight: '600',
@@ -217,8 +208,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
           >
             {item.name}
           </Text>
-          <Text 
-            style={{ 
+          <Text
+            style={{
               fontFamily: 'SF Pro Text',
               fontSize: 14,
               color: '#8E8E93'
@@ -247,8 +238,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
         backgroundColor: '#FFFFFF',
       }}
     >
-      <Text 
-        style={{ 
+      <Text
+        style={{
           fontFamily: 'SF Pro Display',
           fontSize: 16,
           fontWeight: '600',
@@ -258,8 +249,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
       >
         {item.name}
       </Text>
-      <Text 
-        style={{ 
+      <Text
+        style={{
           fontFamily: 'SF Pro Text',
           fontSize: 14,
           color: '#8E8E93'
@@ -277,14 +268,14 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
       presentationStyle="pageSheet"
       onRequestClose={onCancel}
     >
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         className="flex-1 bg-ios-background"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         {/* Header */}
         <View className="px-6 pt-4 pb-4 border-b border-gray-200 bg-white">
           <View className="flex-row items-center justify-between">
-            <Text 
+            <Text
               className="text-heading-2 text-text-primary flex-1"
               style={{ fontFamily: 'SF Pro Display', letterSpacing: -0.5 }}
             >
@@ -292,7 +283,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
             </Text>
             {onCancel && (
               <TouchableOpacity onPress={onCancel}>
-                <Text 
+                <Text
                   className="text-body-lg text-text-secondary"
                   style={{ fontFamily: 'SF Pro Text' }}
                 >
@@ -301,7 +292,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
               </TouchableOpacity>
             )}
           </View>
-          <Text 
+          <Text
             className="text-body-md text-text-muted mt-2"
             style={{ fontFamily: 'SF Pro Text' }}
           >
@@ -309,16 +300,16 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
           </Text>
         </View>
 
-        <ScrollView 
+        <ScrollView
           className="flex-1"
           contentContainerStyle={{ padding: 24, paddingBottom: 100 }}
           keyboardShouldPersistTaps="handled"
         >
           {/* Country Selection */}
           <View className="mb-6">
-            <Text 
+            <Text
               className="text-sm font-semibold mb-2"
-              style={{ 
+              style={{
                 fontFamily: 'SF Pro Display',
                 fontSize: 13,
                 color: '#000000',
@@ -330,7 +321,6 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
             <TouchableOpacity
               onPress={() => {
                 setSearchText('');
-                setFilteredCountries(countries);
                 setShowCountryModal(true);
               }}
               className="bg-white p-4 rounded-xl border border-gray-200"
@@ -346,9 +336,9 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                 justifyContent: 'space-between',
               }}
             >
-              <Text 
+              <Text
                 className="text-base"
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Text',
                   fontSize: 16,
                   color: selectedCountry ? '#1C1C1E' : '#8E8E93',
@@ -365,9 +355,9 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
 
           {/* Currency Selection */}
           <View className="mb-6">
-            <Text 
+            <Text
               className="text-sm font-semibold mb-2"
-              style={{ 
+              style={{
                 fontFamily: 'SF Pro Display',
                 fontSize: 13,
                 color: '#000000',
@@ -379,7 +369,6 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
             <TouchableOpacity
               onPress={() => {
                 setSearchText('');
-                setFilteredCurrencies(currencies);
                 setShowCurrencyModal(true);
               }}
               className="bg-white p-4 rounded-xl border border-gray-200"
@@ -392,9 +381,9 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                 borderColor: '#E5E5EA',
               }}
             >
-              <Text 
+              <Text
                 className="text-base"
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Text',
                   fontSize: 16,
                   color: selectedCurrency ? '#1C1C1E' : '#8E8E93'
@@ -432,8 +421,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
               <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <TouchableOpacity onPress={() => setShowCountryModal(false)}>
-                    <Text 
-                      style={{ 
+                    <Text
+                      style={{
                         fontFamily: 'SF Pro Text',
                         fontSize: 16,
                         color: '#8E8E93'
@@ -442,8 +431,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                       {t('common.cancel')}
                     </Text>
                   </TouchableOpacity>
-                  <Text 
-                    style={{ 
+                  <Text
+                    style={{
                       fontFamily: 'SF Pro Display',
                       fontSize: 17,
                       fontWeight: '600',
@@ -455,11 +444,11 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                   <View style={{ width: 60 }} />
                 </View>
               </View>
-              
+
               {/* Search Input */}
               <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
-                <View 
-                  style={{ 
+                <View
+                  style={{
                     backgroundColor: '#F2F2F7',
                     padding: 12,
                     borderRadius: 10,
@@ -473,7 +462,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                     onChangeText={setSearchText}
                     placeholder={t('onboarding.searchCountry')}
                     placeholderTextColor="#8E8E93"
-                    style={{ 
+                    style={{
                       fontFamily: 'SF Pro Text',
                       fontSize: 16,
                       color: '#1C1C1E',
@@ -483,7 +472,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                 </View>
               </View>
 
-              <ScrollView 
+              <ScrollView
                 style={{ flex: 1 }}
                 contentContainerStyle={{ flexGrow: 1 }}
               >
@@ -491,8 +480,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                   filteredCountries.map(renderCountryItem)
                 ) : (
                   <View className="p-8 items-center">
-                    <Text 
-                      style={{ 
+                    <Text
+                      style={{
                         fontFamily: 'SF Pro Text',
                         fontSize: 16,
                         color: '#8E8E93'
@@ -520,8 +509,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
               <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                   <TouchableOpacity onPress={() => setShowCurrencyModal(false)}>
-                    <Text 
-                      style={{ 
+                    <Text
+                      style={{
                         fontFamily: 'SF Pro Text',
                         fontSize: 16,
                         color: '#8E8E93'
@@ -530,8 +519,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                       {t('common.cancel')}
                     </Text>
                   </TouchableOpacity>
-                  <Text 
-                    style={{ 
+                  <Text
+                    style={{
                       fontFamily: 'SF Pro Display',
                       fontSize: 17,
                       fontWeight: '600',
@@ -543,11 +532,11 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                   <View style={{ width: 60 }} />
                 </View>
               </View>
-              
+
               {/* Search Input */}
               <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
-                <View 
-                  style={{ 
+                <View
+                  style={{
                     backgroundColor: '#F2F2F7',
                     padding: 12,
                     borderRadius: 10,
@@ -561,7 +550,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                     onChangeText={setSearchText}
                     placeholder={t('onboarding.searchCurrency')}
                     placeholderTextColor="#8E8E93"
-                    style={{ 
+                    style={{
                       fontFamily: 'SF Pro Text',
                       fontSize: 16,
                       color: '#1C1C1E',
@@ -571,7 +560,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                 </View>
               </View>
 
-              <ScrollView 
+              <ScrollView
                 style={{ flex: 1 }}
                 contentContainerStyle={{ flexGrow: 1 }}
               >
@@ -579,8 +568,8 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
                   filteredCurrencies.map(renderCurrencyItem)
                 ) : (
                   <View className="p-8 items-center">
-                    <Text 
-                      style={{ 
+                    <Text
+                      style={{
                         fontFamily: 'SF Pro Text',
                         fontSize: 16,
                         color: '#8E8E93'

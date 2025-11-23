@@ -20,37 +20,37 @@ interface AddSubscriptionScreenProps {
 
 const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscriptionScreenProps) => {
   const { t } = useTranslation();
-  const { user, checkAuth } = useAuth();
+  const { user, checkAuth, refreshUser } = useAuth();
   const insets = useSafeAreaInsets();
-  
+
   // Step states - Start at select-plan if initialSubscription is provided
   const [step, setStep] = useState<'search' | 'select-plan' | 'details'>(
     initialSubscription ? 'select-plan' : 'search'
   );
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [customSearchQuery, setCustomSearchQuery] = useState('');
-  
+
   // Data states - Use React Query hooks for caching
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const { data: categories = [], isLoading: categoriesLoading } = useCategories();
   const { data: subscriptions = [], isLoading: subscriptionsLoading } = useCatalogSubscriptions(selectedCategory || undefined);
   const addPresetMutation = useAddPresetSubscription();
-  
-  const [filteredSubscriptions, setFilteredSubscriptions] = useState<CatalogSubscription[]>([]);
+
+
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // Selection states - Use initialSubscription if provided
   const [selectedSubscription, setSelectedSubscription] = useState<CatalogSubscription | null>(
     initialSubscription || null
   );
   const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  
+
   // Form states
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [nextBillingDate, setNextBillingDate] = useState('');
   const [notes, setNotes] = useState('');
-  
+
   const [loading, setLoading] = useState(false);
   const [showRegionalPrompt, setShowRegionalPrompt] = useState(false);
   const [hasCheckedRegionalSettings, setHasCheckedRegionalSettings] = useState(false);
@@ -68,11 +68,11 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
 
   const loadInitialSubscriptionPlans = async () => {
     if (!initialSubscription) return;
-    
+
     try {
       setLoading(true);
       const subscriptionDetails = await catalogService.getSubscriptionDetails(initialSubscription.id);
-      
+
       if (subscriptionDetails.plans && subscriptionDetails.plans.length > 0) {
         setPlans(subscriptionDetails.plans);
       }
@@ -99,7 +99,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
     }
   };
 
-  useEffect(() => {
+  const filteredSubscriptions = React.useMemo(() => {
     let filtered = subscriptions;
 
     // Filter by category
@@ -115,7 +115,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
       );
     }
 
-    setFilteredSubscriptions(filtered);
+    return filtered;
   }, [searchQuery, subscriptions, selectedCategory]);
 
   // No longer needed - data comes from React Query hooks
@@ -125,9 +125,9 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
     try {
       setLoading(true);
       setSelectedSubscription(subscription);
-      
+
       const subscriptionDetails = await catalogService.getSubscriptionDetails(subscription.id);
-      
+
       if (subscriptionDetails.plans && subscriptionDetails.plans.length > 0) {
         setPlans(subscriptionDetails.plans);
         setStep('select-plan');
@@ -147,7 +147,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
 
   const handleSelectPlan = (plan: Plan) => {
     setSelectedPlan(plan);
-    
+
     // Calculate next billing date based on billing cycle
     const nextDate = new Date();
     if (plan.billing_cycle === 'monthly') {
@@ -158,7 +158,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
       nextDate.setDate(nextDate.getDate() + 7);
     }
     setNextBillingDate(nextDate.toISOString().split('T')[0]);
-    
+
     setStep('details');
   };
 
@@ -203,16 +203,14 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
       <TouchableOpacity
         key={category.id || 'all'}
         onPress={() => setSelectedCategory(category.id)}
-        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${
-          selectedCategory === category.id ? 'bg-black' : 'bg-gray-200'
-        }`}
+        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${selectedCategory === category.id ? 'bg-black' : 'bg-gray-200'
+          }`}
         style={{ height: 32 }}
       >
         {category.icon_url ? <Text className="text-xs mr-1">{category.icon_url}</Text> : null}
         <Text
-          className={`text-sm font-semibold font-display ${
-            selectedCategory === category.id ? 'text-white' : 'text-text-secondary'
-          }`}
+          className={`text-sm font-semibold font-display ${selectedCategory === category.id ? 'text-white' : 'text-text-secondary'
+            }`}
         >
           {category.name}
         </Text>
@@ -242,7 +240,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
   // Group subscriptions by category
   const groupSubscriptionsByCategory = () => {
     const grouped: { [key: string]: { category: Category; subscriptions: CatalogSubscription[] } } = {};
-    
+
     filteredSubscriptions.forEach((subscription) => {
       const categoryId = subscription.category.id.toString();
       if (!grouped[categoryId]) {
@@ -253,14 +251,14 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
       }
       grouped[categoryId].subscriptions.push(subscription);
     });
-    
+
     return Object.values(grouped);
   };
 
   // Render Search Step
   const renderSearchStep = () => {
     const groupedData = groupSubscriptionsByCategory();
-    
+
     return (
       <ScrollView className="flex-1">
         {/* Category Filter */}
@@ -287,10 +285,10 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
             <View className="bg-white rounded-2xl p-8 items-center mb-4">
               <Text className="text-5xl mb-4">🔍</Text>
               <Text className="text-heading-4 text-text-primary mb-2 font-display">
-                 {t('addSubscription.noResults')}
+                {t('addSubscription.noResults')}
               </Text>
               <Text className="text-body-md text-text-muted text-center mb-4 font-text">
-                 {t('addSubscription.noResultsMessage', { query: searchQuery })}
+                {t('addSubscription.noResultsMessage', { query: searchQuery })}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -300,7 +298,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
                 className="bg-black rounded-full px-6 py-3"
               >
                 <Text className="text-white font-semibold font-display">
-                   {t('addSubscription.addCustomButton')}
+                  {t('addSubscription.addCustomButton')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -376,7 +374,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
           >
             <Text className="text-3xl mb-2">➕</Text>
             <Text className="text-body-lg text-text-primary font-semibold font-display">
-               {t('addSubscription.addCustomButton')}
+              {t('addSubscription.addCustomButton')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -445,23 +443,23 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
   return (
     <View className="flex-1 bg-gray-50">
       {/* Header - Fixed at top with status bar */}
-      <View 
+      <View
         className="bg-white border-b border-gray-200"
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center">
           {/* Back button on left - Always */}
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={
-              step === 'search' ? onClose : 
-              step === 'select-plan' ? () => setStep('search') : 
-              () => setStep('select-plan')
+              step === 'search' ? onClose :
+                step === 'select-plan' ? () => setStep('search') :
+                  () => setStep('select-plan')
             }
             className="w-10"
           >
             <Text className="text-2xl text-text-secondary font-display">←</Text>
           </TouchableOpacity>
-          
+
           {/* Title - Centered */}
           <View className="flex-1 items-center">
             <Text className="text-heading-2 text-text-primary font-display">
@@ -470,7 +468,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
               {step === 'details' && t('addSubscription.detailsTitle')}
             </Text>
           </View>
-          
+
           {/* Empty space on right for balance */}
           <View className="w-10" />
         </View>
@@ -487,7 +485,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
         animationType="slide"
         presentationStyle="fullScreen"
       >
-        <CustomSubscription 
+        <CustomSubscription
           onClose={() => {
             setShowCustomModal(false);
             onClose(); // Close the parent modal too after adding custom subscription
@@ -502,8 +500,8 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
         visible={showRegionalPrompt}
         onComplete={() => {
           setShowRegionalPrompt(false);
-          // Refresh auth context to update user profile
-          checkAuth();
+          // Refresh auth context to update user profile without full reload
+          refreshUser();
         }}
         onCancel={() => {
           setShowRegionalPrompt(false);

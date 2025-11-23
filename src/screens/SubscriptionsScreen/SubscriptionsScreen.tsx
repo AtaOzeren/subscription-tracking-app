@@ -19,18 +19,22 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
   const [selectedSubscription, setSelectedSubscription] = useState<UserSubscription | null>(null);
   const { t } = useTranslation();
   const { showError } = useError();
-  
+
   // Use React Query hook - same data as HomeScreen, shared cache!
   const { data: subscriptions = [], isLoading: loading, refetch, isRefetching } = useMySubscriptions();
   const deleteSubscriptionMutation = useDeleteSubscription();
-  
-  const [filteredSubscriptions, setFilteredSubscriptions] = useState<UserSubscription[]>([]);
-  const [categories, setCategories] = useState<Array<{id: number, name: string, icon_url: string, count: number}>>([]);
+
+
+  const [categories, setCategories] = useState<Array<{ id: number, name: string, icon_url: string, count: number }>>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  useEffect(() => {
-    filterSubscriptions();
+  const filteredSubscriptions = React.useMemo(() => {
+    if (selectedCategory === null) {
+      return subscriptions;
+    } else {
+      return subscriptions.filter((sub: UserSubscription) => sub.category.id === selectedCategory);
+    }
   }, [subscriptions, selectedCategory]);
 
   useEffect(() => {
@@ -48,43 +52,33 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
       }
       categoryMap.get(key).count++;
     });
-    
+
     setCategories(Array.from(categoryMap.values()));
   }, [subscriptions]);
-
-  const filterSubscriptions = () => {
-    if (selectedCategory === null) {
-      setFilteredSubscriptions(subscriptions);
-    } else {
-      setFilteredSubscriptions(
-        subscriptions.filter((sub: UserSubscription) => sub.category.id === selectedCategory)
-      );
-    }
-  };
 
   const onRefresh = async () => {
     await refetch();
   };
 
   const handleDeleteSubscription = async (id: number) => {
-      Alert.alert(
-        t('subscriptionAlerts.deleteTitle'),
-        t('subscriptionAlerts.deleteMessage', { name: 'this subscription' }),
-        [
-          { text: t('common.cancel'), style: 'cancel' },
-          {
-            text: t('subscriptionAlerts.deleteConfirm'),
-            style: 'destructive',
-            onPress: async () => {
-              try {
-                await deleteSubscriptionMutation.mutateAsync(id);
-              } catch (error) {
-                showError(error, 'DeleteSubscription');
-              }
+    Alert.alert(
+      t('subscriptionAlerts.deleteTitle'),
+      t('subscriptionAlerts.deleteMessage', { name: 'this subscription' }),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('subscriptionAlerts.deleteConfirm'),
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteSubscriptionMutation.mutateAsync(id);
+            } catch (error) {
+              showError(error, 'DeleteSubscription');
             }
           }
-        ]
-      );
+        }
+      ]
+    );
   };
 
   const renderCategoryFilter = () => {
@@ -97,16 +91,14 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
       <TouchableOpacity
         key={category.id || 'all'}
         onPress={() => setSelectedCategory(category.id)}
-        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${
-          selectedCategory === category.id ? 'bg-black' : 'bg-white border border-gray-200'
-        }`}
+        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${selectedCategory === category.id ? 'bg-black' : 'bg-white border border-gray-200'
+          }`}
         style={{ height: 32 }}
       >
         {category.icon_url ? <Text className="text-xs mr-1">{category.icon_url}</Text> : null}
         <Text
-          className={`text-sm font-semibold font-display ${
-            selectedCategory === category.id ? 'text-white' : 'text-text-secondary'
-          }`}
+          className={`text-sm font-semibold font-display ${selectedCategory === category.id ? 'text-white' : 'text-text-secondary'
+            }`}
         >
           {category.name} ({category.count})
         </Text>
@@ -131,7 +123,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
         </ScrollView>
         {/* Active Subscriptions Count */}
         <Text className="text-body-md text-text-muted mt-1 font-text">
-          {t('subscriptions.activeSubscriptionsCount', { 
+          {t('subscriptions.activeSubscriptionsCount', {
             count: subscriptions.length,
             plural: subscriptions.length !== 1 ? 's' : ''
           })}
@@ -209,7 +201,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
               className="text-body-md text-text-muted text-center"
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              {selectedCategory 
+              {selectedCategory
                 ? t('subscriptions.noSubscriptionsCategoryMessage')
                 : t('subscriptions.noSubscriptionsMessage')
               }
