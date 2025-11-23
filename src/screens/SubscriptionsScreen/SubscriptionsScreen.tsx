@@ -61,24 +61,11 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
   };
 
   const handleDeleteSubscription = async (id: number) => {
-    Alert.alert(
-      t('subscriptionAlerts.deleteTitle'),
-      t('subscriptionAlerts.deleteMessage', { name: 'this subscription' }),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('subscriptionAlerts.deleteConfirm'),
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteSubscriptionMutation.mutateAsync(id);
-            } catch (error) {
-              showError(error, 'DeleteSubscription');
-            }
-          }
-        }
-      ]
-    );
+    try {
+      await deleteSubscriptionMutation.mutateAsync(id);
+    } catch (error) {
+      showError(error, 'DeleteSubscription');
+    }
   };
 
   const renderCategoryFilter = () => {
