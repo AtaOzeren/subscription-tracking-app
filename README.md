@@ -1,4 +1,4 @@
-# Subscription Tracking App
+# SubStater
 
 A React Native application for tracking personal subscriptions, built with Expo.
 
@@ -16,7 +16,7 @@ A React Native application for tracking personal subscriptions, built with Expo.
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd subscription-tracking-app
+cd substater
 ```
 
 2. Install dependencies:
@@ -84,7 +84,7 @@ npm start
 ## 🏗️ Project Structure
 
 ```
-subscription-tracking-app/
+substater/
 ├── app.json              # API configuration (extra.apiBaseUrl)
 ├── src/
 │   ├── components/       # Reusable UI components

@@ -2,8 +2,8 @@
     "swagger": "2.0",
     "info": {
         "contact": {},
-        "description": "Complete subscription tracking API with automatic token management",
-        "title": "Subscription Tracking API",
+        "description": "Complete SubStater API with automatic token management",
+        "title": "SubStater API",
         "version": "1.0.0"
     },
     "host": "localhost:5001",

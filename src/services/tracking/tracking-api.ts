@@ -242,18 +242,18 @@ export class HttpClient<SecurityDataType = unknown> {
       const data = !responseFormat
         ? r
         : await responseToParse[responseFormat]()
-            .then((data) => {
-              if (r.ok) {
-                r.data = data;
-              } else {
-                r.error = data;
-              }
-              return r;
-            })
-            .catch((e) => {
-              r.error = e;
-              return r;
-            });
+          .then((data) => {
+            if (r.ok) {
+              r.data = data;
+            } else {
+              r.error = data;
+            }
+            return r;
+          })
+          .catch((e) => {
+            r.error = e;
+            return r;
+          });
 
       if (cancelToken) {
         this.abortControllers.delete(cancelToken);
@@ -266,12 +266,12 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Subscription Tracking API
+ * @title SubStater API
  * @version 1.0.0
  * @baseUrl http://localhost:5001
  * @contact
  *
- * Complete subscription tracking API with automatic token management
+ * Complete SubStater API with automatic token management
  */
 export class Api<
   SecurityDataType extends unknown,

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "subscription-tracking-app",
-    "slug": "subscription-tracking-app",
+    "name": "SubStater",
+    "slug": "substater",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,7 +28,7 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "apiBaseUrl": "http://192.168.1.14:5001"
+      "apiBaseUrl": "http://192.168.1.2:5001"
     }
   }
 }

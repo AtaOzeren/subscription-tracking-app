@@ -12,11 +12,11 @@ type WelcomeScreenNavigationProp = StackNavigationProp<any, 'Welcome'>;
 
 const WelcomeScreen = () => {
   const navigation = useNavigation<WelcomeScreenNavigationProp>();
-  
+
   // Animation values for logo and text
   const logoFadeAnim = useRef(new Animated.Value(0)).current;
   const logoSlideAnim = useRef(new Animated.Value(50)).current;
-  
+
   // Animation values for button
   const buttonFadeAnim = useRef(new Animated.Value(0)).current;
   const buttonSlideAnim = useRef(new Animated.Value(30)).current;
@@ -27,11 +27,11 @@ const WelcomeScreen = () => {
       try {
         // console.log('🔄 Checking onboarding status...');
         const onboardingComplete = await storageService.getOnboardingComplete();
-        
+
         if (!onboardingComplete) {
           // console.log('🔄 Onboarding not complete, checking for existing session...');
           const token = await authService.getToken();
-          
+
           if (token) {
             // console.log('🗑️ Found existing token, clearing all data...');
             // Force logout and clear all data for fresh onboarding
@@ -91,7 +91,7 @@ const WelcomeScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-white relative">
       {/* Logo and Text Container - Exactly Centered */}
-      <Animated.View 
+      <Animated.View
         className="absolute top-1/2 left-1/2 items-center"
         style={{
           opacity: logoFadeAnim,
@@ -116,7 +116,7 @@ const WelcomeScreen = () => {
           Welcome to
         </Text>
         <Text className="text-heading-1 text-text-primary text-center">
-          Subscription Tracker
+          SubStater
         </Text>
       </Animated.View>
 
