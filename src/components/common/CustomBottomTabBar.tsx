@@ -24,9 +24,9 @@ interface CustomBottomTabBarProps {
 
 const SEARCH_BUTTON_SIZE = 60;
 
-const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({ 
-  tabs, 
-  scrollY, 
+const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
+  tabs,
+  scrollY,
   onLayout,
   searchMode = false,
   searchQuery = '',
@@ -64,7 +64,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
             duration: 0,
             useNativeDriver: false,
           }).start();
-          
+
           Animated.timing(labelHeight, {
             toValue: 1 - progress,
             duration: 0,
@@ -76,7 +76,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
             duration: 200,
             useNativeDriver: false,
           }).start();
-          
+
           Animated.timing(labelHeight, {
             toValue: 1,
             duration: 200,
@@ -97,7 +97,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
   const mainTabs = tabs.filter(tab => tab.key !== 'search');
 
   return (
-    <View 
+    <View
       className="absolute -bottom-6 left-1 right-1 bg-transparent z-50"
       onLayout={handleLayout}
     >
@@ -105,8 +105,8 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
         <View className="px-2 pb-1 pt-1">
           <View className="flex-row items-center justify-between">
             {/* Left side - 3 tabs or search input */}
-            <Animated.View 
-              className="flex-1 mr-3 overflow-hidden rounded-[28px] shadow-modal bg-gray-100/80"
+            <Animated.View
+              className="flex-1 mr-3 overflow-hidden rounded-[28px] shadow-modal bg-white/20"
               style={{
                 opacity: searchSlideAnim.interpolate({
                   inputRange: [0, 1],
@@ -123,9 +123,9 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
               }}
             >
               <BlurView
-                intensity={150}
+                intensity={80}
                 tint="light"
-                className="rounded-[28px] overflow-hidden bg-gray-100/60"
+                className="rounded-[28px] overflow-hidden bg-white/10"
               >
                 <View className="flex-row items-center justify-around px-1 py-1">
                   {mainTabs.map((tab) => (
@@ -136,7 +136,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                       activeOpacity={0.7}
                     >
                       <View className="items-center justify-center px-2 py-1">
-                        <Ionicons 
+                        <Ionicons
                           name={tab.iconName as any}
                           size={26}
                           color="#000000"
@@ -165,7 +165,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
 
             {/* Search Input - Slides in from right */}
             <Animated.View
-              className="absolute left-0 right-20 overflow-hidden rounded-[28px] shadow-modal bg-gray-100/80"
+              className="absolute left-0 right-20 overflow-hidden rounded-[28px] shadow-modal bg-white/20"
               style={{
                 opacity: searchSlideAnim.interpolate({
                   inputRange: [0, 1],
@@ -183,9 +183,9 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
               pointerEvents={searchMode ? 'auto' : 'none'}
             >
               <BlurView
-                intensity={150}
+                intensity={80}
                 tint="light"
-                className="rounded-[28px] overflow-hidden bg-gray-100/60"
+                className="rounded-[28px] overflow-hidden bg-white/10"
               >
                 <View className="flex-row items-center px-4 py-3">
                   <Ionicons name="search" size={20} color="#000000" />
@@ -205,21 +205,21 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                 </View>
               </BlurView>
             </Animated.View>
-            
+
             {/* Right side - Search button or close button */}
             {searchTab && (
-              <View 
-                className="overflow-hidden shadow-modal bg-gray-100/80"
-                style={{ 
-                  width: SEARCH_BUTTON_SIZE, 
-                  height: SEARCH_BUTTON_SIZE, 
-                  borderRadius: SEARCH_BUTTON_SIZE / 2 
+              <View
+                className="overflow-hidden shadow-modal bg-white/20"
+                style={{
+                  width: SEARCH_BUTTON_SIZE,
+                  height: SEARCH_BUTTON_SIZE,
+                  borderRadius: SEARCH_BUTTON_SIZE / 2
                 }}
               >
                 <BlurView
-                  intensity={150}
+                  intensity={80}
                   tint="light"
-                  className="w-full h-full bg-gray-100/60"
+                  className="w-full h-full bg-white/10"
                   style={{ borderRadius: SEARCH_BUTTON_SIZE / 2 }}
                 >
                   <TouchableOpacity
@@ -227,7 +227,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                     className="items-center justify-center w-full h-full"
                     activeOpacity={0.7}
                   >
-                    <Ionicons 
+                    <Ionicons
                       name={searchMode ? 'close' : searchTab.iconName as any}
                       size={26}
                       color="#000000"
