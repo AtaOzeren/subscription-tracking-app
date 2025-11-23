@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, Image, Animated } from 'react-native';
 import { UserSubscription } from '../../types/subscription';
 import { formatPrice } from '../../utils/currency';
 
@@ -12,6 +12,27 @@ const MinimalSubscriptionCard = ({
   subscription,
   onPress,
 }: MinimalSubscriptionCardProps) => {
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (subscription.status === 'active') {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(fadeAnim, {
+            toValue: 0.2,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    }
+  }, [subscription.status]);
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active': return '#10B981';      // Green
@@ -58,7 +79,7 @@ const MinimalSubscriptionCard = ({
           >
             {subscription.name}
           </Text>
-          
+
           {subscription.planName && (
             <Text
               className="text-body-sm text-text-muted mt-0.5"
@@ -69,15 +90,19 @@ const MinimalSubscriptionCard = ({
           )}
         </View>
 
-        {/* Price and Status */}
+        {/* Status Indicator (Price Hidden) */}
         <View className="flex-row items-center">
-          <View 
-            className="w-1.5 h-1.5 rounded-full mr-2"
-            style={{ backgroundColor: getStatusColor(subscription.status) }}
+          <Animated.View
+            className="w-2 h-2 rounded-full"
+            style={{
+              backgroundColor: getStatusColor(subscription.status),
+              opacity: subscription.status === 'active' ? fadeAnim : 1
+            }}
           />
-          <Text className="text-base font-bold text-accent">
+          {/* Price hidden as requested */}
+          {/* <Text className="text-base font-bold text-accent">
             {formatPrice(subscription.price, subscription.currency)}
-          </Text>
+          </Text> */}
         </View>
       </View>
     </TouchableOpacity>
