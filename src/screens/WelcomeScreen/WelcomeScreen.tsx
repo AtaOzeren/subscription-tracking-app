@@ -99,41 +99,76 @@ const WelcomeScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white relative">
-      {/* Logo and Text Container - Exactly Centered */}
-      <Animated.View
-        className="absolute top-1/2 left-1/2 items-center"
-        style={{
-          opacity: logoFadeAnim,
-          transform: [
-            { translateY: logoSlideAnim },
-            { scale: logoScaleAnim },
-            { translateX: '-50%' },
-            { translateY: '-50%' }
-          ]
-        }}
-      >
-        {/* Logo */}
-        <View className="mb-6">
-          <Image
-            source={require('../../../assets/logo/subscription-tracking-black.webp')}
-            className="w-32 h-32"
-            resizeMode="contain"
-          />
-        </View>
+    <SafeAreaView className="flex-1 bg-white">
+      {/* Spacer for top */}
+      <View className="h-16" />
 
-        {/* Welcome Text */}
-        <Text className="text-heading-1 text-text-primary text-center mb-2">
-          Welcome to
-        </Text>
-        <Text className="text-heading-1 text-text-primary text-center">
-          SubStater
-        </Text>
-      </Animated.View>
+      {/* Logo and Text Container - Centered in available space */}
+      <View className="flex-1 justify-center items-center px-6">
+        <Animated.View
+          className="items-center"
+          style={{
+            opacity: logoFadeAnim,
+            transform: [
+              { translateY: logoSlideAnim },
+              { scale: logoScaleAnim },
+            ]
+          }}
+        >
+          {/* Logo */}
+          <View className="mb-8">
+            <Image
+              source={require('../../../assets/logo/subscription-tracking-black.webp')}
+              className="w-40 h-40"
+              resizeMode="contain"
+            />
+          </View>
 
-      {/* Dots Indicator */}
+          {/* Welcome Text */}
+          <Text
+            className="text-center mb-2"
+            style={{
+              fontFamily: 'SF Pro Display',
+              fontSize: 34,
+              fontWeight: 'bold',
+              color: '#000000',
+              letterSpacing: -0.5,
+            }}
+          >
+            Welcome to
+          </Text>
+          <Text
+            className="text-center mb-4"
+            style={{
+              fontFamily: 'SF Pro Display',
+              fontSize: 34,
+              fontWeight: 'bold',
+              color: '#000000',
+              letterSpacing: -0.5,
+            }}
+          >
+            SubStater
+          </Text>
+
+          {/* Description Text */}
+          <Text
+            className="text-center px-8"
+            style={{
+              fontFamily: 'SF Pro Text',
+              fontSize: 16,
+              color: '#8E8E93',
+              lineHeight: 22,
+              letterSpacing: 0.1,
+            }}
+          >
+            Track, manage, and optimize all your subscriptions in one place
+          </Text>
+        </Animated.View>
+      </View>
+
+      {/* Progress Indicator */}
       <Animated.View
-        className="absolute bottom-32 left-0 right-0 items-center"
+        className="items-center mb-4"
         style={{
           opacity: buttonFadeAnim,
           transform: [{ translateY: buttonSlideAnim }]
@@ -144,7 +179,7 @@ const WelcomeScreen = () => {
 
       {/* Next Button - Fixed at Bottom */}
       <Animated.View
-        className="absolute bottom-8 left-8 right-8"
+        className="px-6 pb-6"
         style={{
           opacity: buttonFadeAnim,
           transform: [{ translateY: buttonSlideAnim }]
