@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useError } from '../../contexts/ErrorContext';
 import { useNavigation } from '@react-navigation/native';
@@ -108,23 +109,27 @@ const RegisterScreen: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      className="flex-1 bg-ios-background"
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <SafeAreaView className="flex-1 bg-white">
       {/* Back Button */}
-      <View className="px-6 pt-4 pb-1">
+      <View className="px-6 pt-2 pb-4">
         <BackButton />
       </View>
 
-      <ScrollView
+      <KeyboardAvoidingView
         className="flex-1"
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
-        keyboardShouldPersistTaps="handled"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View className="flex-1 justify-center px-6 py-8">
-          {/* Logo Section */}
-          <View className="items-center mb-12">
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Spacer for top */}
+          <View className="h-8" />
+
+          {/* Logo and Title Section */}
+          <View className="items-center px-6 mb-8">
             <Logo size="large" animated={true} />
             <View className="mt-8 items-center">
               <AnimatedText
@@ -140,7 +145,7 @@ const RegisterScreen: React.FC = () => {
                 duration={1000}
                 type="fadeInUp"
               >
-                Welcome Sub-Tracking
+                SubStater
               </AnimatedText>
               <AnimatedText
                 style={{
@@ -160,7 +165,7 @@ const RegisterScreen: React.FC = () => {
           </View>
 
           {/* Form Section */}
-          <View className="mb-6 w-full">
+          <View className="px-6 mb-6">
             <AnimatedText
               style={{ opacity: 0, width: '100%' }}
               delay={1000}
@@ -255,7 +260,7 @@ const RegisterScreen: React.FC = () => {
             duration={800}
             type="fadeIn"
           >
-            <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 24 }}>
               <Text className="text-ios-text-secondary text-base" style={{ fontFamily: 'SF Pro Text' }}>
                 Already have an account?{' '}
               </Text>
@@ -269,43 +274,46 @@ const RegisterScreen: React.FC = () => {
               </TouchableOpacity>
             </View>
           </AnimatedText>
-        </View>
-      </ScrollView>
 
-      {/* Progress Indicator */}
-      <AnimatedText
-        style={{ opacity: 0 }}
-        delay={1450}
-        duration={800}
-        type="fadeInUp"
-        asView={true}
-      >
-        <View className="absolute bottom-32 left-0 right-0 items-center">
-          <ProgressIndicator totalSteps={4} currentStep={3} />
-        </View>
-      </AnimatedText>
+          {/* Spacer to push content up */}
+          <View className="flex-1" />
+        </ScrollView>
 
-      {/* Sign Up Button - Fixed at Bottom */}
-      <AnimatedText
-        style={{ opacity: 0 }}
-        delay={1500}
-        duration={800}
-        type="fadeInUp"
-        asView={true}
-      >
-        <View className="absolute bottom-8 left-8 right-8">
-          <AppleButton
-            title="Sign Up"
-            onPress={handleRegister}
-            loading={isLoading}
-            disabled={isLoading}
-            variant="primary"
-            size="large"
-            style={{ width: '100%' }}
-          />
-        </View>
-      </AnimatedText>
-    </KeyboardAvoidingView>
+        {/* Progress Indicator */}
+        <AnimatedText
+          style={{ opacity: 0 }}
+          delay={1450}
+          duration={800}
+          type="fadeInUp"
+          asView={true}
+        >
+          <View className="items-center mb-4">
+            <ProgressIndicator totalSteps={3} currentStep={3} />
+          </View>
+        </AnimatedText>
+
+        {/* Sign Up Button - Fixed at Bottom */}
+        <AnimatedText
+          style={{ opacity: 0 }}
+          delay={1500}
+          duration={800}
+          type="fadeInUp"
+          asView={true}
+        >
+          <View className="px-6 pb-6">
+            <AppleButton
+              title="Sign Up"
+              onPress={handleRegister}
+              loading={isLoading}
+              disabled={isLoading}
+              variant="primary"
+              size="large"
+              style={{ width: '100%' }}
+            />
+          </View>
+        </AnimatedText>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

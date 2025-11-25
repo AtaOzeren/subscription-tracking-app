@@ -50,16 +50,16 @@ const LoginScreen: React.FC = () => {
 
     try {
       setIsLoading(true);
-      
+
       // Trim whitespace from inputs
       const trimmedEmail = email.trim();
       const trimmedPassword = password.trim();
-      
+
       await login(trimmedEmail, trimmedPassword);
-      
+
       // Mark onboarding as complete (Welcome -> Language -> Login completed)
       await storageService.setOnboardingComplete(true);
-      
+
       // User will be navigated to main app
       // Regional settings will be prompted when adding first subscription
     } catch (error) {
@@ -73,28 +73,31 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-ios-background">
+    <SafeAreaView className="flex-1 bg-white">
       {/* Back Button */}
-      <View className="px-6 pt-4 pb-1">
+      <View className="px-6 pt-2 pb-4">
         <BackButton />
       </View>
 
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <ScrollView 
+        <ScrollView
           className="flex-1"
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }}
+          contentContainerStyle={{ flexGrow: 1 }}
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-        <View className="flex-1 justify-center px-6 py-8">
-          {/* Logo Section */}
-          <View className="items-center mb-12">
+          {/* Spacer for top */}
+          <View className="h-8" />
+
+          {/* Logo and Title Section */}
+          <View className="items-center px-6 mb-8">
             <Logo size="large" animated={true} />
             <View className="mt-8 items-center">
               <AnimatedText
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Display',
                   fontSize: 32,
                   fontWeight: 'bold',
@@ -106,10 +109,10 @@ const LoginScreen: React.FC = () => {
                 duration={1000}
                 type="fadeInUp"
               >
-                Welcome Sub-Tracking
+                SubStater
               </AnimatedText>
               <AnimatedText
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Text',
                   fontSize: 15,
                   color: '#8E8E93',
@@ -126,28 +129,28 @@ const LoginScreen: React.FC = () => {
           </View>
 
           {/* Form Section */}
-          <View className="mb-6 w-full">
+          <View className="px-6 mb-6">
             <AnimatedText
-                 style={{ opacity: 0, width: '100%' }}
-                 delay={1000}
-                 duration={800}
-                 type="fadeInUp"
-               >
-               <View style={{ width: '100%' }}>
-                 <AppleInput
-                   placeholder={t('auth.emailAddress')}
-                   value={email}
-                   onChangeText={(text) => {
-                     setEmail(text);
-                     if (errors.email) setErrors({ ...errors, email: undefined });
-                   }}
-                   keyboardType="email-address"
-                   autoCapitalize="none"
-                   autoCorrect={false}
-                   error={errors.email}
-                   containerClassName="mb-8"
-                 />
-               </View>
+              style={{ opacity: 0, width: '100%' }}
+              delay={1000}
+              duration={800}
+              type="fadeInUp"
+            >
+              <View style={{ width: '100%' }}>
+                <AppleInput
+                  placeholder={t('auth.emailAddress')}
+                  value={email}
+                  onChangeText={(text) => {
+                    setEmail(text);
+                    if (errors.email) setErrors({ ...errors, email: undefined });
+                  }}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  error={errors.email}
+                  containerClassName="mb-4"
+                />
+              </View>
             </AnimatedText>
 
             <AnimatedText
@@ -156,19 +159,19 @@ const LoginScreen: React.FC = () => {
               duration={800}
               type="fadeInUp"
             >
-               <View style={{ width: '100%' }}>
-                 <AppleInput
-                   placeholder={t('auth.password')}
-                   value={password}
-                   onChangeText={(text) => {
-                     setPassword(text);
-                     if (errors.password) setErrors({ ...errors, password: undefined });
-                   }}
-                   secureTextEntry
-                   error={errors.password}
-                   containerClassName="mb-8"
-                 />
-               </View>
+              <View style={{ width: '100%' }}>
+                <AppleInput
+                  placeholder={t('auth.password')}
+                  value={password}
+                  onChangeText={(text) => {
+                    setPassword(text);
+                    if (errors.password) setErrors({ ...errors, password: undefined });
+                  }}
+                  secureTextEntry
+                  error={errors.password}
+                  containerClassName="mb-4"
+                />
+              </View>
             </AnimatedText>
           </View>
 
@@ -179,56 +182,58 @@ const LoginScreen: React.FC = () => {
             duration={800}
             type="fadeIn"
           >
-             <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-               <Text className="text-ios-text-secondary text-base" style={{ fontFamily: 'SF Pro Text' }}>
-                 {t('auth.dontHaveAccount')}{' '}
-               </Text>
-               <TouchableOpacity 
-                 onPress={() => navigation.navigate('Register' as never)}
-                 activeOpacity={0.6}
-               >
+            <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 24 }}>
+              <Text className="text-ios-text-secondary text-base" style={{ fontFamily: 'SF Pro Text' }}>
+                {t('auth.dontHaveAccount')}{' '}
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Register' as never)}
+                activeOpacity={0.6}
+              >
                 <Text className="text-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('common.signUp')}
                 </Text>
-               </TouchableOpacity>
-             </View>
+              </TouchableOpacity>
+            </View>
           </AnimatedText>
-        </View>
-      </ScrollView>
 
-      {/* Progress Indicator */}
-      <AnimatedText
-        style={{ opacity: 0 }}
-        delay={1400}
-        duration={800}
-        type="fadeInUp"
-        asView={true}
-      >
-        <View className="absolute bottom-32 left-0 right-0 items-center">
-          <ProgressIndicator totalSteps={4} currentStep={3} />
-        </View>
-      </AnimatedText>
+          {/* Spacer to push content up */}
+          <View className="flex-1" />
+        </ScrollView>
 
-      {/* Sign In Button - Fixed at Bottom */}
-      <AnimatedText
-        style={{ opacity: 0 }}
-        delay={1450}
-        duration={800}
-        type="fadeInUp"
-        asView={true}
-      >
-        <View className="absolute bottom-8 left-8 right-8">
-          <AppleButton
-            title={t('common.signIn')}
-            onPress={handleLogin}
-            loading={isLoading}
-            disabled={isLoading}
-            variant="primary"
-            size="large"
-            style={{ width: '100%' }}
-          />
-        </View>
-      </AnimatedText>
+        {/* Progress Indicator */}
+        <AnimatedText
+          style={{ opacity: 0 }}
+          delay={1400}
+          duration={800}
+          type="fadeInUp"
+          asView={true}
+        >
+          <View className="items-center mb-4">
+            <ProgressIndicator totalSteps={3} currentStep={3} />
+          </View>
+        </AnimatedText>
+
+        {/* Sign In Button - Fixed at Bottom */}
+        <AnimatedText
+          style={{ opacity: 0 }}
+          delay={1450}
+          duration={800}
+          type="fadeInUp"
+          asView={true}
+        >
+          <View className="px-6 pb-6">
+            <AppleButton
+              title={t('common.signIn')}
+              onPress={handleLogin}
+              loading={isLoading}
+              disabled={isLoading}
+              variant="primary"
+              size="large"
+              style={{ width: '100%' }}
+            />
+          </View>
+        </AnimatedText>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
