@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { getGreetingMessage } from '../../utils/helpers';
 import ProfileButton from '../../components/common/ProfileButton';
+import NotificationButton from '../../components/common/NotificationButton';
 import Button from '../../components/common/Button';
 import { StatsCards } from '../../components/stats/StatsCards';
 import MinimalSubscriptionCard from '../../components/subscription/MinimalSubscriptionCard';
@@ -58,11 +59,11 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <ScrollView 
+      <ScrollView
         className="flex-1"
         refreshControl={
-          <RefreshControl 
-            refreshing={isRefetching} 
+          <RefreshControl
+            refreshing={isRefetching}
             onRefresh={handleRefresh}
             tintColor="#3B82F6"
           />
@@ -82,7 +83,10 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
                 {greetingMessage || t('home.mySubscriptions')}
               </Text>
             </View>
-            <ProfileButton onPress={handleProfilePress} />
+            <View className="flex-row items-center gap-3">
+              <NotificationButton />
+              <ProfileButton onPress={handleProfilePress} />
+            </View>
           </View>
         </View>
 
@@ -131,7 +135,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
               <View className="flex-1">
                 <Button
                   title={t('home.support')}
-                  onPress={() => {}}
+                  onPress={() => { }}
                   variant="secondary"
                   size="large"
                   className="rounded-xl"
@@ -145,7 +149,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
                 <Text className="text-heading-4 text-text-primary">
                   {t('home.activeSubscriptions')}
                 </Text>
-                <TouchableOpacity 
+                <TouchableOpacity
                   onPress={onNavigateToSubscriptions}
                   activeOpacity={0.7}
                 >

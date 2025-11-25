@@ -20,7 +20,9 @@ class NotificationService {
     private api: Api<string>;
 
     constructor() {
+        const baseUrl = Constants.expoConfig?.extra?.apiBaseUrl || 'http://localhost:5001';
         this.api = new Api<string>({
+            baseUrl,
             securityWorker: (token) => {
                 if (token) {
                     return {
@@ -103,7 +105,7 @@ class NotificationService {
 
             await this.api.api.saveFcmToken({
                 fcm_token: token
-            });
+            }, { secure: true });
 
             console.log('FCM Token saved to backend');
         } catch (error) {
@@ -118,8 +120,9 @@ class NotificationService {
             if (!authToken) return [];
 
             this.api.setSecurityData(authToken);
-            const response = await this.api.api.getAllNotifications();
-            return response.data;
+            const response = await this.api.api.getAllNotifications({ secure: true, format: 'json' });
+            const responseData = response.data as any;
+            return responseData?.data || [];
         } catch (error) {
             console.error('Error fetching notifications:', error);
             return [];
@@ -155,7 +158,7 @@ class NotificationService {
             if (!authToken) return;
 
             this.api.setSecurityData(authToken);
-            await this.api.api.markAllAsRead();
+            await this.api.api.markAllAsRead({ secure: true, format: 'json' });
         } catch (error) {
             console.error('Error marking all notifications as read:', error);
             throw error;
@@ -169,8 +172,10 @@ class NotificationService {
             if (!authToken) return 0;
 
             this.api.setSecurityData(authToken);
-            const response = await this.api.api.getUnreadCount();
-            return response.data;
+            const response = await this.api.api.getUnreadCount({ secure: true, format: 'json' });
+            // Response format: { success: true, data: { count: 1 } }
+            const responseData = response.data as any;
+            return responseData?.data?.count || 0;
         } catch (error) {
             console.error('Error fetching unread count:', error);
             return 0;

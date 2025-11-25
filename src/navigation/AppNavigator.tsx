@@ -20,32 +20,7 @@ import NotificationsScreen from '../screens/NotificationsScreen/NotificationsScr
 
 const Stack = createStackNavigator();
 
-const HomeStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="HomeMain"
-        component={HomeScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="SubscriptionDetail"
-        component={SubscriptionDetailScreen}
-        options={{ title: 'Subscription Details', headerShown: false }}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{ title: 'Profile' }}
-      />
-      <Stack.Screen
-        name="Notifications"
-        component={NotificationsScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
+
 
 const OnboardingNavigator = () => {
   return (
@@ -182,6 +157,15 @@ const MainNavigator = () => {
   );
 };
 
+const AuthenticatedNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Main" component={MainNavigator} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const AppNavigator = () => {
   const { isAuthenticated, isLoading, isFirstTimeUser } = useAuth();
   const { isLoading: languageLoading } = useLanguage();
@@ -195,7 +179,7 @@ const AppNavigator = () => {
       {isFirstTimeUser ? (
         <OnboardingNavigator />
       ) : isAuthenticated ? (
-        <MainNavigator />
+        <AuthenticatedNavigator />
       ) : (
         <AuthNavigator />
       )}

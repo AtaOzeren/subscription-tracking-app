@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useDetailedStats } from '../../hooks/useQueries';
 import MinimalLoader from '../../components/common/MinimalLoader';
 import ProfileButton from '../../components/common/ProfileButton';
+import NotificationButton from '../../components/common/NotificationButton';
 import { ViewModeToggle } from '../../components/stats/ViewModeToggle';
 import { SpendingCard } from '../../components/stats/SpendingCard';
 import { SubscriptionStatus } from '../../components/stats/SubscriptionStatus';
@@ -19,10 +20,10 @@ interface StatisticsScreenProps {
 const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProps) => {
   const { t } = useTranslation();
   const [viewMode, setViewMode] = useState<'monthly' | 'yearly'>('monthly');
-  
+
   // Use React Query hook for stats - automatic caching!
   const { data: stats, isLoading: loading, error, refetch, isRefetching } = useDetailedStats();
-  
+
   // Animation values for toggle slider
   const slideAnim = React.useRef(new Animated.Value(0)).current;
   // Animation values for content fade
@@ -45,7 +46,7 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
     }).start(() => {
       // Change mode after fade out
       setViewMode(mode);
-      
+
       // Fade in content
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -115,7 +116,10 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
                 {t('navigation.statistics')}
               </Text>
             </View>
-            <ProfileButton onPress={handleProfilePress} />
+            <View className="flex-row items-center gap-3">
+              <NotificationButton />
+              <ProfileButton onPress={handleProfilePress} />
+            </View>
           </View>
         </View>
       </View>
