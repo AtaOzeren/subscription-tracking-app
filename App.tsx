@@ -25,7 +25,39 @@ const queryClient = new QueryClient({
   },
 });
 
+import React, { useEffect, useRef } from 'react';
+import * as Notifications from 'expo-notifications';
+import { notificationService } from './src/services/notificationService';
+
 export default function App() {
+  const notificationListener = useRef<Notifications.Subscription | null>(null);
+  const responseListener = useRef<Notifications.Subscription | null>(null);
+
+  useEffect(() => {
+    // Register for push notifications
+    notificationService.registerForPushNotificationsAsync();
+
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      console.log('Notification received:', notification);
+    });
+
+    // This listener is fired whenever a user taps on or interacts with a notification
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log('Notification response:', response);
+      // Here you could add navigation logic to open specific screens based on notification data
+    });
+
+    return () => {
+      if (notificationListener.current) {
+        notificationListener.current.remove();
+      }
+      if (responseListener.current) {
+        responseListener.current.remove();
+      }
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
