@@ -242,18 +242,18 @@ export class HttpClient<SecurityDataType = unknown> {
       const data = !responseFormat
         ? r
         : await responseToParse[responseFormat]()
-          .then((data) => {
-            if (r.ok) {
-              r.data = data;
-            } else {
-              r.error = data;
-            }
-            return r;
-          })
-          .catch((e) => {
-            r.error = e;
-            return r;
-          });
+            .then((data) => {
+              if (r.ok) {
+                r.data = data;
+              } else {
+                r.error = data;
+              }
+              return r;
+            })
+            .catch((e) => {
+              r.error = e;
+              return r;
+            });
 
       if (cancelToken) {
         this.abortControllers.delete(cancelToken);
@@ -266,12 +266,12 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title SubStater API
+ * @title Subscription Tracking API
  * @version 1.0.0
  * @baseUrl http://localhost:5001
  * @contact
  *
- * Complete SubStater API with automatic token management
+ * Complete subscription tracking API with automatic token management
  */
 export class Api<
   SecurityDataType extends unknown,
@@ -806,6 +806,90 @@ export class Api<
       }),
 
     /**
+     * @description Schedule a notification for a future date and time (UTC-3). Time must be in 5-minute intervals.
+     *
+     * @tags Admin, Admin Notifications
+     * @name ScheduleNotification
+     * @summary Schedule Notification
+     * @request POST:/api/admin/notifications/schedule
+     */
+    scheduleNotification: (
+      body: {
+        /** @example "2025-12-20" */
+        date?: string;
+        /** @example "Bu planlanmis bir bildirimdir." */
+        message?: string;
+        /** @example "15:30" */
+        time?: string;
+        /** @example "Planli Duyuru" */
+        title?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/notifications/schedule`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description List all pending scheduled notifications.
+     *
+     * @tags Admin, Admin Notifications
+     * @name GetScheduledNotifications
+     * @summary Get Scheduled Notifications
+     * @request GET:/api/admin/notifications/scheduled
+     */
+    getScheduledNotifications: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/notifications/scheduled`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Cancel/Delete a scheduled notification.
+     *
+     * @tags Admin, Admin Notifications
+     * @name DeleteScheduledNotification
+     * @summary Delete Scheduled Notification
+     * @request DELETE:/api/admin/notifications/scheduled/{id}
+     */
+    deleteScheduledNotification: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/notifications/scheduled/${id}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * @description Send a push notification immediately to all users.
+     *
+     * @tags Admin, Admin Notifications
+     * @name SendImmediateNotification
+     * @summary Send Immediate Notification
+     * @request POST:/api/admin/notifications/send-now
+     */
+    sendImmediateNotification: (
+      body: {
+        /** @example "Bu acil bir bildirimdir!" */
+        message?: string;
+        /** @example "Duyuru" */
+        title?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/admin/notifications/send-now`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
      * @description Get all subscription plans in the system (admin only)
      *
      * @tags Admin, Plans
@@ -1316,6 +1400,29 @@ export class Api<
       }),
 
     /**
+     * @description Save FCM token for push notifications (obtained from mobile app)
+     *
+     * @tags Customer, Notifications
+     * @name SaveFcmToken
+     * @summary Save FCM Token
+     * @request POST:/api/auth/fcm-token
+     */
+    saveFcmToken: (
+      body: {
+        /** @example "your_fcm_token_here" */
+        fcm_token?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/auth/fcm-token`,
+        method: "POST",
+        body: body,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
      * @description Login - Token auto-saved
      *
      * @tags Auth
@@ -1670,6 +1777,66 @@ export class Api<
     getMySubscriptionStats: (params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/my-subscriptions/stats`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Get all notifications for the logged-in user
+     *
+     * @tags Customer, Notifications
+     * @name GetAllNotifications
+     * @summary Get All Notifications
+     * @request GET:/api/notifications
+     */
+    getAllNotifications: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/notifications`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Mark a specific notification as read (replace '1' with notification ID)
+     *
+     * @tags Customer, Notifications
+     * @name MarkNotificationAsRead
+     * @summary Mark Notification as Read
+     * @request PATCH:/api/notifications/1/read
+     */
+    markNotificationAsRead: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/notifications/1/read`,
+        method: "PATCH",
+        ...params,
+      }),
+
+    /**
+     * @description Mark all notifications as read for the logged-in user
+     *
+     * @tags Customer, Notifications
+     * @name MarkAllAsRead
+     * @summary Mark All as Read
+     * @request PATCH:/api/notifications/read-all
+     */
+    markAllAsRead: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/notifications/read-all`,
+        method: "PATCH",
+        ...params,
+      }),
+
+    /**
+     * @description Get count of unread notifications
+     *
+     * @tags Customer, Notifications
+     * @name GetUnreadCount
+     * @summary Get Unread Count
+     * @request GET:/api/notifications/unread-count
+     */
+    getUnreadCount: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/notifications/unread-count`,
         method: "GET",
         ...params,
       }),

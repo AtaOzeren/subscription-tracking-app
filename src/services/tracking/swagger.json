@@ -2,8 +2,8 @@
     "swagger": "2.0",
     "info": {
         "contact": {},
-        "description": "Complete SubStater API with automatic token management",
-        "title": "SubStater API",
+        "description": "Complete subscription tracking API with automatic token management",
+        "title": "Subscription Tracking API",
         "version": "1.0.0"
     },
     "host": "localhost:5001",
@@ -706,6 +706,133 @@
                 "summary": "Get Log Statistics"
             }
         },
+        "/api/admin/notifications/schedule": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "date": {
+                                    "example": "2025-12-20",
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "example": "Bu planlanmis bir bildirimdir.",
+                                    "type": "string"
+                                },
+                                "time": {
+                                    "example": "15:30",
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "example": "Planli Duyuru",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Admin Notifications"
+                ],
+                "description": "Schedule a notification for a future date and time (UTC-3). Time must be in 5-minute intervals.",
+                "operationId": "scheduleNotification",
+                "summary": "Schedule Notification"
+            }
+        },
+        "/api/admin/notifications/scheduled": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Admin Notifications"
+                ],
+                "description": "List all pending scheduled notifications.",
+                "operationId": "getScheduledNotifications",
+                "summary": "Get Scheduled Notifications"
+            }
+        },
+        "/api/admin/notifications/scheduled/{id}": {
+            "parameters": [
+                {
+                    "description": "ID of the scheduled notification to delete",
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "delete": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Admin Notifications"
+                ],
+                "description": "Cancel/Delete a scheduled notification.",
+                "operationId": "deleteScheduledNotification",
+                "summary": "Delete Scheduled Notification"
+            }
+        },
+        "/api/admin/notifications/send-now": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "example": "Bu acil bir bildirimdir!",
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "example": "Duyuru",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Admin",
+                    "Admin Notifications"
+                ],
+                "description": "Send a push notification immediately to all users.",
+                "operationId": "sendImmediateNotification",
+                "summary": "Send Immediate Notification"
+            }
+        },
         "/api/admin/plans": {
             "get": {
                 "parameters": [],
@@ -1368,6 +1495,40 @@
                 "summary": "User Segmentation"
             }
         },
+        "/api/auth/fcm-token": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "fcm_token": {
+                                    "example": "your_fcm_token_here",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Notifications"
+                ],
+                "description": "Save FCM token for push notifications (obtained from mobile app)",
+                "operationId": "saveFcmToken",
+                "summary": "Save FCM Token"
+            }
+        },
         "/api/auth/login": {
             "post": {
                 "consumes": [
@@ -1860,6 +2021,74 @@
                 "summary": "Get My Subscription Stats"
             }
         },
+        "/api/notifications": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Notifications"
+                ],
+                "description": "Get all notifications for the logged-in user",
+                "operationId": "getAllNotifications",
+                "summary": "Get All Notifications"
+            }
+        },
+        "/api/notifications/1/read": {
+            "patch": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Notifications"
+                ],
+                "description": "Mark a specific notification as read (replace '1' with notification ID)",
+                "operationId": "markNotificationAsRead",
+                "summary": "Mark Notification as Read"
+            }
+        },
+        "/api/notifications/read-all": {
+            "patch": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Notifications"
+                ],
+                "description": "Mark all notifications as read for the logged-in user",
+                "operationId": "markAllAsRead",
+                "summary": "Mark All as Read"
+            }
+        },
+        "/api/notifications/unread-count": {
+            "get": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "Customer",
+                    "Notifications"
+                ],
+                "description": "Get count of unread notifications",
+                "operationId": "getUnreadCount",
+                "summary": "Get Unread Count"
+            }
+        },
         "/api/reference/countries": {
             "get": {
                 "parameters": [],
@@ -1945,10 +2174,13 @@
             "name": "Subscription Catalog"
         },
         {
-            "name": "Reference Data"
+            "name": "Contact Forms"
         },
         {
-            "name": "Contact Forms"
+            "name": "Notifications"
+        },
+        {
+            "name": "Reference Data"
         },
         {
             "name": "Admin"
@@ -1978,10 +2210,13 @@
             "name": "Currencies"
         },
         {
+            "name": "Contact Forms1"
+        },
+        {
             "name": "Admin Logs"
         },
         {
-            "name": "Contact Forms1"
+            "name": "Admin Notifications"
         },
         {
             "name": "Analytics"
