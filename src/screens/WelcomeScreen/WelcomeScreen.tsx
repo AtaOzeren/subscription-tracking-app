@@ -16,6 +16,7 @@ const WelcomeScreen = () => {
   // Animation values for logo and text
   const logoFadeAnim = useRef(new Animated.Value(0)).current;
   const logoSlideAnim = useRef(new Animated.Value(50)).current;
+  const logoScaleAnim = useRef(new Animated.Value(0.8)).current;
 
   // Animation values for button
   const buttonFadeAnim = useRef(new Animated.Value(0)).current;
@@ -50,15 +51,23 @@ const WelcomeScreen = () => {
 
     // Start animations when component mounts
     const startAnimations = () => {
+      // Logo animation with scale and fade
       Animated.parallel([
         Animated.timing(logoFadeAnim, {
           toValue: 1,
-          duration: 1000,
+          duration: 1200,
           useNativeDriver: true,
         }),
-        Animated.timing(logoSlideAnim, {
+        Animated.spring(logoSlideAnim, {
           toValue: 0,
-          duration: 800,
+          friction: 8,
+          tension: 40,
+          useNativeDriver: true,
+        }),
+        Animated.spring(logoScaleAnim, {
+          toValue: 1,
+          friction: 7,
+          tension: 40,
           useNativeDriver: true,
         }),
       ]).start();
@@ -68,13 +77,14 @@ const WelcomeScreen = () => {
         Animated.timing(buttonFadeAnim, {
           toValue: 1,
           duration: 800,
-          delay: 500,
+          delay: 600,
           useNativeDriver: true,
         }),
-        Animated.timing(buttonSlideAnim, {
+        Animated.spring(buttonSlideAnim, {
           toValue: 0,
-          duration: 600,
-          delay: 500,
+          friction: 8,
+          tension: 40,
+          delay: 600,
           useNativeDriver: true,
         }),
       ]).start();
@@ -97,8 +107,9 @@ const WelcomeScreen = () => {
           opacity: logoFadeAnim,
           transform: [
             { translateY: logoSlideAnim },
-            { translateX: -150 }, // Half of approximate width to center
-            { translateY: -120 }  // Half of approximate height to center
+            { scale: logoScaleAnim },
+            { translateX: '-50%' },
+            { translateY: '-50%' }
           ]
         }}
       >
@@ -128,7 +139,7 @@ const WelcomeScreen = () => {
           transform: [{ translateY: buttonSlideAnim }]
         }}
       >
-        <ProgressIndicator totalSteps={4} currentStep={1} />
+        <ProgressIndicator totalSteps={3} currentStep={1} />
       </Animated.View>
 
       {/* Next Button - Fixed at Bottom */}
