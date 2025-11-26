@@ -47,11 +47,33 @@ const AppleButton: React.FC<AppleButtonProps> = ({
   };
 
   // Variant classes
-  const variantClasses = {
-    primary: disabled ? 'bg-gray-300' : 'bg-black',
-    secondary: disabled ? 'bg-gray-100' : 'bg-gray-400',
-    outline: disabled ? 'bg-transparent border-2 border-gray-300' : 'bg-transparent border-2 border-black',
-    danger: disabled ? 'bg-gray-300' : 'bg-red-600',
+  const getButtonStyles = () => {
+    if (disabled) {
+      switch (variant) {
+        case 'primary':
+        case 'danger':
+          return 'bg-gray-300';
+        case 'secondary':
+          return 'bg-gray-100';
+        case 'outline':
+          return 'bg-transparent border-2 border-gray-300';
+        default:
+          return 'bg-gray-300';
+      }
+    } else {
+      switch (variant) {
+        case 'primary':
+          return 'bg-tracking-blue';
+        case 'secondary':
+          return 'bg-gray-400';
+        case 'outline':
+          return 'bg-transparent border-2 border-black';
+        case 'danger':
+          return 'bg-red-600';
+        default:
+          return 'bg-tracking-blue';
+      }
+    }
   };
 
   // Text size classes
@@ -70,8 +92,8 @@ const AppleButton: React.FC<AppleButtonProps> = ({
   };
 
   return (
-    <Animated.View 
-      style={{ transform: [{ scale: scaleAnim }] }} 
+    <Animated.View
+      style={{ transform: [{ scale: scaleAnim }] }}
       className={containerClassName || ''}
     >
       <TouchableOpacity
@@ -79,7 +101,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
           rounded-2xl items-center justify-center
           shadow-button
           ${sizeClasses[size]}
-          ${variantClasses[variant]}
+          ${getButtonStyles()}
         `}
         style={style}
         onPress={onPress}
@@ -89,12 +111,12 @@ const AppleButton: React.FC<AppleButtonProps> = ({
         activeOpacity={0.9}
       >
         {loading ? (
-          <ActivityIndicator 
-            color={variant === 'outline' ? '#000000' : '#FFFFFF'} 
-            size="small" 
+          <ActivityIndicator
+            color={variant === 'outline' ? '#000000' : '#FFFFFF'}
+            size="small"
           />
         ) : (
-          <Text 
+          <Text
             className={`font-display font-semibold ${textSizeClasses[size]} ${textColorClasses[variant]}`}
           >
             {title}

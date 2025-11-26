@@ -11,6 +11,7 @@ import CustomSubscription from './CustomSubscription';
 import FormField from '../../components/subscription/FormField';
 import AppleButton from '../../components/common/AppleButton';
 import PlanSelector from '../../components/subscription/PlanSelector';
+import { Feather } from '@expo/vector-icons';
 import RegionalSettingsPrompt from '../../components/common/RegionalSettingsPrompt';
 
 interface AddSubscriptionScreenProps {
@@ -203,7 +204,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
       <TouchableOpacity
         key={category.id || 'all'}
         onPress={() => setSelectedCategory(category.id)}
-        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${selectedCategory === category.id ? 'bg-black' : 'bg-gray-200'
+        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${selectedCategory === category.id ? 'bg-tracking-blue' : 'bg-gray-200'
           }`}
         style={{ height: 32 }}
       >
@@ -269,7 +270,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
         {/* Search Bar */}
         <View className="px-4 mb-4">
           <View className="bg-gray-100 rounded-xl px-4 py-3 flex-row items-center">
-            <Text className="mr-2">🔍</Text>
+            <Feather name="search" size={20} color="#216477" style={{ marginRight: 8 }} />
             <TextInput
               placeholder={t('addSubscription.searchPlaceholder')}
               value={searchQuery}
@@ -295,7 +296,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
                   setCustomSearchQuery(searchQuery);
                   setShowCustomModal(true);
                 }}
-                className="bg-black rounded-full px-6 py-3"
+                className="bg-tracking-blue rounded-full px-6 py-3"
               >
                 <Text className="text-white font-semibold font-display">
                   {t('addSubscription.addCustomButton')}
@@ -355,7 +356,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
                           </Text>
                         </View>
 
-                        <Text className="text-2xl ml-2">→</Text>
+                        <Feather name="chevron-right" size={24} color="#216477" style={{ marginLeft: 8 }} />
                       </View>
                     </TouchableOpacity>
                   ))}
