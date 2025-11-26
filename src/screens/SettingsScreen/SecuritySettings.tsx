@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { Feather } from '@expo/vector-icons';
 import BackButton from '../../components/common/BackButton';
 import { authService } from '../../services/authService';
 import { useAuth } from '../../contexts/AuthContext';
@@ -55,7 +56,7 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
       <ScrollView className="flex-1 p-6">
         <View className="items-center mb-6">
           <View className="w-16 h-16 rounded-full bg-gray-100 items-center justify-center mb-4">
-            <Text className="text-3xl">🔒</Text>
+            <Feather name="shield" size={32} color="#216477" />
           </View>
           <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
             {t('settings.securityTitle')}
@@ -65,9 +66,9 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
         <View className="space-y-4 mb-8">
           <View className="bg-white rounded-xl p-4 mb-3">
             <View className="flex-row items-start mb-2">
-              <Text className="text-heading-3 mr-3 text-text-secondary">●</Text>
+              <Text className="text-heading-3 mr-3 text-tracking-blue">●</Text>
               <View className="flex-1">
-                <Text className="text-body-lg text-text-primary font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-lg text-tracking-blue font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('settings.securityPoint1Title')}
                 </Text>
                 <Text className="text-body-md text-text-tertiary" style={{ fontFamily: 'SF Pro Text' }}>
@@ -79,9 +80,9 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
 
           <View className="bg-white rounded-xl p-4 mb-3">
             <View className="flex-row items-start mb-2">
-              <Text className="text-heading-3 mr-3 text-text-secondary">●</Text>
+              <Text className="text-heading-3 mr-3 text-tracking-blue">●</Text>
               <View className="flex-1">
-                <Text className="text-body-lg text-text-primary font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-lg text-tracking-blue font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('settings.securityPoint2Title')}
                 </Text>
                 <Text className="text-body-md text-text-tertiary" style={{ fontFamily: 'SF Pro Text' }}>
@@ -93,9 +94,9 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
 
           <View className="bg-white rounded-xl p-4 mb-3">
             <View className="flex-row items-start mb-2">
-              <Text className="text-heading-3 mr-3 text-text-secondary">●</Text>
+              <Text className="text-heading-3 mr-3 text-tracking-blue">●</Text>
               <View className="flex-1">
-                <Text className="text-body-lg text-text-primary font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-body-lg text-tracking-blue font-semibold mb-1" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('settings.securityPoint3Title')}
                 </Text>
                 <Text className="text-body-md text-text-tertiary" style={{ fontFamily: 'SF Pro Text' }}>
@@ -106,15 +107,20 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({ onClose }) => {
           </View>
         </View>
 
-        {/* Delete Local Data Button */}
-        <TouchableOpacity
-          onPress={handleDeleteLocalData}
-          className="bg-red-500 rounded-xl p-4 items-center mb-8"
-        >
-          <Text className="text-white font-semibold text-lg" style={{ fontFamily: 'SF Pro Display' }}>
-            {t('settings.deleteLocalData')}
-          </Text>
-        </TouchableOpacity>
+        {/* Clear App Data Button */}
+        <View className="bg-white rounded-xl p-4 mb-8">
+          <TouchableOpacity
+            onPress={handleDeleteLocalData}
+            className="items-center"
+          >
+            <Text className="text-red-500 font-semibold text-base mb-1" style={{ fontFamily: 'SF Pro Display' }}>
+              {t('settings.clearAppData')}
+            </Text>
+            <Text className="text-text-muted text-xs text-center" style={{ fontFamily: 'SF Pro Text' }}>
+              {t('settings.clearAppDataWarning')}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );

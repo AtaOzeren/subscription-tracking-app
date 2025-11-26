@@ -16,12 +16,12 @@ const LanguageSettings: React.FC<LanguageSettingsProps> = ({ onClose }) => {
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(currentLanguage.code);
 
   const languageColors = {
-    en: { border: '#000000', text: '#FFFFFF' },
-    de: { border: '#000000', text: '#FFCE00' },
-    tr: { border: '#000000', text: '#FFFFFF' },
-    it: { border: '#000000', text: '#FFFFFF' },
-    fr: { border: '#000000', text: '#FFFFFF' },
-    ru: { border: '#000000', text: '#FFFFFF' },
+    en: { border: '#216477', text: '#FFFFFF' },
+    de: { border: '#216477', text: '#FFCE00' },
+    tr: { border: '#216477', text: '#FFFFFF' },
+    it: { border: '#216477', text: '#FFFFFF' },
+    fr: { border: '#216477', text: '#FFFFFF' },
+    ru: { border: '#216477', text: '#FFFFFF' },
   };
 
   const renderFlagBadge = (code: LanguageCode) => {
