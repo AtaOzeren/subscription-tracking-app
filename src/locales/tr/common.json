@@ -85,10 +85,26 @@
     "russian": "Rusça"
   },
   "navigation": {
-    "home": "Ev",
+    "home": "Ana Sayfa",
     "subscriptions": "Abonelikler",
     "statistics": "İstatistikler",
-    "search": "Arama"
+    "search": "Ara",
+    "notifications": "Bildirimler"
+  },
+  "notifications": {
+    "priceChange": "Fiyat Değişikliği",
+    "scheduled": "Planlanmış",
+    "autoRenewal": "Otomatik Yenileme",
+    "announcement": "Duyuru",
+    "general": "Genel",
+    "noNotifications": "Bildirim Yok",
+    "noNotificationsMessage": "Henüz hiç bildiriminiz yok. Önemli bir şey olduğunda sizi bilgilendireceğiz."
+  },
+  "time": {
+    "justNow": "Şimdi",
+    "minutesAgo": "{{count}} dk önce",
+    "hoursAgo": "{{count}} sa önce",
+    "daysAgo": "{{count}} gün önce"
   },
   "subscriptions": {
     "manageYourSubscriptions": "Tüm aboneliklerinizi tek bir yerden yönetin",

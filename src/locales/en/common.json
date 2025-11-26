@@ -89,7 +89,23 @@
     "home": "Home",
     "subscriptions": "Subscriptions",
     "statistics": "Statistics",
-    "search": "Search"
+    "search": "Search",
+    "notifications": "Notifications"
+  },
+  "notifications": {
+    "priceChange": "Price Change",
+    "scheduled": "Scheduled",
+    "autoRenewal": "Auto Renewal",
+    "announcement": "Announcement",
+    "general": "General",
+    "noNotifications": "No Notifications",
+    "noNotificationsMessage": "You don't have any notifications yet. We'll let you know when something important happens."
+  },
+  "time": {
+    "justNow": "Just now",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago",
+    "daysAgo": "{{count}}d ago"
   },
   "subscriptions": {
     "manageYourSubscriptions": "Manage all your subscriptions in one place",

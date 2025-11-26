@@ -1,19 +1,32 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, RefreshControl, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { notificationService } from '../../services/notificationService';
 import { useTranslation } from 'react-i18next';
+import { getCurrencySymbol } from '../../utils/currency';
+import MinimalLoader from '../../components/common/MinimalLoader';
+
+interface NotificationData {
+    plan_id?: number;
+    currency?: string;
+    new_price?: number;
+    old_price?: number;
+    [key: string]: any;
+}
 
 interface Notification {
-    id: string;
-    title: string;
+    id: number;
+    user_id: number;
+    type: 'PRICE_CHANGE' | 'SCHEDULED' | 'AUTO_RENEWAL' | 'ADMIN_PUSH';
     message: string;
-    type: string;
+    data?: NotificationData;
     is_read: boolean;
     created_at: string;
-    data?: any;
+    updated_at: string;
+    deleted_at: string | null;
 }
 
 const NotificationsScreen = () => {
@@ -26,6 +39,7 @@ const NotificationsScreen = () => {
     const fetchNotifications = useCallback(async () => {
         try {
             const data = await notificationService.getNotifications();
+            console.log('[NotificationsScreen] Fetched notifications:', data);
             setNotifications(data || []);
         } catch (error) {
             console.error('Failed to fetch notifications:', error);
@@ -44,10 +58,9 @@ const NotificationsScreen = () => {
         fetchNotifications();
     };
 
-    const handleMarkAsRead = async (id: string) => {
+    const handleMarkAsRead = async (id: number) => {
         try {
-            await notificationService.markAsRead(id);
-            // Optimistic update
+            await notificationService.markAsRead(id.toString());
             setNotifications(prev =>
                 prev.map(n => n.id === id ? { ...n, is_read: true } : n)
             );
@@ -65,80 +78,211 @@ const NotificationsScreen = () => {
         }
     };
 
-    const renderItem = ({ item }: { item: Notification }) => (
-        <TouchableOpacity
-            className={`p-4 border-b border-gray-100 ${item.is_read ? 'bg-white' : 'bg-blue-50'}`}
-            onPress={() => !item.is_read && handleMarkAsRead(item.id)}
-        >
-            <View className="flex-row justify-between items-start">
-                <View className="flex-1 mr-3">
-                    <View className="flex-row items-center mb-1">
-                        {getIconForType(item.type)}
-                        <Text className={`ml-2 font-semibold text-base ${item.is_read ? 'text-gray-800' : 'text-black'}`}>
-                            {item.title}
-                        </Text>
-                    </View>
-                    <Text className="text-gray-600 text-sm leading-5">{item.message}</Text>
-                    <Text className="text-gray-400 text-xs mt-2">
-                        {new Date(item.created_at).toLocaleDateString()} • {new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </Text>
-                </View>
-                {!item.is_read && (
-                    <View className="w-3 h-3 rounded-full bg-blue-500 mt-2" />
-                )}
-            </View>
-        </TouchableOpacity>
-    );
-
-    const getIconForType = (type: string) => {
+    const getTypeConfig = (type: string) => {
         switch (type) {
+            case 'PRICE_CHANGE':
+                return {
+                    icon: 'trending-up',
+                    colors: ['#216477', '#1a4f5e'] as const,
+                    bgColor: 'transparent',
+                    textColor: '#216477',
+                    label: t('notifications.priceChange'),
+                };
             case 'SCHEDULED':
-                return <Ionicons name="calendar-outline" size={20} color="#4B5563" />;
+                return {
+                    icon: 'calendar',
+                    colors: ['#3B82F6', '#2563EB'] as const,
+                    bgColor: '#DBEAFE',
+                    textColor: '#1E40AF',
+                    label: t('notifications.scheduled'),
+                };
             case 'AUTO_RENEWAL':
-                return <Ionicons name="refresh-circle-outline" size={20} color="#F59E0B" />;
+                return {
+                    icon: 'refresh-cw',
+                    colors: ['#10B981', '#059669'] as const,
+                    bgColor: '#D1FAE5',
+                    textColor: '#065F46',
+                    label: t('notifications.autoRenewal'),
+                };
             case 'ADMIN_PUSH':
-                return <Ionicons name="megaphone-outline" size={20} color="#EF4444" />;
+                return {
+                    icon: 'megaphone',
+                    colors: ['#8B5CF6', '#7C3AED'] as const,
+                    bgColor: '#EDE9FE',
+                    textColor: '#5B21B6',
+                    label: t('notifications.announcement'),
+                };
             default:
-                return <Ionicons name="notifications-outline" size={20} color="#4B5563" />;
+                return {
+                    icon: 'bell',
+                    colors: ['#6B7280', '#4B5563'] as const,
+                    bgColor: '#F3F4F6',
+                    textColor: '#374151',
+                    label: t('notifications.general'),
+                };
         }
     };
 
+    const getRelativeTime = (dateString: string) => {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+        if (diffInSeconds < 60) return t('time.justNow');
+        if (diffInSeconds < 3600) return t('time.minutesAgo', { count: Math.floor(diffInSeconds / 60) });
+        if (diffInSeconds < 86400) return t('time.hoursAgo', { count: Math.floor(diffInSeconds / 3600) });
+        if (diffInSeconds < 604800) return t('time.daysAgo', { count: Math.floor(diffInSeconds / 86400) });
+
+        return date.toLocaleDateString();
+    };
+
+    const renderPriceChange = (data?: NotificationData) => {
+        if (!data || !data.old_price || !data.new_price) return null;
+
+        const currency = getCurrencySymbol(data.currency || 'USD');
+        const isIncrease = data.new_price > data.old_price;
+        const percentChange = ((data.new_price - data.old_price) / data.old_price * 100).toFixed(0);
+
+        return (
+            <View className="mt-3 flex-row items-center bg-white/50 rounded-xl p-3">
+                <View className="flex-row items-center">
+                    <Text className="text-body-md text-text-secondary font-text line-through">
+                        {currency}{data.old_price}
+                    </Text>
+                    <Feather
+                        name="arrow-right"
+                        size={16}
+                        color="#6B7280"
+                        style={{ marginHorizontal: 8 }}
+                    />
+                    <Text className="text-heading-4 font-semibold font-display" style={{ color: '#216477' }}>
+                        {currency}{data.new_price}
+                    </Text>
+                    <Text className="text-xs font-semibold ml-2" style={{ color: '#216477' }}>
+                        ({isIncrease ? '+' : ''}{percentChange}%)
+                    </Text>
+                </View>
+            </View>
+        );
+    };
+
+    const renderItem = ({ item }: { item: Notification }) => {
+        const config = getTypeConfig(item.type);
+
+        return (
+            <TouchableOpacity
+                onPress={() => !item.is_read && handleMarkAsRead(item.id)}
+                activeOpacity={0.7}
+                className="px-4 mb-3"
+            >
+                <View className="bg-white rounded-2xl overflow-hidden shadow-sm">
+                    {!item.is_read && (
+                        <LinearGradient
+                            colors={[`${config.colors[0]}15`, `${config.colors[1]}05`]}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+                        />
+                    )}
+
+                    <View className="p-4">
+                        <View className="flex-row items-start">
+                            {/* Icon */}
+                            <LinearGradient
+                                colors={config.colors}
+                                start={{ x: 0, y: 0 }}
+                                end={{ x: 1, y: 1 }}
+                                className="w-12 h-12 items-center justify-center mr-3"
+                                style={{ borderRadius: 16 }}
+                            >
+                                <Feather name={config.icon as any} size={20} color="white" />
+                            </LinearGradient>
+
+                            {/* Content */}
+                            <View className="flex-1">
+                                <View className="flex-row items-center justify-between mb-1">
+                                    {config.bgColor !== 'transparent' && (
+                                        <View className="px-2 py-0.5 rounded-full" style={{ backgroundColor: config.bgColor }}>
+                                            <Text className="text-xs font-semibold font-display" style={{ color: config.textColor }}>
+                                                {config.label}
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {config.bgColor === 'transparent' && (
+                                        <Text className="text-xs font-semibold font-display" style={{ color: config.textColor }}>
+                                            {config.label}
+                                        </Text>
+                                    )}
+                                    {!item.is_read && (
+                                        <View className="w-2 h-2 rounded-full bg-blue-500" />
+                                    )}
+                                </View>
+
+                                <Text className="text-body-md text-text-primary leading-5 mt-2 font-text">
+                                    {item.message}
+                                </Text>
+
+                                {item.type === 'PRICE_CHANGE' && renderPriceChange(item.data)}
+
+                                <Text className="text-xs text-text-tertiary mt-3 font-text">
+                                    {getRelativeTime(item.created_at)}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        );
+    };
+
     return (
-        <SafeAreaView className="flex-1 bg-white" edges={['top']}>
-            <View className="px-4 py-3 border-b border-gray-100 flex-row justify-between items-center bg-white">
-                <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
-                    <Ionicons name="arrow-back" size={24} color="#1F2937" />
-                </TouchableOpacity>
-                <Text className="text-lg font-bold text-gray-900">Notifications</Text>
-                <TouchableOpacity onPress={handleMarkAllAsRead} className="p-2 -mr-2">
-                    <Ionicons name="checkmark-done-outline" size={24} color="#3B82F6" />
-                </TouchableOpacity>
+        <SafeAreaView className="flex-1 bg-gray-50" edges={['top']}>
+            {/* Header */}
+            <View className="bg-white border-b border-gray-200">
+                <View className="px-4 py-4 flex-row items-center justify-between">
+                    <TouchableOpacity onPress={() => navigation.goBack()} className="w-10">
+                        <Feather name="arrow-left" size={24} color="#1F2937" />
+                    </TouchableOpacity>
+
+                    <Text className="text-heading-2 text-text-primary font-display">
+                        {t('navigation.notifications')}
+                    </Text>
+
+                    <TouchableOpacity onPress={handleMarkAllAsRead} className="w-10 items-end">
+                        <Feather name="check-circle" size={24} color="#3B82F6" />
+                    </TouchableOpacity>
+                </View>
             </View>
 
             {loading ? (
                 <View className="flex-1 justify-center items-center">
-                    <ActivityIndicator size="large" color="#3B82F6" />
+                    <MinimalLoader size="large" color="#000000" />
+                    <Text className="text-body-lg text-text-tertiary mt-4 font-text">
+                        {t('common.loading')}
+                    </Text>
                 </View>
             ) : (
                 <FlatList
                     data={notifications}
                     renderItem={renderItem}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                     refreshControl={
                         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#3B82F6" />
                     }
                     ListEmptyComponent={
-                        <View className="flex-1 justify-center items-center py-20 px-4">
-                            <View className="w-16 h-16 bg-gray-100 rounded-full items-center justify-center mb-4">
-                                <Ionicons name="notifications-off-outline" size={32} color="#9CA3AF" />
+                        <View className="flex-1 justify-center items-center py-20 px-6">
+                            <View className="w-20 h-20 bg-gray-100 rounded-full items-center justify-center mb-4">
+                                <Feather name="bell-off" size={36} color="#9CA3AF" />
                             </View>
-                            <Text className="text-gray-900 text-lg font-semibold mb-2">No Notifications</Text>
-                            <Text className="text-gray-500 text-center">
-                                You don't have any notifications yet. We'll let you know when something important happens.
+                            <Text className="text-heading-3 text-text-primary mb-2 font-display">
+                                {t('notifications.noNotifications')}
+                            </Text>
+                            <Text className="text-body-md text-text-secondary text-center font-text">
+                                {t('notifications.noNotificationsMessage')}
                             </Text>
                         </View>
                     }
-                    contentContainerStyle={notifications.length === 0 ? { flex: 1 } : { paddingBottom: 20 }}
+                    contentContainerStyle={notifications.length === 0 ? { flex: 1 } : { paddingTop: 16, paddingBottom: 20 }}
                 />
             )}
         </SafeAreaView>

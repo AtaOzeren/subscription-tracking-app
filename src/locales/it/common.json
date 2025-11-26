@@ -88,7 +88,23 @@
     "home": "Home",
     "subscriptions": "Abbonamenti",
     "statistics": "Statistiche",
-    "search": "Cerca"
+    "search": "Cerca",
+    "notifications": "Notifiche"
+  },
+  "notifications": {
+    "priceChange": "Cambio di prezzo",
+    "scheduled": "Programmato",
+    "autoRenewal": "Rinnovo automatico",
+    "announcement": "Annuncio",
+    "general": "Generale",
+    "noNotifications": "Nessuna notifica",
+    "noNotificationsMessage": "Non hai ancora notifiche. Ti informeremo quando succederà qualcosa di importante."
+  },
+  "time": {
+    "justNow": "Adesso",
+    "minutesAgo": "{{count}} min fa",
+    "hoursAgo": "{{count}} h fa",
+    "daysAgo": "{{count}} gg fa"
   },
   "subscriptions": {
     "manageYourSubscriptions": "Gestisci tutti i tuoi abbonamenti in un unico posto",

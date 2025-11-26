@@ -88,7 +88,23 @@
     "home": "Главная",
     "subscriptions": "Подписки",
     "statistics": "Статистика",
-    "search": "Поиск"
+    "search": "Поиск",
+    "notifications": "Уведомления"
+  },
+  "notifications": {
+    "priceChange": "Изменение цены",
+    "scheduled": "Запланировано",
+    "autoRenewal": "Автопродление",
+    "announcement": "Объявление",
+    "general": "Общее",
+    "noNotifications": "Нет уведомлений",
+    "noNotificationsMessage": "У вас пока нет уведомлений. Мы сообщим вам, когда произойдет что-то важное."
+  },
+  "time": {
+    "justNow": "Только что",
+    "minutesAgo": "{{count}} мин назад",
+    "hoursAgo": "{{count}} ч назад",
+    "daysAgo": "{{count}} дн назад"
   },
   "subscriptions": {
     "manageYourSubscriptions": "Управляйте всеми своими подписками в одном месте",
