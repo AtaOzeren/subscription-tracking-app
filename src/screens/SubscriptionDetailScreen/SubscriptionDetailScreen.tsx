@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Alert, Modal, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../locales';
 import { Feather } from '@expo/vector-icons';
 import { UserSubscription } from '../../types/subscription';
 import { useUpdateSubscription } from '../../hooks/useQueries';
@@ -280,7 +281,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               className="text-body-lg text-text-primary font-semibold"
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              {new Date(subscription.nextBillingDate).toLocaleDateString('en-US', {
+              {new Date(subscription.nextBillingDate).toLocaleDateString(i18n.language, {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
