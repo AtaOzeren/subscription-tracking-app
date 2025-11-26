@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { Text, TouchableOpacity, Animated, StyleSheet, View, Easing } from 'react-native';
+import { Text, TouchableOpacity, Animated, StyleSheet, View, Easing, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 interface PremiumSupportButtonProps {
-    onPress: () => void;
+    onPress?: () => void;
     title?: string;
     subtitle?: string;
 }
@@ -69,10 +70,23 @@ const Particle = ({ delay, duration, startX, startY, size }: { delay: number, du
     );
 };
 
-const PremiumSupportButton: React.FC<PremiumSupportButtonProps> = ({ onPress, title = "Support Me", subtitle }) => {
+const PremiumSupportButton: React.FC<PremiumSupportButtonProps> = ({ onPress, title, subtitle }) => {
+    const { t } = useTranslation();
+
+    const handlePress = () => {
+        if (onPress) {
+            onPress();
+        } else {
+            Linking.openURL('https://buymeacoffee.com/ataozeren');
+        }
+    };
+
+    const displayTitle = title || t('home.support');
+    const displaySubtitle = subtitle || t('home.supportDescription');
+
     return (
         <TouchableOpacity
-            onPress={onPress}
+            onPress={handlePress}
             activeOpacity={0.9}
             style={styles.container}
         >
@@ -105,10 +119,10 @@ const PremiumSupportButton: React.FC<PremiumSupportButtonProps> = ({ onPress, ti
                     <View style={styles.contentContainer}>
                         <View style={styles.headerContent}>
                             <Feather name="coffee" size={24} color="white" style={styles.icon} />
-                            <Text style={styles.text}>{title}</Text>
+                            <Text style={styles.text}>{displayTitle}</Text>
                         </View>
-                        {subtitle && (
-                            <Text style={styles.subtitle}>{subtitle}</Text>
+                        {displaySubtitle && (
+                            <Text style={styles.subtitle}>{displaySubtitle}</Text>
                         )}
                     </View>
                 </LinearGradient>

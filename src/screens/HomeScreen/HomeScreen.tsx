@@ -120,11 +120,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
 
             {/* Action Buttons */}
             <View className="px-6 mb-6">
-              <PremiumSupportButton
-                title={t('home.support')}
-                subtitle={t('home.supportDescription')}
-                onPress={() => Linking.openURL('https://buymeacoffee.com/ataozeren')}
-              />
+              <PremiumSupportButton />
             </View>
 
             {/* Add Subscription Buttons */}
