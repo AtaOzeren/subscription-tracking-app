@@ -367,14 +367,11 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
 
           {/* Add Custom Button */}
           <TouchableOpacity
-            onPress={() => {
-              setCustomSearchQuery('');
-              setShowCustomModal(true);
-            }}
-            className="bg-gray-100 rounded-2xl p-6 items-center mb-6"
+            onPress={() => setShowCustomModal(true)}
+            className="bg-white border-2 border-gray-200 rounded-2xl p-4 mb-3 flex-row items-center justify-center"
           >
-            <Text className="text-3xl mb-2">➕</Text>
-            <Text className="text-body-lg text-text-primary font-semibold font-display">
+            <Text className="text-2xl font-bold mr-2 text-tracking-blue">+</Text>
+            <Text className="text-body-lg font-semibold text-tracking-blue font-display">
               {t('addSubscription.addCustomButton')}
             </Text>
           </TouchableOpacity>

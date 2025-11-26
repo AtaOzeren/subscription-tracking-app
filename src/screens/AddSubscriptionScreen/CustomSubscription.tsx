@@ -177,7 +177,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
           }}
           placeholder="YYYY-MM-DD"
           editable={false}
-          rightIcon={<Feather name="calendar" size={20} color="#8E8E93" />}
+          rightIcon={<Feather name="calendar" size={20} color="#216477" />}
           onRightIconPress={() => setShowStartDatePicker(true)}
         />
 
@@ -187,7 +187,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
           onChangeText={setNextBillingDate}
           placeholder="YYYY-MM-DD"
           editable={false}
-          rightIcon={<Feather name="calendar" size={20} color="#8E8E93" />}
+          rightIcon={<Feather name="calendar" size={20} color="#216477" />}
           onRightIconPress={() => setShowNextBillingDatePicker(true)}
         />
 

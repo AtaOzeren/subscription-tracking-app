@@ -11,6 +11,7 @@ import MinimalLoader from '../../components/common/MinimalLoader';
 import ProfileUpdateModal from './modals/ProfileUpdateModal';
 import RegionalSettingsModal from './modals/RegionalSettingsModal';
 import SettingsScreen from '../SettingsScreen/SettingsScreen';
+import { Feather } from '@expo/vector-icons';
 import PremiumSupportButton from '../../components/common/PremiumSupportButton';
 
 interface ProfileScreenProps {
@@ -333,7 +334,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-heading-3 text-text-primary">✎</Text>
+                    <Feather name="edit-3" size={20} color="#216477" />
                   </View>
                   <View className="flex-1">
                     <Text
@@ -357,7 +358,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-heading-3 text-text-primary">⚑</Text>
+                    <Feather name="globe" size={20} color="#216477" />
                   </View>
                   <View className="flex-1">
                     <Text
@@ -381,7 +382,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-heading-3 text-text-primary">⚙</Text>
+                    <Feather name="settings" size={20} color="#216477" />
                   </View>
                   <View className="flex-1">
                     <Text

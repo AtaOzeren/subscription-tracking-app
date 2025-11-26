@@ -39,6 +39,11 @@
     "december": "Дек",
     "tryAgain": "Попробовать снова"
   },
+  "billingCycle": {
+    "weekly": "Еженедельно",
+    "monthly": "Ежемесячно",
+    "yearly": "Ежегодно"
+  },
   "auth": {
     "welcomeToApp": "Добро пожаловать в Sub-Tracking",
     "signInToAccount": "Войдите в свой аккаунт",

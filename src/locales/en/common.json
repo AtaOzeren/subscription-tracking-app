@@ -40,6 +40,11 @@
     "november": "Nov",
     "december": "Dec"
   },
+  "billingCycle": {
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  },
   "auth": {
     "welcomeToApp": "Welcome Sub-Tracking",
     "signInToAccount": "Sign in to your account",

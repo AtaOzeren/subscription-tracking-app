@@ -39,6 +39,11 @@
     "november": "Nov",
     "december": "Déc"
   },
+  "billingCycle": {
+    "weekly": "Hebdomadaire",
+    "monthly": "Mensuel",
+    "yearly": "Annuel"
+  },
   "auth": {
     "welcomeToApp": "Bienvenue dans Sub-Tracking",
     "signInToAccount": "Connectez-vous à votre compte",

@@ -39,6 +39,11 @@
     "december": "Ara",
     "tryAgain": "Tekrar Dene"
   },
+  "billingCycle": {
+    "weekly": "Haftalık",
+    "monthly": "Aylık",
+    "yearly": "Yıllık"
+  },
   "auth": {
     "welcomeToApp": "Abone Takip'e Hoş Geldiniz",
     "signInToAccount": "Hesabınıza giriş yapın",
