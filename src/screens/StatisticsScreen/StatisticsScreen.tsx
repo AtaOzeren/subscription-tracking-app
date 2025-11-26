@@ -140,25 +140,28 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
         ) : undefined}
         scrollEventThrottle={16}
       >
-        {/* Spending Card (Monthly or Yearly) */}
+        {/* Spending Card + Toggle Combined */}
         {stats && (
-          <SpendingCard
-            viewMode={viewMode}
-            monthlyAmount={stats.summary.current_month_total}
-            yearlyAmount={stats.projected_annual_cost}
-            currency={currency}
-            fadeAnim={fadeAnim}
-          />
-        )}
+          <View className="bg-tracking-blue rounded-2xl mx-4 p-5 mb-4">
+            <SpendingCard
+              viewMode={viewMode}
+              monthlyAmount={stats.summary.current_month_total}
+              yearlyAmount={stats.projected_annual_cost}
+              currency={currency}
+              fadeAnim={fadeAnim}
+            />
 
-        {/* Toggle Buttons */}
-        <View className="mt-4">
-          <ViewModeToggle
-            viewMode={viewMode}
-            onViewModeChange={handleViewModeChange}
-            slideAnim={slideAnim}
-          />
-        </View>
+            {/* Spacing */}
+            <View className="h-4" />
+
+            {/* Toggle Buttons */}
+            <ViewModeToggle
+              viewMode={viewMode}
+              onViewModeChange={handleViewModeChange}
+              slideAnim={slideAnim}
+            />
+          </View>
+        )}
 
         {/* Subscription Status Bar */}
         {stats && (
