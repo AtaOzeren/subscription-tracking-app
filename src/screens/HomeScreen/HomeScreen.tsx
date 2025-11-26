@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Animated, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Animated, Modal, Linking } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -11,8 +11,9 @@ import { StatsCards } from '../../components/stats/StatsCards';
 import MinimalSubscriptionCard from '../../components/subscription/MinimalSubscriptionCard';
 import MinimalLoader from '../../components/common/MinimalLoader';
 import SubscriptionDetailScreen from '../SubscriptionDetailScreen/SubscriptionDetailScreen';
-import { useMySubscriptions, useDeleteSubscription } from '../../hooks/useQueries';
+import { useMySubscriptions, useDeleteSubscription, useCategories } from '../../hooks/useQueries';
 import { UserSubscription } from '../../types/subscription';
+import CustomSubscription from '../AddSubscriptionScreen/CustomSubscription';
 
 interface HomeScreenProps {
   tabBarHeight?: number;
@@ -28,23 +29,18 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
   const insets = useSafeAreaInsets();
   const [greetingMessage, setGreetingMessage] = useState('');
   const [selectedSubscription, setSelectedSubscription] = useState<UserSubscription | null>(null);
+  const [showCustomSubscription, setShowCustomSubscription] = useState(false);
 
   // Use React Query hook for subscriptions - automatic caching!
   const { data: subscriptions = [], isLoading: loading, error, refetch, isRefetching } = useMySubscriptions();
+  const { data: categories = [] } = useCategories();
   const deleteSubscriptionMutation = useDeleteSubscription();
 
   useEffect(() => {
-    // Update greeting message when user changes or every minute
-    const updateGreeting = () => {
-      if (user?.name) {
-        setGreetingMessage(getGreetingMessage(user.name, t));
-      }
-    };
-
-    updateGreeting();
-    const interval = setInterval(updateGreeting, 60000); // Update every minute
-
-    return () => clearInterval(interval);
+    if (user?.name) {
+      const name = user.name.length > 5 ? user.name.substring(0, 5) + '...' : user.name;
+      setGreetingMessage(getGreetingMessage(name, t));
+    }
   }, [user?.name, t]);
 
   const handleRefresh = () => {
@@ -122,10 +118,21 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
             />
 
             {/* Action Buttons */}
+            <View className="px-6 mb-6">
+              <Button
+                title={t('home.support')}
+                onPress={() => Linking.openURL('https://buymeacoffee.com/ataozeren')}
+                variant="secondary"
+                size="large"
+                className="rounded-xl w-full"
+              />
+            </View>
+
+            {/* Add Subscription Buttons */}
             <View className="px-6 mb-6 flex-row gap-3">
               <View className="flex-1">
                 <Button
-                  title={t('home.addSubscription')}
+                  title={t('subscriptionActions.add')}
                   onPress={() => onNavigateToAddSubscription?.()}
                   variant="primary"
                   size="large"
@@ -134,9 +141,9 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
               </View>
               <View className="flex-1">
                 <Button
-                  title={t('home.support')}
-                  onPress={() => { }}
-                  variant="secondary"
+                  title={t('subscriptionActions.addCustom')}
+                  onPress={() => setShowCustomSubscription(true)}
+                  variant="primary"
                   size="large"
                   className="rounded-xl"
                 />
@@ -197,6 +204,18 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
           />
         </Modal>
       )}
+
+      {/* Custom Subscription Modal */}
+      <Modal
+        visible={showCustomSubscription}
+        animationType="slide"
+        presentationStyle="fullScreen"
+      >
+        <CustomSubscription
+          onClose={() => setShowCustomSubscription(false)}
+          categories={categories}
+        />
+      </Modal>
     </SafeAreaView>
   );
 };
