@@ -22,7 +22,7 @@ const FormField: React.FC<FormFieldProps> = ({
   ...textInputProps
 }) => {
   return (
-    <View className="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+    <View className="bg-white rounded-2xl p-4 mb-4 shadow-card">
       <Text className="text-body-md text-text-secondary font-semibold mb-2 font-display">
         {label} {required && '*'}
       </Text>

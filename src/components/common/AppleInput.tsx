@@ -25,7 +25,7 @@ const AppleInput: React.FC<AppleInputProps> = ({
       )}
       <TextInput
         className={`
-          w-full border rounded-2xl px-4 py-3 bg-white shadow-sm 
+          w-full border rounded-2xl px-4 py-3 bg-white shadow-ios-input 
           text-base text-center font-text
           ${error ? 'border-red-500' : 'border-gray-300'}
         `}

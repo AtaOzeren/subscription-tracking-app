@@ -45,7 +45,7 @@ const MinimalSubscriptionCard = ({
 
   return (
     <TouchableOpacity
-      className="bg-white rounded-lg p-3 mb-2 shadow-sm"
+      className="bg-white rounded-2xl p-3 mb-2 shadow-card"
       style={{
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },

@@ -52,7 +52,7 @@ export const MonthlySpendingCard: React.FC<MonthlySpendingCardProps> = ({
     });
 
     return (
-        <View className="rounded-2xl overflow-hidden shadow-sm h-32 bg-tracking-blue">
+        <View className="rounded-2xl overflow-hidden shadow-card h-32 bg-tracking-blue">
             {/* Main Background Gradient - Richer Depth */}
             <LinearGradient
                 colors={['#216477', '#174A59', '#0F3540']} // Richer gradient with 3 stops

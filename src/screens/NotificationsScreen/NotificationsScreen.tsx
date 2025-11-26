@@ -174,7 +174,7 @@ const NotificationsScreen = () => {
                 activeOpacity={0.7}
                 className="px-4 mb-3"
             >
-                <View className="bg-white rounded-2xl overflow-hidden shadow-sm">
+                <View className="bg-white rounded-2xl overflow-hidden shadow-card">
                     {!item.is_read && (
                         <LinearGradient
                             colors={[`${config.colors[0]}15`, `${config.colors[1]}05`]}

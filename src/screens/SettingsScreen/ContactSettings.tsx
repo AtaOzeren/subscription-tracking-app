@@ -124,7 +124,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
           contentContainerStyle={{ paddingBottom: 40 }}
         >
           <View className="items-center mb-8">
-            <View className="w-20 h-20 rounded-full bg-blue-50 items-center justify-center mb-4 shadow-sm">
+            <View className="w-20 h-20 rounded-full bg-blue-50 items-center justify-center mb-4 shadow-card">
               <Feather name="mail" size={36} color="#216477" />
             </View>
             <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
@@ -135,7 +135,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
             </Text>
           </View>
 
-          <View className="bg-white rounded-2xl p-6 shadow-sm space-y-5 mb-6">
+          <View className="bg-white rounded-2xl p-6 shadow-card space-y-5 mb-6">
             <View className="mb-1 relative z-50">
               <Text className="text-body-lg text-text-primary font-semibold mb-2 text-center" style={{ fontFamily: 'SF Pro Display' }}>
                 {t('contact.subject')}
@@ -230,7 +230,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
             />
           </View>
 
-          <View className="bg-white rounded-2xl p-6 shadow-sm space-y-6">
+          <View className="bg-white rounded-2xl p-6 shadow-card space-y-6">
             <View className="items-center">
               <Text className="text-body-sm text-text-muted mb-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('contact.supportEmailLabel')}
