@@ -53,7 +53,7 @@ const PlanSelector: React.FC<PlanSelectorProps> = ({
                   {plan.name}
                 </Text>
                 {price && (
-                  <Text className="text-2xl font-bold text-black font-display">
+                  <Text className="text-2xl font-bold text-tracking-black font-display">
                     {formatPrice(price.price, price.currency)}
                   </Text>
                 )}

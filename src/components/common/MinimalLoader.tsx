@@ -6,10 +6,10 @@ interface MinimalLoaderProps {
   color?: string;
 }
 
-const MinimalLoader: React.FC<MinimalLoaderProps> = ({ 
-  size = 'medium', 
-  color = '#000000' 
-}) => {
+const MinimalLoader: React.FC<MinimalLoaderProps> = ({
+  size = 'medium',
+  color = '#27323B'
+}: MinimalLoaderProps) => {
   const dot1 = useRef(new Animated.Value(0)).current;
   const dot2 = useRef(new Animated.Value(0)).current;
   const dot3 = useRef(new Animated.Value(0)).current;

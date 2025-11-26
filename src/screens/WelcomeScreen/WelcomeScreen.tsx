@@ -155,8 +155,8 @@ const WelcomeScreen = () => {
             className="text-center px-8"
             style={{
               fontFamily: 'SF Pro Text',
-              fontSize: 16,
-              color: '#8E8E93',
+              fontSize: 17,
+              color: '#27323B',
               lineHeight: 22,
               letterSpacing: 0.1,
             }}

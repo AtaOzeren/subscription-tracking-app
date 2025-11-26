@@ -536,7 +536,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                   </View>
                   <View className="flex-1">
                     <Text
-                      className="text-lg font-semibold text-black"
+                      className="text-lg font-semibold text-tracking-black"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t("subscriptionActions.edit")}
@@ -559,7 +559,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                   </View>
                   <View className="flex-1">
                     <Text
-                      className="text-lg font-semibold text-black"
+                      className="text-lg font-semibold text-tracking-black"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t("subscriptionActions.delete")}

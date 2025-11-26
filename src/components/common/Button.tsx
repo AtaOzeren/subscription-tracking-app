@@ -38,7 +38,7 @@ const Button = ({
 
   const textColorClasses = {
     primary: 'text-white',
-    secondary: 'text-black',
+    secondary: 'text-tracking-black',
     danger: 'text-white',
   };
 

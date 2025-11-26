@@ -63,6 +63,7 @@ module.exports = {
           warning: '#F59E0B',    // amber-500 - Warning states
         },
         'tracking-blue': '#216477',
+        'tracking-black': '#27323B',
       },
       boxShadow: {
         'ios-button': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',

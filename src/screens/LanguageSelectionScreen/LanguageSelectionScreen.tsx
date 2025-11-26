@@ -26,14 +26,14 @@ const LanguageSelectionScreen: React.FC = () => {
     }, [hasAnimated])
   );
 
-  // Flag colors for each language - Using black for all
+  // Flag colors for each language - Using tracking-black for all
   const languageColors = {
-    en: { border: '#000000', text: '#FFFFFF' },      // Black
-    de: { border: '#000000', text: '#FFCE00' },      // Black
-    tr: { border: '#000000', text: '#FFFFFF' },      // Black
-    it: { border: '#000000', text: '#FFFFFF' },      // Black
-    fr: { border: '#000000', text: '#FFFFFF' },      // Black
-    ru: { border: '#000000', text: '#FFFFFF' },      // Black
+    en: { border: '#27323B', text: '#FFFFFF' },
+    de: { border: '#27323B', text: '#FFCE00' },
+    tr: { border: '#27323B', text: '#FFFFFF' },
+    it: { border: '#27323B', text: '#FFFFFF' },
+    fr: { border: '#27323B', text: '#FFFFFF' },
+    ru: { border: '#27323B', text: '#FFFFFF' },
   };
 
   // Render flag badge with country colors
@@ -122,7 +122,7 @@ const LanguageSelectionScreen: React.FC = () => {
             fontFamily: 'SF Pro Display',
             fontSize: 32,
             fontWeight: 'bold',
-            color: '#000000',
+            color: '#27323B',
             marginBottom: 8,
             letterSpacing: -0.5,
           }}
@@ -174,7 +174,7 @@ const LanguageSelectionScreen: React.FC = () => {
                   shadowOpacity: 0.08,
                   shadowRadius: 4,
                   elevation: 2,
-                  borderColor: selectedLanguage === language.code ? '#000000' : '#E5E5EA',
+                  borderColor: selectedLanguage === language.code ? '#27323B' : '#E5E5EA',
                   borderWidth: 2,
                 }}
               >
@@ -186,7 +186,7 @@ const LanguageSelectionScreen: React.FC = () => {
                         className="font-semibold text-base"
                         style={{
                           fontFamily: 'SF Pro Display',
-                          color: selectedLanguage === language.code ? '#000000' : '#1C1C1E',
+                          color: selectedLanguage === language.code ? '#27323B' : '#1C1C1E',
                           fontSize: 17,
                         }}
                       >
@@ -207,8 +207,8 @@ const LanguageSelectionScreen: React.FC = () => {
                   <View
                     className="w-6 h-6 rounded-full border-2 items-center justify-center"
                     style={{
-                      borderColor: selectedLanguage === language.code ? '#000000' : '#C7C7CC',
-                      backgroundColor: selectedLanguage === language.code ? '#000000' : 'transparent',
+                      borderColor: selectedLanguage === language.code ? '#27323B' : '#C7C7CC',
+                      backgroundColor: selectedLanguage === language.code ? '#27323B' : 'transparent',
                     }}
                   >
                     {selectedLanguage === language.code && (

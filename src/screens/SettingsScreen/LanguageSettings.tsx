@@ -37,7 +37,7 @@ const LanguageSettings: React.FC<LanguageSettingsProps> = ({ onClose }) => {
       case 'de':
         return (
           <View className="w-8 h-8 rounded-full overflow-hidden">
-            <View className="flex-1" style={{ backgroundColor: '#000000' }} />
+            <View className="flex-1" style={{ backgroundColor: '#27323B' }} />
             <View className="flex-1" style={{ backgroundColor: '#DD0000' }} />
             <View className="flex-1" style={{ backgroundColor: '#FFCE00' }} />
           </View>
@@ -101,7 +101,7 @@ const LanguageSettings: React.FC<LanguageSettingsProps> = ({ onClose }) => {
             {t('settings.language')}
           </Text>
           <TouchableOpacity onPress={handleSaveLanguage} disabled={isLoading}>
-            <Text className="text-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
+            <Text className="text-tracking-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
               {t('common.save')}
             </Text>
           </TouchableOpacity>

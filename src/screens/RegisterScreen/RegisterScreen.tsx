@@ -137,7 +137,7 @@ const RegisterScreen: React.FC = () => {
                   fontFamily: 'SF Pro Display',
                   fontSize: 32,
                   fontWeight: 'bold',
-                  color: '#000000',
+                  color: '#27323B',
                   marginBottom: 8,
                   letterSpacing: -0.5,
                 }}
@@ -268,7 +268,7 @@ const RegisterScreen: React.FC = () => {
                 onPress={() => navigation.navigate('Login' as never)}
                 activeOpacity={0.6}
               >
-                <Text className="text-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-tracking-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
                   Sign In
                 </Text>
               </TouchableOpacity>

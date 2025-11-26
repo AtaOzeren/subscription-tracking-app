@@ -118,9 +118,9 @@ const LoadingScreen: React.FC = () => {
       <Text
         style={{
           fontFamily: 'SF Pro Display',
-          fontSize: 28,
+          fontSize: 32,
           fontWeight: 'bold',
-          color: '#000000',
+          color: '#27323B',
           marginBottom: 8,
           letterSpacing: -0.5,
         }}

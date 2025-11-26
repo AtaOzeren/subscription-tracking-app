@@ -135,11 +135,14 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                       className="flex-1 items-center justify-center"
                       activeOpacity={0.7}
                     >
-                      <View className="items-center justify-center px-2 py-1">
+                      <View
+                        className={`items-center justify-center px-2 py-1 ${tab.isActive ? 'bg-white/80 rounded-2xl' : ''}`}
+                        style={tab.isActive ? { paddingHorizontal: 12, paddingVertical: 6 } : {}}
+                      >
                         <Ionicons
                           name={tab.iconName as any}
                           size={26}
-                          color="#000000"
+                          color="#27323B"
                           className="mb-1"
                         />
                         <Animated.View
@@ -152,7 +155,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                             overflow: 'hidden',
                           }}
                         >
-                          <Text className="text-black text-xs text-center font-text font-medium">
+                          <Text className="text-tracking-black text-xs text-center font-text font-medium">
                             {tab.label}
                           </Text>
                         </Animated.View>
@@ -188,13 +191,13 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                 className="rounded-[28px] overflow-hidden bg-white/10"
               >
                 <View className="flex-row items-center px-4 py-3">
-                  <Ionicons name="search" size={20} color="#000000" />
+                  <Ionicons name="search" size={20} color="#27323B" />
                   <TextInput
                     value={searchQuery}
                     onChangeText={onSearchChange}
                     placeholder="Search subscriptions..."
                     placeholderTextColor="#9CA3AF"
-                    className="flex-1 ml-3 text-base text-black font-text"
+                    className="flex-1 ml-3 text-base text-tracking-black font-text"
                     autoFocus={searchMode}
                   />
                   {searchQuery.length > 0 && (
@@ -230,7 +233,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                     <Ionicons
                       name={searchMode ? 'close' : searchTab.iconName as any}
                       size={26}
-                      color="#000000"
+                      color="#27323B"
                     />
                   </TouchableOpacity>
                 </BlurView>

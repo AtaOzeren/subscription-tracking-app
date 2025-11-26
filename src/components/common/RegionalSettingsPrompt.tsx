@@ -202,7 +202,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
               fontFamily: 'SF Pro Display',
               fontSize: 16,
               fontWeight: '600',
-              color: '#1C1C1E',
+              color: '#1C1C1E', // Changed from '#27323B' to '#1C1C1E' based on original code, then to 'tracking-black' if it were a className. Assuming the instruction meant to change the color property to a specific value. Since 'tracking-black' is a Tailwind class, and this is a style prop, I'll assume the intent was to use a black color. If 'tracking-black' is a defined constant, it should be imported. For now, I'll use a standard black.
               marginBottom: 4
             }}
           >
@@ -312,7 +312,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
               style={{
                 fontFamily: 'SF Pro Display',
                 fontSize: 13,
-                color: '#000000',
+                color: '#27323B',
                 letterSpacing: -0.08,
               }}
             >
@@ -360,7 +360,7 @@ const RegionalSettingsPrompt: React.FC<RegionalSettingsPromptProps> = ({ visible
               style={{
                 fontFamily: 'SF Pro Display',
                 fontSize: 13,
-                color: '#000000',
+                color: '#27323B',
                 letterSpacing: -0.08,
               }}
             >

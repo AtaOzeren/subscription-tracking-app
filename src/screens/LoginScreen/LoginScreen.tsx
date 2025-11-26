@@ -101,7 +101,7 @@ const LoginScreen: React.FC = () => {
                   fontFamily: 'SF Pro Display',
                   fontSize: 32,
                   fontWeight: 'bold',
-                  color: '#000000',
+                  color: '#27323B',
                   marginBottom: 8,
                   letterSpacing: -0.5,
                 }}
@@ -190,7 +190,7 @@ const LoginScreen: React.FC = () => {
                 onPress={() => navigation.navigate('Register' as never)}
                 activeOpacity={0.6}
               >
-                <Text className="text-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
+                <Text className="text-tracking-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
                   {t('common.signUp')}
                 </Text>
               </TouchableOpacity>

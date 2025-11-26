@@ -85,10 +85,11 @@ const AppleButton: React.FC<AppleButtonProps> = ({
 
   // Text color classes
   const textColorClasses = {
-    primary: 'text-white',
+    primary: disabled ? 'text-white/50' : 'text-white',
     secondary: 'text-white',
-    outline: disabled ? 'text-gray-300' : 'text-black',
+    outline: disabled ? 'text-gray-300' : 'text-tracking-black',
     danger: 'text-white',
+    ghost: disabled ? 'text-gray-300' : 'text-blue-600',
   };
 
   return (
@@ -112,7 +113,7 @@ const AppleButton: React.FC<AppleButtonProps> = ({
       >
         {loading ? (
           <ActivityIndicator
-            color={variant === 'outline' ? '#000000' : '#FFFFFF'}
+            color={variant === 'outline' ? '#27323B' : '#FFFFFF'}
             size="small"
           />
         ) : (

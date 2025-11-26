@@ -170,7 +170,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
                     className={`w-full border rounded-2xl px-4 py-3 bg-white flex-row justify-between items-center ${errors.subject ? 'border-red-500' : 'border-gray-300'
                       }`}
                   >
-                    <Text className={`text-base ${selectedSubjectType ? 'text-black' : 'text-gray-400'}`} style={{ fontFamily: 'SF Pro Text' }}>
+                    <Text className={`text-base ${selectedSubjectType ? 'text-tracking-black' : 'text-gray-400'}`} style={{ fontFamily: 'SF Pro Text' }}>
                       {selectedSubjectType
                         ? t(`contact.subjects.${selectedSubjectType}`)
                         : t('contact.subjectPlaceholder')}
