@@ -39,7 +39,6 @@ const NotificationsScreen = () => {
     const fetchNotifications = useCallback(async () => {
         try {
             const data = await notificationService.getNotifications();
-            console.log('[NotificationsScreen] Fetched notifications:', data);
             setNotifications(data || []);
         } catch (error) {
             console.error('Failed to fetch notifications:', error);
@@ -192,7 +191,7 @@ const NotificationsScreen = () => {
                                 colors={config.colors}
                                 start={{ x: 0, y: 0 }}
                                 end={{ x: 1, y: 1 }}
-                                className="w-12 h-12 items-center justify-center mr-3"
+                                className="w-12 h-12 items-center justify-center mr-4 mt-1"
                                 style={{ borderRadius: 16 }}
                             >
                                 <Feather name={config.icon as any} size={20} color="white" />
@@ -202,14 +201,14 @@ const NotificationsScreen = () => {
                             <View className="flex-1">
                                 <View className="flex-row items-center justify-between mb-1">
                                     {config.bgColor !== 'transparent' && (
-                                        <View className="px-2 py-0.5 rounded-full" style={{ backgroundColor: config.bgColor }}>
+                                        <View className="px-2 py-0.5 rounded-full ml-2" style={{ backgroundColor: config.bgColor }}>
                                             <Text className="text-xs font-semibold font-display" style={{ color: config.textColor }}>
                                                 {config.label}
                                             </Text>
                                         </View>
                                     )}
                                     {config.bgColor === 'transparent' && (
-                                        <Text className="text-xs font-semibold font-display" style={{ color: config.textColor }}>
+                                        <Text className="text-xs font-semibold font-display ml-2" style={{ color: config.textColor }}>
                                             {config.label}
                                         </Text>
                                     )}
