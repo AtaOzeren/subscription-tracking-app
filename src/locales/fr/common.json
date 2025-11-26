@@ -53,7 +53,8 @@
     "addNewSubscription": "Ajouter un Nouvel Abonnement",
     "viewAll": "Voir tout",
     "addSubscription": "Ajouter un abonnement",
-    "support": "Soutien"
+    "support": "Soutien",
+    "supportDescription": "Je développe cette application gratuitement et sans publicité. Votre soutien signifierait beaucoup pour moi."
   },
   "language": {
     "selectLanguage": "Sélectionner la Langue",

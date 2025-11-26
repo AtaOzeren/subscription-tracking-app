@@ -53,7 +53,8 @@
     "addNewSubscription": "Yeni Abonelik Ekle",
     "viewAll": "Tümünü Gör",
     "addSubscription": "Abonelik Ekle",
-    "support": "Destek Ver"
+    "support": "Destek Ver",
+    "supportDescription": "Uygulamayı reklamsız ve ücretsiz geliştiriyorum. Desteğiniz beni çok mutlu eder."
   },
   "language": {
     "selectLanguage": "Dil Seçin",

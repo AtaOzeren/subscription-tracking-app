@@ -55,7 +55,8 @@
     "addNewSubscription": "Add New Subscription",
     "viewAll": "View All",
     "addSubscription": "Add Subscription",
-    "support": "Support"
+    "support": "Support",
+    "supportDescription": "I develop this app for free without ads. Your support would mean a lot to me."
   },
   "language": {
     "selectLanguage": "Select Language",

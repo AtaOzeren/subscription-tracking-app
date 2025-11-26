@@ -53,7 +53,8 @@
     "addNewSubscription": "Neues Abonnement hinzufügen",
     "viewAll": "Alle anzeigen",
     "addSubscription": "Abonnement hinzufügen",
-    "support": "Unterstützen"
+    "support": "Unterstützung",
+    "supportDescription": "Ich entwickle diese App kostenlos und ohne Werbung. Deine Unterstützung würde mir sehr viel bedeuten."
   },
   "language": {
     "selectLanguage": "Sprache auswählen",
