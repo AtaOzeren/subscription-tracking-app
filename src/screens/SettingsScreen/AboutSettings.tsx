@@ -15,7 +15,7 @@ const AboutSettings: React.FC<AboutSettingsProps> = ({ onClose }) => {
 
   return (
     <View className="flex-1 bg-gray-50">
-      <View className="bg-white border-b border-gray-200" style={{ paddingTop: insets.top }}>
+      <View className="bg-gray-50" style={{ paddingTop: insets.top }}>
         <View className="px-4 pt-2 pb-3 flex-row items-center">
           <BackButton onPress={onClose} />
           <Text className="text-heading-3 flex-1 ml-2" style={{ fontFamily: 'SF Pro Display' }}>

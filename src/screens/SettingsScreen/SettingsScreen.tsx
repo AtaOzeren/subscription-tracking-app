@@ -18,7 +18,7 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
   const insets = useSafeAreaInsets();
   const { currentLanguage } = useLanguage();
   const { t } = useTranslation();
-  
+
   // Modal states
   const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
   const [showSecurityModal, setShowSecurityModal] = useState(false);
@@ -68,7 +68,7 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
     <View className="flex-1 bg-gray-50">
       {/* Header */}
       <View
-        className="bg-white border-b border-gray-200"
+        className="bg-gray-50"
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-2 pb-3 flex-row items-center">

@@ -442,7 +442,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
     <View className="flex-1 bg-gray-50">
       {/* Header - Fixed at top with status bar */}
       <View
-        className="bg-white border-b border-gray-200"
+        className="bg-gray-50"
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center">

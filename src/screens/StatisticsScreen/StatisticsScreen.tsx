@@ -108,18 +108,16 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       {/* Header - Top Bar Style with Profile Button */}
-      <View className="bg-white border-b border-gray-200">
-        <View className="px-6 py-4">
-          <View className="flex-row justify-between items-center">
-            <View className="flex-1">
-              <Text className="text-heading-1 text-text-primary font-display">
-                {t('navigation.statistics')}
-              </Text>
-            </View>
-            <View className="flex-row items-center gap-3">
-              <NotificationButton />
-              <ProfileButton onPress={handleProfilePress} />
-            </View>
+      <View className="px-6 py-4">
+        <View className="flex-row justify-between items-center">
+          <View className="flex-1">
+            <Text className="text-heading-1 text-text-primary font-display">
+              {t('navigation.statistics')}
+            </Text>
+          </View>
+          <View className="flex-row items-center gap-3">
+            <NotificationButton />
+            <ProfileButton onPress={handleProfilePress} />
           </View>
         </View>
       </View>

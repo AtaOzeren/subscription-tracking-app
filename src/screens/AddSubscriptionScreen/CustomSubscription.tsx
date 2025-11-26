@@ -99,7 +99,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
     <View className="flex-1 bg-gray-50">
       {/* Header */}
       <View
-        className="bg-white border-b border-gray-200"
+        className="bg-gray-50"
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">

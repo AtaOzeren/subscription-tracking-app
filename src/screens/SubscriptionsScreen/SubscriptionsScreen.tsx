@@ -121,8 +121,8 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Header + Category Filter - White Background */}
-      <View className="bg-white pb-3">
+      {/* Header + Category Filter */}
+      <View className="pb-3">
         {/* Header */}
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
           <View className="flex-1">

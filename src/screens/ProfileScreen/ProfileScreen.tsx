@@ -126,7 +126,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
     <View className="flex-1 bg-gray-50">
       {/* Header */}
       <View
-        className="bg-white border-b border-gray-200"
+        className="bg-gray-50"
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
@@ -173,7 +173,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
         ) : (
           <>
             {/* Profile Header */}
-            <View className="bg-white p-6 mb-3">
+            <View className="bg-tracking-blue p-6 mb-3 rounded-2xl mx-4">
               <View className="flex-row items-center">
                 {/* Avatar Circle - Left */}
                 {user?.avatar && !avatarError ? (
@@ -187,9 +187,9 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                     }}
                   />
                 ) : (
-                  <View className="w-20 h-20 rounded-full bg-blue-100 items-center justify-center mr-4">
+                  <View className="w-20 h-20 rounded-full bg-white/20 items-center justify-center mr-4">
                     <Text
-                      className="text-heading-1 text-accent"
+                      className="text-heading-1 text-white"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {user?.name?.charAt(0).toUpperCase() || 'U'}
@@ -200,13 +200,13 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                 {/* Name and Email - Right */}
                 <View className="flex-1">
                   <Text
-                    className="text-heading-3 text-text-primary mb-1"
+                    className="text-heading-3 text-white mb-1"
                     style={{ fontFamily: 'SF Pro Display' }}
                   >
                     {user?.name || 'User'}
                   </Text>
                   <Text
-                    className="text-body-lg text-text-tertiary"
+                    className="text-body-lg text-white/80"
                     style={{ fontFamily: 'SF Pro Text' }}
                   >
                     {user?.email || 'No email'}
