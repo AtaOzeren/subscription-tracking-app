@@ -106,7 +106,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
           <View className="flex-row items-center justify-between">
             {/* Left side - 3 tabs or search input */}
             <Animated.View
-              className="flex-1 mr-3 overflow-hidden rounded-[28px] shadow-modal bg-white/20"
+              className="flex-1 mr-3 overflow-hidden rounded-[28px] shadow-modal"
               style={{
                 opacity: searchSlideAnim.interpolate({
                   inputRange: [0, 1],
@@ -136,7 +136,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                       activeOpacity={0.7}
                     >
                       <View
-                        className={`items-center justify-center px-2 py-1 ${tab.isActive ? 'bg-white/80 rounded-2xl' : ''}`}
+                        className={`items-center justify-center px-2 py-1 ${tab.isActive ? 'bg-gray-50 rounded-2xl' : ''}`}
                         style={tab.isActive ? { paddingHorizontal: 12, paddingVertical: 6 } : {}}
                       >
                         <Ionicons
@@ -168,7 +168,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
 
             {/* Search Input - Slides in from right */}
             <Animated.View
-              className="absolute left-0 right-20 overflow-hidden rounded-[28px] shadow-modal bg-white/20"
+              className="absolute left-0 right-20 overflow-hidden rounded-[28px] shadow-modal"
               style={{
                 opacity: searchSlideAnim.interpolate({
                   inputRange: [0, 1],
@@ -212,7 +212,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
             {/* Right side - Search button or close button */}
             {searchTab && (
               <View
-                className="overflow-hidden shadow-modal bg-white/20"
+                className="overflow-hidden shadow-modal"
                 style={{
                   width: SEARCH_BUTTON_SIZE,
                   height: SEARCH_BUTTON_SIZE,
