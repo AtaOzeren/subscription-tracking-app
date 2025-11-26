@@ -140,15 +140,6 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
         ) : undefined}
         scrollEventThrottle={16}
       >
-        {/* Toggle Buttons */}
-        <View className="mt-4">
-          <ViewModeToggle
-            viewMode={viewMode}
-            onViewModeChange={handleViewModeChange}
-            slideAnim={slideAnim}
-          />
-        </View>
-
         {/* Spending Card (Monthly or Yearly) */}
         {stats && (
           <SpendingCard
@@ -159,6 +150,15 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
             fadeAnim={fadeAnim}
           />
         )}
+
+        {/* Toggle Buttons */}
+        <View className="mt-4">
+          <ViewModeToggle
+            viewMode={viewMode}
+            onViewModeChange={handleViewModeChange}
+            slideAnim={slideAnim}
+          />
+        </View>
 
         {/* Subscription Status Bar */}
         {stats && (
