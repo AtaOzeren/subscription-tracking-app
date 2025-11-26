@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { Feather } from '@expo/vector-icons';
 import BackButton from '../../components/common/BackButton';
 
 interface NotificationSettingsProps {
@@ -26,7 +27,7 @@ const NotificationSettings: React.FC<NotificationSettingsProps> = ({ onClose }) 
       <ScrollView className="flex-1 p-6">
         <View className="items-center mb-6">
           <View className="w-16 h-16 rounded-full bg-gray-100 items-center justify-center mb-4">
-            <Text className="text-3xl">🔔</Text>
+            <Feather name="bell" size={32} color="#216477" />
           </View>
           <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
             {t('settings.notificationsTitle')}

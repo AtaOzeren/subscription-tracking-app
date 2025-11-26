@@ -25,7 +25,7 @@ const Button = ({
   };
 
   const variantClasses = {
-    primary: 'bg-black',
+    primary: 'bg-tracking-blue',
     secondary: 'bg-white border border-black',
     danger: 'bg-red-500',
   };

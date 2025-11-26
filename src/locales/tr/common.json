@@ -365,7 +365,9 @@
     "notificationsDescription": "Yaklaşan ödemeler ve yenilemeler hakkında sizi uyaracak akıllı bir bildirim sistemi oluşturuyoruz.",
     "deleteLocalData": "Yerel SQL Verilerini Sil",
     "deleteLocalDataTitle": "Yerel Verileri Sil",
-    "deleteLocalDataMessage": "Tüm yerel verileri silmek istediğinize emin misiniz? Bu işlem sizi çıkışa yönlendirecek ve uygulamayı sıfırlayacaktır."
+    "deleteLocalDataMessage": "Tüm yerel verileri silmek istediğinize emin misiniz? Bu işlem sizi çıkışa yönlendirecek ve uygulamayı sıfırlayacaktır.",
+    "clearAppData": "Uygulama Verilerini Temizle",
+    "clearAppDataWarning": "Bu işlem sizi çıkış yapacak ve tüm yerel verileri kaldıracak"
   },
   "contact": {
     "title": "Bize Ulaşın",

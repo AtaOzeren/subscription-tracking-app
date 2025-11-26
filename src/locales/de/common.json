@@ -365,7 +365,9 @@
     "notificationsDescription": "Wir entwickeln ein intelligentes Benachrichtigungssystem, um Sie an bevorstehende Zahlungen und Verlängerungen zu erinnern.",
     "deleteLocalData": "Lokale SQL-Daten löschen",
     "deleteLocalDataTitle": "Lokale Daten löschen",
-    "deleteLocalDataMessage": "Sind Sie sicher, dass Sie alle lokalen Daten löschen möchten? Dies wird Sie abmelden und die App zurücksetzen."
+    "deleteLocalDataMessage": "Sind Sie sicher, dass Sie alle lokalen Daten löschen möchten? Dies wird Sie abmelden und die App zurücksetzen.",
+    "clearAppData": "App-Daten löschen",
+    "clearAppDataWarning": "Dies wird Sie abmelden und alle lokalen Daten entfernen"
   },
   "contact": {
     "title": "Kontaktieren Sie uns",

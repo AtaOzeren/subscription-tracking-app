@@ -365,7 +365,9 @@
     "notificationsDescription": "We're building a smart notification system to remind you about upcoming payments and renewals.",
     "deleteLocalData": "Delete Local SQL Data",
     "deleteLocalDataTitle": "Delete Local Data",
-    "deleteLocalDataMessage": "Are you sure you want to delete all local data? This will log you out and reset the app."
+    "deleteLocalDataMessage": "Are you sure you want to delete all local data? This will log you out and reset the app.",
+    "clearAppData": "Clear App Data",
+    "clearAppDataWarning": "This will log you out and remove all local data"
   },
   "error": {
     "title": "Oops!",

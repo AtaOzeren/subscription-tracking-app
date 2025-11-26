@@ -365,7 +365,9 @@
     "notificationsDescription": "Nous développons un système de notification intelligent pour vous rappeler les paiements et renouvellements à venir.",
     "deleteLocalData": "Supprimer les données SQL locales",
     "deleteLocalDataTitle": "Supprimer les données locales",
-    "deleteLocalDataMessage": "Êtes-vous sûr de vouloir supprimer toutes les données locales ? Cela vous déconnectera et réinitialisera l'application."
+    "deleteLocalDataMessage": "Êtes-vous sûr de vouloir supprimer toutes les données locales ? Cela vous déconnectera et réinitialisera l'application.",
+    "clearAppData": "Effacer les données de l'app",
+    "clearAppDataWarning": "Cela vous déconnectera et supprimera toutes les données locales"
   },
   "contact": {
     "title": "Contactez-nous",

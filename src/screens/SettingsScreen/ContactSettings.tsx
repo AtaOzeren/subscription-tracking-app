@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, Alert, KeyboardAvoidingView, Platform, TouchableOpacity, Linking } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { Feather } from '@expo/vector-icons';
 import BackButton from '../../components/common/BackButton';
 import AppleInput from '../../components/common/AppleInput';
 import Button from '../../components/common/Button';
@@ -124,7 +125,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
         >
           <View className="items-center mb-8">
             <View className="w-20 h-20 rounded-full bg-blue-50 items-center justify-center mb-4 shadow-sm">
-              <Text className="text-4xl">✉️</Text>
+              <Feather name="mail" size={36} color="#216477" />
             </View>
             <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
               {t('contact.subtitle')}
