@@ -126,22 +126,26 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
             {/* Add Subscription Buttons */}
             <View className="px-6 mb-6 flex-row gap-3">
               <View className="flex-1">
-                <Button
-                  title={t('subscriptionActions.add')}
+                <TouchableOpacity
                   onPress={() => onNavigateToAddSubscription?.()}
-                  variant="primary"
-                  size="large"
-                  className="rounded-xl"
-                />
+                  className="bg-tracking-blue rounded-xl py-3 items-center"
+                  activeOpacity={0.8}
+                >
+                  <Text className="text-body-lg font-semibold text-white font-display">
+                    {t('subscriptionActions.add')}
+                  </Text>
+                </TouchableOpacity>
               </View>
               <View className="flex-1">
-                <Button
-                  title={t('subscriptionActions.addCustom')}
+                <TouchableOpacity
                   onPress={() => setShowCustomSubscription(true)}
-                  variant="primary"
-                  size="large"
-                  className="rounded-xl"
-                />
+                  className="bg-tracking-blue rounded-xl py-3 items-center"
+                  activeOpacity={0.8}
+                >
+                  <Text className="text-body-lg font-semibold text-white font-display">
+                    {t('subscriptionActions.addCustom')}
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -155,7 +159,7 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
                   onPress={onNavigateToSubscriptions}
                   activeOpacity={0.7}
                 >
-                  <Text className="text-body-md font-semibold text-accent">
+                  <Text className="text-body-md font-semibold text-tracking-blue">
                     {t('home.viewAll')}
                   </Text>
                 </TouchableOpacity>

@@ -35,7 +35,7 @@ const MinimalSubscriptionCard = ({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return '#10B981';      // Green
+      case 'active': return '#216477';      // Tracking Blue
       case 'cancelled': return '#EF4444';   // Red
       case 'expired': return '#F59E0B';     // Orange
       case 'paused': return '#6B7280';      // Gray
