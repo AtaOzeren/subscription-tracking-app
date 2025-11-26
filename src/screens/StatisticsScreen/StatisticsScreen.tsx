@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, Animated, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Animated, RefreshControl, TouchableOpacity, Easing, Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useDetailedStats } from '../../hooks/useQueries';
@@ -68,6 +69,40 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
     // Initialize slide position
     slideAnim.setValue(viewMode === 'yearly' ? 1 : 0);
   }, []);
+
+  // Shine animation
+  const shineAnim = React.useRef(new Animated.Value(0)).current;
+  const screenWidth = Dimensions.get('window').width;
+  const cardWidth = screenWidth - 32; // mx-4 = 16*2 = 32
+
+  React.useEffect(() => {
+    const startAnimation = () => {
+      shineAnim.setValue(0);
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(shineAnim, {
+            toValue: 1,
+            duration: 2500,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.delay(12500),
+          Animated.timing(shineAnim, {
+            toValue: 0,
+            duration: 0,
+            useNativeDriver: true,
+          })
+        ])
+      ).start();
+    };
+
+    startAnimation();
+  }, [shineAnim]);
+
+  const translateX = shineAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [-cardWidth, cardWidth],
+  });
 
   const handleRefresh = () => {
     refetch();
@@ -140,24 +175,62 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
       >
         {/* Spending Card + Toggle Combined */}
         {stats && (
-          <View className="bg-tracking-blue rounded-2xl mx-4 p-5 mb-4">
-            <SpendingCard
-              viewMode={viewMode}
-              monthlyAmount={stats.summary.current_month_total}
-              yearlyAmount={stats.projected_annual_cost}
-              currency={currency}
-              fadeAnim={fadeAnim}
+          <View className="bg-tracking-blue rounded-2xl mx-4 overflow-hidden shadow-card mb-4 relative">
+            {/* Main Background Gradient */}
+            <LinearGradient
+              colors={['#216477', '#174A59', '#0F3540']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
             />
 
-            {/* Spacing */}
-            <View className="h-4" />
-
-            {/* Toggle Buttons */}
-            <ViewModeToggle
-              viewMode={viewMode}
-              onViewModeChange={handleViewModeChange}
-              slideAnim={slideAnim}
+            {/* Top Highlight */}
+            <LinearGradient
+              colors={['rgba(255,255,255,0.15)', 'transparent']}
+              start={{ x: 0.5, y: 0 }}
+              end={{ x: 0.5, y: 0.5 }}
+              style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '50%' }}
             />
+
+            {/* Animated Shine Effect */}
+            <Animated.View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                width: '50%',
+                transform: [{ translateX }],
+                opacity: 0.3,
+                zIndex: 10,
+              }}
+            >
+              <LinearGradient
+                colors={['transparent', 'rgba(255,255,255,0.8)', 'transparent']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ flex: 1 }}
+              />
+            </Animated.View>
+
+            <View className="p-5">
+              <SpendingCard
+                viewMode={viewMode}
+                monthlyAmount={stats.summary.current_month_total}
+                yearlyAmount={stats.projected_annual_cost}
+                currency={currency}
+                fadeAnim={fadeAnim}
+              />
+
+              {/* Spacing */}
+              <View className="h-4" />
+
+              {/* Toggle Buttons */}
+              <ViewModeToggle
+                viewMode={viewMode}
+                onViewModeChange={handleViewModeChange}
+                slideAnim={slideAnim}
+              />
+            </View>
           </View>
         )}
 
