@@ -230,7 +230,8 @@
     "lowest": "Niedrigste",
     "total6Months": "6-Monats-Summe",
     "yearlyProjectionInfo": "Jahresprognose Info",
-    "yearlyProjectionDescription": "Dies ist eine Schätzung basierend auf Ihren aktuell aktiven Abonnements. Wenn sich Abonnementpreise ändern oder Sie neue Abonnements hinzufügen, wird diese Prognose automatisch aktualisiert.",
+    "yearlyProjectionDescription": "Dies ist eine Schätzung basierend auf Ihren aktuellen aktiven Abonnements. Es wird angenommen, dass alle monatlichen Abonnements 12 Monate lang fortgesetzt werden.",
+    "total": "Gesamt",
     "errorLoading": "Fehler beim Laden der Statistiken",
     "tryAgain": "Erneut versuchen",
     "others": "Andere"

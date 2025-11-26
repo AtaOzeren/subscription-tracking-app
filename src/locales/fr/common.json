@@ -231,6 +231,7 @@
     "total6Months": "Total sur 6 mois",
     "yearlyProjectionInfo": "Info sur la projection annuelle",
     "yearlyProjectionDescription": "Il s'agit d'une estimation basée sur vos abonnements actuellement actifs. Lorsque les prix des abonnements changent ou que vous ajoutez de nouveaux abonnements, cette projection sera automatiquement mise à jour.",
+    "total": "Total",
     "errorLoading": "Échec du chargement des statistiques",
     "tryAgain": "Réessayer",
     "others": "Autres"

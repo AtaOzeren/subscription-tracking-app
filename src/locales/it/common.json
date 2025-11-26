@@ -230,7 +230,8 @@
     "lowest": "Più basso",
     "total6Months": "Totale 6 mesi",
     "yearlyProjectionInfo": "Info proiezione annuale",
-    "yearlyProjectionDescription": "Questa è una stima basata sui tuoi abbonamenti attualmente attivi. Man mano che i prezzi degli abbonamenti cambiano o aggiungi nuovi abbonamenti, questa proiezione verrà automaticamente aggiornata.",
+    "yearlyProjectionDescription": "Questa è una stima basata sui tuoi attuali abbonamenti attivi. Si presume che tutti gli abbonamenti mensili continuino per 12 mesi.",
+    "total": "Totale",
     "errorLoading": "Impossibile caricare le statistiche",
     "tryAgain": "Riprova",
     "others": "Altri"

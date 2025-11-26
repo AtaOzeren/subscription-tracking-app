@@ -231,6 +231,7 @@
     "total6Months": "6 Aylık Toplam",
     "yearlyProjectionInfo": "Yıllık Tahmini Bilgi",
     "yearlyProjectionDescription": "Bu değer, mevcut aktif aboneliklerinize dayalı bir tahminidir. Abonelik fiyatları değiştikçe veya yeni abonelikler ekledikçe bu tahmini de otomatik olarak güncellenecektir.",
+    "total": "Toplam",
     "errorLoading": "İstatistikler yüklenemedi",
     "tryAgain": "Tekrar Dene",
     "others": "Diğerleri"
