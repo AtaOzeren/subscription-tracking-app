@@ -32,44 +32,42 @@ export const SpendingCard: React.FC<SpendingCardProps> = ({
   };
 
   return (
-    <View className="px-4 mb-4">
-      <View className="bg-white rounded-2xl p-4">
-        <Animated.View 
-          className="flex-row items-center justify-between"
-          style={{ opacity: fadeAnim }}
-        >
-          <View className="flex-row items-center">
-            <Text className="text-body-lg text-text-muted font-text">
-              {viewMode === 'monthly' ? t('stats.monthlySpending') : t('stats.yearlyProjection')}
-            </Text>
-            {viewMode === 'yearly' && (
-              <TouchableOpacity onPress={showYearlyInfo} className="ml-2">
-                <View className="w-6 h-6 items-center justify-center" style={{ opacity: 0.5 }}>
-                  <Svg width="24" height="24" viewBox="0 0 24 24">
-                    {/* Empty yellow triangle outline */}
-                    <Polygon
-                      points="12,3 22,21 2,21"
-                      fill="none"
-                      stroke="#F59E0B"
-                      strokeWidth="2"
-                    />
-                    {/* Yellow exclamation mark (smaller) */}
-                    <Path
-                      d="M12 10 L12 14 M12 16.5 L12 17"
-                      stroke="#F59E0B"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                    />
-                  </Svg>
-                </View>
-              </TouchableOpacity>
-            )}
-          </View>
-          <Text className="text-body-lg text-text-primary font-semibold font-text">
-            {formatPrice(amount, currency)}
+    <View>
+      <Animated.View
+        className="flex-row items-center justify-between"
+        style={{ opacity: fadeAnim }}
+      >
+        <View className="flex-row items-center">
+          <Text className="text-body-lg text-white/80 font-text">
+            {viewMode === 'monthly' ? t('stats.monthlySpending') : t('stats.yearlyProjection')}
           </Text>
-        </Animated.View>
-      </View>
+          {viewMode === 'yearly' && (
+            <TouchableOpacity onPress={showYearlyInfo} className="ml-2">
+              <View className="w-6 h-6 items-center justify-center" style={{ opacity: 0.7 }}>
+                <Svg width="24" height="24" viewBox="0 0 24 24">
+                  {/* Empty yellow triangle outline */}
+                  <Polygon
+                    points="12,3 22,21 2,21"
+                    fill="none"
+                    stroke="#FCD34D"
+                    strokeWidth="2"
+                  />
+                  {/* Yellow exclamation mark (smaller) */}
+                  <Path
+                    d="M12 10 L12 14 M12 16.5 L12 17"
+                    stroke="#FCD34D"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </Svg>
+              </View>
+            </TouchableOpacity>
+          )}
+        </View>
+        <Text className="text-heading-2 text-white font-semibold font-display">
+          {formatPrice(amount, currency)}
+        </Text>
+      </Animated.View>
     </View>
   );
 };

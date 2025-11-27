@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import Svg, { Path, G } from 'react-native-svg';
+import Svg, { Path, G, Defs, LinearGradient, Stop } from 'react-native-svg';
 import { CurrentMonthBreakdown } from '../../types/stats';
 import { formatPrice } from '../../utils/currency';
 
@@ -15,9 +15,11 @@ export const CategoryPieChart: React.FC<CategoryPieChartProps> = ({ breakdown })
   if (!breakdown || breakdown.length === 0) return null;
 
   const size = 200;
-  const radius = 85;
+  const strokeWidth = 20; // Thickness of the donut
+  const radius = (size - strokeWidth) / 2;
   const centerX = size / 2;
   const centerY = size / 2;
+  const circumference = 2 * Math.PI * radius;
 
   // Take top 4 and group rest as "Others"
   const topSubs = breakdown.slice(0, 4);
@@ -36,39 +38,50 @@ export const CategoryPieChart: React.FC<CategoryPieChartProps> = ({ breakdown })
     });
   }
 
-  const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
+  const totalAmount = breakdown.reduce((sum, item) => sum + item.amount, 0);
+  const currency = breakdown[0]?.currency || 'USD';
+
+  // Richer Palette with Gradients
+  const palette = [
+    { start: '#60A5FA', end: '#2563EB' }, // Blue
+    { start: '#34D399', end: '#059669' }, // Green
+    { start: '#FBBF24', end: '#D97706' }, // Amber
+    { start: '#F87171', end: '#DC2626' }, // Red
+    { start: '#A78BFA', end: '#7C3AED' }, // Purple
+  ];
 
   let currentAngle = -90; // Start from top
 
-  const paths = chartData.map((item, index) => {
+  const segments = chartData.map((item, index) => {
     const angle = (item.percentage / 100) * 360;
     const startAngle = currentAngle;
     const endAngle = currentAngle + angle;
 
-    // Convert to radians
-    const startRad = (startAngle * Math.PI) / 180;
-    const endRad = (endAngle * Math.PI) / 180;
+    // Add a small gap between segments (reduce sweep angle slightly)
+    const gapAngle = 4; // degrees
+    const sweepAngle = Math.max(0, angle - gapAngle);
 
-    // Calculate arc points
+    // Calculate path for the arc
+    const startRad = (startAngle * Math.PI) / 180;
+    const endRad = ((startAngle + sweepAngle) * Math.PI) / 180;
+
     const x1 = centerX + radius * Math.cos(startRad);
     const y1 = centerY + radius * Math.sin(startRad);
     const x2 = centerX + radius * Math.cos(endRad);
     const y2 = centerY + radius * Math.sin(endRad);
 
-    const largeArc = angle > 180 ? 1 : 0;
+    const largeArc = sweepAngle > 180 ? 1 : 0;
 
     const pathData = [
-      `M ${centerX} ${centerY}`,
-      `L ${x1} ${y1}`,
+      `M ${x1} ${y1}`,
       `A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2}`,
-      'Z',
     ].join(' ');
 
     currentAngle = endAngle;
 
     return {
       path: pathData,
-      color: colors[index % colors.length],
+      colors: palette[index % palette.length],
       item,
     };
   });
@@ -78,58 +91,75 @@ export const CategoryPieChart: React.FC<CategoryPieChartProps> = ({ breakdown })
       <Text className="text-heading-4 text-text-primary mb-3 font-display">
         {t('stats.topSubscriptions')}
       </Text>
-      <View className="bg-white rounded-2xl p-4">
-        {/* Pie Chart and Legend side by side */}
-        <View className="flex-row">
-          {/* Pie Chart - Left Side */}
-          <View className="items-center justify-center" style={{ width: size }}>
+      <View className="bg-white rounded-2xl p-6 shadow-card">
+        <View className="flex-row items-center">
+          {/* Donut Chart - Left Side */}
+          <View className="items-center justify-center relative" style={{ width: size, height: size }}>
             <Svg width={size} height={size}>
-              <G>
-                {paths.map((pathItem, index) => (
-                  <Path
-                    key={index}
-                    d={pathItem.path}
-                    fill={pathItem.color}
-                    stroke={pathItem.color}
-                    strokeWidth={0.5}
-                    strokeLinejoin="round"
-                  />
+              <Defs>
+                {segments.map((s, i) => (
+                  <LinearGradient key={`grad-${i}`} id={`grad-${i}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                    <Stop offset="0%" stopColor={s.colors.start} />
+                    <Stop offset="100%" stopColor={s.colors.end} />
+                  </LinearGradient>
                 ))}
-              </G>
+              </Defs>
+
+              {/* Background Circle (optional, for empty state or track) */}
+              <Path
+                d={`M ${centerX + radius} ${centerY} A ${radius} ${radius} 0 1 1 ${centerX - radius} ${centerY} A ${radius} ${radius} 0 1 1 ${centerX + radius} ${centerY}`}
+                stroke="#F3F4F6"
+                strokeWidth={strokeWidth}
+                fill="none"
+              />
+
+              {segments.map((segment, index) => (
+                <Path
+                  key={index}
+                  d={segment.path}
+                  stroke={`url(#grad-${index})`}
+                  strokeWidth={strokeWidth}
+                  strokeLinecap="round"
+                  fill="none"
+                />
+              ))}
             </Svg>
+
+            {/* Center Text */}
+            <View className="absolute items-center justify-center">
+              <Text className="text-text-tertiary text-xs font-medium font-text mb-0.5">
+                {t('stats.total')}
+              </Text>
+              <Text className="text-text-primary text-xl font-bold font-display">
+                {formatPrice(totalAmount, currency)}
+              </Text>
+            </View>
           </View>
 
           {/* Legend - Right Side */}
-          <View className="flex-1 ml-4 justify-center">
-            {chartData.map((item, index) => (
-              <View
-                key={index}
-                className={`flex-row items-center justify-between py-2 ${
-                  index < chartData.length - 1 ? 'border-b border-gray-100' : ''
-                }`}
-              >
-                <View className="flex-row items-center flex-1">
-                  <View
-                    className="w-3 h-3 rounded-full mr-2"
-                    style={{ backgroundColor: colors[index % colors.length] }}
-                  />
-                  <Text
-                    className="text-body-sm text-text-primary flex-1 font-text"
-                    numberOfLines={1}
-                  >
-                    {item.subscription_name}
-                  </Text>
-                </View>
-                <View className="items-end ml-2">
+          <View className="flex-1 ml-6 justify-center space-y-3">
+            {chartData.map((item, index) => {
+              const colorSet = palette[index % palette.length];
+              return (
+                <View key={index} className="flex-row items-center justify-between">
+                  <View className="flex-row items-center flex-1 mr-2">
+                    <View
+                      className="w-3 h-3 rounded-full mr-2"
+                      style={{ backgroundColor: colorSet.end }}
+                    />
+                    <Text
+                      className="text-body-sm text-text-secondary flex-1 font-text"
+                      numberOfLines={1}
+                    >
+                      {item.subscription_name}
+                    </Text>
+                  </View>
                   <Text className="text-body-sm text-text-primary font-semibold font-display">
-                    {item.percentage.toFixed(1)}%
-                  </Text>
-                  <Text className="text-body-sm text-text-muted font-text">
-                    {formatPrice(item.amount, item.currency)}
+                    {item.percentage.toFixed(0)}%
                   </Text>
                 </View>
-              </View>
-            ))}
+              );
+            })}
           </View>
         </View>
       </View>

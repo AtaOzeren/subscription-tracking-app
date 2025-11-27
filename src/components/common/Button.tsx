@@ -25,7 +25,7 @@ const Button = ({
   };
 
   const variantClasses = {
-    primary: 'bg-black',
+    primary: 'bg-tracking-blue',
     secondary: 'bg-white border border-black',
     danger: 'bg-red-500',
   };
@@ -38,7 +38,7 @@ const Button = ({
 
   const textColorClasses = {
     primary: 'text-white',
-    secondary: 'text-black',
+    secondary: 'text-tracking-black',
     danger: 'text-white',
   };
 

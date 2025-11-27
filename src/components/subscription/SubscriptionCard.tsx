@@ -16,7 +16,7 @@ const SubscriptionCard = ({
   onPress,
 }: SubscriptionCardProps) => {
   const { t } = useTranslation();
-  
+
   const getBillingCycleText = (cycle: string) => {
     const cycleMap: Record<string, string> = {
       'daily': 'subscription.perDay',
@@ -29,7 +29,7 @@ const SubscriptionCard = ({
 
   return (
     <TouchableOpacity
-      className="bg-white rounded-lg p-4 mb-3 shadow-sm"
+      className="bg-white rounded-2xl p-4 mb-3 shadow-card"
       onPress={() => onPress(subscription)}
       activeOpacity={0.7}
     >
@@ -48,9 +48,9 @@ const SubscriptionCard = ({
             </Text>
           </Text>
         </View>
-        
+
         <View className="items-end">
-          <View 
+          <View
             className="w-3 h-3 rounded-full mb-2"
             style={{ backgroundColor: subscription.isActive ? '#10B981' : '#EF4444' }}
           />
@@ -59,7 +59,7 @@ const SubscriptionCard = ({
           </Text>
         </View>
       </View>
-      
+
       <View className="mt-3 pt-3 border-t border-gray-100">
         <Text className="text-body-sm text-text-muted font-text">
           Next billing: {new Date(subscription.nextBillingDate).toLocaleDateString()}

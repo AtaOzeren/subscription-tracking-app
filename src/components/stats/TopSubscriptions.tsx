@@ -19,7 +19,7 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
         <Text className="text-text-primary text-heading-4 mb-3">
           {t('stats.topSubscriptions')}
         </Text>
-        <View className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <View className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
           <Text className="text-text-subtle text-center">
             {t('stats.noSubscriptions')}
           </Text>
@@ -38,16 +38,16 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
           {t('stats.topSubscriptions')}
         </Text>
       </View>
-      
-      <ScrollView 
-        horizontal 
+
+      <ScrollView
+        horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 24, gap: 12 }}
       >
         {topThree.map((item, index) => (
-          <View 
+          <View
             key={`${item.subscription_id}-${index}`}
-            className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100"
+            className="bg-white rounded-2xl p-4 shadow-card border border-gray-100"
             style={{ width: 180 }}
           >
             {/* Logo and Name */}
@@ -58,7 +58,7 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
                 </Text>
               </View>
               <View className="flex-1">
-                <Text 
+                <Text
                   className="text-text-primary text-body-md font-semibold"
                   numberOfLines={2}
                 >
@@ -74,7 +74,7 @@ export const TopSubscriptions: React.FC<TopSubscriptionsProps> = ({
 
             {/* Percentage Bar */}
             <View className="bg-gray-100 rounded-full h-2 mb-1 overflow-hidden">
-              <View 
+              <View
                 className="bg-blue-500 h-full rounded-full"
                 style={{ width: `${Math.min(item.percentage, 100)}%` }}
               />

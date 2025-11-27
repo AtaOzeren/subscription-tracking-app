@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 type BillingCycle = 'weekly' | 'monthly' | 'yearly';
 
@@ -16,6 +17,7 @@ const BillingCycleSelector: React.FC<BillingCycleSelectorProps> = ({
   label = 'Billing Cycle',
   required = false,
 }) => {
+  const { t } = useTranslation();
   const cycles: BillingCycle[] = ['weekly', 'monthly', 'yearly'];
 
   return (
@@ -31,17 +33,15 @@ const BillingCycleSelector: React.FC<BillingCycleSelectorProps> = ({
           <TouchableOpacity
             key={cycle}
             onPress={() => onSelectCycle(cycle)}
-            className={`flex-1 mr-2 py-3 rounded-xl items-center ${
-              selectedCycle === cycle ? 'bg-black' : 'bg-gray-100'
-            }`}
+            className={`flex-1 mr-2 py-3 rounded-xl items-center ${selectedCycle === cycle ? 'bg-tracking-blue' : 'bg-gray-100'
+              }`}
           >
             <Text
-              className={`text-sm font-semibold ${
-                selectedCycle === cycle ? 'text-white' : 'text-text-secondary'
-              }`}
+              className={`text-sm font-semibold ${selectedCycle === cycle ? 'text-white' : 'text-text-secondary'
+                }`}
               style={{ fontFamily: 'SF Pro Display' }}
             >
-              {cycle.charAt(0).toUpperCase() + cycle.slice(1)}
+              {t(`billingCycle.${cycle}`)}
             </Text>
           </TouchableOpacity>
         ))}

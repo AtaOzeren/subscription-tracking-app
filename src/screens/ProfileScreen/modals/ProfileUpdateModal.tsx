@@ -112,7 +112,7 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
       <View className="flex-1 bg-gray-50">
         {/* Header */}
         <View
-          className="bg-white border-b border-gray-200"
+          className="bg-gray-50"
           style={{ paddingTop: insets.top }}
         >
           <View className="px-4 pt-4 pb-3 flex-row items-center">
@@ -120,14 +120,14 @@ const ProfileUpdateModal: React.FC<ProfileUpdateModalProps> = ({
             <TouchableOpacity onPress={onClose} className="w-10">
               <Text className="text-2xl text-text-secondary font-display">←</Text>
             </TouchableOpacity>
-            
+
             {/* Title - Centered */}
             <View className="flex-1 items-center">
               <Text className="text-heading-2 text-text-primary font-display">
                 {t('profile.profileUpdate', { defaultValue: 'Profile Update' })}
               </Text>
             </View>
-            
+
             {/* Empty space on right for balance */}
             <View className="w-10" />
           </View>

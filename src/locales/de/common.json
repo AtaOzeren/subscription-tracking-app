@@ -18,7 +18,31 @@
     "success": "Erfolg",
     "settings": "Einstellungen",
     "somethingWentWrong": "Etwas ist schief gelaufen",
-    "tryAgain": "Erneut versuchen"
+    "or": "Oder",
+    "tryAgain": "Erneut versuchen",
+    "selectDate": "Datum auswählen",
+    "day": "Tag",
+    "month": "Monat",
+    "year": "Jahr",
+    "today": "Heute",
+    "confirm": "Bestätigen",
+    "january": "Jan",
+    "february": "Feb",
+    "march": "Mär",
+    "april": "Apr",
+    "may": "Mai",
+    "june": "Jun",
+    "july": "Jul",
+    "august": "Aug",
+    "september": "Sep",
+    "october": "Okt",
+    "november": "Nov",
+    "december": "Dez"
+  },
+  "billingCycle": {
+    "weekly": "Wöchentlich",
+    "monthly": "Monatlich",
+    "yearly": "Jährlich"
   },
   "auth": {
     "welcomeToApp": "Willkommen bei Sub-Tracking",
@@ -53,7 +77,8 @@
     "addNewSubscription": "Neues Abonnement hinzufügen",
     "viewAll": "Alle anzeigen",
     "addSubscription": "Abonnement hinzufügen",
-    "support": "Unterstützen"
+    "support": "Unterstützung",
+    "supportDescription": "Ich entwickle diese App kostenlos und ohne Werbung. Deine Unterstützung würde mir sehr viel bedeuten."
   },
   "language": {
     "selectLanguage": "Sprache auswählen",
@@ -68,7 +93,23 @@
     "home": "Startseite",
     "subscriptions": "Abonnements",
     "statistics": "Statistiken",
-    "search": "Suchen"
+    "search": "Suchen",
+    "notifications": "Benachrichtigungen"
+  },
+  "notifications": {
+    "priceChange": "Preisänderung",
+    "scheduled": "Geplant",
+    "autoRenewal": "Automatische Verlängerung",
+    "announcement": "Ankündigung",
+    "general": "Allgemein",
+    "noNotifications": "Keine Benachrichtigungen",
+    "noNotificationsMessage": "Sie haben noch keine Benachrichtigungen. Wir informieren Sie, wenn etwas Wichtiges passiert."
+  },
+  "time": {
+    "justNow": "Gerade eben",
+    "minutesAgo": "vor {{count}} Min.",
+    "hoursAgo": "vor {{count}} Std.",
+    "daysAgo": "vor {{count}} Tagen"
   },
   "subscriptions": {
     "manageYourSubscriptions": "Verwalten Sie alle Ihre Abonnements an einem Ort",
@@ -189,7 +230,8 @@
     "lowest": "Niedrigste",
     "total6Months": "6-Monats-Summe",
     "yearlyProjectionInfo": "Jahresprognose Info",
-    "yearlyProjectionDescription": "Dies ist eine Schätzung basierend auf Ihren aktuell aktiven Abonnements. Wenn sich Abonnementpreise ändern oder Sie neue Abonnements hinzufügen, wird diese Prognose automatisch aktualisiert.",
+    "yearlyProjectionDescription": "Dies ist eine Schätzung basierend auf Ihren aktuellen aktiven Abonnements. Es wird angenommen, dass alle monatlichen Abonnements 12 Monate lang fortgesetzt werden.",
+    "total": "Gesamt",
     "errorLoading": "Fehler beim Laden der Statistiken",
     "tryAgain": "Erneut versuchen",
     "others": "Andere"
@@ -324,7 +366,9 @@
     "notificationsDescription": "Wir entwickeln ein intelligentes Benachrichtigungssystem, um Sie an bevorstehende Zahlungen und Verlängerungen zu erinnern.",
     "deleteLocalData": "Lokale SQL-Daten löschen",
     "deleteLocalDataTitle": "Lokale Daten löschen",
-    "deleteLocalDataMessage": "Sind Sie sicher, dass Sie alle lokalen Daten löschen möchten? Dies wird Sie abmelden und die App zurücksetzen."
+    "deleteLocalDataMessage": "Sind Sie sicher, dass Sie alle lokalen Daten löschen möchten? Dies wird Sie abmelden und die App zurücksetzen.",
+    "clearAppData": "App-Daten löschen",
+    "clearAppDataWarning": "Dies wird Sie abmelden und alle lokalen Daten entfernen"
   },
   "contact": {
     "title": "Kontaktieren Sie uns",

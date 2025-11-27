@@ -48,7 +48,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
   }
 
   return (
-    <Animated.View 
+    <Animated.View
       className="flex-1"
       style={{
         opacity: fadeAnim?.interpolate({
@@ -57,23 +57,23 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
         }) || 1,
       }}
     >
-      <ScrollView 
+      <ScrollView
         className="flex-1 px-4"
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       >
         <Text className="text-body-sm text-text-muted mb-3 mt-2 font-text">
-          {searchQuery === '' 
+          {searchQuery === ''
             ? t('search.allSubscriptions', { count: results.length })
             : t('search.foundResults', { count: results.length })
           }
         </Text>
-        
+
         {results.map((subscription, index) => (
           <TouchableOpacity
             key={subscription.id || index}
             onPress={() => onSelectSubscription(subscription)}
-            className="bg-white rounded-2xl p-4 mb-3 shadow-sm border border-gray-100"
+            className="bg-white rounded-2xl p-4 mb-3 shadow-card border border-gray-100"
             activeOpacity={0.7}
           >
             <View className="flex-row items-center">
@@ -91,7 +91,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                   </Text>
                 )}
               </View>
-              
+
               {/* Subscription Info */}
               <View className="flex-1">
                 <Text className="text-body-lg font-semibold text-text-primary mb-1 font-display">
@@ -101,7 +101,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                   {typeof subscription.category === 'string' ? subscription.category : subscription.category?.name || ''}
                 </Text>
               </View>
-              
+
               {/* Arrow Icon */}
               <Text className="text-text-muted text-xl">›</Text>
             </View>

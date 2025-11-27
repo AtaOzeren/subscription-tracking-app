@@ -20,7 +20,30 @@
     "somethingWentWrong": "Something went wrong",
     "comingSoon": "Coming Soon",
     "or": "Or",
-    "tryAgain": "Try Again"
+    "tryAgain": "Try Again",
+    "selectDate": "Select Date",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year",
+    "today": "Today",
+    "confirm": "Confirm",
+    "january": "Jan",
+    "february": "Feb",
+    "march": "Mar",
+    "april": "Apr",
+    "may": "May",
+    "june": "Jun",
+    "july": "Jul",
+    "august": "Aug",
+    "september": "Sep",
+    "october": "Oct",
+    "november": "Nov",
+    "december": "Dec"
+  },
+  "billingCycle": {
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
   },
   "auth": {
     "welcomeToApp": "Welcome Sub-Tracking",
@@ -55,7 +78,8 @@
     "addNewSubscription": "Add New Subscription",
     "viewAll": "View All",
     "addSubscription": "Add Subscription",
-    "support": "Support"
+    "support": "Support",
+    "supportDescription": "I develop this app for free without ads. Your support would mean a lot to me."
   },
   "language": {
     "selectLanguage": "Select Language",
@@ -70,7 +94,23 @@
     "home": "Home",
     "subscriptions": "Subscriptions",
     "statistics": "Statistics",
-    "search": "Search"
+    "search": "Search",
+    "notifications": "Notifications"
+  },
+  "notifications": {
+    "priceChange": "Price Change",
+    "scheduled": "Scheduled",
+    "autoRenewal": "Auto Renewal",
+    "announcement": "Announcement",
+    "general": "General",
+    "noNotifications": "No Notifications",
+    "noNotificationsMessage": "You don't have any notifications yet. We'll let you know when something important happens."
+  },
+  "time": {
+    "justNow": "Just now",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago",
+    "daysAgo": "{{count}}d ago"
   },
   "subscriptions": {
     "manageYourSubscriptions": "Manage all your subscriptions in one place",
@@ -192,6 +232,7 @@
     "total6Months": "6-Month Total",
     "yearlyProjectionInfo": "Yearly Projection Info",
     "yearlyProjectionDescription": "This is an estimate based on your current active subscriptions. As subscription prices change or you add new subscriptions, this projection will automatically update.",
+    "total": "Total",
     "errorLoading": "Failed to load statistics",
     "tryAgain": "Try Again",
     "others": "Others"
@@ -325,7 +366,9 @@
     "notificationsDescription": "We're building a smart notification system to remind you about upcoming payments and renewals.",
     "deleteLocalData": "Delete Local SQL Data",
     "deleteLocalDataTitle": "Delete Local Data",
-    "deleteLocalDataMessage": "Are you sure you want to delete all local data? This will log you out and reset the app."
+    "deleteLocalDataMessage": "Are you sure you want to delete all local data? This will log you out and reset the app.",
+    "clearAppData": "Clear App Data",
+    "clearAppDataWarning": "This will log you out and remove all local data"
   },
   "error": {
     "title": "Oops!",

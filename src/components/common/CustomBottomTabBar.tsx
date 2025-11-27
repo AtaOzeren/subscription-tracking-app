@@ -106,7 +106,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
           <View className="flex-row items-center justify-between">
             {/* Left side - 3 tabs or search input */}
             <Animated.View
-              className="flex-1 mr-3 overflow-hidden rounded-[28px] shadow-modal bg-white/20"
+              className="flex-1 mr-3 overflow-hidden rounded-[28px] shadow-modal"
               style={{
                 opacity: searchSlideAnim.interpolate({
                   inputRange: [0, 1],
@@ -135,11 +135,14 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                       className="flex-1 items-center justify-center"
                       activeOpacity={0.7}
                     >
-                      <View className="items-center justify-center px-2 py-1">
+                      <View
+                        className={`items-center justify-center px-2 py-1 ${tab.isActive ? 'bg-gray-50 rounded-2xl' : ''}`}
+                        style={tab.isActive ? { paddingHorizontal: 12, paddingVertical: 6 } : {}}
+                      >
                         <Ionicons
                           name={tab.iconName as any}
                           size={26}
-                          color="#000000"
+                          color="#27323B"
                           className="mb-1"
                         />
                         <Animated.View
@@ -152,7 +155,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                             overflow: 'hidden',
                           }}
                         >
-                          <Text className="text-black text-xs text-center font-text font-medium">
+                          <Text className="text-tracking-black text-xs text-center font-text font-medium">
                             {tab.label}
                           </Text>
                         </Animated.View>
@@ -165,7 +168,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
 
             {/* Search Input - Slides in from right */}
             <Animated.View
-              className="absolute left-0 right-20 overflow-hidden rounded-[28px] shadow-modal bg-white/20"
+              className="absolute left-0 right-20 overflow-hidden rounded-[28px] shadow-modal"
               style={{
                 opacity: searchSlideAnim.interpolate({
                   inputRange: [0, 1],
@@ -188,13 +191,13 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                 className="rounded-[28px] overflow-hidden bg-white/10"
               >
                 <View className="flex-row items-center px-4 py-3">
-                  <Ionicons name="search" size={20} color="#000000" />
+                  <Ionicons name="search" size={20} color="#27323B" />
                   <TextInput
                     value={searchQuery}
                     onChangeText={onSearchChange}
                     placeholder="Search subscriptions..."
                     placeholderTextColor="#9CA3AF"
-                    className="flex-1 ml-3 text-base text-black font-text"
+                    className="flex-1 ml-3 text-base text-tracking-black font-text"
                     autoFocus={searchMode}
                   />
                   {searchQuery.length > 0 && (
@@ -209,7 +212,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
             {/* Right side - Search button or close button */}
             {searchTab && (
               <View
-                className="overflow-hidden shadow-modal bg-white/20"
+                className="overflow-hidden shadow-modal"
                 style={{
                   width: SEARCH_BUTTON_SIZE,
                   height: SEARCH_BUTTON_SIZE,
@@ -230,7 +233,7 @@ const CustomBottomTabBar: React.FC<CustomBottomTabBarProps> = ({
                     <Ionicons
                       name={searchMode ? 'close' : searchTab.iconName as any}
                       size={26}
-                      color="#000000"
+                      color="#27323B"
                     />
                   </TouchableOpacity>
                 </BlurView>

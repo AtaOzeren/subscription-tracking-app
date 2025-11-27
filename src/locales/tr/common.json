@@ -18,7 +18,31 @@
     "success": "Başarılı",
     "settings": "Ayarlar",
     "somethingWentWrong": "Bir şeyler yanlış gitti",
+    "or": "Veya",
+    "selectDate": "Tarih Seç",
+    "day": "Gün",
+    "month": "Ay",
+    "year": "Yıl",
+    "today": "Bugün",
+    "confirm": "Onayla",
+    "january": "Oca",
+    "february": "Şub",
+    "march": "Mar",
+    "april": "Nis",
+    "may": "May",
+    "june": "Haz",
+    "july": "Tem",
+    "august": "Ağu",
+    "september": "Eyl",
+    "october": "Eki",
+    "november": "Kas",
+    "december": "Ara",
     "tryAgain": "Tekrar Dene"
+  },
+  "billingCycle": {
+    "weekly": "Haftalık",
+    "monthly": "Aylık",
+    "yearly": "Yıllık"
   },
   "auth": {
     "welcomeToApp": "Abone Takip'e Hoş Geldiniz",
@@ -53,7 +77,8 @@
     "addNewSubscription": "Yeni Abonelik Ekle",
     "viewAll": "Tümünü Gör",
     "addSubscription": "Abonelik Ekle",
-    "support": "Destek Ver"
+    "support": "Destek Ver",
+    "supportDescription": "Uygulamayı reklamsız ve ücretsiz geliştiriyorum. Desteğiniz beni çok mutlu eder."
   },
   "language": {
     "selectLanguage": "Dil Seçin",
@@ -65,10 +90,26 @@
     "russian": "Rusça"
   },
   "navigation": {
-    "home": "Ev",
+    "home": "Ana Sayfa",
     "subscriptions": "Abonelikler",
     "statistics": "İstatistikler",
-    "search": "Arama"
+    "search": "Ara",
+    "notifications": "Bildirimler"
+  },
+  "notifications": {
+    "priceChange": "Fiyat Değişikliği",
+    "scheduled": "Planlanmış",
+    "autoRenewal": "Otomatik Yenileme",
+    "announcement": "Duyuru",
+    "general": "Genel",
+    "noNotifications": "Bildirim Yok",
+    "noNotificationsMessage": "Henüz hiç bildiriminiz yok. Önemli bir şey olduğunda sizi bilgilendireceğiz."
+  },
+  "time": {
+    "justNow": "Şimdi",
+    "minutesAgo": "{{count}} dk önce",
+    "hoursAgo": "{{count}} sa önce",
+    "daysAgo": "{{count}} gün önce"
   },
   "subscriptions": {
     "manageYourSubscriptions": "Tüm aboneliklerinizi tek bir yerden yönetin",
@@ -190,6 +231,7 @@
     "total6Months": "6 Aylık Toplam",
     "yearlyProjectionInfo": "Yıllık Tahmini Bilgi",
     "yearlyProjectionDescription": "Bu değer, mevcut aktif aboneliklerinize dayalı bir tahminidir. Abonelik fiyatları değiştikçe veya yeni abonelikler ekledikçe bu tahmini de otomatik olarak güncellenecektir.",
+    "total": "Toplam",
     "errorLoading": "İstatistikler yüklenemedi",
     "tryAgain": "Tekrar Dene",
     "others": "Diğerleri"
@@ -324,7 +366,9 @@
     "notificationsDescription": "Yaklaşan ödemeler ve yenilemeler hakkında sizi uyaracak akıllı bir bildirim sistemi oluşturuyoruz.",
     "deleteLocalData": "Yerel SQL Verilerini Sil",
     "deleteLocalDataTitle": "Yerel Verileri Sil",
-    "deleteLocalDataMessage": "Tüm yerel verileri silmek istediğinize emin misiniz? Bu işlem sizi çıkışa yönlendirecek ve uygulamayı sıfırlayacaktır."
+    "deleteLocalDataMessage": "Tüm yerel verileri silmek istediğinize emin misiniz? Bu işlem sizi çıkışa yönlendirecek ve uygulamayı sıfırlayacaktır.",
+    "clearAppData": "Uygulama Verilerini Temizle",
+    "clearAppDataWarning": "Bu işlem sizi çıkış yapacak ve tüm yerel verileri kaldıracak"
   },
   "contact": {
     "title": "Bize Ulaşın",

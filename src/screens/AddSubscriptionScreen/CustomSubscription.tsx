@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { Feather } from '@expo/vector-icons';
 import { useAddCustomSubscription } from '../../hooks/useQueries';
 import { Category } from '../../types/catalog';
 import { useAuth } from '../../contexts/AuthContext';
+import { getCurrencySymbol } from '../../utils/currency';
 import FormField from '../../components/subscription/FormField';
 import CategorySelector from '../../components/subscription/CategorySelector';
 import BillingCycleSelector from '../../components/subscription/BillingCycleSelector';
 import AppleButton from '../../components/common/AppleButton';
+import SimpleDatePicker from '../../components/common/SimpleDatePicker';
 
 interface CustomSubscriptionProps {
   onClose: () => void;
@@ -21,7 +24,7 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
   const addCustomMutation = useAddCustomSubscription();
-  
+
   // Form states
   const [customName, setCustomName] = useState(initialSearchQuery);
   const [customCategoryId, setCustomCategoryId] = useState<number | null>(null);
@@ -31,6 +34,8 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
   const [nextBillingDate, setNextBillingDate] = useState('');
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showNextBillingDatePicker, setShowNextBillingDatePicker] = useState(false);
 
   // Calculate next billing date based on start date and billing cycle
   const calculateNextBillingDate = (startDateStr: string, cycle: 'weekly' | 'monthly' | 'yearly'): string => {
@@ -93,8 +98,8 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
   return (
     <View className="flex-1 bg-gray-50">
       {/* Header */}
-      <View 
-        className="bg-white border-b border-gray-200"
+      <View
+        className="bg-gray-50"
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
@@ -139,6 +144,11 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
           onChangeText={setCustomPrice}
           placeholder="0.00"
           keyboardType="decimal-pad"
+          leftIcon={
+            <Text className="text-body-lg text-text-secondary font-semibold">
+              {getCurrencySymbol(user?.currency || 'USD')}
+            </Text>
+          }
         />
 
         <BillingCycleSelector
@@ -166,6 +176,9 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
             }
           }}
           placeholder="YYYY-MM-DD"
+          editable={false}
+          rightIcon={<Feather name="calendar" size={20} color="#216477" />}
+          onRightIconPress={() => setShowStartDatePicker(true)}
         />
 
         <FormField
@@ -173,6 +186,9 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
           value={nextBillingDate}
           onChangeText={setNextBillingDate}
           placeholder="YYYY-MM-DD"
+          editable={false}
+          rightIcon={<Feather name="calendar" size={20} color="#216477" />}
+          onRightIconPress={() => setShowNextBillingDatePicker(true)}
         />
 
         <FormField
@@ -194,6 +210,26 @@ const CustomSubscription = ({ onClose, initialSearchQuery = '', categories }: Cu
           containerClassName="mb-6"
         />
       </ScrollView>
+
+      {/* Start Date Picker */}
+      <SimpleDatePicker
+        visible={showStartDatePicker}
+        onClose={() => setShowStartDatePicker(false)}
+        initialDate={startDate}
+        onSelectDate={(date) => {
+          setStartDate(date);
+          const calculatedDate = calculateNextBillingDate(date, customBillingCycle);
+          setNextBillingDate(calculatedDate);
+        }}
+      />
+
+      {/* Next Billing Date Picker */}
+      <SimpleDatePicker
+        visible={showNextBillingDatePicker}
+        onClose={() => setShowNextBillingDatePicker(false)}
+        initialDate={nextBillingDate}
+        onSelectDate={setNextBillingDate}
+      />
     </View>
   );
 };

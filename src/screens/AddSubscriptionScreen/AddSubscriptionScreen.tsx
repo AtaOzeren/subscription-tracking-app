@@ -11,6 +11,7 @@ import CustomSubscription from './CustomSubscription';
 import FormField from '../../components/subscription/FormField';
 import AppleButton from '../../components/common/AppleButton';
 import PlanSelector from '../../components/subscription/PlanSelector';
+import { Feather } from '@expo/vector-icons';
 import RegionalSettingsPrompt from '../../components/common/RegionalSettingsPrompt';
 
 interface AddSubscriptionScreenProps {
@@ -203,7 +204,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
       <TouchableOpacity
         key={category.id || 'all'}
         onPress={() => setSelectedCategory(category.id)}
-        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${selectedCategory === category.id ? 'bg-black' : 'bg-gray-200'
+        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${selectedCategory === category.id ? 'bg-tracking-blue' : 'bg-gray-200'
           }`}
         style={{ height: 32 }}
       >
@@ -269,7 +270,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
         {/* Search Bar */}
         <View className="px-4 mb-4">
           <View className="bg-gray-100 rounded-xl px-4 py-3 flex-row items-center">
-            <Text className="mr-2">🔍</Text>
+            <Feather name="search" size={20} color="#216477" style={{ marginRight: 8 }} />
             <TextInput
               placeholder={t('addSubscription.searchPlaceholder')}
               value={searchQuery}
@@ -295,7 +296,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
                   setCustomSearchQuery(searchQuery);
                   setShowCustomModal(true);
                 }}
-                className="bg-black rounded-full px-6 py-3"
+                className="bg-tracking-blue rounded-full px-6 py-3"
               >
                 <Text className="text-white font-semibold font-display">
                   {t('addSubscription.addCustomButton')}
@@ -355,7 +356,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
                           </Text>
                         </View>
 
-                        <Text className="text-2xl ml-2">→</Text>
+                        <Feather name="chevron-right" size={24} color="#216477" style={{ marginLeft: 8 }} />
                       </View>
                     </TouchableOpacity>
                   ))}
@@ -366,14 +367,11 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
 
           {/* Add Custom Button */}
           <TouchableOpacity
-            onPress={() => {
-              setCustomSearchQuery('');
-              setShowCustomModal(true);
-            }}
-            className="bg-gray-100 rounded-2xl p-6 items-center mb-6"
+            onPress={() => setShowCustomModal(true)}
+            className="bg-white border-2 border-gray-200 rounded-2xl p-4 mb-3 flex-row items-center justify-center"
           >
-            <Text className="text-3xl mb-2">➕</Text>
-            <Text className="text-body-lg text-text-primary font-semibold font-display">
+            <Text className="text-2xl font-bold mr-2 text-tracking-blue">+</Text>
+            <Text className="text-body-lg font-semibold text-tracking-blue font-display">
               {t('addSubscription.addCustomButton')}
             </Text>
           </TouchableOpacity>
@@ -444,7 +442,7 @@ const AddSubscriptionScreen = ({ onClose, initialSubscription }: AddSubscription
     <View className="flex-1 bg-gray-50">
       {/* Header - Fixed at top with status bar */}
       <View
-        className="bg-white border-b border-gray-200"
+        className="bg-gray-50"
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center">

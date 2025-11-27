@@ -25,14 +25,14 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
   const buttonWidth = containerWidth > 0 ? (containerWidth - 8) / 2 : 0;
 
   return (
-    <View className="px-4 mb-4">
-      <View 
-        className="bg-white rounded-full p-1 flex-row relative shadow-sm"
+    <View>
+      <View
+        className="bg-white/20 rounded-full p-1 flex-row relative"
         onLayout={handleLayout}
       >
-        {/* Animated flat white slider */}
+        {/* Animated white slider */}
         <Animated.View
-          className="absolute bg-black rounded-full"
+          className="absolute bg-white rounded-full"
           style={{
             top: 4,
             bottom: 4,
@@ -48,7 +48,7 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
             ],
           }}
         />
-        
+
         <TouchableOpacity
           className="flex-1 py-2 rounded-full z-10"
           onPress={() => onViewModeChange('monthly')}
@@ -56,14 +56,14 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
         >
           <Animated.Text
             className="text-center font-semibold font-display"
-            style={{ 
-              color: viewMode === 'monthly' ? '#FFFFFF' : '#1F2937',
+            style={{
+              color: viewMode === 'monthly' ? '#216477' : '#FFFFFF',
             }}
           >
             {t('statistics.monthly')}
           </Animated.Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity
           className="flex-1 py-2 rounded-full z-10"
           onPress={() => onViewModeChange('yearly')}
@@ -71,8 +71,8 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
         >
           <Animated.Text
             className="text-center font-semibold font-display"
-            style={{ 
-              color: viewMode === 'yearly' ? '#FFFFFF' : '#1F2937',
+            style={{
+              color: viewMode === 'yearly' ? '#216477' : '#FFFFFF',
             }}
           >
             {t('statistics.yearly')}

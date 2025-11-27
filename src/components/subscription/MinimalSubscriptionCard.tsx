@@ -35,7 +35,7 @@ const MinimalSubscriptionCard = ({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return '#10B981';      // Green
+      case 'active': return '#216477';      // Tracking Blue
       case 'cancelled': return '#EF4444';   // Red
       case 'expired': return '#F59E0B';     // Orange
       case 'paused': return '#6B7280';      // Gray
@@ -45,7 +45,7 @@ const MinimalSubscriptionCard = ({
 
   return (
     <TouchableOpacity
-      className="bg-white rounded-lg p-3 mb-2 shadow-sm"
+      className="bg-white rounded-2xl p-3 mb-2 shadow-card"
       style={{
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },

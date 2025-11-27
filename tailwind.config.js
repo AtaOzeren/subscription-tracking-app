@@ -26,7 +26,7 @@ module.exports = {
         'heading-2': ['24px', { lineHeight: '32px', fontWeight: '700', letterSpacing: '-0.3px' }],
         'heading-3': ['20px', { lineHeight: '28px', fontWeight: '600', letterSpacing: '-0.2px' }],
         'heading-4': ['18px', { lineHeight: '26px', fontWeight: '600' }],
-        
+
         // Body Text (Semantic Typography)
         'body-lg': ['16px', { lineHeight: '24px', fontWeight: '400' }],
         'body-md': ['14px', { lineHeight: '20px', fontWeight: '400' }],
@@ -44,7 +44,7 @@ module.exports = {
         'ios-text': '#000000',
         'ios-text-secondary': '#3C3C43',
         'ios-text-tertiary': '#3C3C4399',
-        
+
         // Semantic Text Colors
         text: {
           primary: '#1F2937',    // gray-900 - Main headings, primary content
@@ -53,7 +53,7 @@ module.exports = {
           muted: '#9CA3AF',      // gray-500 - Placeholders, disabled text, labels
           subtle: '#D1D5DB',     // gray-400 - Very subtle text
         },
-        
+
         // Semantic Accent Colors
         accent: {
           DEFAULT: '#3B82F6',    // blue-500 - Links, interactive elements
@@ -62,6 +62,8 @@ module.exports = {
           error: '#EF4444',      // red-600 - Error states
           warning: '#F59E0B',    // amber-500 - Warning states
         },
+        'tracking-blue': '#216477',
+        'tracking-black': '#27323B',
       },
       boxShadow: {
         'ios-button': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',

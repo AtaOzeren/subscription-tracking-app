@@ -16,12 +16,12 @@ const LanguageSettings: React.FC<LanguageSettingsProps> = ({ onClose }) => {
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(currentLanguage.code);
 
   const languageColors = {
-    en: { border: '#000000', text: '#FFFFFF' },
-    de: { border: '#000000', text: '#FFCE00' },
-    tr: { border: '#000000', text: '#FFFFFF' },
-    it: { border: '#000000', text: '#FFFFFF' },
-    fr: { border: '#000000', text: '#FFFFFF' },
-    ru: { border: '#000000', text: '#FFFFFF' },
+    en: { border: '#216477', text: '#FFFFFF' },
+    de: { border: '#216477', text: '#FFCE00' },
+    tr: { border: '#216477', text: '#FFFFFF' },
+    it: { border: '#216477', text: '#FFFFFF' },
+    fr: { border: '#216477', text: '#FFFFFF' },
+    ru: { border: '#216477', text: '#FFFFFF' },
   };
 
   const renderFlagBadge = (code: LanguageCode) => {
@@ -37,7 +37,7 @@ const LanguageSettings: React.FC<LanguageSettingsProps> = ({ onClose }) => {
       case 'de':
         return (
           <View className="w-8 h-8 rounded-full overflow-hidden">
-            <View className="flex-1" style={{ backgroundColor: '#000000' }} />
+            <View className="flex-1" style={{ backgroundColor: '#27323B' }} />
             <View className="flex-1" style={{ backgroundColor: '#DD0000' }} />
             <View className="flex-1" style={{ backgroundColor: '#FFCE00' }} />
           </View>
@@ -94,14 +94,14 @@ const LanguageSettings: React.FC<LanguageSettingsProps> = ({ onClose }) => {
 
   return (
     <View className="flex-1 bg-gray-50">
-      <View className="bg-white border-b border-gray-200" style={{ paddingTop: insets.top }}>
+      <View className="bg-gray-50" style={{ paddingTop: insets.top }}>
         <View className="px-4 pt-2 pb-3 flex-row items-center justify-between">
           <BackButton onPress={onClose} />
           <Text className="text-heading-3 flex-1 ml-2" style={{ fontFamily: 'SF Pro Display' }}>
             {t('settings.language')}
           </Text>
           <TouchableOpacity onPress={handleSaveLanguage} disabled={isLoading}>
-            <Text className="text-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
+            <Text className="text-tracking-black text-base font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
               {t('common.save')}
             </Text>
           </TouchableOpacity>

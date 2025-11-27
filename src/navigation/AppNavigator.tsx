@@ -16,30 +16,11 @@ import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import WelcomeScreen from '../screens/WelcomeScreen/WelcomeScreen';
 import LanguageSelectionScreen from '../screens/LanguageSelectionScreen/LanguageSelectionScreen';
 import CustomBottomTabBar from '../components/common/CustomBottomTabBar';
+import NotificationsScreen from '../screens/NotificationsScreen/NotificationsScreen';
 
 const Stack = createStackNavigator();
 
-const HomeStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="HomeMain"
-        component={HomeScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="SubscriptionDetail"
-        component={SubscriptionDetailScreen}
-        options={{ title: 'Subscription Details', headerShown: false }}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{ title: 'Profile' }}
-      />
-    </Stack.Navigator>
-  );
-};
+
 
 const OnboardingNavigator = () => {
   return (
@@ -94,9 +75,9 @@ const MainNavigator = () => {
 
     switch (activeTab) {
       case 'home':
-        return <HomeScreen 
-          scrollY={scrollY} 
-          tabBarHeight={tabBarHeight} 
+        return <HomeScreen
+          scrollY={scrollY}
+          tabBarHeight={tabBarHeight}
           onNavigateToProfile={handleNavigateToProfile}
           onNavigateToSubscriptions={handleNavigateToSubscriptions}
           onNavigateToAddSubscription={handleNavigateToAddSubscription}
@@ -106,14 +87,14 @@ const MainNavigator = () => {
       case 'statistics':
         return <StatisticsScreen scrollY={scrollY} onNavigateToProfile={handleNavigateToProfile} />;
       case 'search':
-        return <SearchScreen 
-          searchQuery={searchQuery} 
-          onNavigateToProfile={handleNavigateToProfile} 
+        return <SearchScreen
+          searchQuery={searchQuery}
+          onNavigateToProfile={handleNavigateToProfile}
         />;
       default:
-        return <HomeScreen 
-          scrollY={scrollY} 
-          tabBarHeight={tabBarHeight} 
+        return <HomeScreen
+          scrollY={scrollY}
+          tabBarHeight={tabBarHeight}
           onNavigateToProfile={handleNavigateToProfile}
           onNavigateToSubscriptions={handleNavigateToSubscriptions}
           onNavigateToAddSubscription={handleNavigateToAddSubscription}
@@ -154,7 +135,7 @@ const MainNavigator = () => {
 
   return (
     <View className="flex-1" style={{ position: 'relative' }}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
         keyboardVerticalOffset={0}
@@ -162,9 +143,9 @@ const MainNavigator = () => {
         {renderScreen()}
       </KeyboardAvoidingView>
       {activeScreen === 'main' && (
-        <CustomBottomTabBar 
-          tabs={tabs} 
-          scrollY={scrollY} 
+        <CustomBottomTabBar
+          tabs={tabs}
+          scrollY={scrollY}
           onLayout={setTabBarHeight}
           searchMode={activeTab === 'search'}
           searchQuery={searchQuery}
@@ -173,6 +154,15 @@ const MainNavigator = () => {
         />
       )}
     </View>
+  );
+};
+
+const AuthenticatedNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Main" component={MainNavigator} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} />
+    </Stack.Navigator>
   );
 };
 
@@ -189,7 +179,7 @@ const AppNavigator = () => {
       {isFirstTimeUser ? (
         <OnboardingNavigator />
       ) : isAuthenticated ? (
-        <MainNavigator />
+        <AuthenticatedNavigator />
       ) : (
         <AuthNavigator />
       )}

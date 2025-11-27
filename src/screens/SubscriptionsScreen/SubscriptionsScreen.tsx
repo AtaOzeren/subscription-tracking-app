@@ -78,7 +78,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
       <TouchableOpacity
         key={category.id || 'all'}
         onPress={() => setSelectedCategory(category.id)}
-        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${selectedCategory === category.id ? 'bg-black' : 'bg-white border border-gray-200'
+        className={`mr-2 mb-2 px-3 py-1.5 rounded-full flex-row items-center ${selectedCategory === category.id ? 'bg-tracking-blue' : 'bg-white border border-gray-200'
           }`}
         style={{ height: 32 }}
       >
@@ -121,8 +121,8 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      {/* Header + Category Filter - White Background */}
-      <View className="bg-white pb-3">
+      {/* Header + Category Filter */}
+      <View className="pb-3">
         {/* Header */}
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
           <View className="flex-1">
@@ -132,7 +132,7 @@ const SubscriptionsScreen = ({ scrollY }: SubscriptionsScreenProps) => {
           </View>
           <TouchableOpacity
             onPress={() => setShowAddModal(true)}
-            className="bg-black rounded-full px-6 py-3 flex-row items-center"
+            className="bg-tracking-blue rounded-full px-6 py-3 flex-row items-center"
             style={{
               shadowColor: '#000',
               shadowOffset: { width: 0, height: 2 },

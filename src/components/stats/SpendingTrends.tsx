@@ -37,7 +37,7 @@ export const SpendingTrends: React.FC<SpendingTrendsProps> = ({
         </Text>
       </View>
 
-      <View className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+      <View className="bg-white rounded-2xl p-4 shadow-card border border-gray-100">
         {/* Chart */}
         <View className="flex-row items-end justify-between h-32 mb-3">
           {trends.map((trend, index) => {

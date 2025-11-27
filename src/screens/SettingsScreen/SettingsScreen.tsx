@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Feather } from '@expo/vector-icons';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useTranslation } from 'react-i18next';
 import BackButton from '../../components/common/BackButton';
@@ -18,7 +19,7 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
   const insets = useSafeAreaInsets();
   const { currentLanguage } = useLanguage();
   const { t } = useTranslation();
-  
+
   // Modal states
   const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
   const [showSecurityModal, setShowSecurityModal] = useState(false);
@@ -29,35 +30,35 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
   const settingsItems = [
     {
       id: 'language',
-      icon: '🌍',
+      icon: 'globe',
       title: t('settings.language'),
       subtitle: currentLanguage.nativeName,
       onPress: () => setIsLanguageModalVisible(true),
     },
     {
       id: 'security',
-      icon: '🔒',
+      icon: 'shield',
       title: t('settings.security'),
       subtitle: t('settings.securitySubtitle'),
       onPress: () => setShowSecurityModal(true),
     },
     {
       id: 'about',
-      icon: 'ⓘ',
+      icon: 'info',
       title: t('settings.about'),
       subtitle: t('settings.aboutSubtitle'),
       onPress: () => setShowAboutModal(true),
     },
     {
       id: 'contact',
-      icon: '✉',
+      icon: 'mail',
       title: t('settings.contact'),
       subtitle: t('settings.contactSubtitle'),
       onPress: () => setShowContactModal(true),
     },
     {
       id: 'notifications',
-      icon: '🔔',
+      icon: 'bell',
       title: t('settings.notifications'),
       subtitle: t('settings.notificationsSubtitle'),
       onPress: () => setShowNotificationModal(true),
@@ -68,7 +69,7 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
     <View className="flex-1 bg-gray-50">
       {/* Header */}
       <View
-        className="bg-white border-b border-gray-200"
+        className="bg-gray-50"
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-2 pb-3 flex-row items-center">
@@ -93,7 +94,7 @@ const SettingsScreen = ({ onClose }: SettingsScreenProps) => {
               activeOpacity={0.7}
             >
               <View className="w-8 h-8 rounded-full bg-gray-100 items-center justify-center mr-3">
-                <Text className="text-lg text-gray-700">{item.icon}</Text>
+                <Feather name={item.icon as any} size={18} color="#216477" />
               </View>
               <View className="flex-1">
                 <Text

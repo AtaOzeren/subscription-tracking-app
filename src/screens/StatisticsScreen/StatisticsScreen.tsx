@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, Animated, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Animated, RefreshControl, TouchableOpacity, Easing, Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useDetailedStats } from '../../hooks/useQueries';
 import MinimalLoader from '../../components/common/MinimalLoader';
 import ProfileButton from '../../components/common/ProfileButton';
+import NotificationButton from '../../components/common/NotificationButton';
 import { ViewModeToggle } from '../../components/stats/ViewModeToggle';
 import { SpendingCard } from '../../components/stats/SpendingCard';
 import { SubscriptionStatus } from '../../components/stats/SubscriptionStatus';
@@ -19,10 +21,10 @@ interface StatisticsScreenProps {
 const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProps) => {
   const { t } = useTranslation();
   const [viewMode, setViewMode] = useState<'monthly' | 'yearly'>('monthly');
-  
+
   // Use React Query hook for stats - automatic caching!
   const { data: stats, isLoading: loading, error, refetch, isRefetching } = useDetailedStats();
-  
+
   // Animation values for toggle slider
   const slideAnim = React.useRef(new Animated.Value(0)).current;
   // Animation values for content fade
@@ -45,7 +47,7 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
     }).start(() => {
       // Change mode after fade out
       setViewMode(mode);
-      
+
       // Fade in content
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -67,6 +69,40 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
     // Initialize slide position
     slideAnim.setValue(viewMode === 'yearly' ? 1 : 0);
   }, []);
+
+  // Shine animation
+  const shineAnim = React.useRef(new Animated.Value(0)).current;
+  const screenWidth = Dimensions.get('window').width;
+  const cardWidth = screenWidth - 32; // mx-4 = 16*2 = 32
+
+  React.useEffect(() => {
+    const startAnimation = () => {
+      shineAnim.setValue(0);
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(shineAnim, {
+            toValue: 1,
+            duration: 2500,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.delay(12500),
+          Animated.timing(shineAnim, {
+            toValue: 0,
+            duration: 0,
+            useNativeDriver: true,
+          })
+        ])
+      ).start();
+    };
+
+    startAnimation();
+  }, [shineAnim]);
+
+  const translateX = shineAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [-cardWidth, cardWidth],
+  });
 
   const handleRefresh = () => {
     refetch();
@@ -107,14 +143,15 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       {/* Header - Top Bar Style with Profile Button */}
-      <View className="bg-white border-b border-gray-200">
-        <View className="px-6 py-4">
-          <View className="flex-row justify-between items-center">
-            <View className="flex-1">
-              <Text className="text-heading-1 text-text-primary font-display">
-                {t('navigation.statistics')}
-              </Text>
-            </View>
+      <View className="px-6 py-4">
+        <View className="flex-row justify-between items-center">
+          <View className="flex-1">
+            <Text className="text-heading-1 text-text-primary font-display">
+              {t('navigation.statistics')}
+            </Text>
+          </View>
+          <View className="flex-row items-center gap-3">
+            <NotificationButton />
             <ProfileButton onPress={handleProfilePress} />
           </View>
         </View>
@@ -136,24 +173,65 @@ const StatisticsScreen = ({ scrollY, onNavigateToProfile }: StatisticsScreenProp
         ) : undefined}
         scrollEventThrottle={16}
       >
-        {/* Toggle Buttons */}
-        <View className="mt-4">
-          <ViewModeToggle
-            viewMode={viewMode}
-            onViewModeChange={handleViewModeChange}
-            slideAnim={slideAnim}
-          />
-        </View>
-
-        {/* Spending Card (Monthly or Yearly) */}
+        {/* Spending Card + Toggle Combined */}
         {stats && (
-          <SpendingCard
-            viewMode={viewMode}
-            monthlyAmount={stats.summary.current_month_total}
-            yearlyAmount={stats.projected_annual_cost}
-            currency={currency}
-            fadeAnim={fadeAnim}
-          />
+          <View className="bg-tracking-blue rounded-2xl mx-4 overflow-hidden shadow-card mb-4 relative">
+            {/* Main Background Gradient */}
+            <LinearGradient
+              colors={['#216477', '#174A59', '#0F3540']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
+            />
+
+            {/* Top Highlight */}
+            <LinearGradient
+              colors={['rgba(255,255,255,0.15)', 'transparent']}
+              start={{ x: 0.5, y: 0 }}
+              end={{ x: 0.5, y: 0.5 }}
+              style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '50%' }}
+            />
+
+            {/* Animated Shine Effect */}
+            <Animated.View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                width: '50%',
+                transform: [{ translateX }],
+                opacity: 0.3,
+                zIndex: 10,
+              }}
+            >
+              <LinearGradient
+                colors={['transparent', 'rgba(255,255,255,0.8)', 'transparent']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ flex: 1 }}
+              />
+            </Animated.View>
+
+            <View className="p-5">
+              <SpendingCard
+                viewMode={viewMode}
+                monthlyAmount={stats.summary.current_month_total}
+                yearlyAmount={stats.projected_annual_cost}
+                currency={currency}
+                fadeAnim={fadeAnim}
+              />
+
+              {/* Spacing */}
+              <View className="h-4" />
+
+              {/* Toggle Buttons */}
+              <ViewModeToggle
+                viewMode={viewMode}
+                onViewModeChange={handleViewModeChange}
+                slideAnim={slideAnim}
+              />
+            </View>
+          </View>
         )}
 
         {/* Subscription Status Bar */}

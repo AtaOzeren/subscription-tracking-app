@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, Alert, KeyboardAvoidingView, Platform, TouchableOpacity, Linking } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { Feather } from '@expo/vector-icons';
 import BackButton from '../../components/common/BackButton';
 import AppleInput from '../../components/common/AppleInput';
 import Button from '../../components/common/Button';
@@ -102,7 +103,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
 
   return (
     <View className="flex-1 bg-gray-50">
-      <View className="bg-white border-b border-gray-200 shadow-sm z-10" style={{ paddingTop: insets.top }}>
+      <View className="bg-gray-50 z-10" style={{ paddingTop: insets.top }}>
         <View className="px-4 pt-2 pb-3 flex-row items-center">
           <BackButton onPress={onClose} />
           <Text className="text-heading-3 flex-1 ml-2 text-center pr-8" style={{ fontFamily: 'SF Pro Display' }}>
@@ -123,8 +124,8 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
           contentContainerStyle={{ paddingBottom: 40 }}
         >
           <View className="items-center mb-8">
-            <View className="w-20 h-20 rounded-full bg-blue-50 items-center justify-center mb-4 shadow-sm">
-              <Text className="text-4xl">✉️</Text>
+            <View className="w-20 h-20 rounded-full bg-blue-50 items-center justify-center mb-4 shadow-card">
+              <Feather name="mail" size={36} color="#216477" />
             </View>
             <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
               {t('contact.subtitle')}
@@ -134,7 +135,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
             </Text>
           </View>
 
-          <View className="bg-white rounded-2xl p-6 shadow-sm space-y-5 mb-6">
+          <View className="bg-white rounded-2xl p-6 shadow-card space-y-5 mb-6">
             <View className="mb-1 relative z-50">
               <Text className="text-body-lg text-text-primary font-semibold mb-2 text-center" style={{ fontFamily: 'SF Pro Display' }}>
                 {t('contact.subject')}
@@ -169,7 +170,7 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
                     className={`w-full border rounded-2xl px-4 py-3 bg-white flex-row justify-between items-center ${errors.subject ? 'border-red-500' : 'border-gray-300'
                       }`}
                   >
-                    <Text className={`text-base ${selectedSubjectType ? 'text-black' : 'text-gray-400'}`} style={{ fontFamily: 'SF Pro Text' }}>
+                    <Text className={`text-base ${selectedSubjectType ? 'text-tracking-black' : 'text-gray-400'}`} style={{ fontFamily: 'SF Pro Text' }}>
                       {selectedSubjectType
                         ? t(`contact.subjects.${selectedSubjectType}`)
                         : t('contact.subjectPlaceholder')}
@@ -229,14 +230,14 @@ const ContactSettings: React.FC<ContactSettingsProps> = ({ onClose }) => {
             />
           </View>
 
-          <View className="bg-white rounded-2xl p-6 shadow-sm space-y-6">
+          <View className="bg-white rounded-2xl p-6 shadow-card space-y-6">
             <View className="items-center">
               <Text className="text-body-sm text-text-muted mb-1" style={{ fontFamily: 'SF Pro Text' }}>
                 {t('contact.supportEmailLabel')}
               </Text>
-              <TouchableOpacity onPress={() => Linking.openURL('mailto:info@sub-traking.com')}>
+              <TouchableOpacity onPress={() => Linking.openURL('mailto:info@substater.com')}>
                 <Text className="text-body-lg text-text-primary font-semibold" style={{ fontFamily: 'SF Pro Display' }}>
-                  info@sub-traking.com
+                  info@substater.com
                 </Text>
               </TouchableOpacity>
             </View>

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Alert, Modal, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../locales';
+import { Feather } from '@expo/vector-icons';
 import { UserSubscription } from '../../types/subscription';
 import { useUpdateSubscription } from '../../hooks/useQueries';
 import FormField from '../../components/subscription/FormField';
@@ -21,17 +23,17 @@ interface SubscriptionDetailScreenProps {
 
 const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
   const { subscription, onDelete, onBack, onUpdate } = route?.params || {};
-  
+
   if (!subscription) {
     return null;
   }
-  
+
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const updateSubscriptionMutation = useUpdateSubscription();
   const [showMenu, setShowMenu] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  
+
   // Edit form states
   const [editPrice, setEditPrice] = useState(subscription.price.toString());
   const [editNextBillingDate, setEditNextBillingDate] = useState(subscription.nextBillingDate);
@@ -73,9 +75,9 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
       t('subscriptionAlerts.deleteTitle'),
       t('subscriptionAlerts.deleteMessage', { name: subscription.name }),
       [
-        { 
-          text: t('common.cancel'), 
-          style: 'cancel' 
+        {
+          text: t('common.cancel'),
+          style: 'cancel'
         },
         {
           text: t('subscriptionAlerts.deleteConfirm'),
@@ -109,7 +111,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
           onPress: async () => {
             try {
               setLoading(true);
-              
+
               const updates: any = {
                 next_billing_date: editNextBillingDate,
                 status: editStatus,
@@ -122,9 +124,9 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               }
 
               await updateSubscriptionMutation.mutateAsync({ id: subscription.id, updates });
-              
+
               setShowEditModal(false);
-              
+
               if (onUpdate) {
                 onUpdate();
               }
@@ -146,7 +148,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
   return (
     <View className="flex-1 bg-gray-50">
       {/* Header - Fixed at top with status bar */}
-      <View 
+      <View
         className="bg-white border-b border-gray-200"
         style={{ paddingTop: insets.top }}
       >
@@ -155,9 +157,9 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
           <TouchableOpacity onPress={onBack} className="w-10">
             <Text className="text-2xl text-text-secondary font-display">←</Text>
           </TouchableOpacity>
-          
+
           <View className="flex-1" />
-          
+
           {/* Three Dots Menu on right */}
           <TouchableOpacity
             onPress={() => setShowMenu(true)}
@@ -206,7 +208,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               >
                 <Text
                   className="text-sm font-semibold font-text"
-                  style={{ 
+                  style={{
                     color: getStatusColor(subscription.status)
                   }}
                 >
@@ -222,7 +224,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               <Text className="text-body-lg text-text-muted font-text">
                 {getBillingCycleText(subscription.billingCycle)} {t("subscription.cost")}
               </Text>
-              <Text className="text-heading-3 text-accent font-display">
+              <Text className="text-heading-3 text-tracking-blue font-display">
                 {formatPrice(subscription.price, subscription.currency)}
               </Text>
             </View>
@@ -237,14 +239,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
           {/* Category */}
           <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
-            <Text 
-              className="text-body-lg text-text-muted" 
+            <Text
+              className="text-body-lg text-text-muted"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {t("subscription.category")}
             </Text>
-            <Text 
-              className="text-body-lg text-text-primary font-semibold" 
+            <Text
+              className="text-body-lg text-text-primary font-semibold"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {subscription.category.name}
@@ -253,14 +255,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
           {/* Billing Cycle */}
           <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
-            <Text 
-              className="text-body-lg text-text-muted" 
+            <Text
+              className="text-body-lg text-text-muted"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {t("subscription.billingCycle")}
             </Text>
-            <Text 
-              className="text-body-lg text-text-primary font-semibold" 
+            <Text
+              className="text-body-lg text-text-primary font-semibold"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {getBillingCycleText(subscription.billingCycle)}
@@ -269,17 +271,17 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
           {/* Next Billing Date */}
           <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
-            <Text 
-              className="text-body-lg text-text-muted" 
+            <Text
+              className="text-body-lg text-text-muted"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {t("subscription.nextBillingDate")}
             </Text>
-            <Text 
-              className="text-body-lg text-text-primary font-semibold" 
+            <Text
+              className="text-body-lg text-text-primary font-semibold"
               style={{ fontFamily: 'SF Pro Text' }}
             >
-              {new Date(subscription.nextBillingDate).toLocaleDateString('en-US', {
+              {new Date(subscription.nextBillingDate).toLocaleDateString(i18n.language, {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -289,14 +291,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
           {/* Price */}
           <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
-            <Text 
-              className="text-body-lg text-text-muted" 
+            <Text
+              className="text-body-lg text-text-muted"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {t("subscription.price")}
             </Text>
-            <Text 
-              className="text-base font-semibold text-accent" 
+            <Text
+              className="text-base font-semibold text-tracking-blue"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {formatPrice(subscription.price, subscription.currency)}
@@ -305,14 +307,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
           {/* Currency */}
           <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
-            <Text 
-              className="text-body-lg text-text-muted" 
+            <Text
+              className="text-body-lg text-text-muted"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {t("subscription.currency")}
             </Text>
-            <Text 
-              className="text-body-lg text-text-primary font-semibold" 
+            <Text
+              className="text-body-lg text-text-primary font-semibold"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {subscription.currency}
@@ -321,14 +323,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
 
           {/* Type */}
           <View className="flex-row items-center justify-between py-3">
-            <Text 
-              className="text-body-lg text-text-muted" 
+            <Text
+              className="text-body-lg text-text-muted"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {t("subscription.type")}
             </Text>
-            <Text 
-              className="text-body-lg text-text-primary font-semibold" 
+            <Text
+              className="text-body-lg text-text-primary font-semibold"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {subscription.isCustom ? 'Custom' : 'Preset'}
@@ -341,14 +343,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
         {/* Notes */}
         {subscription.notes && (
           <View className="bg-white px-6 py-5">
-            <Text 
-              className="text-heading-3 text-text-primary mb-3" 
+            <Text
+              className="text-heading-3 text-text-primary mb-3"
               style={{ fontFamily: 'SF Pro Display' }}
             >
               {t("subscription.notes")}
             </Text>
-            <Text 
-              className="text-body-lg text-text-secondary leading-6" 
+            <Text
+              className="text-body-lg text-text-secondary leading-6"
               style={{ fontFamily: 'SF Pro Text' }}
             >
               {subscription.notes}
@@ -365,8 +367,8 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
       >
         <View className="flex-1 bg-gray-50">
           {/* Header */}
-          <View 
-            className="bg-white border-b border-gray-200"
+          <View
+            className="bg-gray-50 border-b border-gray-200"
             style={{ paddingTop: insets.top }}
           >
             <View className="px-4 pt-4 pb-3 flex-row items-center">
@@ -374,14 +376,14 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
               <TouchableOpacity onPress={() => setShowEditModal(false)} className="w-10">
                 <Text className="text-2xl text-text-secondary font-display">←</Text>
               </TouchableOpacity>
-              
+
               {/* Title - Centered */}
               <View className="flex-1 items-center">
                 <Text className="text-heading-2 text-text-primary font-display">
                   {t("subscriptionActions.edit")}
                 </Text>
               </View>
-              
+
               {/* Empty space on right for balance */}
               <View className="w-10" />
             </View>
@@ -456,16 +458,13 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                   <TouchableOpacity
                     key={status.value}
                     onPress={() => setEditStatus(status.value)}
-                    className={`w-[48%] mb-2 py-3 rounded-xl ${
-                      status.value === 'active' || status.value === 'expired' ? 'mr-2' : ''
-                    } ${
-                      editStatus === status.value ? 'bg-blue-600' : 'bg-gray-100'
-                    }`}
+                    className={`w-[48%] mb-2 py-3 rounded-xl ${status.value === 'active' || status.value === 'expired' ? 'mr-2' : ''
+                      } ${editStatus === status.value ? 'bg-tracking-blue' : 'bg-gray-100'
+                      }`}
                   >
                     <Text
-                      className={`text-center text-sm font-semibold ${
-                        editStatus === status.value ? 'text-white' : 'text-text-secondary'
-                      }`}
+                      className={`text-center text-sm font-semibold ${editStatus === status.value ? 'text-white' : 'text-text-secondary'
+                        }`}
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {status.label}
@@ -521,28 +520,28 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
           onPress={() => setShowMenu(false)}
         >
           <View className="flex-1 justify-end">
-            <View 
+            <View
               className="bg-white rounded-t-3xl"
               style={{ paddingBottom: insets.bottom + 16 }}
             >
               <View className="px-6 pt-6 pb-4">
                 <View className="w-12 h-1 bg-gray-300 rounded-full self-center mb-6" />
-                
+
                 <TouchableOpacity
                   onPress={handleEdit}
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
                   <View className="w-10 h-10 bg-blue-50 rounded-full items-center justify-center mr-3">
-                    <Text className="text-xl">✏️</Text>
+                    <Feather name="edit-2" size={20} color="#216477" />
                   </View>
                   <View className="flex-1">
-                    <Text 
-                      className="text-lg font-semibold text-accent"
+                    <Text
+                      className="text-lg font-semibold text-tracking-black"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t("subscriptionActions.edit")}
                     </Text>
-                    <Text 
+                    <Text
                       className="text-body-md text-text-muted mt-0.5"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
@@ -556,16 +555,16 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
                   <View className="w-10 h-10 bg-red-50 rounded-full items-center justify-center mr-3">
-                    <Text className="text-xl">🗑️</Text>
+                    <Feather name="trash-2" size={20} color="#216477" />
                   </View>
                   <View className="flex-1">
-                    <Text 
-                      className="text-lg font-semibold text-accent-error"
+                    <Text
+                      className="text-lg font-semibold text-tracking-black"
                       style={{ fontFamily: 'SF Pro Display' }}
                     >
                       {t("subscriptionActions.delete")}
                     </Text>
-                    <Text 
+                    <Text
                       className="text-body-md text-text-muted mt-0.5"
                       style={{ fontFamily: 'SF Pro Text' }}
                     >
@@ -578,7 +577,7 @@ const SubscriptionDetailScreen = ({ route }: SubscriptionDetailScreenProps) => {
                   onPress={() => setShowMenu(false)}
                   className="bg-gray-100 rounded-2xl py-4 mt-4"
                 >
-                  <Text 
+                  <Text
                     className="text-center text-body-lg text-text-secondary font-semibold"
                     style={{ fontFamily: 'SF Pro Display' }}
                   >

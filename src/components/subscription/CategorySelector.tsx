@@ -30,15 +30,13 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
           <TouchableOpacity
             key={category.id}
             onPress={() => onSelectCategory(category.id)}
-            className={`mr-2 px-3 py-2 rounded-full flex-row items-center ${
-              selectedCategoryId === category.id ? 'bg-black' : 'bg-gray-100'
-            }`}
+            className={`mr-2 px-3 py-2 rounded-full flex-row items-center ${selectedCategoryId === category.id ? 'bg-tracking-blue' : 'bg-gray-100'
+              }`}
           >
             <Text className="text-xs mr-1">{category.icon_url}</Text>
             <Text
-              className={`text-sm font-semibold ${
-                selectedCategoryId === category.id ? 'text-white' : 'text-text-secondary'
-              }`}
+              className={`text-sm font-semibold ${selectedCategoryId === category.id ? 'text-white' : 'text-text-secondary'
+                }`}
               style={{ fontFamily: 'SF Pro Display' }}
             >
               {category.name}

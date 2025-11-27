@@ -63,7 +63,7 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
       if (!hasPermission) return;
 
       setLoading(true);
-      
+
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
         allowsEditing: true,
@@ -73,10 +73,10 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
 
       if (!result.canceled && result.assets[0]) {
         const asset = result.assets[0];
-        
+
         // Create file instance for validation and conversion
         const file = new FileSystem.File(asset.uri);
-        
+
         // Validate file size (max 5MB) using new File API
         if (file.exists && file.size) {
           const fileSizeMB = file.size / (1024 * 1024);
@@ -89,10 +89,10 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
             return;
           }
         }
-        
+
         // Convert to base64 for storage
         const base64 = await file.base64();
-        
+
         const avatarData = `data:image/jpeg;base64,${base64}`;
         setSelectedAvatar(avatarData);
       }
@@ -136,7 +136,7 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
           style={{ paddingTop: insets.top }}
         >
           <View className="px-6 py-4 flex-row justify-end">
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={onClose}
               className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center"
               activeOpacity={0.7}
@@ -146,8 +146,8 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
           </View>
         </View>
 
-        <ScrollView 
-          className="flex-1" 
+        <ScrollView
+          className="flex-1"
           contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 20, paddingBottom: 32 }}
           showsVerticalScrollIndicator={false}
         >
@@ -158,15 +158,15 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
                 <Image
                   source={{ uri: selectedAvatar }}
                   className="rounded-full"
-                  style={{ 
-                    width: 140, 
+                  style={{
+                    width: 140,
                     height: 140,
                     borderWidth: 4,
-                    borderColor: '#000000',
+                    borderColor: '#27323B',
                   }}
                 />
                 {/* Check mark indicator */}
-                <View 
+                <View
                   className="absolute bottom-1 right-1 bg-black rounded-full items-center justify-center"
                   style={{ width: 40, height: 40, borderWidth: 4, borderColor: 'white' }}
                 >
@@ -174,7 +174,7 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
                 </View>
               </View>
             ) : (
-              <View 
+              <View
                 className="rounded-full bg-gray-100 items-center justify-center"
                 style={{ width: 140, height: 140, borderWidth: 4, borderColor: '#E5E7EB' }}
               >
@@ -219,14 +219,14 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
                     <Image
                       source={{ uri: avatar }}
                       className="w-full rounded-2xl bg-gray-100"
-                      style={{ 
+                      style={{
                         aspectRatio: 1,
                         borderWidth: selectedAvatar === avatar ? 4 : 0,
-                        borderColor: '#000000',
+                        borderColor: '#27323B',
                       }}
                     />
                     {selectedAvatar === avatar && (
-                      <View 
+                      <View
                         className="absolute inset-0 rounded-2xl items-center justify-center"
                         style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
                       >
@@ -243,10 +243,10 @@ const AvatarSelectorModal: React.FC<AvatarSelectorModalProps> = ({
         </ScrollView>
 
         {/* Fixed Bottom Save Button */}
-        <View 
+        <View
           className="bg-white border-t border-gray-100 px-6"
-          style={{ 
-            paddingBottom: insets.bottom + 16, 
+          style={{
+            paddingBottom: insets.bottom + 16,
             paddingTop: 16,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: -2 },

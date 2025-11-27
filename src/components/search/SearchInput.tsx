@@ -36,10 +36,10 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         ] : [],
       }}
     >
-      <View className="bg-white rounded-2xl px-4 py-3 flex-row items-center border border-gray-200 shadow-sm">
+      <View className="bg-white rounded-2xl px-4 py-3 flex-row items-center border border-gray-200 shadow-ios-input">
         {/* Search Icon */}
         <Ionicons name="search" size={20} color="#9CA3AF" className="mr-3" />
-        
+
         {/* Text Input */}
         <TextInput
           value={value}
@@ -50,13 +50,13 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           autoFocus
           returnKeyType="search"
         />
-        
+
         {/* Clear button when text exists */}
         {value.length > 0 && (
-          <Ionicons 
-            name="close-circle" 
-            size={20} 
-            color="#9CA3AF" 
+          <Ionicons
+            name="close-circle"
+            size={20}
+            color="#9CA3AF"
             onPress={() => onChangeText('')}
             style={{ marginLeft: 8 }}
           />

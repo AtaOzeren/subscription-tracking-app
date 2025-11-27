@@ -11,6 +11,8 @@ import MinimalLoader from '../../components/common/MinimalLoader';
 import ProfileUpdateModal from './modals/ProfileUpdateModal';
 import RegionalSettingsModal from './modals/RegionalSettingsModal';
 import SettingsScreen from '../SettingsScreen/SettingsScreen';
+import { Feather } from '@expo/vector-icons';
+import PremiumSupportButton from '../../components/common/PremiumSupportButton';
 
 interface ProfileScreenProps {
   route?: {
@@ -28,10 +30,10 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [avatarError, setAvatarError] = useState(false);
-  
+
   // Menu state
   const [showMenu, setShowMenu] = useState(false);
-  
+
   // Modal states
   const [showProfileUpdateModal, setShowProfileUpdateModal] = useState(false);
   const [showRegionalSettingsModal, setShowRegionalSettingsModal] = useState(false);
@@ -89,7 +91,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
     }
   };
 
-  
+
 
   const handleUpdateSuccess = async () => {
     await checkAuth();
@@ -124,7 +126,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
     <View className="flex-1 bg-gray-50">
       {/* Header */}
       <View
-        className="bg-white border-b border-gray-200"
+        className="bg-gray-50"
         style={{ paddingTop: insets.top }}
       >
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between">
@@ -136,11 +138,11 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
           ) : (
             <View className="w-10" />
           )}
-          
+
           <Text className="text-heading-1 text-text-primary flex-1 text-center font-display">
-            {user?.name || t('profile.title', { defaultValue: 'Profile' })}
+            {(user?.name && user.name.length > 5 ? user.name.substring(0, 5) + '...' : user?.name) || t('profile.title', { defaultValue: 'Profile' })}
           </Text>
-          
+
           {/* Three Dots Menu on right */}
           <TouchableOpacity
             onPress={handleMenuPress}
@@ -171,46 +173,46 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
         ) : (
           <>
             {/* Profile Header */}
-            <View className="bg-white p-6 mb-3">
-               <View className="flex-row items-center">
-                 {/* Avatar Circle - Left */}
-                 {user?.avatar && !avatarError ? (
-                   <Image
-                     source={{ uri: user.avatar }}
-                     className="w-20 h-20 rounded-full mr-4"
-                     style={{ width: 80, height: 80 }}
-                     onError={(error) => {
-                       console.error('[Profile] Avatar image failed to load:', user.avatar, error.nativeEvent.error);
-                       setAvatarError(true);
-                     }}
-                   />
-                 ) : (
-                   <View className="w-20 h-20 rounded-full bg-blue-100 items-center justify-center mr-4">
-                     <Text
-                       className="text-heading-1 text-accent"
-                       style={{ fontFamily: 'SF Pro Display' }}
-                     >
-                       {user?.name?.charAt(0).toUpperCase() || 'U'}
-                     </Text>
-                   </View>
-                 )}
+            <View className="bg-tracking-blue p-6 mb-3 rounded-2xl mx-4">
+              <View className="flex-row items-center">
+                {/* Avatar Circle - Left */}
+                {user?.avatar && !avatarError ? (
+                  <Image
+                    source={{ uri: user.avatar }}
+                    className="w-20 h-20 rounded-full mr-4"
+                    style={{ width: 80, height: 80 }}
+                    onError={(error) => {
+                      console.error('[Profile] Avatar image failed to load:', user.avatar, error.nativeEvent.error);
+                      setAvatarError(true);
+                    }}
+                  />
+                ) : (
+                  <View className="w-20 h-20 rounded-full bg-white/20 items-center justify-center mr-4">
+                    <Text
+                      className="text-heading-1 text-white"
+                      style={{ fontFamily: 'SF Pro Display' }}
+                    >
+                      {user?.name?.charAt(0).toUpperCase() || 'U'}
+                    </Text>
+                  </View>
+                )}
 
-                 {/* Name and Email - Right */}
-                 <View className="flex-1">
-                   <Text
-                     className="text-heading-3 text-text-primary mb-1"
-                     style={{ fontFamily: 'SF Pro Display' }}
-                   >
-                     {user?.name || 'User'}
-                   </Text>
-                   <Text
-                     className="text-body-lg text-text-tertiary"
-                     style={{ fontFamily: 'SF Pro Text' }}
-                   >
-                     {user?.email || 'No email'}
-                   </Text>
-                 </View>
-               </View>
+                {/* Name and Email - Right */}
+                <View className="flex-1">
+                  <Text
+                    className="text-heading-3 text-white mb-1"
+                    style={{ fontFamily: 'SF Pro Display' }}
+                  >
+                    {user?.name || 'User'}
+                  </Text>
+                  <Text
+                    className="text-body-lg text-white/80"
+                    style={{ fontFamily: 'SF Pro Text' }}
+                  >
+                    {user?.email || 'No email'}
+                  </Text>
+                </View>
+              </View>
             </View>
 
             {/* Regional Settings */}
@@ -245,45 +247,48 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                 </View>
               </View>
 
-{/* Currency */}
-               <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
-                 <Text
-                   className="text-body-lg text-text-muted"
-                   style={{ fontFamily: 'SF Pro Text' }}
-                 >
-                   {t('profile.currency', { defaultValue: 'Currency' })}
-                 </Text>
-                 <Text
-                   className="text-body-lg text-text-primary font-semibold"
-                   style={{ fontFamily: 'SF Pro Text' }}
-                 >
-                   {user?.currency || 'N/A'}
-                 </Text>
-               </View>
+              {/* Currency */}
+              <View className="flex-row items-center justify-between py-3 border-b border-gray-100">
+                <Text
+                  className="text-body-lg text-text-muted"
+                  style={{ fontFamily: 'SF Pro Text' }}
+                >
+                  {t('profile.currency', { defaultValue: 'Currency' })}
+                </Text>
+                <Text
+                  className="text-body-lg text-text-primary font-semibold"
+                  style={{ fontFamily: 'SF Pro Text' }}
+                >
+                  {user?.currency || 'N/A'}
+                </Text>
+              </View>
 
-               {/* Subscription Count */}
-               <View className="flex-row items-center justify-between py-3">
-                 <Text
-                   className="text-body-lg text-text-muted"
-                   style={{ fontFamily: 'SF Pro Text' }}
-                 >
-                   {t('profile.subscriptionCount', { defaultValue: 'Subscriptions' })}
-                 </Text>
-                 <Text
-                   className="text-body-lg text-text-primary font-semibold"
-                   style={{ fontFamily: 'SF Pro Text' }}
-                 >
-                   {user?.subscription_count || 0}
-                 </Text>
-               </View>
-             </View>
+              {/* Subscription Count */}
+              <View className="flex-row items-center justify-between py-3">
+                <Text
+                  className="text-body-lg text-text-muted"
+                  style={{ fontFamily: 'SF Pro Text' }}
+                >
+                  {t('profile.subscriptionCount', { defaultValue: 'Subscriptions' })}
+                </Text>
+                <Text
+                  className="text-body-lg text-text-primary font-semibold"
+                  style={{ fontFamily: 'SF Pro Text' }}
+                >
+                  {user?.subscription_count || 0}
+                </Text>
+              </View>
+            </View>
 
-                      </>
+            {/* Premium Support Button */}
+            <View className="px-6 mb-6">
+              <PremiumSupportButton />
+            </View>
+
+          </>
         )}
       </ScrollView>
-
-      {/* Account Created - Fixed Bottom */}
-      <View 
+      <View
         className="bg-gray-50 px-6 py-4"
         style={{ paddingBottom: insets.bottom + 16 }}
       >
@@ -329,7 +334,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-heading-3 text-text-primary">✎</Text>
+                    <Feather name="edit-3" size={20} color="#216477" />
                   </View>
                   <View className="flex-1">
                     <Text
@@ -353,7 +358,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4 border-b border-gray-100"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-heading-3 text-text-primary">⚑</Text>
+                    <Feather name="globe" size={20} color="#216477" />
                   </View>
                   <View className="flex-1">
                     <Text
@@ -377,7 +382,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                   className="flex-row items-center py-4"
                 >
                   <View className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center mr-3">
-                    <Text className="text-heading-3 text-text-primary">⚙</Text>
+                    <Feather name="settings" size={20} color="#216477" />
                   </View>
                   <View className="flex-1">
                     <Text
@@ -441,7 +446,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
       >
         <SettingsScreen onClose={() => setShowSettingsModal(false)} />
       </Modal>
-    </View>
+    </View >
   );
 };
 

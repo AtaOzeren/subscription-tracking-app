@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Animated, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, RefreshControl, Animated, Modal, Linking } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { getGreetingMessage } from '../../utils/helpers';
 import ProfileButton from '../../components/common/ProfileButton';
+import NotificationButton from '../../components/common/NotificationButton';
 import Button from '../../components/common/Button';
 import { StatsCards } from '../../components/stats/StatsCards';
 import MinimalSubscriptionCard from '../../components/subscription/MinimalSubscriptionCard';
 import MinimalLoader from '../../components/common/MinimalLoader';
 import SubscriptionDetailScreen from '../SubscriptionDetailScreen/SubscriptionDetailScreen';
-import { useMySubscriptions, useDeleteSubscription } from '../../hooks/useQueries';
+import { useMySubscriptions, useDeleteSubscription, useCategories } from '../../hooks/useQueries';
 import { UserSubscription } from '../../types/subscription';
+import CustomSubscription from '../AddSubscriptionScreen/CustomSubscription';
+import PremiumSupportButton from '../../components/common/PremiumSupportButton';
 
 interface HomeScreenProps {
   tabBarHeight?: number;
@@ -27,23 +30,18 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
   const insets = useSafeAreaInsets();
   const [greetingMessage, setGreetingMessage] = useState('');
   const [selectedSubscription, setSelectedSubscription] = useState<UserSubscription | null>(null);
+  const [showCustomSubscription, setShowCustomSubscription] = useState(false);
 
   // Use React Query hook for subscriptions - automatic caching!
   const { data: subscriptions = [], isLoading: loading, error, refetch, isRefetching } = useMySubscriptions();
+  const { data: categories = [] } = useCategories();
   const deleteSubscriptionMutation = useDeleteSubscription();
 
   useEffect(() => {
-    // Update greeting message when user changes or every minute
-    const updateGreeting = () => {
-      if (user?.name) {
-        setGreetingMessage(getGreetingMessage(user.name, t));
-      }
-    };
-
-    updateGreeting();
-    const interval = setInterval(updateGreeting, 60000); // Update every minute
-
-    return () => clearInterval(interval);
+    if (user?.name) {
+      const name = user.name.length > 5 ? user.name.substring(0, 5) + '...' : user.name;
+      setGreetingMessage(getGreetingMessage(name, t));
+    }
   }, [user?.name, t]);
 
   const handleRefresh = () => {
@@ -58,11 +56,11 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <ScrollView 
+      <ScrollView
         className="flex-1"
         refreshControl={
-          <RefreshControl 
-            refreshing={isRefetching} 
+          <RefreshControl
+            refreshing={isRefetching}
             onRefresh={handleRefresh}
             tintColor="#3B82F6"
           />
@@ -82,7 +80,10 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
                 {greetingMessage || t('home.mySubscriptions')}
               </Text>
             </View>
-            <ProfileButton onPress={handleProfilePress} />
+            <View className="flex-row items-center gap-3">
+              <NotificationButton />
+              <ProfileButton onPress={handleProfilePress} />
+            </View>
           </View>
         </View>
 
@@ -118,24 +119,33 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
             />
 
             {/* Action Buttons */}
+            <View className="px-6 mb-6">
+              <PremiumSupportButton />
+            </View>
+
+            {/* Add Subscription Buttons */}
             <View className="px-6 mb-6 flex-row gap-3">
               <View className="flex-1">
-                <Button
-                  title={t('home.addSubscription')}
+                <TouchableOpacity
                   onPress={() => onNavigateToAddSubscription?.()}
-                  variant="primary"
-                  size="large"
-                  className="rounded-xl"
-                />
+                  className="bg-tracking-blue rounded-xl py-3 items-center"
+                  activeOpacity={0.8}
+                >
+                  <Text className="text-body-lg font-semibold text-white font-display">
+                    {t('subscriptionActions.add')}
+                  </Text>
+                </TouchableOpacity>
               </View>
               <View className="flex-1">
-                <Button
-                  title={t('home.support')}
-                  onPress={() => {}}
-                  variant="secondary"
-                  size="large"
-                  className="rounded-xl"
-                />
+                <TouchableOpacity
+                  onPress={() => setShowCustomSubscription(true)}
+                  className="bg-tracking-blue rounded-xl py-3 items-center"
+                  activeOpacity={0.8}
+                >
+                  <Text className="text-body-lg font-semibold text-white font-display">
+                    {t('subscriptionActions.addCustom')}
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -145,11 +155,11 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
                 <Text className="text-heading-4 text-text-primary">
                   {t('home.activeSubscriptions')}
                 </Text>
-                <TouchableOpacity 
+                <TouchableOpacity
                   onPress={onNavigateToSubscriptions}
                   activeOpacity={0.7}
                 >
-                  <Text className="text-body-md font-semibold text-accent">
+                  <Text className="text-body-md font-semibold text-tracking-blue">
                     {t('home.viewAll')}
                   </Text>
                 </TouchableOpacity>
@@ -193,6 +203,18 @@ const HomeScreen = ({ tabBarHeight = 100, onNavigateToProfile, onNavigateToSubsc
           />
         </Modal>
       )}
+
+      {/* Custom Subscription Modal */}
+      <Modal
+        visible={showCustomSubscription}
+        animationType="slide"
+        presentationStyle="fullScreen"
+      >
+        <CustomSubscription
+          onClose={() => setShowCustomSubscription(false)}
+          categories={categories}
+        />
+      </Modal>
     </SafeAreaView>
   );
 };

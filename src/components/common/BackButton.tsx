@@ -34,7 +34,7 @@ const BackButton: React.FC<BackButtonProps> = ({ onPress, style }) => {
       className="w-10 h-10 items-center justify-center"
       style={style}
     >
-      <Text className="text-[28px] font-light text-black">
+      <Text className="text-[28px] font-light text-tracking-black">
         ←
       </Text>
     </TouchableOpacity>

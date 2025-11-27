@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import BackButton from '../../components/common/BackButton';
+import PremiumSupportButton from '../../components/common/PremiumSupportButton';
 
 interface AboutSettingsProps {
   onClose: () => void;
@@ -14,7 +15,7 @@ const AboutSettings: React.FC<AboutSettingsProps> = ({ onClose }) => {
 
   return (
     <View className="flex-1 bg-gray-50">
-      <View className="bg-white border-b border-gray-200" style={{ paddingTop: insets.top }}>
+      <View className="bg-gray-50" style={{ paddingTop: insets.top }}>
         <View className="px-4 pt-2 pb-3 flex-row items-center">
           <BackButton onPress={onClose} />
           <Text className="text-heading-3 flex-1 ml-2" style={{ fontFamily: 'SF Pro Display' }}>
@@ -29,7 +30,7 @@ const AboutSettings: React.FC<AboutSettingsProps> = ({ onClose }) => {
             <Text className="text-heading-1 text-text-secondary">ⓘ</Text>
           </View>
           <Text className="text-heading-2 text-text-primary text-center mb-2" style={{ fontFamily: 'SF Pro Display' }}>
-            Sub-Tracking
+            SubStater
           </Text>
           <Text className="text-body-md text-text-muted text-center" style={{ fontFamily: 'SF Pro Text' }}>
             {t('settings.version')} 1.0.0
@@ -75,6 +76,10 @@ const AboutSettings: React.FC<AboutSettingsProps> = ({ onClose }) => {
               </Text>
             </View>
           </View>
+        </View>
+
+        <View className="mb-6">
+          <PremiumSupportButton />
         </View>
       </ScrollView>
     </View>

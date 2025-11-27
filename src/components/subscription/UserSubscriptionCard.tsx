@@ -42,7 +42,7 @@ const UserSubscriptionCard = ({
 
   return (
     <TouchableOpacity
-      className="bg-white rounded-2xl p-3 mb-2 shadow-sm"
+      className="bg-white rounded-2xl p-3 mb-2 shadow-card"
       style={{
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
@@ -77,7 +77,7 @@ const UserSubscriptionCard = ({
               >
                 {subscription.name}
               </Text>
-              
+
               {subscription.planName && (
                 <Text className="text-body-md text-text-tertiary mb-0.5 font-text">
                   {subscription.planName}
@@ -87,7 +87,7 @@ const UserSubscriptionCard = ({
 
             {/* Price on top right */}
             <View className="items-end">
-              <Text className="text-heading-3 text-accent">
+              <Text className="text-heading-4 font-bold text-tracking-blue font-display">
                 {formatPrice(subscription.price, subscription.currency)}
               </Text>
               <Text className="text-body-sm text-text-muted font-text">
@@ -103,10 +103,10 @@ const UserSubscriptionCard = ({
         <Text className="text-body-sm text-text-muted font-text">
           {t('subscription.nextBilling')}: {new Date(subscription.nextBillingDate).toLocaleDateString()}
         </Text>
-        <Text 
+        <Text
           className="text-xs font-text"
-          style={{ 
-            color: getStatusColor(subscription.status) 
+          style={{
+            color: getStatusColor(subscription.status)
           }}
         >
           {getStatusLabel(subscription.status)}

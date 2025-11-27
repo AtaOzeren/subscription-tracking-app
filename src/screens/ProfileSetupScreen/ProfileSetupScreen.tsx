@@ -52,7 +52,7 @@ const ProfileSetupScreen = () => {
   const { checkAuth } = useAuth();
   const { currentLanguage } = useLanguage();
   const { t } = useTranslation();
-  
+
   const [countries, setCountries] = useState<Country[]>([]);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
@@ -74,7 +74,7 @@ const ProfileSetupScreen = () => {
     if (searchText === '') {
       setFilteredCountries(countries);
     } else {
-      const filtered = countries.filter(country => 
+      const filtered = countries.filter(country =>
         country.name.toLowerCase().includes(searchText.toLowerCase())
       );
       setFilteredCountries(filtered);
@@ -85,7 +85,7 @@ const ProfileSetupScreen = () => {
     if (searchText === '') {
       setFilteredCurrencies(currencies);
     } else {
-      const filtered = currencies.filter(currency => 
+      const filtered = currencies.filter(currency =>
         currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
         currency.code.toLowerCase().includes(searchText.toLowerCase())
       );
@@ -105,10 +105,10 @@ const ProfileSetupScreen = () => {
   };
 
   const sortByPreferredCurrency = (currencies: Currency[], countryCode?: string): Currency[] => {
-    const preferredCurrencyCode = countryCode 
-      ? countryToCurrencyMap[countryCode] 
+    const preferredCurrencyCode = countryCode
+      ? countryToCurrencyMap[countryCode]
       : countryToCurrencyMap[languageToCountryMap[currentLanguage.code]];
-    
+
     if (!preferredCurrencyCode) return currencies;
 
     const preferredCurrency = currencies.find(c => c.code === preferredCurrencyCode);
@@ -121,16 +121,16 @@ const ProfileSetupScreen = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      
+
       const [countriesData, currenciesData] = await Promise.all([
         referenceService.getCountries(),
         referenceService.getCurrencies()
       ]);
-      
+
       // Sort countries by user's language preference
       const sortedCountries = sortByPreferredCountry(countriesData);
       const sortedCurrencies = sortByPreferredCurrency(currenciesData);
-      
+
       setCountries(sortedCountries);
       setCurrencies(sortedCurrencies);
       setFilteredCountries(sortedCountries);
@@ -157,7 +157,7 @@ const ProfileSetupScreen = () => {
 
     try {
       setLoading(true);
-      
+
       // Update user profile with selected country and currency
       await authService.updateProfile({
         region: selectedCountry.code,
@@ -169,7 +169,7 @@ const ProfileSetupScreen = () => {
 
       // Refresh auth state to trigger navigation to main app
       await checkAuth();
-      
+
     } catch (error) {
       console.error('[ProfileSetup] Error saving profile:', error);
       Alert.alert(
@@ -189,7 +189,7 @@ const ProfileSetupScreen = () => {
           setSelectedCountry(item);
           setShowCountryModal(false);
           setSearchText('');
-          
+
           // Auto-sort currencies based on selected country
           const sortedCurrencies = sortByPreferredCurrency(currencies, item.code);
           setFilteredCurrencies(sortedCurrencies);
@@ -206,8 +206,8 @@ const ProfileSetupScreen = () => {
         }}
       >
         <View style={{ flex: 1 }}>
-          <Text 
-            style={{ 
+          <Text
+            style={{
               fontFamily: 'SF Pro Display',
               fontSize: 16,
               fontWeight: '600',
@@ -217,8 +217,8 @@ const ProfileSetupScreen = () => {
           >
             {item.name}
           </Text>
-          <Text 
-            style={{ 
+          <Text
+            style={{
               fontFamily: 'SF Pro Text',
               fontSize: 14,
               color: '#8E8E93'
@@ -247,8 +247,8 @@ const ProfileSetupScreen = () => {
         backgroundColor: '#FFFFFF',
       }}
     >
-      <Text 
-        style={{ 
+      <Text
+        style={{
           fontFamily: 'SF Pro Display',
           fontSize: 16,
           fontWeight: '600',
@@ -258,8 +258,8 @@ const ProfileSetupScreen = () => {
       >
         {item.name}
       </Text>
-      <Text 
-        style={{ 
+      <Text
+        style={{
           fontFamily: 'SF Pro Text',
           fontSize: 14,
           color: '#8E8E93'
@@ -273,9 +273,9 @@ const ProfileSetupScreen = () => {
   if (loading && countries.length === 0) {
     return (
       <SafeAreaView className="flex-1 bg-ios-background justify-center items-center">
-        <Text 
+        <Text
           className="text-text-tertiary"
-          style={{ 
+          style={{
             fontFamily: 'SF Pro Text',
             fontSize: 16,
             color: '#8E8E93'
@@ -288,11 +288,11 @@ const ProfileSetupScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       className="flex-1 bg-ios-background"
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView 
+      <ScrollView
         className="flex-1"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
         keyboardShouldPersistTaps="handled"
@@ -303,11 +303,11 @@ const ProfileSetupScreen = () => {
             <Logo size="medium" animated={true} />
             <View className="mt-8 items-center">
               <AnimatedText
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Display',
-                  fontSize: 32,
-                  fontWeight: 'bold',
-                  color: '#000000',
+                  fontSize: 28,
+                  fontWeight: '600',
+                  color: '#27323B',
                   marginBottom: 8,
                   letterSpacing: -0.5,
                 }}
@@ -318,7 +318,7 @@ const ProfileSetupScreen = () => {
                 {t('onboarding.setupProfile')}
               </AnimatedText>
               <AnimatedText
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Text',
                   fontSize: 15,
                   color: '#8E8E93',
@@ -345,9 +345,9 @@ const ProfileSetupScreen = () => {
               type="fadeInUp"
               asView={true}
             >
-              <Text 
+              <Text
                 className="text-sm font-semibold mb-2"
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Display',
                   fontSize: 13,
                   color: '#000000',
@@ -375,9 +375,9 @@ const ProfileSetupScreen = () => {
                   justifyContent: 'space-between',
                 }}
               >
-                <Text 
+                <Text
                   className="text-base"
-                  style={{ 
+                  style={{
                     fontFamily: 'SF Pro Text',
                     fontSize: 16,
                     color: selectedCountry ? '#1C1C1E' : '#8E8E93',
@@ -401,9 +401,9 @@ const ProfileSetupScreen = () => {
               type="fadeInUp"
               asView={true}
             >
-              <Text 
+              <Text
                 className="text-sm font-semibold mb-2"
-                style={{ 
+                style={{
                   fontFamily: 'SF Pro Display',
                   fontSize: 13,
                   color: '#000000',
@@ -428,9 +428,9 @@ const ProfileSetupScreen = () => {
                   borderColor: '#E5E5EA',
                 }}
               >
-                <Text 
+                <Text
                   className="text-base"
-                  style={{ 
+                  style={{
                     fontFamily: 'SF Pro Text',
                     fontSize: 16,
                     color: selectedCurrency ? '#1C1C1E' : '#8E8E93'
@@ -491,8 +491,8 @@ const ProfileSetupScreen = () => {
             <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <TouchableOpacity onPress={() => setShowCountryModal(false)}>
-                  <Text 
-                    style={{ 
+                  <Text
+                    style={{
                       fontFamily: 'SF Pro Text',
                       fontSize: 16,
                       color: '#8E8E93'
@@ -501,8 +501,8 @@ const ProfileSetupScreen = () => {
                     {t('common.cancel')}
                   </Text>
                 </TouchableOpacity>
-                <Text 
-                  style={{ 
+                <Text
+                  style={{
                     fontFamily: 'SF Pro Display',
                     fontSize: 17,
                     fontWeight: '600',
@@ -514,11 +514,11 @@ const ProfileSetupScreen = () => {
                 <View style={{ width: 60 }} />
               </View>
             </View>
-            
+
             {/* Search Input */}
             <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
-              <View 
-                style={{ 
+              <View
+                style={{
                   backgroundColor: '#F2F2F7',
                   padding: 12,
                   borderRadius: 10,
@@ -532,7 +532,7 @@ const ProfileSetupScreen = () => {
                   onChangeText={setSearchText}
                   placeholder={t('onboarding.searchCountry')}
                   placeholderTextColor="#8E8E93"
-                  style={{ 
+                  style={{
                     fontFamily: 'SF Pro Text',
                     fontSize: 16,
                     color: '#1C1C1E',
@@ -542,7 +542,7 @@ const ProfileSetupScreen = () => {
               </View>
             </View>
 
-            <ScrollView 
+            <ScrollView
               style={{ flex: 1 }}
               contentContainerStyle={{ flexGrow: 1 }}
             >
@@ -550,8 +550,8 @@ const ProfileSetupScreen = () => {
                 filteredCountries.map(renderCountryItem)
               ) : (
                 <View className="p-8 items-center">
-                  <Text 
-                    style={{ 
+                  <Text
+                    style={{
                       fontFamily: 'SF Pro Text',
                       fontSize: 16,
                       color: '#8E8E93'
@@ -579,8 +579,8 @@ const ProfileSetupScreen = () => {
             <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <TouchableOpacity onPress={() => setShowCurrencyModal(false)}>
-                  <Text 
-                    style={{ 
+                  <Text
+                    style={{
                       fontFamily: 'SF Pro Text',
                       fontSize: 16,
                       color: '#8E8E93'
@@ -589,8 +589,8 @@ const ProfileSetupScreen = () => {
                     {t('common.cancel')}
                   </Text>
                 </TouchableOpacity>
-                <Text 
-                  style={{ 
+                <Text
+                  style={{
                     fontFamily: 'SF Pro Display',
                     fontSize: 17,
                     fontWeight: '600',
@@ -602,11 +602,11 @@ const ProfileSetupScreen = () => {
                 <View style={{ width: 60 }} />
               </View>
             </View>
-            
+
             {/* Search Input */}
             <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#E5E5EA' }}>
-              <View 
-                style={{ 
+              <View
+                style={{
                   backgroundColor: '#F2F2F7',
                   padding: 12,
                   borderRadius: 10,
@@ -620,7 +620,7 @@ const ProfileSetupScreen = () => {
                   onChangeText={setSearchText}
                   placeholder={t('onboarding.searchCurrency')}
                   placeholderTextColor="#8E8E93"
-                  style={{ 
+                  style={{
                     fontFamily: 'SF Pro Text',
                     fontSize: 16,
                     color: '#1C1C1E',
@@ -630,7 +630,7 @@ const ProfileSetupScreen = () => {
               </View>
             </View>
 
-            <ScrollView 
+            <ScrollView
               style={{ flex: 1 }}
               contentContainerStyle={{ flexGrow: 1 }}
             >
@@ -638,8 +638,8 @@ const ProfileSetupScreen = () => {
                 filteredCurrencies.map(renderCurrencyItem)
               ) : (
                 <View className="p-8 items-center">
-                  <Text 
-                    style={{ 
+                  <Text
+                    style={{
                       fontFamily: 'SF Pro Text',
                       fontSize: 16,
                       color: '#8E8E93'
